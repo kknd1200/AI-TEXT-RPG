@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>텍스트 전략 방치 던전</title>
+<style>
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  background: #0c0c0c;
+  color: #d0d0d0;
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+body { max-width: 720px; margin: 0 auto; padding: 12px; }
+h1 { font-size: 16px; border-bottom: 1px solid #333; padding-bottom: 6px; }
+pre {
+  margin: 0 0 12px;
+  padding: 10px;
+  background: #111;
+  border: 1px solid #333;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+#log-box { max-height: 260px; overflow-y: auto; color: #8a8a8a; }
+button {
+  font-family: inherit;
+  font-size: 13px;
+  background: #1a1a1a;
+  color: #d0d0d0;
+  border: 1px solid #444;
+  padding: 6px 12px;
+  margin: 2px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: #2a2a2a; }
+button:disabled { opacity: 0.35; cursor: not-allowed; }
+.section-title { color: #777; margin: 12px 0 4px; }
+</style>
+</head>
+<body>
+  <h1>== 텍스트 전략 방치 던전 ==</h1>
+
+  <pre id="status-box">로딩 중...</pre>
+
+  <div class="section-title">-- 명령 --</div>
+  <div>
+    <button id="mode-toggle-btn">[모드 전환]</button>
+    <span id="manual-controls">
+      <button id="btn-attack">[공격]</button>
+      <button id="btn-skill">[스킬]</button>
+      <button id="btn-guard">[방어]</button>
+      <button id="btn-rest">[휴식]</button>
+    </span>
+  </div>
+
+  <div class="section-title">-- 관리 --</div>
+  <div id="manage-controls">
+    <button id="recruit-btn">[영웅 모집 - <span id="recruit-cost">50</span>G]</button>
+    <button id="reset-btn">[처음부터]</button>
+  </div>
+  <div id="hero-controls"></div>
+
+  <div class="section-title">-- 기록 --</div>
+  <pre id="log-box"></pre>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
