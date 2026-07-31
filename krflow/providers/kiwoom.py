@@ -20,6 +20,7 @@ from __future__ import annotations
 import json
 import re
 import threading
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -219,19 +220,27 @@ class KiwoomProvider(Provider):
         return token
 
     # ----------------------------------------------------------------- fetch
-    def _request_rank(self, market_code: str, amt_qty_tp: str, token: str) -> dict:
+    def build_body(
+        self,
+        market_code: str,
+        amt_qty_tp: str,
+        qry_dt_tp: str | None = None,
+        stex_tp: str | None = None,
+    ) -> dict:
+        return {
+            "mrkt_tp": market_code,
+            "amt_qty_tp": amt_qty_tp,
+            "qry_dt_tp": self.config.kiwoom_qry_dt_tp if qry_dt_tp is None else qry_dt_tp,
+            "stex_tp": self.config.kiwoom_stex_tp if stex_tp is None else stex_tp,
+        }
+
+    def _request_rank(self, body: dict, token: str) -> dict:
         headers = {
             "Content-Type": "application/json;charset=UTF-8",
             "authorization": f"Bearer {token}",
             "cont-yn": "N",
             "next-key": "",
             "api-id": RANK_API_ID,
-        }
-        body = {
-            "mrkt_tp": market_code,
-            "amt_qty_tp": amt_qty_tp,
-            "qry_dt_tp": "1",  # 조회일자 포함(당일)
-            "stex_tp": "3",  # 3=통합(KRX+NXT)
         }
         try:
             resp = self.session.post(
@@ -258,13 +267,17 @@ class KiwoomProvider(Provider):
             )
         return data
 
-    def _call(self, market_code: str, amt_qty_tp: str) -> dict:
+    def call_with(self, body: dict) -> dict:
+        """임의의 요청 본문으로 호출한다 (probe 에서도 쓴다)."""
         token = self.access_token()
         try:
-            return self._request_rank(market_code, amt_qty_tp, token)
+            return self._request_rank(body, token)
         except _Unauthorized:
             token = self.access_token(force=True)
-            return self._request_rank(market_code, amt_qty_tp, token)
+            return self._request_rank(body, token)
+
+    def _call(self, market_code: str, amt_qty_tp: str) -> dict:
+        return self.call_with(self.build_body(market_code, amt_qty_tp))
 
     def fetch(self, market: str = "all") -> Snapshot:
         market_code = MARKET_CODE.get(market)
@@ -331,6 +344,120 @@ def _parse_expiry(data: dict) -> datetime:
             pass
     seconds = _to_float(data.get("expires_in")) or 60 * 60 * 24
     return now_kst() + timedelta(seconds=seconds)
+
+
+#: probe 가 훑어보는 요청 파라미터 조합.
+#: stex_tp = 1 KRX / 2 NXT / 3 통합, qry_dt_tp = 0 조회일자 미포함 / 1 포함
+PROBE_COMBOS = [
+    (stex_tp, qry_dt_tp) for stex_tp in ("1", "2", "3") for qry_dt_tp in ("0", "1")
+]
+
+
+def probe(provider: "KiwoomProvider", market: str = "all", pause: float = 0.35) -> list[dict]:
+    """요청 파라미터 조합을 하나씩 시도하고 결과 품질을 요약한다.
+
+    문서만 보고 파라미터를 맞히는 대신, 실제로 어느 조합이 '전체 시장 상위'
+    다운 응답을 주는지 데이터로 고른다.
+    """
+    market_code = MARKET_CODE.get(market, "000")
+    results: list[dict] = []
+
+    for stex_tp, qry_dt_tp in PROBE_COMBOS:
+        entry: dict[str, Any] = {"stex_tp": stex_tp, "qry_dt_tp": qry_dt_tp}
+        body = provider.build_body(market_code, AMT, qry_dt_tp=qry_dt_tp, stex_tp=stex_tp)
+        try:
+            data = provider.call_with(body)
+        except ProviderError as exc:
+            entry["error"] = str(exc)
+            results.append(entry)
+            time.sleep(pause)
+            continue
+
+        rows = parse_rank_response(data, market)
+        entry.update(
+            rows=len(rows),
+            foreign_nonzero=sum(1 for r in rows if r.foreign_value),
+            inst_nonzero=sum(1 for r in rows if r.inst_value),
+            max_foreign=max((abs(r.foreign_value) for r in rows), default=0.0),
+            max_inst=max((abs(r.inst_value) for r in rows), default=0.0),
+            top_names=[
+                r.name
+                for r in sorted(rows, key=lambda r: -abs(r.foreign_value))[:3]
+            ],
+        )
+        results.append(entry)
+        time.sleep(pause)
+
+    return results
+
+
+def score(entry: dict) -> tuple:
+    """probe 결과 중 '가장 그럴듯한' 조합을 고르는 기준.
+
+    기관 값이 있는지를 최우선으로 본다. 그다음 종목 수, 금액 규모 순.
+    """
+    if entry.get("error"):
+        return (0, 0, 0, 0.0)
+    return (
+        1,
+        1 if entry.get("inst_nonzero") else 0,
+        entry.get("rows", 0),
+        entry.get("max_foreign", 0.0),
+    )
+
+
+def format_probe(results: list[dict]) -> str:
+    from .. import fmt
+
+    stex_label = {"1": "KRX", "2": "NXT", "3": "통합"}
+    qry_label = {"0": "미포함", "1": "포함"}
+
+    def row(stex: str, qry: str, *values: str) -> str:
+        # 한글이 전각이라 표시 폭 기준으로 맞춘다.
+        cells = [fmt.pad(stex, 7), fmt.pad(qry, 9)]
+        cells += [fmt.pad(v, w, "right") for v, w in zip(values, (7, 9, 9, 15))]
+        return "".join(cells)
+
+    header = row("거래소", "조회일자", "종목수", "외인≠0", "기관≠0", "최대외인(억)") + "  상위 종목"
+    lines = [header, "─" * 78]
+
+    for entry in results:
+        stex = stex_label.get(entry["stex_tp"], entry["stex_tp"])
+        qry = qry_label.get(entry["qry_dt_tp"], entry["qry_dt_tp"])
+        if entry.get("error"):
+            lines.append(fmt.pad(stex, 7) + fmt.pad(qry, 9) + f"오류: {entry['error'][:60]}")
+            continue
+        lines.append(
+            row(
+                stex,
+                qry,
+                f"{entry['rows']:,}",
+                f"{entry['foreign_nonzero']:,}",
+                f"{entry['inst_nonzero']:,}",
+                f"{entry['max_foreign'] / 100:,.1f}",
+            )
+            + "  "
+            + ", ".join(entry["top_names"])
+        )
+
+    best = max(results, key=score, default=None)
+    lines.append("")
+    if best is None or score(best)[0] == 0:
+        lines.append("쓸 만한 조합을 찾지 못했습니다. 모든 조합이 실패했습니다.")
+    else:
+        lines.append(
+            f"추천: 거래소={stex_label.get(best['stex_tp'])} "
+            f"조회일자={qry_label.get(best['qry_dt_tp'])}\n"
+            f"  .env 에 아래를 넣으면 고정됩니다:\n"
+            f"    KIWOOM_STEX_TP={best['stex_tp']}\n"
+            f"    KIWOOM_QRY_DT_TP={best['qry_dt_tp']}"
+        )
+        if not best.get("inst_nonzero"):
+            lines.append(
+                "\n⚠️ 어떤 조합에서도 기관 값이 안 나옵니다. 파라미터가 아니라 "
+                "응답 필드명 문제일 수 있으니 --diagnose 결과를 확인하세요."
+            )
+    return "\n".join(lines)
 
 
 def find_listing(data: dict) -> list:

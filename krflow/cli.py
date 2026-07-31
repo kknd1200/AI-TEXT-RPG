@@ -111,6 +111,12 @@ def build_parser() -> argparse.ArgumentParser:
     push.add_argument("--chat-id", help="받을 chat_id (쉼표 구분). 생략 시 허용 목록 전체")
     push.add_argument("--title", default="", help="제목 앞에 붙일 문구 (예: '장 마감 · ')")
 
+    probe = sub.add_parser(
+        "probe", help="키움 요청 파라미터 조합을 훑어 어떤 게 맞는지 찾기"
+    )
+    probe.add_argument("--env-file", default=".env", help="설정 파일 경로 (기본: .env)")
+    probe.add_argument("--market", choices=MARKETS, default="all", help="시장 구분 (기본: all)")
+
     sub.add_parser("providers", help="사용 가능한 데이터 소스 목록")
 
     return parser
@@ -359,6 +365,23 @@ def _cmd_push(args, config) -> int:
     return 1 if failures else 0
 
 
+def _cmd_probe(args, config) -> int:
+    from .providers.kiwoom import KiwoomProvider, format_probe, probe
+
+    provider = KiwoomProvider(config=config)
+    print(
+        "키움 요청 파라미터 조합을 하나씩 시도합니다 (6회 호출, 약 5초)...\n"
+        "'전체 시장 순매수 상위'다운 응답을 주는 조합을 찾습니다.\n"
+    )
+    try:
+        results = probe(provider, args.market)
+    finally:
+        provider.close()
+
+    print(format_probe(results))
+    return 0
+
+
 def _cmd_bot(args, config) -> int:
     from .bot.health import resolve_port, start_health_server
     from .bot.telegram import run_bot
@@ -401,6 +424,8 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_bot(args, config)
         if args.command == "push":
             return _cmd_push(args, config)
+        if args.command == "probe":
+            return _cmd_probe(args, config)
     except ProviderError as exc:
         print(f"오류: {exc}", file=sys.stderr)
         return 1

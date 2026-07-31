@@ -302,3 +302,105 @@ def test_last_raw_keeps_both_responses_for_dumping(tmp_path):
     # 원본에 인증 정보가 섞이지 않는다 (응답 본문만 담는다)
     dumped = json.dumps(provider.last_raw, ensure_ascii=False)
     assert "appkey" not in dumped and "secretkey" not in dumped and "Bearer" not in dumped
+
+
+# ------------------------------------------- probe (요청 파라미터 조합 탐색)
+
+
+def test_build_body_uses_config_defaults(tmp_path):
+    config = make_config(tmp_path)
+    config.kiwoom_stex_tp = "2"
+    config.kiwoom_qry_dt_tp = "0"
+    provider = KiwoomProvider(config=config, session=FakeSession([]))
+
+    body = provider.build_body("000", "1")
+    assert body == {"mrkt_tp": "000", "amt_qty_tp": "1", "qry_dt_tp": "0", "stex_tp": "2"}
+
+
+def test_build_body_explicit_args_win(tmp_path):
+    provider = KiwoomProvider(config=make_config(tmp_path), session=FakeSession([]))
+    body = provider.build_body("000", "1", qry_dt_tp="1", stex_tp="3")
+    assert body["qry_dt_tp"] == "1" and body["stex_tp"] == "3"
+
+
+def test_probe_tries_every_combination(tmp_path):
+    from krflow.providers.kiwoom import PROBE_COMBOS, probe
+
+    session = FakeSession([FakeResponse(payload=SAMPLE)] * len(PROBE_COMBOS))
+    provider = KiwoomProvider(config=make_config(tmp_path), session=session)
+    results = probe(provider, "all", pause=0)
+
+    assert len(results) == len(PROBE_COMBOS)
+    tried = {(c["body"]["stex_tp"], c["body"]["qry_dt_tp"]) for c in session.calls}
+    assert tried == set(PROBE_COMBOS)
+
+
+def test_probe_records_row_and_nonzero_counts(tmp_path):
+    from krflow.providers.kiwoom import PROBE_COMBOS, probe
+
+    session = FakeSession([FakeResponse(payload=SAMPLE)] * len(PROBE_COMBOS))
+    provider = KiwoomProvider(config=make_config(tmp_path), session=session)
+    first = probe(provider, "all", pause=0)[0]
+
+    assert first["rows"] == 3
+    assert first["inst_nonzero"] > 0
+    assert first["max_foreign"] == 92000
+
+
+def test_probe_survives_failing_combination(tmp_path):
+    from krflow.providers.kiwoom import PROBE_COMBOS, probe
+
+    responses = [FakeResponse(payload={"return_code": 3, "return_msg": "지원하지 않는 구분"})]
+    responses += [FakeResponse(payload=SAMPLE)] * (len(PROBE_COMBOS) - 1)
+    provider = KiwoomProvider(config=make_config(tmp_path), session=FakeSession(responses))
+    results = probe(provider, "all", pause=0)
+
+    assert "지원하지 않는 구분" in results[0]["error"]
+    assert len(results) == len(PROBE_COMBOS)  # 하나 실패해도 나머지를 계속 시도
+
+
+def test_score_prefers_institution_data_then_row_count():
+    from krflow.providers.kiwoom import score
+
+    with_inst = {"rows": 13, "inst_nonzero": 5, "max_foreign": 100.0}
+    many_rows_no_inst = {"rows": 300, "inst_nonzero": 0, "max_foreign": 9999.0}
+    failed = {"error": "boom"}
+
+    assert score(with_inst) > score(many_rows_no_inst)
+    assert score(many_rows_no_inst) > score(failed)
+
+
+def test_format_probe_recommends_best_and_aligns_columns():
+    from krflow import fmt
+    from krflow.providers.kiwoom import format_probe
+
+    results = [
+        {"stex_tp": "1", "qry_dt_tp": "0", "rows": 312, "foreign_nonzero": 150,
+         "inst_nonzero": 149, "max_foreign": 152000.0, "top_names": ["삼성전자"]},
+        {"stex_tp": "2", "qry_dt_tp": "0", "rows": 13, "foreign_nonzero": 7,
+         "inst_nonzero": 0, "max_foreign": 2050.0, "top_names": ["한국전력"]},
+    ]
+    out = format_probe(results)
+
+    assert "KIWOOM_STEX_TP=1" in out  # 기관 값이 있는 조합을 추천
+    # 한글 전각을 고려해 열이 같은 위치에서 시작한다
+    data_lines = [line for line in out.splitlines() if line.startswith(("KRX", "NXT"))]
+    assert len({fmt.display_width(line.split("  ")[0]) for line in data_lines}) == 1
+
+
+def test_format_probe_warns_when_no_combination_has_institution_data():
+    from krflow.providers.kiwoom import format_probe
+
+    results = [
+        {"stex_tp": "1", "qry_dt_tp": "0", "rows": 13, "foreign_nonzero": 7,
+         "inst_nonzero": 0, "max_foreign": 2050.0, "top_names": ["한국전력"]},
+    ]
+    out = format_probe(results)
+    assert "어떤 조합에서도 기관 값이 안 나옵니다" in out
+
+
+def test_format_probe_handles_all_failed():
+    from krflow.providers.kiwoom import format_probe
+
+    out = format_probe([{"stex_tp": "1", "qry_dt_tp": "0", "error": "권한 없음"}])
+    assert "쓸 만한 조합을 찾지 못했습니다" in out
