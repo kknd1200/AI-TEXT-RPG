@@ -9,45 +9,17 @@
 from __future__ import annotations
 
 import json
-import threading
-import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
 from .. import fmt
+from ..cache import SnapshotCache
 from ..market import phase_label
 from ..models import MARKET_LABEL, Snapshot
-from ..providers.base import Provider, ProviderError
+from ..providers.base import Provider
 from ..ranking import INVESTOR_LABEL, METRIC_LABEL, SIDE_LABEL, rank, totals
 
-
-class SnapshotCache:
-    """여러 브라우저 탭이 붙어도 소스는 주기당 한 번만 호출한다."""
-
-    def __init__(self, provider: Provider, market: str, ttl: float) -> None:
-        self.provider = provider
-        self.market = market
-        self.ttl = max(ttl, provider.min_interval)
-        self._lock = threading.Lock()
-        self._snapshot: Snapshot | None = None
-        self._fetched_at = 0.0
-        self._error: str | None = None
-
-    def get(self) -> tuple[Snapshot | None, str | None]:
-        with self._lock:
-            fresh = self._snapshot is not None and (time.monotonic() - self._fetched_at) < self.ttl
-            if fresh:
-                return self._snapshot, self._error
-            try:
-                self._snapshot = self.provider.fetch(self.market)
-                self._error = None
-            except Exception as exc:
-                # 소스가 죽어도 서버는 살아 있어야 하므로 직전 스냅샷을 유지한다.
-                self._error = (
-                    str(exc) if isinstance(exc, ProviderError) else f"{type(exc).__name__}: {exc}"
-                )
-            self._fetched_at = time.monotonic()
-            return self._snapshot, self._error
+__all__ = ["SnapshotCache", "build_payload", "make_handler", "serve"]
 
 
 def build_payload(

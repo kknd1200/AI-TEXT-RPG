@@ -1,6 +1,36 @@
-"""숫자/문자 표시 포맷 (콘솔 · 웹 공용)."""
+"""숫자/문자 표시 포맷 (콘솔 · 웹 · 텔레그램 공용)."""
 
 from __future__ import annotations
+
+import unicodedata
+
+
+def display_width(text: str) -> int:
+    """한글·한자 등 전각 문자를 2칸으로 세는 표시 폭."""
+    return sum(2 if unicodedata.east_asian_width(ch) in "WF" else 1 for ch in str(text))
+
+
+def ellipsis(text: str, width: int) -> str:
+    """표시 폭 기준으로 자르고, 잘렸으면 말줄임표를 붙인다."""
+    text = str(text)
+    if display_width(text) <= width:
+        return text
+    out = ""
+    used = 0
+    for ch in text:
+        step = 2 if unicodedata.east_asian_width(ch) in "WF" else 1
+        if used + step > width - 1:
+            break
+        out += ch
+        used += step
+    return out + "…"
+
+
+def pad(text: str, width: int, align: str = "left") -> str:
+    """고정폭 글꼴에서 맞아떨어지도록 표시 폭 기준으로 채운다."""
+    text = ellipsis(text, width)
+    filler = " " * max(0, width - display_width(text))
+    return filler + text if align == "right" else text + filler
 
 
 def eok(value_mkrw: float | None) -> str:

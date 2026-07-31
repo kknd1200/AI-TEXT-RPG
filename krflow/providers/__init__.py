@@ -5,18 +5,26 @@ from __future__ import annotations
 from ..config import Config
 from .base import Provider, ProviderError
 
-PROVIDER_NAMES = ("kis", "naver", "krx", "mock")
+PROVIDER_NAMES = ("kiwoom", "kis", "naver", "krx", "mock")
 
 DESCRIPTIONS = {
+    "kiwoom": "키움증권 REST API · 실시간 집계 · 앱키 필요",
     "kis": "한국투자증권 KIS Open API · 실시간 가집계 · 앱키 필요",
     "naver": "네이버 금융 스크래핑 · 장중 갱신 · 키 불필요",
     "krx": "KRX 일별 확정치 (pykrx) · 실시간 아님 · 검증용",
     "mock": "오프라인 데모 데이터 · 네트워크 불필요",
 }
 
+#: auto 가 시도하는 순서
+AUTO_ORDER = ("kiwoom", "kis", "naver")
+
 
 def create(name: str, config: Config | None = None, **kwargs) -> Provider:
     name = (name or "").lower()
+    if name == "kiwoom":
+        from .kiwoom import KiwoomProvider
+
+        return KiwoomProvider(config=config)
     if name == "kis":
         from .kis import KisProvider
 
@@ -39,13 +47,22 @@ def create(name: str, config: Config | None = None, **kwargs) -> Provider:
 
 
 def create_auto(config: Config | None = None, **kwargs) -> Provider:
-    """가능한 가장 좋은 소스를 자동 선택: KIS -> 네이버."""
-    if config is not None and config.has_kis:
-        return create("kis", config=config, **kwargs)
-    try:
-        return create("kis", config=config, **kwargs)
-    except ProviderError:
-        return create("naver", config=config, **kwargs)
+    """설정된 키에 따라 가장 좋은 소스를 고른다: 키움 -> KIS -> 네이버."""
+    last_error: ProviderError | None = None
+    for name in AUTO_ORDER:
+        try:
+            return create(name, config=config, **kwargs)
+        except ProviderError as exc:
+            last_error = exc
+    raise last_error or ProviderError("사용 가능한 데이터 소스가 없습니다.")
 
 
-__all__ = ["Provider", "ProviderError", "create", "create_auto", "PROVIDER_NAMES", "DESCRIPTIONS"]
+__all__ = [
+    "Provider",
+    "ProviderError",
+    "create",
+    "create_auto",
+    "PROVIDER_NAMES",
+    "DESCRIPTIONS",
+    "AUTO_ORDER",
+]

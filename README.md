@@ -1,16 +1,18 @@
 # krflow — 국내장 외국인·기관 실시간 수급 상위 모니터
 
 코스피/코스닥에서 **외국인·기관 순매수(순매도) 상위 종목**을 실시간으로 확인하는 프로그램입니다.
-터미널 대시보드와 브라우저 대시보드를 모두 제공하고, JSON/CSV로 내보낼 수 있습니다.
+**텔레그램 봇**, 터미널 대시보드, 브라우저 대시보드를 제공하고 JSON/CSV로 내보낼 수 있습니다.
 
 ```
-╭──────────────────────────────── krflow ────────────────────────────────╮
-│ 실시간 수급 상위  전체 · 외국인+기관 · 순매수 상위 · 순매수 금액 기준  │
-│ 소스: 한국투자증권 KIS Open API (kis) | 장 상태: 장중 | 갱신: 13:24:05 │
-│  #  종목            코드     현재가   등락률  외국인(억원) 기관(억원)  │
-│  1  삼성전자        005930   74,500   +1.64%       +920.0     -175.0   │
-│  2  SK하이닉스      000660  198,000   -1.74%        -99.0     +237.6   │
-╰────────────────────────────────────────────────────────────────────────╯
+📈 전체 · 외국인+기관 순매수 상위          ╭─────────────── krflow ───────────────╮
+순매수 금액 기준 (억원) · 13:24 · 장중     │ 실시간 수급 상위  전체 · 외국인+기관 │
+                                           │ 소스: 키움증권 REST API · 장중       │
+ # 종목         외인   기관   합계         │  #  종목       코드     외국인  기관 │
+────────────────────────────────           │  1  삼성전자   005930   +920.0 -175.0│
+ 1 SK하이닉스 +382.6  +59.2 +441.8         │  2  SK하이닉스 000660    -99.0 +237.6│
+ 2 LG에너지…  +332.9  +47.3 +380.2         ╰──────────────────────────────────────╯
+ 3 NAVER      +247.8  +95.4 +343.2
+[외국인][기관][● 합산] [🔄]                 (텔레그램 · 터미널 · 브라우저)
 ```
 
 ## 설치
@@ -30,28 +32,79 @@ krflow serve --provider mock          # http://127.0.0.1:8765
 
 ## 실시간 데이터 연결하기
 
-가장 정확한 실시간 소스는 **한국투자증권 KIS Open API**입니다. 무료이며 계좌만 있으면 됩니다.
+증권사 Open API 키가 필요합니다. 둘 중 아무거나 하나 있으면 됩니다.
 
-1. https://apiportal.koreainvestment.com 접속 → 로그인 → `My Page > 앱 등록`
-2. 앱키(App Key) / 앱시크릿(App Secret) 발급
-3. 프로젝트 루트에 `.env` 작성
+**키움증권 REST API** — https://openapi.kiwoom.com → 로그인 → 앱 등록 → 앱키/시크릿키
+
+**한국투자증권 KIS** — https://apiportal.koreainvestment.com → 로그인 → `My Page > 앱 등록`
 
 ```bash
 cp .env.example .env
-# .env 를 열어 KIS_APP_KEY / KIS_APP_SECRET 입력
+# .env 를 열어 KIWOOM_APP_KEY / KIWOOM_APP_SECRET (또는 KIS_*) 입력
 ```
 
 ```bash
-krflow watch                    # provider=auto → 키가 있으면 KIS 사용
+krflow watch                    # provider=auto → 키움 → KIS → 네이버 순 자동 선택
 krflow providers                # 현재 사용 가능한 소스와 설정 상태 확인
 ```
 
-키가 없으면 `auto`는 자동으로 네이버 금융 스크래핑으로 넘어갑니다.
+키가 하나도 없으면 `auto`는 네이버 금융 스크래핑으로 넘어갑니다.
+
+> 키움은 **REST API**(앱키+시크릿) 전용입니다. 구버전 **OpenAPI+ (OCX/COM)** 는 윈도우 32비트
+> 파이썬 + PyQt5 전용이라 지원하지 않습니다. REST 쪽은 OS 제약이 없어 서버에서 24시간 돌릴 수 있습니다.
+
+## 텔레그램 봇
+
+폰으로 받아보는 게 목적이면 이쪽이 제일 편합니다.
+
+**1. 봇 만들기** — 텔레그램에서 [@BotFather](https://t.me/BotFather) 에게 `/newbot` 을 보내고
+이름을 정하면 `123456:ABC-DEF...` 형태의 토큰을 줍니다. `.env` 에 넣으세요.
+
+```
+TELEGRAM_BOT_TOKEN=123456:ABC-DEF...
+TELEGRAM_ALLOWED_CHAT_IDS=
+```
+
+**2. 내 chat_id 알아내기** — 그대로 실행하고 봇에게 아무 메시지나 보내면 chat_id 를 알려줍니다.
+
+```bash
+krflow bot
+```
+
+**3. chat_id 를 `.env` 에 넣고 다시 실행**
+
+```
+TELEGRAM_ALLOWED_CHAT_IDS=123456789
+```
+
+```bash
+krflow bot --provider kiwoom
+```
+
+> `TELEGRAM_ALLOWED_CHAT_IDS` 를 비워두면 **아무도 쓸 수 없습니다.** 봇 토큰만 알면 누구나
+> 말을 걸 수 있기 때문에, 허용 목록을 명시적으로 지정하게 해두었습니다.
+> 그룹방에 넣을 때는 음수 chat_id 를 추가하세요.
+
+### 봇 명령어
+
+| 명령 | 설명 |
+| --- | --- |
+| `/top` | 현재 설정으로 수급 상위 조회 |
+| `/watch 5` | 장중(08:50~15:40)에 5분마다 자동 전송 |
+| `/stop` | 자동 전송 해제 |
+| `/daily on` | 장 시작(09:05)·마감(15:35) 요약 자동 전송 |
+| `/status` | 현재 설정과 구독 상태 |
+| `/help` | 도움말 |
+
+조회 조건(외국인/기관/합산, 순매수/순매도, 금액/수량, 시장, 순위 개수)은 메시지 아래
+**인라인 버튼**으로 바로 바꿉니다. 버튼을 누르면 새 메시지를 쌓지 않고 그 자리에서 갱신됩니다.
+설정과 구독 상태는 `~/.krflow/telegram_state.json` 에 채팅방별로 저장되어 재시작해도 유지됩니다.
 
 ## 명령어
 
 | 명령 | 설명 |
 | --- | --- |
+| `krflow bot` | 텔레그램 봇 실행 |
 | `krflow watch` | 터미널에서 주기적으로 갱신하며 표시 |
 | `krflow once` | 1회 조회 후 출력 / `--json` / `--csv` 저장 |
 | `krflow serve` | 브라우저 대시보드 실행 |
@@ -61,7 +114,7 @@ krflow providers                # 현재 사용 가능한 소스와 설정 상�
 
 | 옵션 | 값 | 기본 | 설명 |
 | --- | --- | --- | --- |
-| `--provider` | `auto` `kis` `naver` `krx` `mock` | `auto` | 데이터 소스 |
+| `--provider` | `auto` `kiwoom` `kis` `naver` `krx` `mock` | `auto` | 데이터 소스 |
 | `--market` | `all` `kospi` `kosdaq` | `all` | 시장 구분 |
 | `--investor` | `both` `foreign` `inst` | `both` | 외국인 / 기관 / 합산 |
 | `--metric` | `value` `qty` | `value` | 금액(억원) / 수량(천주) 기준 |
@@ -84,13 +137,17 @@ krflow once --min-abs 10000 --csv flow.csv
 
 # 브라우저 대시보드 (화면에서 투자자/기준/순위 전환 가능)
 krflow serve --port 8765 --interval 10
+
+# 텔레그램 봇을 코스닥 전용으로
+krflow bot --provider kiwoom --market kosdaq
 ```
 
 ## 데이터 소스 비교
 
 | provider | 실시간성 | 키 | 비고 |
 | --- | --- | --- | --- |
-| `kis` | 장중 실시간 **가집계** | 필요 | 권장. 종목별 외국인·기관 순매수 수량/금액 + 시세 |
+| `kiwoom` | 장중 실시간 집계 | 필요 | 키움 REST API. 외국인기관매매상위(`ka90009`). 시세 열은 없음 |
+| `kis` | 장중 실시간 **가집계** | 필요 | 한투. 종목별 외국인·기관 순매수 수량/금액 + 시세 |
 | `naver` | 장중 갱신 | 불필요 | 매수상위·매도상위 표를 조인해 순매수를 계산. 상위권 종목만 커버 |
 | `krx` | 일별 **확정치** | 불필요 | `pykrx` 필요. 실시간 아님. 마감 후 검증용 |
 | `mock` | — | 불필요 | 가상 데이터. UI 확인용 |
@@ -106,8 +163,32 @@ krflow serve --port 8765 --interval 10
   공휴일에는 갱신 시각이 멈춘 것으로 확인할 수 있습니다.
 - `naver` provider는 공식 API가 아닌 HTML 스크래핑입니다. 페이지 구조가 바뀌면 파서 조정이 필요하고,
   과도한 폴링을 막기 위해 최소 갱신 주기가 15초로 제한됩니다.
-- `.env` 는 `.gitignore` 에 포함되어 있습니다. 앱키를 커밋하지 마세요.
+- `.env` 는 `.gitignore` 에 포함되어 있습니다. 앱키와 봇 토큰을 커밋하지 마세요.
+- 텔레그램 봇의 자동 전송은 **평일 08:50~15:40** 에만 동작합니다. 장 시작/마감 요약은
+  예정 시각(09:05 / 15:35)을 놓쳐도 30분 안에 봇이 살아나면 한 번 따라잡아 보냅니다.
 - 이 프로그램은 정보 조회용입니다. 주문·매매 기능은 없으며, 투자 판단의 책임은 사용자에게 있습니다.
+
+### 서버에서 24시간 돌리기
+
+`krflow bot` 은 롱폴링 방식이라 공인 IP나 웹훅 설정이 필요 없습니다. 리눅스 서버라면
+systemd 로 올려두면 됩니다.
+
+```ini
+# /etc/systemd/system/krflow-bot.service
+[Unit]
+Description=krflow telegram bot
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/krflow
+ExecStart=/opt/krflow/.venv/bin/krflow bot --provider kiwoom
+Restart=always
+RestartSec=10
+User=krflow
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ## 개발
 
@@ -124,8 +205,12 @@ krflow/
   ranking.py         정렬·필터·합계
   market.py          KST 장 운영시간
   config.py          .env / 환경변수
-  fmt.py             표시 포맷 (콘솔·웹 공용)
-  providers/         kis · naver · krx · mock
+  cache.py           소스 호출을 주기당 1회로 묶는 스냅샷 캐시
+  fmt.py             표시 포맷 (콘솔·웹·텔레그램 공용)
+  providers/         kiwoom · kis · naver · krx · mock
+  bot/telegram.py    텔레그램 봇 (롱폴링 + 스케줄러)
+  bot/render.py      텔레그램 메시지·인라인 키보드
+  bot/store.py       채팅방별 설정·구독 영속화
   ui/console.py      rich 터미널 대시보드
   ui/web.py          표준 라이브러리 기반 웹 대시보드
 ```

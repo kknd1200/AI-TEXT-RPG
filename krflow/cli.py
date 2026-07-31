@@ -36,7 +36,7 @@ def _provider_args(parser: argparse.ArgumentParser) -> None:
         "--provider",
         choices=("auto",) + PROVIDER_NAMES,
         default="auto",
-        help="데이터 소스 (기본: auto = KIS 가능하면 KIS, 아니면 네이버)",
+        help="데이터 소스 (기본: auto = 키움 → KIS → 네이버 순으로 자동 선택)",
     )
     parser.add_argument("--env-file", default=".env", help="설정 파일 경로 (기본: .env)")
     parser.add_argument("--date", help="krx provider 전용: 조회일 YYYYMMDD")
@@ -49,9 +49,10 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "예시:\n"
-            "  krflow watch --provider kis --investor both --top 20 --interval 10\n"
+            "  krflow watch --provider kiwoom --investor both --top 20 --interval 10\n"
             "  krflow once --provider naver --market kosdaq --side sell\n"
             "  krflow serve --port 8765\n"
+            "  krflow bot --provider kiwoom            # 텔레그램 봇\n"
             "  krflow watch --provider mock            # 키/네트워크 없이 데모\n"
         ),
     )
@@ -77,6 +78,13 @@ def build_parser() -> argparse.ArgumentParser:
     serve.add_argument("--host", default="127.0.0.1", help="바인드 주소 (기본: 127.0.0.1)")
     serve.add_argument("--port", type=int, default=8765, help="포트 (기본: 8765)")
 
+    bot = sub.add_parser("bot", help="텔레그램 봇 실행")
+    _provider_args(bot)
+    bot.add_argument("--market", choices=MARKETS, default="all", help="시장 구분 (기본: all)")
+    bot.add_argument("--interval", type=float, default=30.0, help="소스 갱신 주기(초, 기본: 30)")
+    bot.add_argument("--state", help="구독 상태 저장 경로 (기본: ~/.krflow/telegram_state.json)")
+    bot.add_argument("--polls", type=int, help="N회 폴링 후 종료 (테스트용)")
+
     sub.add_parser("providers", help="사용 가능한 데이터 소스 목록")
 
     return parser
@@ -92,6 +100,8 @@ def _cmd_providers(config) -> int:
     print("사용 가능한 데이터 소스:\n")
     for name in PROVIDER_NAMES:
         mark = ""
+        if name == "kiwoom":
+            mark = "  [키 설정됨]" if config.has_kiwoom else "  [KIWOOM_APP_KEY 미설정]"
         if name == "kis":
             mark = "  [키 설정됨]" if config.has_kis else "  [KIS_APP_KEY 미설정]"
         if name == "krx":
@@ -99,7 +109,12 @@ def _cmd_providers(config) -> int:
 
             mark = "  [설치됨]" if pykrx_installed() else "  [pykrx 미설치]"
         print(f"  {name:<7} {DESCRIPTIONS[name]}{mark}")
-    print("\nauto    : KIS 키가 있으면 KIS, 없으면 네이버로 자동 선택")
+    print("\nauto    : 키움 → KIS → 네이버 순으로 자동 선택")
+    print(
+        "텔레그램  : "
+        + ("봇 토큰 설정됨" if config.has_telegram else "TELEGRAM_BOT_TOKEN 미설정")
+        + f" · 허용 chat_id {len(config.telegram_allowed_chat_ids)}개"
+    )
     return 0
 
 
@@ -232,6 +247,29 @@ def _cmd_serve(args, config) -> int:
     )
 
 
+def _cmd_bot(args, config) -> int:
+    from .bot.telegram import run_bot
+
+    if not config.has_telegram:
+        print(
+            "오류: TELEGRAM_BOT_TOKEN 이 설정되지 않았습니다.\n"
+            "  1) 텔레그램에서 @BotFather 에게 /newbot 을 보내 토큰을 받으세요.\n"
+            "  2) .env 에 TELEGRAM_BOT_TOKEN=... 을 넣고 다시 실행하세요.",
+            file=sys.stderr,
+        )
+        return 1
+
+    provider = _make_provider(args, config)
+    return run_bot(
+        provider,
+        config,
+        market=args.market,
+        interval=args.interval,
+        state_path=args.state,
+        max_polls=args.polls,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     config = load_config(getattr(args, "env_file", ".env"))
@@ -245,6 +283,8 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_watch(args, config)
         if args.command == "serve":
             return _cmd_serve(args, config)
+        if args.command == "bot":
+            return _cmd_bot(args, config)
     except ProviderError as exc:
         print(f"오류: {exc}", file=sys.stderr)
         return 1
