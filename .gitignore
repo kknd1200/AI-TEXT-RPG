@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+
+# 앱키가 들어가는 파일은 절대 커밋하지 않는다
+.env
+*.local.env

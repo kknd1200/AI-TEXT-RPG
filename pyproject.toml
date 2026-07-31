@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "krflow"
+version = "0.1.0"
+description = "국내 증시 외국인·기관 실시간 수급 상위 종목 모니터"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.31",
+    "rich>=13.0",
+    "beautifulsoup4>=4.12",
+]
+
+[project.optional-dependencies]
+krx = ["pykrx>=1.0.45"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+krflow = "krflow.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["krflow*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
