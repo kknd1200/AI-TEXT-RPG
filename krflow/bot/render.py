@@ -94,8 +94,10 @@ def render_snapshot(
         f"{INVESTOR_LABEL[investor]} {SIDE_LABEL[side]}</b>"
     )
     meta = (
+        # 초까지 넣는 이유: 새로고침했을 때 값이 그대로면 텔레그램이 '내용이 같다'며
+        # 메시지 수정을 거절해 버튼이 안 먹은 것처럼 보인다.
         f"<i>{METRIC_LABEL[metric]} 기준 ({fmt.metric_unit(metric)}) · "
-        f"{snapshot.as_of.strftime('%m-%d %H:%M')} KST · {phase_label()} · "
+        f"{snapshot.as_of.strftime('%m-%d %H:%M:%S')} KST · {phase_label()} · "
         f"{escape(snapshot.source)}{' · 지연' if snapshot.delayed else ''}</i>"
     )
 

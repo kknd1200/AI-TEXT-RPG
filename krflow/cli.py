@@ -89,6 +89,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         help="헬스체크 HTTP 포트. 생략하면 환경변수 $PORT 를 쓴다 (PaaS 배포용)",
     )
+    bot.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="수신한 메시지·버튼을 화면에 출력 (버튼이 안 먹을 때 원인 확인용)",
+    )
 
     push = sub.add_parser("push", help="텔레그램으로 1회 전송 후 종료 (cron/GitHub Actions용)")
     _provider_args(push)
@@ -333,6 +339,7 @@ def _cmd_bot(args, config) -> int:
         interval=args.interval,
         state_path=args.state,
         max_polls=args.polls,
+        verbose=args.verbose,
     )
 
 

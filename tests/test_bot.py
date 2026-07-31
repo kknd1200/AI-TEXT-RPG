@@ -603,3 +603,123 @@ def test_health_server_answers_200():
     finally:
         httpd.shutdown()
         httpd.server_close()
+
+
+# ------------------------------------------------- 버튼이 안 먹는 원인들 회귀
+
+
+def test_refresh_button_bypasses_cache(bot):
+    """🔄 는 캐시를 건너뛰고 실제로 다시 가져와야 한다."""
+    bot.cache.ttl = 9999  # 캐시가 살아 있어도
+    bot.handle_update(message("/top"))
+    calls_after_top = bot.provider.calls
+
+    bot.handle_update(callback("r"))
+    assert bot.provider.calls == calls_after_top + 1
+
+
+def test_setting_button_uses_cache(bot):
+    """설정 변경은 텍스트가 어차피 바뀌므로 캐시를 재사용한다."""
+    bot.cache.ttl = 9999
+    bot.handle_update(message("/top"))
+    calls_after_top = bot.provider.calls
+
+    bot.handle_update(callback("s:side:sell"))
+    assert bot.provider.calls == calls_after_top
+
+
+def test_callback_is_answered_before_slow_fetch(tmp_path):
+    """버튼 로딩 표시가 남지 않도록 조회 전에 응답해야 한다."""
+    order = []
+
+    class SlowProvider(StubProvider):
+        def fetch(self, market="all"):
+            order.append("fetch")
+            return super().fetch(market)
+
+    class OrderedClient(FakeClient):
+        def answer_callback_query(self, callback_id, text=""):
+            order.append("answer")
+            super().answer_callback_query(callback_id, text)
+
+    bot = TelegramBot(
+        OrderedClient(), SlowProvider(), ChatStore(tmp_path / "s.json"),
+        allowed_chat_ids={CHAT}, interval=0,
+    )
+    bot.handle_update(callback("r"))
+    assert order.index("answer") < order.index("fetch")
+
+
+def test_not_modified_error_is_not_treated_as_failure(bot):
+    """내용이 같아 수정이 거절되면 새 메시지를 쏟아내지 않는다."""
+
+    def refuse(chat_id, message_id, text, reply_markup=None):
+        raise TelegramError("실패", description="Bad Request: message is not modified")
+
+    bot.client.edit_message_text = refuse
+    bot.handle_update(callback("r"))
+    assert bot.client.sent == []  # 새 메시지를 보내지 않는다
+    assert bot.client.answered  # 버튼 응답은 했다
+
+
+def test_uneditable_message_falls_back_to_new_message(bot):
+    """오래된 메시지라 수정이 안 되면 새 메시지로라도 답한다."""
+
+    def refuse(chat_id, message_id, text, reply_markup=None):
+        raise TelegramError("실패", description="Bad Request: message can't be edited")
+
+    bot.client.edit_message_text = refuse
+    bot.handle_update(callback("s:investor:foreign"))
+    assert len(bot.client.sent) == 1
+    assert "외국인" in bot.client.sent[0]["text"]
+
+
+def test_refresh_changes_text_even_when_values_identical(bot):
+    """값이 같아도 갱신 시각(초)이 달라 메시지가 실제로 바뀐다."""
+    import time as _time
+
+    bot.handle_update(message("/top"))
+    first = bot.client.sent[-1]["text"]
+    _time.sleep(1.05)
+    bot.handle_update(callback("r"))
+    assert bot.client.edited[-1]["text"] != first
+
+
+def test_conflict_error_is_reported_clearly(tmp_path, capsys):
+    """봇이 두 군데서 돌면 조용히 재시도하지 말고 원인을 알려준다."""
+    from krflow.bot.telegram import CONFLICT
+
+    class ConflictClient(FakeClient):
+        def get_updates(self, offset, poll_timeout=25):
+            raise TelegramError(
+                "getUpdates 실패",
+                description="Conflict: terminated by other getUpdates request",
+                error_code=CONFLICT,
+            )
+
+    bot = TelegramBot(
+        ConflictClient(), StubProvider(), ChatStore(tmp_path / "s.json"),
+        allowed_chat_ids={CHAT}, interval=0,
+    )
+    bot._stop.set()  # 재시도 대기를 즉시 통과시킨다
+    bot.run(poll_timeout=0, max_polls=1)
+
+    out = capsys.readouterr().out
+    assert "다른 곳에서 이미 실행 중" in out
+
+
+def test_verbose_logs_received_updates(bot, capsys):
+    bot.verbose = True
+    bot.handle_update(callback("s:side:sell"))
+    assert "버튼 수신" in capsys.readouterr().out
+
+
+def test_error_carries_description_and_code():
+    session = RecordingSession(
+        {"ok": False, "error_code": 409, "description": "Conflict: terminated"}
+    )
+    client = TelegramClient("TOKEN", session=session)
+    with pytest.raises(TelegramError) as info:
+        client.get_me()
+    assert info.value.error_code == 409
+    assert "Conflict" in info.value.description

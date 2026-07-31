@@ -46,8 +46,18 @@ DAILY_SLOTS = (
 DAILY_GRACE_MIN = 30
 
 
+#: 내용이 같으면 텔레그램이 editMessageText 를 이 사유로 거절한다.
+NOT_MODIFIED = "message is not modified"
+
+#: 같은 봇 토큰으로 getUpdates 를 두 군데서 돌리면 나오는 코드.
+CONFLICT = 409
+
+
 class TelegramError(RuntimeError):
-    pass
+    def __init__(self, message: str, description: str = "", error_code: int | None = None):
+        super().__init__(message)
+        self.description = description
+        self.error_code = error_code
 
 
 class TelegramClient:
@@ -87,7 +97,12 @@ class TelegramClient:
             raise TelegramError(f"{method} 응답 파싱 실패 (HTTP {resp.status_code})") from exc
 
         if not data.get("ok"):
-            raise TelegramError(f"{method} 실패: {data.get('description') or data}")
+            description = str(data.get("description") or "")
+            raise TelegramError(
+                f"{method} 실패: {description or data}",
+                description=description,
+                error_code=data.get("error_code"),
+            )
         return data.get("result")
 
     def get_me(self):
@@ -148,6 +163,7 @@ class TelegramBot:
         market: str = "all",
         allowed_chat_ids: set[int] | None = None,
         interval: float = 30.0,
+        verbose: bool = False,
     ) -> None:
         self.client = client
         self.provider = provider
@@ -155,8 +171,16 @@ class TelegramBot:
         self.market = market
         self.allowed = set(allowed_chat_ids or ())
         self.cache = SnapshotCache(provider, market, interval)
+        self.verbose = verbose
         self._offset = 0
         self._stop = threading.Event()
+
+    def _log(self, message: str) -> None:
+        print(f"[{now_kst().strftime('%H:%M:%S')}] {message}")
+
+    def _debug(self, message: str) -> None:
+        if self.verbose:
+            self._log(message)
 
     # ---------------------------------------------------------------- 권한
     def is_allowed(self, chat_id: int) -> bool:
@@ -183,9 +207,15 @@ class TelegramBot:
     # ------------------------------------------------------------ 업데이트
     def handle_update(self, update: dict) -> None:
         if "callback_query" in update:
-            self._handle_callback(update["callback_query"])
+            query = update["callback_query"]
+            self._debug(f"버튼 수신: data={query.get('data')!r}")
+            self._handle_callback(query)
         elif "message" in update:
-            self._handle_message(update["message"])
+            message = update["message"]
+            self._debug(f"메시지 수신: {str(message.get('text'))[:40]!r}")
+            self._handle_message(message)
+        else:
+            self._debug(f"처리하지 않는 업데이트: {sorted(update)}")
 
     def _handle_message(self, message: dict) -> None:
         chat_id = (message.get("chat") or {}).get("id")
@@ -289,8 +319,9 @@ class TelegramBot:
             self.client.answer_callback_query(callback_id, "권한이 없습니다.")
             return
 
+        is_refresh = not data.startswith("s:")
         notice = "새로고침"
-        if data.startswith("s:"):
+        if not is_refresh:
             _, _, rest = data.partition(":")
             field, _, value = rest.partition(":")
             if self._apply_setting(chat_id, field, value):
@@ -299,13 +330,22 @@ class TelegramBot:
                 self.client.answer_callback_query(callback_id, "알 수 없는 설정입니다.")
                 return
 
+        # 버튼의 로딩 표시가 남지 않도록, 느릴 수 있는 조회보다 먼저 응답한다.
         self.client.answer_callback_query(callback_id, notice)
-        text, keyboard = self._snapshot_message(chat_id)
+
+        # 새로고침 버튼은 캐시를 건너뛰고 실제로 다시 가져온다.
+        text, keyboard = self._snapshot_message(chat_id, force=is_refresh)
         try:
             self.client.edit_message_text(chat_id, message_id, text, keyboard)
-        except TelegramError:
-            # 내용이 같으면 텔레그램이 'message is not modified' 로 거절한다 — 무시.
-            pass
+        except TelegramError as exc:
+            if NOT_MODIFIED in exc.description:
+                return  # 값이 그대로면 수정할 게 없다
+            # 메시지가 너무 오래돼 수정이 안 되는 경우 등 — 새 메시지로라도 답한다.
+            self._log(f"메시지 수정 실패, 새 메시지로 보냅니다: {exc}")
+            try:
+                self.client.send_message(chat_id, text, keyboard)
+            except TelegramError as send_exc:
+                self._log(f"새 메시지 전송도 실패: {send_exc}")
 
     def _apply_setting(self, chat_id: int, field: str, value: str) -> bool:
         allowed = {
@@ -409,10 +449,22 @@ class TelegramBot:
                 try:
                     updates = self.client.get_updates(self._offset, poll_timeout) or []
                 except TelegramError as exc:
-                    print(f"폴링 실패, 5초 후 재시도: {exc}")
+                    if exc.error_code == CONFLICT:
+                        # 같은 토큰으로 봇이 두 군데서 돌면 업데이트가 나뉘어
+                        # 버튼이 먹통처럼 보인다. 조용히 재시도하면 안 된다.
+                        print(
+                            "\n⚠️  같은 봇 토큰으로 다른 곳에서 이미 실행 중입니다.\n"
+                            "   다른 터미널 창이나 서버에서 돌고 있는 krflow bot 을 끄세요.\n"
+                            "   (둘이 번갈아 메시지를 가져가서 버튼이 안 먹는 것처럼 보입니다.)\n"
+                        )
+                    else:
+                        print(f"폴링 실패, 5초 후 재시도: {exc}")
                     if self._stop.wait(5):
                         break
                     continue
+
+                if updates:
+                    self._debug(f"업데이트 {len(updates)}건 수신")
 
                 for update in updates:
                     self._offset = max(self._offset, int(update.get("update_id", 0)) + 1)
@@ -458,6 +510,7 @@ def run_bot(
     interval: float = 30.0,
     state_path=None,
     max_polls: int | None = None,
+    verbose: bool = False,
 ) -> int:
     client = TelegramClient(config.telegram_token, timeout=config.request_timeout)
     store = ChatStore(state_path or (config.ensure_cache_dir() / "telegram_state.json"))
@@ -468,5 +521,6 @@ def run_bot(
         market=market,
         allowed_chat_ids=config.telegram_allowed_chat_ids,
         interval=interval,
+        verbose=verbose,
     )
     return bot.run(max_polls=max_polls)
