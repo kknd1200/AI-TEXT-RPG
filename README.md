@@ -100,6 +100,34 @@ krflow bot --provider kiwoom
 **인라인 버튼**으로 바로 바꿉니다. 버튼을 누르면 새 메시지를 쌓지 않고 그 자리에서 갱신됩니다.
 설정과 구독 상태는 `~/.krflow/telegram_state.json` 에 채팅방별로 저장되어 재시작해도 유지됩니다.
 
+### 값이 0으로만 나오거나 숫자가 이상할 때
+
+증권사 API 응답의 필드명이 파서가 기대하는 것과 다르면 그 항목이 통째로 0이 됩니다.
+어느 필드가 안 맞는지 바로 확인할 수 있습니다.
+
+```bash
+krflow once --provider kiwoom --diagnose
+```
+
+```
+파서가 찾는 필드가 응답에 있는지:
+    ✅ 외국인 순매수: 'for_netprps_*' 로 매칭, 값 있는 행 30/30
+    ❌ 기관 순매수: ('orgn_netprps', 'org_netprps') 중 어느 것도 응답에 없음
+
+파서가 안 쓰는 필드: ['orgn_netprps_amt_x', ...]
+```
+
+`❌` 로 나온 항목이 0으로 표시되는 원인입니다. 아래 줄의 "파서가 안 쓰는 필드" 에
+실제 이름이 보이면 `krflow/providers/kiwoom.py` 의 `GROUPS` 에 추가하면 됩니다.
+
+응답 원본이 필요하면 파일로 저장할 수 있습니다 (앱키·토큰은 담기지 않습니다).
+
+```bash
+krflow once --provider kiwoom --dump-raw raw.json
+```
+
+기관 값이 전부 0이면 표 위에 경고가 함께 뜹니다 — 0을 사실로 오해하지 않도록 한 것입니다.
+
 ### 버튼이 안 눌릴 때
 
 ```bash

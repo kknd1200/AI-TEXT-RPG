@@ -70,6 +70,15 @@ def build_parser() -> argparse.ArgumentParser:
     _common_query_args(once)
     once.add_argument("--json", dest="json_path", help="결과를 JSON 파일로 저장 ('-' 는 표준출력)")
     once.add_argument("--csv", dest="csv_path", help="결과를 CSV 파일로 저장 ('-' 는 표준출력)")
+    once.add_argument(
+        "--diagnose",
+        action="store_true",
+        help="응답 필드가 파서와 맞는지 점검 (값이 0으로만 나올 때 사용)",
+    )
+    once.add_argument(
+        "--dump-raw",
+        help="소스 응답 원본을 JSON 파일로 저장 (앱키·토큰은 포함되지 않음)",
+    )
 
     serve = sub.add_parser("serve", help="브라우저 대시보드 실행")
     _provider_args(serve)
@@ -175,6 +184,35 @@ def _write_csv(path: str, rows) -> None:
             print(f"CSV 저장: {path}", file=sys.stderr)
 
 
+def _report_raw(provider, args) -> None:
+    """--diagnose / --dump-raw 처리. 응답 본문만 다루므로 앱키는 새지 않는다."""
+    raw = getattr(provider, "last_raw", None)
+    if not raw:
+        print(
+            f"'{provider.name}' 는 원본 응답 저장을 지원하지 않습니다 "
+            "(kiwoom / kis 에서 사용하세요).",
+            file=sys.stderr,
+        )
+        return
+
+    if args.dump_raw:
+        Path(args.dump_raw).write_text(
+            json.dumps(raw, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        print(f"원본 응답 저장: {args.dump_raw}", file=sys.stderr)
+
+    if args.diagnose:
+        try:
+            from .providers.kiwoom import diagnose
+        except ImportError:  # pragma: no cover
+            return
+        for label, payload in raw.items():
+            if not isinstance(payload, dict):
+                continue
+            print(f"\n===== 진단: {label} 응답 =====")
+            print(diagnose(payload))
+
+
 def _cmd_once(args, config) -> int:
     from rich.console import Console
 
@@ -185,6 +223,9 @@ def _cmd_once(args, config) -> int:
         snapshot = provider.fetch(args.market)
     finally:
         provider.close()
+
+    if args.dump_raw or args.diagnose:
+        _report_raw(provider, args)
 
     ranked = rank(
         snapshot.rows,

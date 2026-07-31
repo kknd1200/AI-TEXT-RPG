@@ -271,11 +271,16 @@ class KiwoomProvider(Provider):
         if market_code is None:
             raise ProviderError(f"지원하지 않는 시장 구분입니다: {market}")
 
-        by_amount = parse_rank_response(self._call(market_code, AMT), market)
+        amount_raw = self._call(market_code, AMT)
+        self.last_raw = {"amount": amount_raw}
+
+        by_amount = parse_rank_response(amount_raw, market)
         merged = {row.code: row for row in by_amount}
 
         if self.include_qty:
-            for row in parse_rank_response(self._call(market_code, QTY), market):
+            quantity_raw = self._call(market_code, QTY)
+            self.last_raw["quantity"] = quantity_raw
+            for row in parse_rank_response(quantity_raw, market):
                 existing = merged.get(row.code)
                 if existing is None:
                     merged[row.code] = row
@@ -296,13 +301,20 @@ class KiwoomProvider(Provider):
                 "키움 응답에 종목이 없습니다. 장 시작 전이거나 휴장일일 수 있습니다."
             )
 
+        rows = list(merged.values())
+        note = self.note
+        # 한 종목도 기관 값이 없으면 필드명이 안 맞는 것이다. 0 을 사실처럼
+        # 보여주면 '기관이 안 샀다' 로 오해하므로 화면에 이유를 띄운다.
+        if not any(row.inst_value or row.inst_qty for row in rows):
+            note += " · ⚠️ 기관 값이 모두 0입니다 (응답 필드 불일치 가능 — --diagnose 로 확인)"
+
         return Snapshot(
-            rows=list(merged.values()),
+            rows=rows,
             source=self.name,
             as_of=now_kst(),
             market=market,
             delayed=self.delayed,
-            note=self.note,
+            note=note,
             meta={"env": self.config.kiwoom_env, "api_id": RANK_API_ID},
         )
 
@@ -321,22 +333,77 @@ def _parse_expiry(data: dict) -> datetime:
     return now_kst() + timedelta(seconds=seconds)
 
 
+def find_listing(data: dict) -> list:
+    """응답에서 종목 목록을 찾아낸다. 알려진 키가 없으면 리스트인 값을 뒤진다."""
+    for key in LIST_KEYS:
+        value = data.get(key)
+        if isinstance(value, list):
+            return value
+        if isinstance(value, dict):
+            return [value]
+    # 문서 개정으로 키 이름이 바뀐 경우를 대비한 최후 수단
+    for value in data.values():
+        if isinstance(value, list) and value and isinstance(value[0], dict):
+            return value
+    return []
+
+
+def diagnose(data: dict) -> str:
+    """응답 필드가 파서의 기대와 맞는지 사람이 읽을 수 있게 요약한다.
+
+    '기관이 전부 0' 처럼 필드명이 안 맞아 생기는 문제를 원본 없이도
+    좁힐 수 있게 하는 것이 목적이다.
+    """
+    lines: list[str] = []
+    listing = find_listing(data)
+    lines.append(f"응답 최상위 키: {sorted(data)}")
+    lines.append(f"종목 목록 길이: {len(listing)}")
+
+    if not listing:
+        lines.append("→ 목록을 찾지 못했습니다. 원본 JSON 을 확인하세요.")
+        return "\n".join(lines)
+
+    first = listing[0] if isinstance(listing[0], dict) else {}
+    lines.append(f"첫 항목의 실제 필드명 ({len(first)}개):")
+    for key in sorted(first):
+        lines.append(f"    {key} = {first[key]!r}")
+
+    lines.append("\n파서가 찾는 필드가 응답에 있는지:")
+    for investor, side, prefixes in GROUPS:
+        label = f"{'외국인' if investor == 'foreign' else '기관'} {'순매수' if side == 'buy' else '순매도'}"
+        found_prefix = None
+        for prefix in prefixes:
+            if any(f"{prefix}_{suffix}" in first for suffix in ("stk_cd", "amt", "qty")):
+                found_prefix = prefix
+                break
+        if found_prefix:
+            filled = sum(
+                1
+                for item in listing
+                if isinstance(item, dict) and normalize_code(_field(item, prefixes, "stk_cd"))
+            )
+            lines.append(f"    ✅ {label}: '{found_prefix}_*' 로 매칭, 값 있는 행 {filled}/{len(listing)}")
+        else:
+            lines.append(f"    ❌ {label}: {prefixes} 중 어느 것도 응답에 없음")
+
+    known = {f"{prefix}_{suffix}"
+             for _, _, prefixes in GROUPS
+             for prefix in prefixes
+             for suffix in ("stk_cd", "stk_nm", "amt", "qty")}
+    unknown = sorted(set(first) - known)
+    if unknown:
+        lines.append(f"\n파서가 안 쓰는 필드: {unknown}")
+
+    return "\n".join(lines)
+
+
 def parse_rank_response(data: dict, market: str = "all") -> list[FlowRow]:
     """ka90009 응답 -> FlowRow 목록.
 
     한 행에 담긴 네 갈래(외인 순매수/순매도, 기관 순매수/순매도)를 풀어
     종목코드 기준으로 합친다. 순매도는 부호를 음수로 고정한다.
     """
-    listing: list = []
-    for key in LIST_KEYS:
-        value = data.get(key)
-        if isinstance(value, list):
-            listing = value
-            break
-        if isinstance(value, dict):
-            listing = [value]
-            break
-
+    listing = find_listing(data)
     acc: dict[str, dict[str, Any]] = {}
     for item in listing:
         if not isinstance(item, dict):

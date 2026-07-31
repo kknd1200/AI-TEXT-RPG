@@ -1,3 +1,5 @@
+import json
+
 import pytest
 
 from krflow.config import Config
@@ -6,6 +8,7 @@ from krflow.providers.kiwoom import (
     KiwoomProvider,
     KiwoomTokenStore,
     _to_float,
+    diagnose,
     normalize_code,
     parse_rank_response,
 )
@@ -232,3 +235,70 @@ def test_token_store_roundtrip_and_expiry(tmp_path):
 
     store.write("key", "tok", now_kst() + timedelta(minutes=1))
     assert store.read("key") is None
+
+
+# ------------------------------------------------------ 진단 (필드 불일치 추적)
+
+
+BROKEN = {
+    "return_code": 0,
+    "frgnr_orgn_trde_upper": [
+        {
+            "for_netprps_stk_cd": "015760",
+            "for_netprps_stk_nm": "한국전력",
+            "for_netprps_amt": "2000",
+            "orgn_netprps_stk_cd_x": "000660",  # 파서가 모르는 이름
+            "orgn_netprps_amt_x": "3000",
+        }
+    ],
+}
+
+
+def test_diagnose_flags_missing_institution_fields():
+    report = diagnose(BROKEN)
+    assert "✅ 외국인 순매수" in report
+    assert "❌ 기관 순매수" in report
+    assert "orgn_netprps_amt_x" in report  # 안 쓰는 필드로 노출된다
+
+
+def test_diagnose_lists_actual_field_names():
+    report = diagnose(SAMPLE)
+    assert "for_netprps_stk_cd" in report
+    assert "종목 목록 길이: 2" in report
+
+
+def test_diagnose_handles_empty_response():
+    assert "목록을 찾지 못했습니다" in diagnose({"return_code": 0})
+
+
+def test_find_listing_falls_back_to_any_list_of_dicts():
+    from krflow.providers.kiwoom import find_listing
+
+    payload = {"return_code": 0, "완전히_새로운_키": [{"for_netprps_stk_cd": "005930"}]}
+    assert len(find_listing(payload)) == 1
+
+
+def test_snapshot_warns_when_all_institution_values_are_zero(tmp_path):
+    session = FakeSession([FakeResponse(payload=BROKEN), FakeResponse(payload=BROKEN)])
+    provider = KiwoomProvider(config=make_config(tmp_path), session=session)
+    snapshot = provider.fetch("all")
+
+    # 0 을 사실처럼 보여주지 않고 이유를 알린다
+    assert "기관 값이 모두 0" in snapshot.note
+
+
+def test_snapshot_has_no_warning_when_institution_data_present(tmp_path):
+    session = FakeSession([FakeResponse(payload=SAMPLE), FakeResponse(payload=SAMPLE)])
+    provider = KiwoomProvider(config=make_config(tmp_path), session=session)
+    assert "기관 값이 모두 0" not in provider.fetch("all").note
+
+
+def test_last_raw_keeps_both_responses_for_dumping(tmp_path):
+    session = FakeSession([FakeResponse(payload=SAMPLE), FakeResponse(payload=SAMPLE)])
+    provider = KiwoomProvider(config=make_config(tmp_path), session=session)
+    provider.fetch("all")
+
+    assert set(provider.last_raw) == {"amount", "quantity"}
+    # 원본에 인증 정보가 섞이지 않는다 (응답 본문만 담는다)
+    dumped = json.dumps(provider.last_raw, ensure_ascii=False)
+    assert "appkey" not in dumped and "secretkey" not in dumped and "Bearer" not in dumped

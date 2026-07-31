@@ -22,6 +22,8 @@ class Provider(ABC):
     note: str = ""
     #: 이 소스가 안전하게 견딜 수 있는 최소 폴링 주기(초)
     min_interval: float = 5.0
+    #: 마지막 응답 원본 (진단용). 인증 정보는 담지 않는다.
+    last_raw: dict | None = None
 
     @abstractmethod
     def fetch(self, market: str = "all") -> Snapshot:
