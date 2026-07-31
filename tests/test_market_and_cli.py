@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 
@@ -135,3 +135,21 @@ def test_cli_rejects_bad_choice():
 
 def test_cli_watch_stops_after_cycles():
     assert main(["watch", "--provider", "mock", "--cycles", "2", "--interval", "0"]) == 0
+
+
+def test_kst_falls_back_to_fixed_offset_without_tzdata(monkeypatch):
+    """윈도우처럼 시간대 DB가 없어도 KST 가 UTC+9 로 동작해야 한다."""
+    import zoneinfo
+
+    from krflow import market as market_module
+
+    def boom(key):
+        raise zoneinfo.ZoneInfoNotFoundError(f"No time zone found with key {key}")
+
+    monkeypatch.setattr(market_module, "ZoneInfo", boom)
+    fallback = market_module._kst()
+
+    assert fallback.utcoffset(datetime(2026, 7, 31, 12, 0)) == timedelta(hours=9)
+    # 폴백 시간대로도 장 운영시간 판정이 그대로 동작한다
+    noon = datetime(2026, 7, 31, 12, 0, tzinfo=fallback)
+    assert market_module.market_phase(noon) == "open"

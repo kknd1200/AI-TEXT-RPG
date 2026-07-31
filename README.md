@@ -100,11 +100,62 @@ krflow bot --provider kiwoom
 **인라인 버튼**으로 바로 바꿉니다. 버튼을 누르면 새 메시지를 쌓지 않고 그 자리에서 갱신됩니다.
 설정과 구독 상태는 `~/.krflow/telegram_state.json` 에 채팅방별로 저장되어 재시작해도 유지됩니다.
 
+## 내 PC에 아무것도 설치하지 않고 쓰기
+
+폴더를 만들기 싫거나 PC를 계속 켜두기 어렵다면 두 가지 방법이 있습니다.
+
+### 방법 A. GitHub Actions — 서버도 PC도 필요 없음
+
+GitHub가 정해진 시각에 대신 실행해서 텔레그램으로 보내줍니다. **설치할 게 하나도 없습니다.**
+대신 버튼·명령어 같은 대화형 기능은 없고, 정해진 시각에 오는 알림만 받습니다.
+
+1. 이 저장소를 본인 계정으로 **Fork**
+2. `Settings > Secrets and variables > Actions > New repository secret` 에서 4개 등록
+   - `KIWOOM_APP_KEY`, `KIWOOM_APP_SECRET`
+   - `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_CHAT_IDS`
+3. `Actions` 탭 → `수급 알림 (텔레그램)` → `Enable workflow`
+4. `Run workflow` 로 바로 한 번 눌러보면 텔레그램에 도착합니다
+
+기본 스케줄은 **평일 장중 30분마다**입니다. 주기를 바꾸려면
+[`.github/workflows/krflow-telegram.yml`](.github/workflows/krflow-telegram.yml) 의
+`cron` 을 고치세요 (UTC 기준, KST = UTC+9).
+
+> Actions 스케줄은 GitHub 부하에 따라 몇 분 늦게 실행될 수 있고, 저장소가 비공개면
+> 무료 실행 시간이 소진될 수 있습니다. 공개 저장소면 무제한입니다.
+> 매 실행이 새 프로세스라 키움 토큰을 매번 새로 발급합니다.
+
+### 방법 B. 클라우드 호스팅 — 대화형 봇을 24시간
+
+`Dockerfile` 이 들어 있어서 Railway·Render·Fly.io·Koyeb 같은 곳에 GitHub 저장소만
+연결하면 배포됩니다. 이쪽은 버튼과 `/watch` 까지 전부 동작합니다.
+
+1. 이 저장소를 Fork
+2. 호스팅 서비스에서 `Deploy from GitHub` → Fork한 저장소 선택 (Dockerfile 자동 인식)
+3. 대시보드의 환경변수(Environment Variables)에 4개 입력
+   - `KIWOOM_APP_KEY`, `KIWOOM_APP_SECRET`
+   - `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOWED_CHAT_IDS`
+4. 배포 완료
+
+무료 요금제가 "포트를 여는 웹 서비스"만 받아주는 경우가 많은데, `$PORT` 가 주입되면
+봇이 헬스체크 서버를 함께 띄우므로 그대로 통과합니다.
+
+> 컨테이너 파일시스템은 재시작하면 초기화됩니다. `/watch`·`/daily` 구독 상태가
+> 재배포 때 사라지므로, 재배포 후 한 번 더 등록하세요.
+
+### 한눈에 비교
+
+| | 설치 | 대화형 버튼 | `/watch` | 비용 |
+| --- | --- | --- | --- | --- |
+| 내 PC (`krflow bot`) | 필요 | ✅ | ✅ | 무료 (PC 켜둬야 함) |
+| GitHub Actions | **불필요** | ❌ | 고정 스케줄로 대체 | 무료 |
+| 클라우드 호스팅 | **불필요** | ✅ | ✅ | 서비스별 상이 |
+
 ## 명령어
 
 | 명령 | 설명 |
 | --- | --- |
-| `krflow bot` | 텔레그램 봇 실행 |
+| `krflow bot` | 텔레그램 봇 실행 (대화형, 계속 켜둬야 함) |
+| `krflow push` | 텔레그램으로 1회 전송 후 종료 (cron·GitHub Actions용) |
 | `krflow watch` | 터미널에서 주기적으로 갱신하며 표시 |
 | `krflow once` | 1회 조회 후 출력 / `--json` / `--csv` 저장 |
 | `krflow serve` | 브라우저 대시보드 실행 |

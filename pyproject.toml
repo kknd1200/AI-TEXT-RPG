@@ -13,6 +13,8 @@ dependencies = [
     "requests>=2.31",
     "rich>=13.0",
     "beautifulsoup4>=4.12",
+    # 윈도우에는 시스템 시간대 DB가 없어 zoneinfo 가 Asia/Seoul 을 못 찾는다
+    'tzdata; sys_platform == "win32"',
 ]
 
 [project.optional-dependencies]

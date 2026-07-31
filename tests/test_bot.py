@@ -473,3 +473,133 @@ def test_table_widens_columns_for_huge_numbers():
     # 값이 커져도 모든 행의 폭이 같고, 숫자끼리 붙지 않는다
     assert len({fmt.display_width(line) for line in lines}) == 1
     assert "+15,000-4,000" not in body  # 열이 붙어버리면 실패
+
+
+# ---------------------------------------------------------------- push 명령
+
+
+def test_push_sends_to_allowed_chats(tmp_path, monkeypatch, capsys):
+    from krflow.cli import main
+
+    sent = []
+
+    class FakePushClient:
+        def __init__(self, token, timeout=None):
+            self.token = token
+
+        def send_message(self, chat_id, text, reply_markup=None):
+            sent.append({"chat_id": chat_id, "text": text, "markup": reply_markup})
+
+    monkeypatch.setattr("krflow.bot.telegram.TelegramClient", FakePushClient)
+
+    env = tmp_path / ".env"
+    env.write_text(
+        "TELEGRAM_BOT_TOKEN=tok\nTELEGRAM_ALLOWED_CHAT_IDS=11,22\n", encoding="utf-8"
+    )
+    for key in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_CHAT_IDS"):
+        monkeypatch.delenv(key, raising=False)
+
+    code = main(
+        ["push", "--provider", "mock", "--env-file", str(env), "--top", "3", "--title", "장 마감 · "]
+    )
+    assert code == 0
+    assert sorted(item["chat_id"] for item in sent) == [11, 22]
+    assert "장 마감" in sent[0]["text"]
+    # 1회 전송이라 눌러도 받아줄 프로세스가 없으므로 버튼을 붙이지 않는다
+    assert sent[0]["markup"] is None
+
+
+def test_push_chat_id_flag_overrides_allowlist(tmp_path, monkeypatch):
+    from krflow.cli import main
+
+    sent = []
+
+    class FakePushClient:
+        def __init__(self, token, timeout=None):
+            pass
+
+        def send_message(self, chat_id, text, reply_markup=None):
+            sent.append(chat_id)
+
+    monkeypatch.setattr("krflow.bot.telegram.TelegramClient", FakePushClient)
+    env = tmp_path / ".env"
+    env.write_text("TELEGRAM_BOT_TOKEN=tok\nTELEGRAM_ALLOWED_CHAT_IDS=11\n", encoding="utf-8")
+    for key in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_CHAT_IDS"):
+        monkeypatch.delenv(key, raising=False)
+
+    main(["push", "--provider", "mock", "--env-file", str(env), "--chat-id", "99"])
+    assert sent == [99]
+
+
+def test_push_without_token_fails(tmp_path, monkeypatch, capsys):
+    from krflow.cli import main
+
+    monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
+    assert main(["push", "--provider", "mock", "--env-file", str(tmp_path / "none")]) == 1
+    assert "TELEGRAM_BOT_TOKEN" in capsys.readouterr().err
+
+
+def test_push_without_chat_ids_fails(tmp_path, monkeypatch, capsys):
+    from krflow.cli import main
+
+    env = tmp_path / ".env"
+    env.write_text("TELEGRAM_BOT_TOKEN=tok\n", encoding="utf-8")
+    for key in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_CHAT_IDS"):
+        monkeypatch.delenv(key, raising=False)
+
+    assert main(["push", "--provider", "mock", "--env-file", str(env)]) == 1
+    assert "chat_id" in capsys.readouterr().err
+
+
+def test_push_reports_failure_exit_code(tmp_path, monkeypatch):
+    from krflow.cli import main
+    from krflow.bot.telegram import TelegramError
+
+    class FailingClient:
+        def __init__(self, token, timeout=None):
+            pass
+
+        def send_message(self, chat_id, text, reply_markup=None):
+            raise TelegramError("Forbidden: bot was blocked by the user")
+
+    monkeypatch.setattr("krflow.bot.telegram.TelegramClient", FailingClient)
+    env = tmp_path / ".env"
+    env.write_text("TELEGRAM_BOT_TOKEN=tok\nTELEGRAM_ALLOWED_CHAT_IDS=11\n", encoding="utf-8")
+    for key in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_CHAT_IDS"):
+        monkeypatch.delenv(key, raising=False)
+
+    assert main(["push", "--provider", "mock", "--env-file", str(env)]) == 1
+
+
+# ------------------------------------------------------------- 헬스체크 서버
+
+
+def test_resolve_port_prefers_explicit_then_env(monkeypatch):
+    from krflow.bot.health import resolve_port
+
+    monkeypatch.delenv("PORT", raising=False)
+    assert resolve_port(None) is None
+    assert resolve_port(9000) == 9000
+
+    monkeypatch.setenv("PORT", "8080")
+    assert resolve_port(None) == 8080
+    assert resolve_port(9000) == 9000  # 명시 포트가 우선
+
+    monkeypatch.setenv("PORT", "not-a-number")
+    assert resolve_port(None) is None
+
+
+def test_health_server_answers_200():
+    import urllib.request
+
+    from krflow.bot.health import start_health_server
+
+    httpd = start_health_server(0, host="127.0.0.1")
+    try:
+        port = httpd.server_address[1]
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=5) as resp:
+            assert resp.status == 200
+            assert b"ok" in resp.read()
+    finally:
+        httpd.shutdown()
+        httpd.server_close()

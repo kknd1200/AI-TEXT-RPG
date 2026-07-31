@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .config import load_config
+from .config import load_config, parse_chat_ids
 from .models import MARKETS
 from .providers import DESCRIPTIONS, PROVIDER_NAMES, ProviderError, create, create_auto
 from .ranking import INVESTORS, METRICS, SIDES, rank
@@ -78,12 +78,23 @@ def build_parser() -> argparse.ArgumentParser:
     serve.add_argument("--host", default="127.0.0.1", help="바인드 주소 (기본: 127.0.0.1)")
     serve.add_argument("--port", type=int, default=8765, help="포트 (기본: 8765)")
 
-    bot = sub.add_parser("bot", help="텔레그램 봇 실행")
+    bot = sub.add_parser("bot", help="텔레그램 봇 실행 (대화형, 계속 켜둬야 함)")
     _provider_args(bot)
     bot.add_argument("--market", choices=MARKETS, default="all", help="시장 구분 (기본: all)")
     bot.add_argument("--interval", type=float, default=30.0, help="소스 갱신 주기(초, 기본: 30)")
     bot.add_argument("--state", help="구독 상태 저장 경로 (기본: ~/.krflow/telegram_state.json)")
     bot.add_argument("--polls", type=int, help="N회 폴링 후 종료 (테스트용)")
+    bot.add_argument(
+        "--port",
+        type=int,
+        help="헬스체크 HTTP 포트. 생략하면 환경변수 $PORT 를 쓴다 (PaaS 배포용)",
+    )
+
+    push = sub.add_parser("push", help="텔레그램으로 1회 전송 후 종료 (cron/GitHub Actions용)")
+    _provider_args(push)
+    _common_query_args(push)
+    push.add_argument("--chat-id", help="받을 chat_id (쉼표 구분). 생략 시 허용 목록 전체")
+    push.add_argument("--title", default="", help="제목 앞에 붙일 문구 (예: '장 마감 · ')")
 
     sub.add_parser("providers", help="사용 가능한 데이터 소스 목록")
 
@@ -247,17 +258,72 @@ def _cmd_serve(args, config) -> int:
     )
 
 
-def _cmd_bot(args, config) -> int:
-    from .bot.telegram import run_bot
+TELEGRAM_SETUP_HINT = (
+    "오류: TELEGRAM_BOT_TOKEN 이 설정되지 않았습니다.\n"
+    "  1) 텔레그램에서 @BotFather 에게 /newbot 을 보내 토큰을 받으세요.\n"
+    "  2) .env 또는 환경변수에 TELEGRAM_BOT_TOKEN=... 을 넣고 다시 실행하세요."
+)
+
+
+def _cmd_push(args, config) -> int:
+    from .bot import render
+    from .bot.telegram import TelegramClient, TelegramError
 
     if not config.has_telegram:
+        print(TELEGRAM_SETUP_HINT, file=sys.stderr)
+        return 1
+
+    chats = (
+        parse_chat_ids(args.chat_id) if args.chat_id else set(config.telegram_allowed_chat_ids)
+    )
+    if not chats:
         print(
-            "오류: TELEGRAM_BOT_TOKEN 이 설정되지 않았습니다.\n"
-            "  1) 텔레그램에서 @BotFather 에게 /newbot 을 보내 토큰을 받으세요.\n"
-            "  2) .env 에 TELEGRAM_BOT_TOKEN=... 을 넣고 다시 실행하세요.",
+            "오류: 받을 chat_id 가 없습니다. --chat-id 로 주거나 "
+            "TELEGRAM_ALLOWED_CHAT_IDS 를 설정하세요.",
             file=sys.stderr,
         )
         return 1
+
+    provider = _make_provider(args, config)
+    try:
+        snapshot = provider.fetch(args.market)
+    finally:
+        provider.close()
+
+    settings = {
+        "investor": args.investor,
+        "side": args.side,
+        "metric": args.metric,
+        "market": args.market,
+        "top": args.top,
+    }
+    # 1회 전송이라 버튼을 눌러도 받아줄 프로세스가 없다 — 키보드는 붙이지 않는다.
+    text = render.render_snapshot(snapshot, settings, title_prefix=args.title)
+
+    client = TelegramClient(config.telegram_token, timeout=config.request_timeout)
+    failures = 0
+    for chat_id in sorted(chats):
+        try:
+            client.send_message(chat_id, text)
+            print(f"전송 완료: chat_id={chat_id}")
+        except TelegramError as exc:
+            print(f"전송 실패 (chat_id={chat_id}): {exc}", file=sys.stderr)
+            failures += 1
+    return 1 if failures else 0
+
+
+def _cmd_bot(args, config) -> int:
+    from .bot.health import resolve_port, start_health_server
+    from .bot.telegram import run_bot
+
+    if not config.has_telegram:
+        print(TELEGRAM_SETUP_HINT, file=sys.stderr)
+        return 1
+
+    port = resolve_port(args.port)
+    if port:
+        start_health_server(port)
+        print(f"헬스체크 포트 {port} 열림")
 
     provider = _make_provider(args, config)
     return run_bot(
@@ -285,6 +351,8 @@ def main(argv: list[str] | None = None) -> int:
             return _cmd_serve(args, config)
         if args.command == "bot":
             return _cmd_bot(args, config)
+        if args.command == "push":
+            return _cmd_push(args, config)
     except ProviderError as exc:
         print(f"오류: {exc}", file=sys.stderr)
         return 1

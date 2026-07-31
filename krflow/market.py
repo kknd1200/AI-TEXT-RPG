@@ -2,10 +2,24 @@
 
 from __future__ import annotations
 
-from datetime import datetime, time, timedelta
-from zoneinfo import ZoneInfo
+from datetime import datetime, time, timedelta, timezone
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-KST = ZoneInfo("Asia/Seoul")
+
+def _kst():
+    """Asia/Seoul 시간대. 시간대 DB가 없으면 고정 오프셋으로 대체한다.
+
+    윈도우에는 시스템 tz 데이터베이스가 없어 `tzdata` 패키지가 필요한데,
+    설치가 누락돼도 프로그램이 죽지 않게 한다. 한국은 서머타임을 쓰지
+    않으므로 UTC+9 고정 오프셋으로도 동작에 차이가 없다.
+    """
+    try:
+        return ZoneInfo("Asia/Seoul")
+    except (ZoneInfoNotFoundError, KeyError, ModuleNotFoundError):
+        return timezone(timedelta(hours=9), "KST")
+
+
+KST = _kst()
 
 OPEN = time(9, 0)
 CLOSE = time(15, 30)
