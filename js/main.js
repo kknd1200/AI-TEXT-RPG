@@ -59,7 +59,13 @@
     }
   });
 
-  UI.showTitle(readSave());
+  /* 에셋을 먼저 불러오고 타이틀을 띄운다 */
+  Assets.load('assets/', function(done, total){ UI.setLoading(done / total); })
+    .then(function(){
+      UI.buildClassCards();          /* 실제 스프라이트로 카드를 다시 만든다 */
+      UI.hideLoading();
+      UI.showTitle(readSave());
+    });
 
   /* ---------- 조준 지점 ------------------------------------ */
   function aimPoint(){
@@ -67,7 +73,7 @@
     var w = Render.screenToWorld(m.x, m.y);
     var p = Engine.state.player;
     if(!m.inside){    /* 마우스가 밖이면 바라보던 방향 유지 */
-      return { x: p.x + Math.cos(p.aim) * 120, y: p.y + Math.sin(p.aim) * 120 };
+      return { x: p.x + Math.cos(p.aim) * 240, y: p.y + Math.sin(p.aim) * 240 };
     }
     return w;
   }
@@ -80,15 +86,16 @@
     var s = SKILL_BY_ID[id];
     if(!s || (s.type !== 'ground')) return null;
     var dx = aim.x - p.x, dy = aim.y - p.y;
-    var d = Math.sqrt(dx*dx + dy*dy), max = s.castRange || 260;
+    var d = Math.sqrt(dx*dx + dy*dy), max = s.castRange || 520;
     var x = aim.x, y = aim.y;
     if(d > max){ var a = Math.atan2(dy, dx); x = p.x + Math.cos(a)*max; y = p.y + Math.sin(a)*max; }
-    return { x: x, y: y, r: s.radius || 60, col: EL_COLOR[s.el] || '#fff' };
+    return { x: x, y: y, r: s.radius || 120, col: EL_COLOR[s.el] || '#fff' };
   }
 
   /* ---------- 루프 ---------------------------------------- */
   function frame(ts){
     requestAnimationFrame(frame);
+    UI.tickPortraits(ts);
     if(!last) last = ts;
     var dt = Math.min(0.05, (ts - last) / 1000);
     last = ts;

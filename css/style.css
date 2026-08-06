@@ -46,6 +46,9 @@ canvas#game{
   font-family:"Courier New",monospace; text-shadow:0 1px 2px #000; letter-spacing:.4px; }
 .bar.hp i{ background:linear-gradient(180deg,#f2685c,#b9302a); }
 .bar.mp i{ background:linear-gradient(180deg,#5a9ce8,#2a5aa8); }
+.bar.load{ height:18px; margin-top:12px; }
+.bar.load i{ background:linear-gradient(180deg,#ffd76a,#c99a2e); }
+.bar.load span{ line-height:18px; font-size:11px; }
 .bar.xp{ height:8px; }
 .bar.xp i{ background:linear-gradient(180deg,#7ad06a,#3f8a3f); }
 .bar.xp span{ line-height:8px; font-size:8px; }

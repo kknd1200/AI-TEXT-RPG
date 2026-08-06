@@ -1,6 +1,6 @@
 /* ============================================================
    데이터 정의 — 무기 / 직업 / 2차 전직 / 스킬 / 몬스터 / 성장
-   순수 데이터만 둔다. 실제 동작은 entities.js 가 해석한다.
+   순수 데이터만 둔다. 실제 동작은 engine.js 가 해석한다.
    ============================================================ */
 
 /* 속성별 이펙트 색 */
@@ -25,30 +25,35 @@ var WEAPON_DB = {
 /* 1차 직업.
    base  : 1레벨 기준치
    grow  : 레벨당 상승치
-   look  : 스프라이트 팔레트 (sprites.js 가 해석) */
+   art   : assets/hero 스프라이트 (h = 화면상 높이, tint = 색조 변경)
+   look  : 에셋이 없을 때 쓰는 도형 스프라이트 팔레트 */
 var CLASS_DB = {
   knight: {
     name:'기사', weapon:'sword', desc:'한손검과 방패로 전선을 지탱하는 근접 직업. 체력과 방어가 높다.',
     base:{hp:220, mp:60,  atk:16, matk:4,  def:12, crit:5,  spd:100},
     grow:{hp:26,  mp:3,   atk:2.4, matk:0.3, def:1.5, crit:0.10},
+    art:{sprite:'knight', h:104},
     look:{skin:'#f0c49b', hair:'#4b3a2a', main:'#5f7fa8', sub:'#c9d6e6', trim:'#e0c063', cape:'#9c3b3b'}
   },
   mage: {
     name:'마법사', weapon:'staff', desc:'스태프로 원거리 마법을 퍼붓는 직업. 화력은 최상이나 몸이 약하다.',
     base:{hp:140, mp:150, atk:6,  matk:20, def:6,  crit:5,  spd:96},
     grow:{hp:13,  mp:11,  atk:0.5, matk:3.1, def:0.7, crit:0.12},
+    art:{sprite:'mage', h:100},
     look:{skin:'#f2cba6', hair:'#d8d2c0', main:'#5b4a9c', sub:'#8f7fd8', trim:'#ffd76a', cape:'#3b2f6b'}
   },
   archer: {
     name:'궁수', weapon:'bow', desc:'활로 거리를 유지하며 싸우는 직업. 이동이 빠르고 치명타가 높다.',
     base:{hp:165, mp:90,  atk:15, matk:6,  def:8,  crit:12, spd:114},
     grow:{hp:17,  mp:5,   atk:2.5, matk:0.5, def:0.9, crit:0.22},
+    art:{sprite:'archer', h:104},
     look:{skin:'#eec49a', hair:'#8a5a2b', main:'#3f7a4a', sub:'#7ab06a', trim:'#c9a86a', cape:'#2f5a38'}
   },
   priest: {
     name:'사제', weapon:'mace', desc:'신성력으로 자신을 치유하며 버티는 직업. 균형이 잡혀 있다.',
     base:{hp:185, mp:120, atk:13, matk:15, def:10, crit:5,  spd:100},
     grow:{hp:20,  mp:8,   atk:2.0, matk:2.2, def:1.2, crit:0.12},
+    art:{sprite:'priest', h:102},
     look:{skin:'#f3cda9', hair:'#e8dfae', main:'#e8e2d2', sub:'#d8cfae', trim:'#e5c04e', cape:'#c8b06a'}
   }
 };
@@ -62,12 +67,14 @@ var JOB2_DB = {
     name:'대검전사', from:'knight', weapon:'greatsword',
     desc:'양손검으로 한 번에 크게 후려친다. 공격 범위와 한 방이 압도적이다.',
     add:{hp:220, atk:30, def:6}, grow:{hp:34, mp:3, atk:4.2, matk:0.3, def:1.6, crit:0.14},
+    art:{sprite:'warrior', h:112},
     look:{skin:'#f0c49b', hair:'#3a2d20', main:'#7a4a3a', sub:'#c07a4a', trim:'#e0c063', cape:'#5a2222'}
   },
   magicknight: {
     name:'마검사', from:'knight', weapon:'longsword',
     desc:'장검에 마력을 실어 벤다. 물리와 마법을 함께 쓰는 근접 직업.',
     add:{hp:140, mp:90, atk:16, matk:22}, grow:{hp:24, mp:8, atk:2.6, matk:2.4, def:1.3, crit:0.16},
+    art:{sprite:'knight', h:106, tint:'#7a5ad8', tintAmt:0.45},
     look:{skin:'#f0c49b', hair:'#6a5aa8', main:'#3a3a6a', sub:'#7f7fd0', trim:'#a8e0ff', cape:'#2a2a52'}
   },
   /* ── 마법사 ── */
@@ -75,18 +82,21 @@ var JOB2_DB = {
     name:'화염법사', from:'mage', weapon:'staff',
     desc:'광역 폭발과 화상으로 지속 피해를 누적시킨다.',
     add:{mp:120, matk:40}, grow:{hp:14, mp:12, atk:0.5, matk:4.3, def:0.8, crit:0.14},
+    art:{sprite:'mage', h:102, tint:'#ff5a1a', tintAmt:0.42},
     look:{skin:'#f2cba6', hair:'#e06a2a', main:'#8a2f2f', sub:'#e0602a', trim:'#ffc04a', cape:'#5a1a1a'}
   },
   icemage: {
     name:'냉기법사', from:'mage', weapon:'staff',
     desc:'둔화와 빙결로 적을 묶는다. 생존력이 가장 높은 마법사.',
     add:{hp:90, mp:110, matk:32, def:6}, grow:{hp:18, mp:11, atk:0.5, matk:3.8, def:1.2, crit:0.14},
+    art:{sprite:'ice_mage', h:112},
     look:{skin:'#f2cba6', hair:'#bfe8ff', main:'#2f5a8a', sub:'#7fd8ff', trim:'#e8f8ff', cape:'#1e3a5a'}
   },
   boltmage: {
     name:'전격법사', from:'mage', weapon:'staff',
     desc:'연쇄 번개로 무리를 한 번에 쓸어담는다. 시전이 가장 빠르다.',
     add:{mp:110, matk:34, crit:8}, grow:{hp:14, mp:11, atk:0.5, matk:4.0, def:0.8, crit:0.30},
+    art:{sprite:'mage', h:102, tint:'#ffd23a', tintAmt:0.42},
     look:{skin:'#f2cba6', hair:'#ffe45c', main:'#4a3a8a', sub:'#ffe45c', trim:'#fff7c0', cape:'#2a2050'}
   },
   /* ── 궁수 ── */
@@ -94,12 +104,14 @@ var JOB2_DB = {
     name:'신궁', from:'archer', weapon:'bow',
     desc:'관통과 폭우로 화면 끝에서 적을 정리한다. 사거리가 가장 길다.',
     add:{atk:34, crit:10}, grow:{hp:19, mp:5, atk:4.0, matk:0.5, def:1.0, crit:0.30},
+    art:{sprite:'archer', h:106, tint:'#ffd76a', tintAmt:0.42},
     look:{skin:'#eec49a', hair:'#e8d8a0', main:'#2f6a5a', sub:'#7ac0a0', trim:'#ffe08a', cape:'#1e4a3a'}
   },
   venom: {
     name:'베놈', from:'archer', weapon:'dagger',
     desc:'단검을 들고 파고들어 맹독을 쌓는다. 공격 속도가 가장 빠르다.',
     add:{hp:110, atk:28, crit:14, spd:8}, grow:{hp:23, mp:6, atk:3.6, matk:0.6, def:1.1, crit:0.34},
+    art:{sprite:'assassin', h:106},
     look:{skin:'#e8bf95', hair:'#3a2a3a', main:'#3a2f4a', sub:'#6ac05a', trim:'#8ce35b', cape:'#241d30'}
   },
   /* ── 사제 ── */
@@ -107,18 +119,21 @@ var JOB2_DB = {
     name:'크루세이더', from:'priest', weapon:'mace',
     desc:'메이스를 휘두르며 때릴수록 회복한다. 사제 계열 최전방.',
     add:{hp:230, atk:26, def:10}, grow:{hp:32, mp:6, atk:3.4, matk:1.6, def:1.9, crit:0.16},
+    art:{sprite:'lancer', h:114},
     look:{skin:'#f3cda9', hair:'#d8c890', main:'#d0d4dc', sub:'#e8e2d2', trim:'#e5c04e', cape:'#b03a3a'}
   },
   cleric: {
     name:'클레릭', from:'priest', weapon:'staff',
     desc:'스태프로 성역을 펼친다. 회복량과 광역 신성 피해가 뛰어나다.',
     add:{hp:110, mp:150, matk:32}, grow:{hp:21, mp:12, atk:1.2, matk:3.6, def:1.3, crit:0.14},
+    art:{sprite:'priest', h:104, tint:'#7fd8ff', tintAmt:0.4},
     look:{skin:'#f3cda9', hair:'#f2ecc8', main:'#f4f0e2', sub:'#ffe9a8', trim:'#e5c04e', cape:'#e0d08a'}
   },
   monk: {
     name:'수도승', from:'priest', weapon:'fist',
     desc:'맨손 연타로 몰아친다. 타격 횟수가 많아 흡혈과 궁합이 좋다.',
     add:{hp:180, mp:80, atk:24, spd:12}, grow:{hp:28, mp:7, atk:3.2, matk:1.4, def:1.5, crit:0.26},
+    art:{sprite:'summoner', h:106, tint:'#ff9a3a', tintAmt:0.35},
     look:{skin:'#eec49a', hair:'#2a2018', main:'#c86a3a', sub:'#e8a068', trim:'#f0e0c0', cape:'#8a3a20'}
   }
 };
@@ -322,44 +337,47 @@ function skillsOfJob(job){
 
 /* ============================================================
    몬스터
-   body: humanoid / blob / flyer / golem
+   art : assets/mob 의 스프라이트 이름, h = 화면상 높이(px)
    ai  : melee(접근 후 타격) / ranged(거리 유지 후 사격) / charger(돌진)
    ============================================================ */
 var MONSTER_DB = [
-{id:'slime',   name:'슬라임',   body:'blob',     ai:'melee',  minWave:1,  hp:34,  atk:7,  def:2,  spd:44, r:12, xp:9,   size:0.9,
- look:{main:'#6fd06a', sub:'#2f8a3a', eye:'#123'}},
-{id:'bat',     name:'박쥐',     body:'flyer',    ai:'charger',minWave:2,  hp:26,  atk:8,  def:1,  spd:96, r:10, xp:11,  size:0.8,
- look:{main:'#8a5ac0', sub:'#4a2a70', eye:'#ff5'}},
-{id:'goblin',  name:'고블린',   body:'humanoid', ai:'melee',  minWave:3,  hp:52,  atk:11, def:4,  spd:66, r:12, xp:16,  size:0.85,
- look:{skin:'#7fc05a', hair:'#3a5a20', main:'#7a4a2a', sub:'#a8683a', trim:'#c9a86a', cape:'#5a3320'}},
-{id:'archer_g',name:'고블린 궁수',body:'humanoid',ai:'ranged',minWave:5,  hp:44,  atk:12, def:3,  spd:60, r:12, xp:20, size:0.85,
- look:{skin:'#8fc86a', hair:'#2f4a18', main:'#4a5a2a', sub:'#7a8a3a', trim:'#c9a86a', cape:'#33421c'},
+{id:'slime',        name:'슬라임',        art:'slime',         h:64,  ai:'melee',  minWave:1,  hp:34,  atk:7,  def:2,  spd:44, r:13, xp:9},
+{id:'goblin',       name:'고블린',        art:'goblin',        h:82,  ai:'melee',  minWave:2,  hp:52,  atk:11, def:4,  spd:66, r:14, xp:16},
+{id:'slime_poison', name:'독 슬라임',     art:'slime_poison',  h:66,  ai:'melee',  minWave:4,  hp:48,  atk:10, def:3,  spd:48, r:13, xp:15},
+{id:'goblin_archer',name:'고블린 궁수',   art:'goblin_archer', h:82,  ai:'ranged', minWave:5,  hp:44,  atk:12, def:3,  spd:60, r:13, xp:20,
  proj:{speed:250, range:280, cd:2.2, el:'phys'}},
-{id:'skeleton',name:'해골 병사', body:'humanoid', ai:'melee',  minWave:7,  hp:78,  atk:16, def:7,  spd:70, r:13, xp:28,  size:1.0,
- look:{skin:'#e8e4d4', hair:'#c8c0a8', main:'#6a6a78', sub:'#9a9aa8', trim:'#d8d0b0', cape:'#3a3a48'}},
-{id:'wraith',  name:'망령',     body:'flyer',    ai:'ranged', minWave:10, hp:70,  atk:19, def:5,  spd:78, r:13, xp:36,  size:1.05,
- look:{main:'#7a5ac8', sub:'#3a2a68', eye:'#c8f'},
- proj:{speed:210, range:300, cd:2.6, el:'dark'}},
-{id:'orc',     name:'오크 전사', body:'humanoid', ai:'melee',  minWave:12, hp:150, atk:24, def:12, spd:62, r:16, xp:52,  size:1.25,
- look:{skin:'#6a9a4a', hair:'#2a2018', main:'#8a4a2a', sub:'#c07a3a', trim:'#e0c063', cape:'#5a2a18'}},
-{id:'golem',   name:'석상 골렘', body:'golem',    ai:'charger',minWave:16, hp:280, atk:32, def:22, spd:50, r:19, xp:88,  size:1.4,
- look:{main:'#8a8a92', sub:'#5a5a66', eye:'#ff8a3a'}},
-{id:'dark_kn', name:'흑기사',   body:'humanoid', ai:'charger',minWave:20, hp:240, atk:38, def:18, spd:82, r:16, xp:105, size:1.2,
- look:{skin:'#c8a888', hair:'#1a1a22', main:'#2a2a38', sub:'#5a5a70', trim:'#c03a3a', cape:'#7a1a1a'}}
+{id:'zombie',       name:'좀비',          art:'zombie',        h:88,  ai:'melee',  minWave:6,  hp:110, atk:14, def:5,  spd:38, r:15, xp:26},
+{id:'goblin_knight',name:'고블린 기사',   art:'goblin_knight', h:86,  ai:'melee',  minWave:7,  hp:96,  atk:15, def:9,  spd:62, r:15, xp:30},
+{id:'skeleton',     name:'해골 병사',     art:'skeleton',      h:90,  ai:'melee',  minWave:8,  hp:78,  atk:16, def:7,  spd:72, r:14, xp:28},
+{id:'ghoul',        name:'구울',          art:'ghoul',         h:88,  ai:'charger',minWave:10, hp:92,  atk:19, def:6,  spd:84, r:14, xp:36},
+{id:'lizard',       name:'리자드맨',      art:'lizard',        h:94,  ai:'melee',  minWave:11, hp:130, atk:21, def:10, spd:68, r:15, xp:44},
+{id:'lizard_archer',name:'리자드 궁수',   art:'lizard_archer', h:92,  ai:'ranged', minWave:12, hp:104, atk:22, def:8,  spd:64, r:15, xp:48,
+ proj:{speed:290, range:320, cd:2.0, el:'phys'}},
+{id:'spirit_dark',  name:'어둠 정령',     art:'spirit_dark',   h:92,  ai:'ranged', minWave:13, hp:96,  atk:24, def:6,  spd:80, r:14, xp:52,
+ proj:{speed:210, range:300, cd:2.4, el:'dark'}},
+{id:'orc',          name:'오크',          art:'orc',           h:100, ai:'melee',  minWave:14, hp:170, atk:25, def:12, spd:62, r:17, xp:58},
+{id:'orc_warrior',  name:'오크 전사',     art:'orc_warrior',   h:106, ai:'melee',  minWave:16, hp:230, atk:31, def:15, spd:64, r:18, xp:72},
+{id:'orc_mage',     name:'오크 주술사',   art:'orc_mage',      h:100, ai:'ranged', minWave:17, hp:150, atk:30, def:10, spd:58, r:16, xp:76,
+ proj:{speed:240, range:330, cd:1.9, el:'fire'}},
+{id:'darkelf',      name:'다크엘프',      art:'darkelf',       h:96,  ai:'charger',minWave:18, hp:190, atk:34, def:12, spd:90, r:16, xp:84},
+{id:'darkelf_mage', name:'다크엘프 마법사',art:'darkelf_mage', h:96,  ai:'ranged', minWave:19, hp:160, atk:35, def:11, spd:66, r:16, xp:90,
+ proj:{speed:260, range:340, cd:1.7, el:'dark'}},
+{id:'succubus',     name:'서큐버스',      art:'succubus',      h:98,  ai:'charger',minWave:21, hp:210, atk:38, def:13, spd:96, r:16, xp:100},
+{id:'darkelf_knight',name:'다크엘프 기사',art:'darkelf_knight',h:100, ai:'charger',minWave:23, hp:280, atk:42, def:20, spd:86, r:17, xp:118},
+{id:'golem',        name:'석상 골렘',     art:'golem',         h:116, ai:'charger',minWave:25, hp:420, atk:46, def:28, spd:52, r:21, xp:150}
 ];
 
 /* 보스 (5웨이브마다 등장) */
 var BOSS_DB = [
-{id:'b_ogre',  name:'거대 오우거', body:'humanoid', ai:'melee', hp:900,  atk:40, def:16, spd:56, r:26, xp:520, size:2.0,
- look:{skin:'#9aa85a', hair:'#3a2a18', main:'#7a3a2a', sub:'#c06a3a', trim:'#e0c063', cape:'#4a2010'}},
-{id:'b_lich',  name:'리치',       body:'humanoid', ai:'ranged', hp:760, atk:46, def:12, spd:64, r:24, xp:640, size:1.8,
- look:{skin:'#d8e0e8', hair:'#a8c8e8', main:'#2a2a5a', sub:'#6a6ac0', trim:'#a8f0ff', cape:'#141438'},
- proj:{speed:230, range:340, cd:1.4, el:'dark'}},
-{id:'b_golem', name:'고대 골렘',   body:'golem',    ai:'charger',hp:1500,atk:52, def:30, spd:52, r:30, xp:780, size:2.2,
- look:{main:'#7a8a72', sub:'#48524a', eye:'#7fe0ff'}},
-{id:'b_drake', name:'화염 드레이크',body:'flyer',   ai:'charger',hp:1250,atk:58, def:20, spd:92, r:28, xp:900, size:2.1,
- look:{main:'#d8502a', sub:'#7a2010', eye:'#ffd23a'},
- proj:{speed:280, range:320, cd:1.8, el:'fire'}}
+{id:'b_slime',  name:'슬라임 킹',     art:'slime_king',    h:150, ai:'melee',  hp:760,  atk:34, def:14, spd:44, r:28, xp:460},
+{id:'b_goblin', name:'고블린 군주',   art:'goblin_lord',   h:150, ai:'melee',  hp:900,  atk:40, def:16, spd:62, r:26, xp:540},
+{id:'b_orc',    name:'오크 군주',     art:'orc_lord',      h:165, ai:'melee',  hp:1250, atk:48, def:22, spd:58, r:30, xp:660},
+{id:'b_lich',   name:'리치',          art:'lich',          h:160, ai:'ranged', hp:1000, atk:52, def:16, spd:64, r:26, xp:720,
+ proj:{speed:250, range:360, cd:1.3, el:'dark'}},
+{id:'b_queen',  name:'다크엘프 여왕', art:'darkelf_queen', h:158, ai:'ranged', hp:1150, atk:56, def:18, spd:74, r:26, xp:800,
+ proj:{speed:290, range:360, cd:1.1, el:'dark'}},
+{id:'b_chaos',  name:'혼돈의 군주',   art:'chaos_lord',    h:180, ai:'charger',hp:1700, atk:64, def:26, spd:78, r:32, xp:960},
+{id:'b_demon',  name:'마왕',          art:'demon_lord',    h:200, ai:'charger',hp:2400, atk:74, def:32, spd:72, r:36, xp:1250}
 ];
 
 /* 레벨업 필요 경험치 — 40레벨(2차 전직)까지 대략 20~30분 */
@@ -367,3 +385,85 @@ function xpNeed(lv){
   return Math.floor(22 * Math.pow(lv, 1.5) + 24 * lv);
 }
 var MAX_LEVEL = 60;
+
+/* ============================================================
+   이펙트 시트 배정 (assets/fx, 8프레임)
+   ============================================================ */
+var WEAPON_FX = {
+  sword:'slash_dust', greatsword:'slash_cross', longsword:'slash_arcane',
+  dagger:'slash_claw', mace:'slash_gold', fist:'burst_white',
+  staff:'burst_white', bow:'dust_ground'
+};
+var EL_FX = {
+  phys:'slash_dust', fire:'burst_flame', ice:'ice_burst', lightning:'holy_burst',
+  holy:'holy_burst', poison:'poison_splash', magic:'burst_white', dark:'slash_dark'
+};
+var SKILL_FX = {
+  /* 기사 */
+  kn_smash:'slash_dust', kn_charge:'dust_ground', kn_whirl:'slash_cross',
+  kn_shout:'rune_circle', kn_quake:'dust_ground',
+  /* 마법사 */
+  mg_missile:'burst_white', mg_fireball:'boom_red', mg_nova:'nova_arcane',
+  mg_blink:'nova_arcane', mg_orb:'slash_arcane',
+  /* 궁수 */
+  ar_power:'ice_shard', ar_multi:'dust_ground', ar_roll:'dust_ground',
+  ar_poison:'poison_splash', ar_rain:'arrow_rain',
+  /* 사제 */
+  pr_strike:'slash_gold', pr_heal:'heal_burst', pr_wave:'holy_burst',
+  pr_bless:'rune_circle', pr_judge:'holy_pillar',
+  /* 대검전사 */
+  gs_cleave:'slash_cross', gs_shock:'dust_ground', gs_spin:'slash_cross',
+  gs_rage:'burst_flame', gs_exec:'slash_claw',
+  /* 마검사 */
+  mk_wave:'slash_arcane', mk_burst:'nova_arcane', mk_step:'slash_arcane',
+  mk_awake:'rune_circle', mk_rune:'boom_crimson',
+  /* 화염법사 */
+  fm_blast:'boom_red', fm_pillar:'pillar_fire', fm_inferno:'burst_flame',
+  fm_dash:'burst_flame', fm_meteor:'meteor',
+  /* 냉기법사 */
+  im_spear:'ice_shard', im_field:'water_burst', im_blizzard:'ice_burst',
+  im_armor:'dome_white', im_zero:'ice_burst',
+  /* 전격법사 */
+  bm_bolt:'burst_white', bm_chain:'holy_burst', bm_strike:'holy_pillar',
+  bm_dash:'burst_white', bm_storm:'holy_burst',
+  /* 신궁 */
+  rg_pierce:'ice_shard', rg_storm:'arrow_rain', rg_eye:'rune_circle',
+  rg_rapid:'dust_ground', rg_snipe:'burst_white',
+  /* 베놈 */
+  vn_flurry:'slash_claw', vn_shadow:'slash_dark', vn_cloud:'poison_splash',
+  vn_assassin:'slash_dark', vn_toxin:'rune_circle',
+  /* 크루세이더 */
+  cr_smite:'slash_gold', cr_hammer:'holy_burst', cr_shield:'dome_white',
+  cr_charge:'crescent_gold', cr_wrath:'holy_burst',
+  /* 클레릭 */
+  cl_greatheal:'heal_burst', cl_light:'holy_burst', cl_regen:'heal_burst',
+  cl_purify:'dome_white', cl_sanct:'holy_pillar',
+  /* 수도승 */
+  mo_combo:'burst_white', mo_uppercut:'dust_ground', mo_chi:'nova_arcane',
+  mo_med:'rune_circle', mo_storm:'slash_cross'
+};
+
+/* ============================================================
+   월드 스케일 — 스프라이트를 원본 픽셀 크기로 그리기 때문에
+   거리/속도 값도 같은 배율로 키운다. 위쪽 데이터는 읽기 좋은
+   기준값(1배)으로 두고 여기서 한 번에 환산한다.
+   ============================================================ */
+var WORLD_SCALE = 2;
+(function(U){
+  var DIST = ['range','speed','radius','dist','castRange','length','width','jumpRange'];
+  function scale(o){
+    for(var i = 0; i < DIST.length; i++)
+      if(typeof o[DIST[i]] === 'number') o[DIST[i]] *= U;
+  }
+  var k, i;
+  for(k in WEAPON_DB) scale(WEAPON_DB[k]);
+  for(i = 0; i < SKILL_DB.length; i++){
+    scale(SKILL_DB[i]);
+    SKILL_DB[i].fx = SKILL_FX[SKILL_DB[i].id] || EL_FX[SKILL_DB[i].el] || 'burst_white';
+  }
+  for(k in CLASS_DB) CLASS_DB[k].base.spd *= U;
+  for(k in JOB2_DB) if(JOB2_DB[k].add.spd) JOB2_DB[k].add.spd *= U;
+  function mob(m){ m.spd *= U; m.r *= U; if(m.proj) scale(m.proj); }
+  for(i = 0; i < MONSTER_DB.length; i++) mob(MONSTER_DB[i]);
+  for(i = 0; i < BOSS_DB.length; i++) mob(BOSS_DB[i]);
+})(WORLD_SCALE);

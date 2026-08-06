@@ -8,7 +8,7 @@ var Render = (function(){
   'use strict';
 
   var cv, ctx, VW = 0, VH = 0;
-  var SCALE = 2;               /* CSS 픽셀 → 렌더 픽셀 (픽셀 확대 배율) */
+  var SCALE = 1;               /* CSS 픽셀 → 렌더 픽셀. 아트를 원본 크기로 그린다 */
   var cam = { x: 0, y: 0 };
   var ox = 0, oy = 0;
   var SP = Sprites;
@@ -55,6 +55,7 @@ var Render = (function(){
 
     drawGround(W);
     drawGroundFx(W);
+    drawArtFx(W);
     drawEntities(W, ui);
     drawAirFx(W);
     drawOffscreen(W);
@@ -209,11 +210,37 @@ var Render = (function(){
 
   function drawProp(pr){
     var s = w2s(pr.x, pr.y);
-    var img = SP.prop(pr.kind);
-    shadow(s.x, s.y, pr.kind === 'tree' ? 13 : 9, 0.22);
-    ctx.drawImage(img, Math.round(s.x - img.width/2), Math.round(s.y - img.height + 14));
+    var img = SP.prop(pr.kind), k = 2;
+    shadow(s.x, s.y, (pr.kind === 'tree' ? 13 : 9) * k, 0.22);
+    ctx.drawImage(img, Math.round(s.x - img.width*k/2), Math.round(s.y - (img.height - 14) * k),
+                  img.width*k, img.height*k);
   }
 
+  /* 스프라이트 시트에서 프레임 하나를 그린다.
+     sp = {img, frames, fw, fh, bx, by, bw, bh}, targetH = 화면상 높이 */
+  function drawSprite(sp, frame, sx, sy, targetH, flip, flash, alpha){
+    var k = targetH / sp.bh;
+    var sxSrc = (frame % sp.frames) * sp.fw;
+    var dw = sp.fw * k, dh = sp.fh * k;
+    var dx = sx - (sp.bx + sp.bw/2) * k;      /* 내용 가운데를 발 위치에 맞춘다 */
+    var dy = sy - (sp.by + sp.bh) * k;
+    ctx.save();
+    if(alpha !== undefined) ctx.globalAlpha = alpha;
+    if(flip){                                  /* sx 기준 좌우 대칭 */
+      ctx.translate(sx, 0);
+      ctx.scale(-1, 1);
+      ctx.translate(-sx, 0);
+    }
+    ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+    if(flash > 0){
+      ctx.globalAlpha = Math.min(0.8, flash * 5);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+    }
+    ctx.restore();
+  }
+
+  /* 에셋이 없을 때 쓰는 도형 스프라이트 */
   function drawUnitSprite(img, s, flip, scale, flash){
     var w = img.width * scale, h = img.height * scale;
     var dx = Math.round(s.x - w/2), dy = Math.round(s.y - h + 6 * scale);
@@ -237,93 +264,109 @@ var Render = (function(){
 
   function drawMob(m){
     var s = w2s(m.x, m.y);
-    shadow(s.x, s.y, m.r * 0.95, 0.3);
-    var img = SP.unit(m.look, 'none', m.body, m.dir, m.anim, m.frame);
-    drawUnitSprite(img, s, m.flip, m.size, m.flash);
+    var sp = Assets.get('mob', m.art);
+    shadow(s.x, s.y, m.r * 0.9, 0.32);
 
-    /* 상태 표시 */
-    if(m.freeze > 0){
-      ctx.globalAlpha = 0.4; ctx.fillStyle = '#7fd8ff';
-      ctx.fillRect(Math.round(s.x - m.r), Math.round(s.y - m.r*2.4), m.r*2, m.r*2.4);
-      ctx.globalAlpha = 1;
+    if(sp){
+      /* 걸을 때 위아래로 살짝 흔든다 (정지 이미지에 생동감을 준다) */
+      var bob = m.anim === 'walk' ? Math.sin(m.animT * 3.2) * (m.h * 0.02) : 0;
+      drawSprite(sp, 0, s.x, s.y + bob, m.h, m.flip, m.flash);
+    }else{
+      var img = SP.unit({}, 'none', 'humanoid', m.dir, m.anim, m.frame);
+      drawUnitSprite(img, s, m.flip, 1, m.flash);
     }
+
+    if(m.freeze > 0){
+      ctx.save();
+      ctx.globalAlpha = 0.35; ctx.fillStyle = '#7fd8ff';
+      ctx.fillRect(Math.round(s.x - m.r), Math.round(s.y - m.h), m.r*2, m.h);
+      ctx.restore();
+    }
+
     /* 체력바 */
-    /* 체력바는 몸체 위쪽에 붙인다 (몸 형태마다 실제 높이가 다르다) */
-    var topH = m.body === 'blob' ? 20 : m.body === 'flyer' ? 34 : 44;
-    var bw = Math.max(22, m.r * 2.4), hy = s.y - topH * m.size - 6;
+    var bw = Math.max(30, m.r * 2.2), hy = s.y - m.h - 9;
     if(m.hp < m.maxhp || m.boss){
       ctx.fillStyle = 'rgba(0,0,0,0.65)';
-      ctx.fillRect(Math.round(s.x - bw/2) - 1, Math.round(hy) - 1, bw + 2, 5);
+      ctx.fillRect(Math.round(s.x - bw/2) - 1, Math.round(hy) - 1, bw + 2, 6);
       ctx.fillStyle = m.boss ? '#e04a4a' : '#68d06a';
-      ctx.fillRect(Math.round(s.x - bw/2), Math.round(hy), Math.round(bw * Math.max(0, m.hp/m.maxhp)), 3);
+      ctx.fillRect(Math.round(s.x - bw/2), Math.round(hy), Math.round(bw * Math.max(0, m.hp/m.maxhp)), 4);
     }
     if(m.dots.length){
       ctx.fillStyle = m.dots[0].el === 'poison' ? '#8ce35b' : '#ff7b2a';
-      ctx.fillRect(Math.round(s.x - bw/2), Math.round(hy) - 4, 3, 3);
+      ctx.fillRect(Math.round(s.x - bw/2), Math.round(hy) - 5, 4, 4);
     }
   }
 
   function drawPlayer(W, p){
     var s = w2s(p.x, p.y);
     if(p.dead){
-      shadow(s.x, s.y, 12, 0.3);
-      ctx.globalAlpha = 0.6;
+      shadow(s.x, s.y, 20, 0.3);
+      ctx.globalAlpha = 0.55;
       ctx.fillStyle = '#8a2a2a';
-      ctx.fillRect(Math.round(s.x-10), Math.round(s.y-6), 20, 8);
+      ctx.fillRect(Math.round(s.x-18), Math.round(s.y-10), 36, 12);
       ctx.globalAlpha = 1;
       return;
     }
-    shadow(s.x, s.y, 11, 0.32);
+    shadow(s.x, s.y, 19, 0.34);
 
     /* 버프 오라 */
     if(p.buffs.length){
       worldMode();
-      ctx.globalAlpha = 0.28 + Math.sin(W.time*6)*0.08;
+      ctx.globalAlpha = 0.3 + Math.sin(W.time*6)*0.08;
       ctx.strokeStyle = EL_COLOR[p.buffs[p.buffs.length-1].el] || '#ffd76a';
-      ctx.lineWidth = 2.5;
-      ctx.beginPath(); ctx.arc(p.x, p.y, 20, 0, 6.2832); ctx.stroke();
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 38, 0, 6.2832); ctx.stroke();
       ctx.globalAlpha = 1;
       endWorld();
     }
     if(p.shield > 0){
-      ctx.globalAlpha = 0.35;
+      ctx.globalAlpha = 0.32;
       ctx.strokeStyle = '#a8e0ff'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.ellipse(s.x, s.y - 20, 18, 26, 0, 0, 6.2832); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(s.x, s.y - 44, 34, 52, 0, 0, 6.2832); ctx.stroke();
       ctx.globalAlpha = 1;
     }
 
-    var el = null;
-    var w = Engine.weaponOf(p);
-    if(w === 'staff'){
-      var J = p.job2 ? JOB2_DB[p.job2] : null;
-      el = J ? (J.name === '화염법사' ? EL_COLOR.fire : J.name === '냉기법사' ? EL_COLOR.ice :
-                J.name === '전격법사' ? EL_COLOR.lightning : EL_COLOR.holy) : EL_COLOR.magic;
+    var art = Engine.artOf(p);
+    var sp = Assets.forArt('hero', art);
+    var flash = p.hitFlash > 0 ? p.hitFlash : 0;
+    var blink = (p.invuln > 0 && Math.floor(W.time*20) % 2) ? 0.5 : undefined;
+
+    if(sp){
+      /* 공격 중에는 조준 방향으로 살짝 내지르는 연출 */
+      var lunge = 0;
+      if(p.anim === 'atk') lunge = Math.max(0, 1 - p.animT / 0.24) * 9;
+      var px = s.x + Math.cos(p.aim) * lunge - Math.sin(p.aim) * 0;
+      var lx = (Math.cos(p.aim) - Math.sin(p.aim)) * lunge;         /* 화면 기준 이동 */
+      var ly = (Math.cos(p.aim) + Math.sin(p.aim)) * lunge * 0.5;
+      var bob = p.anim === 'walk' ? Math.sin(p.animT * 2.4) * 2 : 0;
+      var frame = Math.floor(W.time * 1000 / sp.dur) % sp.frames;
+      drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink);
+    }else{
+      var img = SP.unit(Engine.lookOf(p), Engine.weaponOf(p), 'humanoid', p.dir, p.anim, p.frame);
+      drawUnitSprite(img, s, p.flip, 1, flash);
     }
-    var img = SP.unit(Engine.lookOf(p), w, 'humanoid', p.dir, p.anim, p.frame, el);
-    var flash = p.hitFlash > 0 ? p.hitFlash : (p.invuln > 0 && Math.floor(W.time*20)%2 ? 0.06 : 0);
-    drawUnitSprite(img, s, p.flip, 1, flash);
   }
 
   function drawShot(sh){
     var s = w2s(sh.x, sh.y);
     var col = EL_COLOR[sh.el] || '#fff';
-    var r = sh.radius ? Math.max(6, sh.radius * 0.34) : (sh.basic ? 4 : 5);
+    var r = sh.radius ? Math.max(11, sh.radius * 0.34) : (sh.basic ? 8 : 10);
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     ctx.globalAlpha = 0.85;
     ctx.fillStyle = col;
-    ctx.beginPath(); ctx.ellipse(s.x, s.y - 10, r*1.5, r, 0, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(s.x, s.y - 30, r*1.5, r, 0, 0, 6.2832); ctx.fill();
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#fff';
-    ctx.beginPath(); ctx.ellipse(s.x, s.y - 10, r*0.6, r*0.42, 0, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(s.x, s.y - 30, r*0.6, r*0.42, 0, 0, 6.2832); ctx.fill();
     ctx.restore();
     /* 꼬리 */
     ctx.globalAlpha = 0.4;
     ctx.strokeStyle = col; ctx.lineWidth = r * 0.9;
     ctx.beginPath();
-    ctx.moveTo(s.x, s.y - 10);
+    ctx.moveTo(s.x, s.y - 30);
     var t = w2s(sh.x - sh.vx*0.04, sh.y - sh.vy*0.04);
-    ctx.lineTo(t.x, t.y - 10);
+    ctx.lineTo(t.x, t.y - 30);
     ctx.stroke();
     ctx.globalAlpha = 1;
   }
@@ -332,14 +375,34 @@ var Render = (function(){
     var s = w2s(o.x, o.y);
     var bob = Math.sin(o.t * 5) * 3;
     var col = o.kind === 'hp' ? '#ff6a7a' : '#6ab6ff';
-    shadow(s.x, s.y, 5, 0.25);
+    shadow(s.x, s.y, 9, 0.25);
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     ctx.fillStyle = col;
-    ctx.beginPath(); ctx.arc(s.x, s.y - 8 + bob, 5, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(s.x, s.y - 14 + bob, 9, 0, 6.2832); ctx.fill();
     ctx.fillStyle = '#fff';
-    ctx.beginPath(); ctx.arc(s.x - 1, s.y - 9 + bob, 1.6, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(s.x - 2, s.y - 16 + bob, 3, 0, 6.2832); ctx.fill();
     ctx.restore();
+  }
+
+  /* ---------- 스프라이트 시트 이펙트 ----------------------- */
+  function drawArtFx(W){
+    for(var i = 0; i < W.fx.length; i++){
+      var f = W.fx[i];
+      if(f.type !== 'art') continue;
+      var sp = Assets.get('fx', f.sheet);
+      if(!sp) continue;
+      var fr = Math.min(sp.frames - 1, Math.floor(f.t / f.dur * sp.frames));
+      var s = w2s(f.x, f.y);
+      var k = f.size / sp.fw;
+      var dw = sp.fw * k, dh = sp.fh * k;
+      ctx.save();
+      ctx.globalAlpha = 0.92;
+      /* 이펙트는 바닥에 붙어 위로 터지는 그림이라 아래쪽 가운데를 기준점으로 둔다 */
+      ctx.drawImage(sp.img, fr * sp.fw, 0, sp.fw, sp.fh,
+                    Math.round(s.x - dw/2), Math.round(s.y - dh * 0.86), dw, dh);
+      ctx.restore();
+    }
   }
 
   /* ---------- 공중/전면 이펙트 ---------------------------- */
@@ -357,7 +420,7 @@ var Render = (function(){
         ctx.strokeStyle = f.col; ctx.lineWidth = 2;
         for(j = 0; j < 4; j++){
           var a = j * 1.57 + k * 1.2;
-          var r0 = 3 + k*8, r1 = 8 + k*12;
+          var r0 = 6 + k*16, r1 = 16 + k*24;
           ctx.beginPath();
           ctx.moveTo(s.x + Math.cos(a)*r0, s.y + Math.sin(a)*r0*0.6);
           ctx.lineTo(s.x + Math.cos(a)*r1, s.y + Math.sin(a)*r1*0.6);
@@ -422,7 +485,7 @@ var Render = (function(){
 
   /* 화면 밖의 적을 가장자리 화살표로 알려준다 */
   function drawOffscreen(W){
-    var pad = 16, shown = 0;
+    var pad = 26, shown = 0;
     for(var i = 0; i < W.mobs.length && shown < 18; i++){
       var m = W.mobs[i];
       if(m.dead) continue;
@@ -441,7 +504,7 @@ var Render = (function(){
       ctx.globalAlpha = 0.75;
       ctx.fillStyle = m.boss ? '#ff5a5a' : '#ffd76a';
       ctx.beginPath();
-      ctx.moveTo(6, 0); ctx.lineTo(-5, -4); ctx.lineTo(-5, 4);
+      ctx.moveTo(11, 0); ctx.lineTo(-9, -7); ctx.lineTo(-9, 7);
       ctx.closePath(); ctx.fill();
       ctx.restore();
       shown++;
@@ -463,8 +526,8 @@ var Render = (function(){
       var k = t.t / t.dur;
       var big = t.kind === 'crit';
       ctx.globalAlpha = k > 0.7 ? (1 - k) / 0.3 : 1;
-      ctx.font = 'bold ' + (big ? 15 : 11) + 'px "Courier New", monospace';
-      ctx.lineWidth = 3;
+      ctx.font = 'bold ' + (big ? 22 : 16) + 'px "Courier New", monospace';
+      ctx.lineWidth = 4;
       ctx.strokeStyle = 'rgba(0,0,0,0.85)';
       var str = (t.kind === 'heal' ? '+' : '') + t.v;
       ctx.strokeText(str, s.x, s.y);
@@ -482,8 +545,8 @@ var Render = (function(){
     worldMode();
     ctx.globalAlpha = 0.55;
     ctx.strokeStyle = '#ffe9a8'; ctx.lineWidth = 1.6;
-    ctx.beginPath(); ctx.arc(a.x, a.y, 10, 0, 6.2832); ctx.stroke();
-    ctx.beginPath(); ctx.arc(a.x, a.y, 3, 0, 6.2832); ctx.stroke();
+    ctx.beginPath(); ctx.arc(a.x, a.y, 20, 0, 6.2832); ctx.stroke();
+    ctx.beginPath(); ctx.arc(a.x, a.y, 6, 0, 6.2832); ctx.stroke();
     /* 시전 예정 지점 미리보기 */
     if(ui.preview){
       ctx.globalAlpha = 0.3;
@@ -505,17 +568,17 @@ var Render = (function(){
   function drawBossBar(W){
     var b = W.boss;
     if(!b || b.dead) return;
-    var w = Math.min(360, VW - 60), x = (VW - w)/2, y = 14;
+    var w = Math.min(520, VW - 80), x = (VW - w)/2, y = 18;
     ctx.fillStyle = 'rgba(0,0,0,0.6)';
-    ctx.fillRect(x-2, y-2, w+4, 14);
+    ctx.fillRect(x-3, y-3, w+6, 20);
     ctx.fillStyle = '#3a1416';
-    ctx.fillRect(x, y, w, 10);
+    ctx.fillRect(x, y, w, 14);
     ctx.fillStyle = '#e04a4a';
-    ctx.fillRect(x, y, w * Math.max(0, b.hp/b.maxhp), 10);
-    ctx.font = 'bold 10px "Courier New", monospace';
+    ctx.fillRect(x, y, w * Math.max(0, b.hp/b.maxhp), 14);
+    ctx.font = 'bold 14px "Courier New", monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffd8d8';
-    ctx.fillText(b.name, VW/2, y + 24);
+    ctx.fillText(b.name, VW/2, y + 32);
     ctx.textAlign = 'left';
   }
 

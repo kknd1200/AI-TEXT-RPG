@@ -34,8 +34,17 @@
     <div id="toast"></div>
   </div>
 
+  <!-- ================= 로딩 ================= -->
+  <div id="screenLoad" class="screen">
+    <div class="panel">
+      <h1>쿼터뷰 픽셀 RPG</h1>
+      <p class="sub">스프라이트를 불러오는 중…</p>
+      <div class="bar load"><i id="loadFill"></i><span id="loadTxt">0%</span></div>
+    </div>
+  </div>
+
   <!-- ================= 타이틀 / 직업 선택 ================= -->
-  <div id="screenTitle" class="screen">
+  <div id="screenTitle" class="screen hidden">
     <div class="panel wide">
       <h1>쿼터뷰 픽셀 RPG</h1>
       <p class="sub">WASD 이동 · 좌클릭 기본공격 · 우클릭 지정 스킬 · 1~4 스킬 · 40레벨 2차 전직</p>
@@ -107,6 +116,7 @@
 
 <script src="js/data.js"></script>
 <script src="js/sprites.js"></script>
+<script src="js/assets.js"></script>
 <script src="js/input.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/render.js"></script>

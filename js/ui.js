@@ -23,7 +23,7 @@ var UI = (function(){
      'buffs','waveTxt','killTxt','skillBar','toast','screenTitle','classList','btnStart',
      'btnContinue','screenJob2','job2List','btnJob2','screenSkills','skillList','slotList',
      'skillDetail','btnCloseSkills','screenDeath','deathInfo','btnRevive','screenHelp',
-     'btnCloseHelp','btnReset'].forEach(function(id){ el[id] = $(id); });
+     'btnCloseHelp','btnReset','screenLoad','loadFill','loadTxt'].forEach(function(id){ el[id] = $(id); });
 
     buildClassCards();
 
@@ -40,6 +40,50 @@ var UI = (function(){
     };
   }
 
+  /* 직업 카드용 초상화. 스프라이트 시트를 애니메이션시킨다. */
+  var portraits = [];
+  function heroCanvas(art, look, weapon, targetH){
+    var c = document.createElement('canvas');
+    var sp = Assets.forArt('hero', art);
+    if(sp){
+      var k = targetH / sp.bh;
+      c.width = Math.ceil(sp.bw * k) + 8;
+      c.height = Math.ceil(sp.bh * k) + 8;
+      var x = c.getContext('2d');
+      x.imageSmoothingEnabled = false;
+      portraits.push({ cv: c, ctx: x, sp: sp, k: k });
+      drawPortrait(portraits[portraits.length-1], 0);
+    }else{
+      var pt = Sprites.portrait(look, weapon, 2);
+      c.width = pt.width; c.height = pt.height;
+      c.getContext('2d').drawImage(pt, 0, 0);
+    }
+    return c;
+  }
+  function drawPortrait(p, frame){
+    var sp = p.sp, x = p.ctx, k = p.k;
+    x.clearRect(0, 0, p.cv.width, p.cv.height);
+    x.drawImage(sp.img, (frame % sp.frames) * sp.fw, 0, sp.fw, sp.fh,
+                Math.round(4 - sp.bx * k), Math.round(4 - sp.by * k),
+                Math.round(sp.fw * k), Math.round(sp.fh * k));
+  }
+  /* main 루프에서 매 프레임 호출 */
+  function tickPortraits(ts){
+    if(!portraits.length) return;
+    for(var i = 0; i < portraits.length; i++){
+      var p = portraits[i];
+      if(p.sp.frames < 2) continue;
+      var f = Math.floor(ts / p.sp.dur) % p.sp.frames;
+      if(f !== p.last){ p.last = f; drawPortrait(p, f); }
+    }
+  }
+
+  function setLoading(v){
+    el.loadFill.style.width = Math.round(v * 100) + '%';
+    el.loadTxt.textContent = Math.round(v * 100) + '%';
+  }
+  function hideLoading(){ el.screenLoad.classList.add('hidden'); }
+
   function show(id){ el[id].classList.remove('hidden'); }
   function hide(id){ el[id].classList.add('hidden'); }
   function isOpen(id){ return !el[id].classList.contains('hidden'); }
@@ -52,12 +96,12 @@ var UI = (function(){
   /* ---------- 타이틀 / 직업 선택 --------------------------- */
   function buildClassCards(){
     el.classList.innerHTML = '';
+    portraits.length = 0;
     Object.keys(CLASS_DB).forEach(function(key){
       var C = CLASS_DB[key];
       var d = document.createElement('div');
       d.className = 'card';
-      var pt = Sprites.portrait(C.look, C.weapon, 2);
-      d.appendChild(pt);
+      d.appendChild(heroCanvas(C.art, C.look, C.weapon, 150));
       var b = C.base;
       d.insertAdjacentHTML('beforeend',
         '<div class="nm">' + C.name + '</div>' +
@@ -104,11 +148,12 @@ var UI = (function(){
     pickJob2 = null;
     el.btnJob2.disabled = true;
     el.job2List.innerHTML = '';
+    portraits.length = 0;
     JOB2_CHOICES[cls].forEach(function(id){
       var J = JOB2_DB[id];
       var d = document.createElement('div');
       d.className = 'card';
-      d.appendChild(Sprites.portrait(J.look, J.weapon, 2));
+      d.appendChild(heroCanvas(J.art, J.look, J.weapon, 150));
       var sk = skillsOfJob(id).map(function(s){ return s.icon + ' ' + s.name; }).join(' · ');
       d.insertAdjacentHTML('beforeend',
         '<div class="nm">' + J.name + '</div>' +
@@ -318,6 +363,8 @@ var UI = (function(){
     init: init, showTitle: showTitle, startGame: startGame, showJob2: showJob2,
     openSkills: openSkills, closeSkills: closeSkills, toggleSkills: toggleSkills,
     showDeath: showDeath, toggleHelp: toggleHelp, update: update,
+    setLoading: setLoading, hideLoading: hideLoading, tickPortraits: tickPortraits,
+    buildClassCards: buildClassCards,
     anyModal: anyModal, isOpen: isOpen, hide: hide
   };
 })();

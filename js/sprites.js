@@ -1,6 +1,7 @@
 /* ============================================================
-   픽셀 스프라이트 생성기
-   외부 이미지를 쓰지 않고 전부 코드로 그려서 캔버스에 구워둔다.
+   도형 스프라이트 생성기 — 바닥 타일과 지형지물을 코드로 그려 구워둔다.
+   캐릭터/몬스터는 assets/ 의 픽셀아트를 쓰지만, 에셋을 불러오지 못한
+   환경(file:// 로 연 경우 등)에서는 여기 있는 도형 캐릭터로 대체된다.
    아트 그리드 1칸 = 렌더 픽셀 PS칸 (기본 2) → 확대해도 픽셀이 유지된다.
    ============================================================ */
 var Sprites = (function(){
@@ -261,7 +262,7 @@ var Sprites = (function(){
   }
 
   /* ---------- 바닥 타일 ----------------------------------- */
-  var TW = 64, TH = 32;
+  var TW = 128, TH = 64;
 
   function diamond(x, col){
     x.fillStyle = col;
@@ -286,14 +287,14 @@ var Sprites = (function(){
       else { base = '#4e7a42'; dot = '#5d8c4c'; dot2 = '#436b3a'; }
       diamond(x, base);
       /* 타일 무늬 */
-      var i, n = 14, s = v * 97 + 13;
+      var i, n = 26, s = v * 97 + 13;
       for(i = 0; i < n; i++){
         var a = rnd(s + i*7), b = rnd(s + i*13);
-        var ty = Math.floor(b * (TH-4)) + 2;
-        var half = (1 - Math.abs(ty - TH/2) / (TH/2)) * (TW/2) - 3;
+        var ty = Math.floor(b * (TH-8)) + 4;
+        var half = (1 - Math.abs(ty - TH/2) / (TH/2)) * (TW/2) - 6;
         var tx = Math.floor(TW/2 + (a*2-1) * half);
         x.fillStyle = (i % 3 === 0) ? dot2 : dot;
-        x.fillRect(tx, ty, 2, 2);
+        x.fillRect(tx, ty, 4, 4);
       }
       /* 타일 경계 */
       x.strokeStyle = 'rgba(0,0,0,0.16)';
@@ -308,38 +309,55 @@ var Sprites = (function(){
   function prop(kind){
     var key = 'prop|' + kind;
     if(kind === 'tree'){
-      return bake(key, 48, 72, function(x){
-        px(x, 10, 24, 4, 12, '#5a3f28');              /* 줄기 */
-        px(x, 11, 24, 1, 12, '#7a5a38');
-        px(x, 6, 12, 12, 12, '#2f6b34');              /* 잎 */
-        px(x, 7, 8, 10, 6, '#3a7c3c');
-        px(x, 9, 5, 6, 4, '#46903f');
-        px(x, 8, 10, 3, 3, '#57a84a');
-        px(x, 6, 34, 12, 2, 'rgba(0,0,0,0.25)');
+      return bake(key, 60, 96, function(x){
+        px(x, 12, 26, 5, 16, '#4a3220');                /* 줄기 */
+        px(x, 13, 26, 2, 16, '#6b4a2c');
+        px(x, 11, 40, 7, 2, '#3a2818');
+        px(x, 5, 12, 19, 15, '#2b5f30');                /* 잎 아래단 */
+        px(x, 7, 7, 15, 8, '#356e37');
+        px(x, 9, 3, 11, 6, '#3f8340');
+        px(x, 11, 1, 7, 4, '#4b9647');
+        px(x, 8, 9, 4, 3, '#5aa851');                   /* 하이라이트 */
+        px(x, 15, 5, 3, 2, '#5aa851');
+        px(x, 6, 18, 4, 3, '#20492a');                  /* 그늘 */
+        px(x, 17, 20, 5, 3, '#20492a');
       });
     }
     if(kind === 'rock'){
-      return bake(key, 44, 40, function(x){
-        px(x, 5, 12, 12, 7, '#7a7a82');
-        px(x, 6, 9, 9, 4, '#8e8e96');
-        px(x, 7, 10, 4, 2, '#a4a4ac');
-        px(x, 5, 18, 12, 2, '#5a5a62');
+      return bake(key, 56, 48, function(x){
+        px(x, 4, 12, 18, 8, '#6f6f78');
+        px(x, 6, 8, 13, 5, '#82828c');
+        px(x, 8, 9, 6, 2, '#9a9aa4');
+        px(x, 4, 19, 18, 3, '#4e4e58');
+        px(x, 10, 13, 3, 4, '#5c5c66');
+      });
+    }
+    if(kind === 'bush'){
+      return bake(key, 48, 40, function(x){
+        px(x, 4, 10, 15, 8, '#2f6134');
+        px(x, 6, 7, 11, 4, '#3a7a3c');
+        px(x, 8, 8, 4, 2, '#4c9349');
+        px(x, 4, 17, 15, 2, '#20492a');
       });
     }
     if(kind === 'crystal'){
-      return bake(key, 40, 56, function(x){
-        px(x, 9, 10, 3, 12, '#7fd8ff');
-        px(x, 8, 13, 5, 7, '#a8e8ff');
-        px(x, 10, 6, 1, 6, '#e8faff');
-        px(x, 6, 21, 9, 2, 'rgba(0,0,0,0.25)');
+      return bake(key, 48, 72, function(x){
+        px(x, 10, 8, 4, 18, '#5aa8d8');
+        px(x, 9, 12, 6, 12, '#7fd8ff');
+        px(x, 11, 4, 2, 9, '#d8f4ff');
+        px(x, 15, 16, 3, 9, '#4a90c0');
+        px(x, 7, 19, 2, 6, '#4a90c0');
+        px(x, 7, 25, 10, 2, 'rgba(0,0,0,0.3)');
       });
     }
     /* torch */
-    return bake(key, 32, 56, function(x){
-      px(x, 7, 10, 2, 12, '#6a4a2a');
-      px(x, 6, 6, 4, 5, '#ff8a2a');
-      px(x, 7, 4, 2, 3, '#ffd23a');
-      px(x, 5, 21, 6, 2, 'rgba(0,0,0,0.25)');
+    return bake(key, 36, 64, function(x){
+      px(x, 8, 12, 3, 16, '#5a3a20');
+      px(x, 9, 12, 1, 16, '#7a5230');
+      px(x, 7, 6, 5, 6, '#ff8a2a');
+      px(x, 8, 3, 3, 5, '#ffc23a');
+      px(x, 9, 2, 1, 3, '#fff0a0');
+      px(x, 6, 27, 7, 2, 'rgba(0,0,0,0.3)');
     });
   }
 
