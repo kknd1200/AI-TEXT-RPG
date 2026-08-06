@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="dark">
+<title>쿼터뷰 픽셀 RPG</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game"></canvas>
+
+  <!-- ================= HUD ================= -->
+  <div id="hud" class="hidden">
+    <div id="statPanel">
+      <div class="statTop">
+        <span id="jobName">기사</span>
+        <span id="lvBadge">Lv.1</span>
+      </div>
+      <div class="bar hp"><i id="hpFill"></i><span id="hpTxt">0 / 0</span></div>
+      <div class="bar mp"><i id="mpFill"></i><span id="mpTxt">0 / 0</span></div>
+      <div class="bar xp"><i id="xpFill"></i><span id="xpTxt">EXP</span></div>
+      <div id="buffs"></div>
+    </div>
+
+    <div id="wavePanel">
+      <div id="waveTxt">WAVE 1</div>
+      <div id="killTxt">처치 0</div>
+      <div class="hint">[K] 스킬창 &nbsp; [ESC] 도움말</div>
+    </div>
+
+    <div id="skillBar"></div>
+    <div id="toast"></div>
+  </div>
+
+  <!-- ================= 타이틀 / 직업 선택 ================= -->
+  <div id="screenTitle" class="screen">
+    <div class="panel wide">
+      <h1>쿼터뷰 픽셀 RPG</h1>
+      <p class="sub">WASD 이동 · 좌클릭 기본공격 · 우클릭 지정 스킬 · 1~4 스킬 · 40레벨 2차 전직</p>
+      <div id="classList" class="cards"></div>
+      <div class="btnRow">
+        <button id="btnStart" class="big" disabled>선택한 직업으로 시작</button>
+        <button id="btnContinue" class="ghost hidden">이어하기</button>
+      </div>
+      <p class="foot">저장은 브라우저에 자동으로 이루어진다.</p>
+    </div>
+  </div>
+
+  <!-- ================= 2차 전직 ================= -->
+  <div id="screenJob2" class="screen hidden">
+    <div class="panel wide">
+      <h2>2차 전직 — 40레벨 달성</h2>
+      <p class="sub">한 번 선택하면 되돌릴 수 없다. 무기와 스킬이 전부 바뀐다.</p>
+      <div id="job2List" class="cards"></div>
+      <div class="btnRow"><button id="btnJob2" class="big" disabled>전직하기</button></div>
+    </div>
+  </div>
+
+  <!-- ================= 스킬창 ================= -->
+  <div id="screenSkills" class="screen hidden">
+    <div class="panel wide">
+      <h2>스킬 등록</h2>
+      <p class="sub">스킬을 고른 뒤 아래 슬롯을 누르면 등록된다. (우클릭 슬롯 포함)</p>
+      <div class="skillCols">
+        <div id="skillList" class="skillList"></div>
+        <div class="slotSide">
+          <div class="slotTitle">슬롯</div>
+          <div id="slotList" class="slotList"></div>
+          <div id="skillDetail" class="detail">스킬을 선택하면 설명이 표시된다.</div>
+        </div>
+      </div>
+      <div class="btnRow"><button id="btnCloseSkills" class="big">닫기 (K)</button></div>
+    </div>
+  </div>
+
+  <!-- ================= 사망 ================= -->
+  <div id="screenDeath" class="screen hidden">
+    <div class="panel">
+      <h2 class="danger">쓰러졌다</h2>
+      <p class="sub" id="deathInfo"></p>
+      <div class="btnRow"><button id="btnRevive" class="big">부활하기</button></div>
+    </div>
+  </div>
+
+  <!-- ================= 도움말 ================= -->
+  <div id="screenHelp" class="screen hidden">
+    <div class="panel">
+      <h2>조작 방법</h2>
+      <table class="keys">
+        <tr><td>W A S D</td><td>이동 (화면 기준 상하좌우)</td></tr>
+        <tr><td>마우스 좌클릭</td><td>기본 공격 (누르고 있으면 연속)</td></tr>
+        <tr><td>마우스 우클릭</td><td>지정한 스킬 사용</td></tr>
+        <tr><td>1 2 3 4</td><td>등록한 스킬 사용</td></tr>
+        <tr><td>K</td><td>스킬 등록 창</td></tr>
+        <tr><td>ESC</td><td>도움말 / 닫기</td></tr>
+        <tr><td>P</td><td>일시정지</td></tr>
+      </table>
+      <div class="btnRow">
+        <button id="btnCloseHelp" class="big">닫기</button>
+        <button id="btnReset" class="ghost">처음부터 다시</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/input.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
