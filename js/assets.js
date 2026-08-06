@@ -19,11 +19,16 @@ var Assets = (function(){
      실패하면 ready=false 로 두고 렌더러가 도형 스프라이트로 대체한다. */
   function load(base, onProgress){
     base = base || 'assets/';
-    return fetch(base + 'manifest.json')
-      .then(function(r){
-        if(!r.ok) throw new Error('manifest ' + r.status);
-        return r.json();
-      })
+    /* 단일 파일 빌드는 그림이 data URI 로 함께 들어 있다 (tools/build-single.js) */
+    var bundle = window.__ASSET_BUNDLE__;
+    var head = bundle
+      ? Promise.resolve(bundle.manifest)
+      : fetch(base + 'manifest.json').then(function(r){
+          if(!r.ok) throw new Error('manifest ' + r.status);
+          return r.json();
+        });
+    if(bundle) base = '';
+    return head
       .then(function(json){
         man = json;
         var list = [];
@@ -39,7 +44,7 @@ var Assets = (function(){
               if(onProgress) onProgress(loaded, total);
               res();
             };
-            img.src = base + it.def.file;
+            img.src = bundle ? bundle.files[it.def.file] : base + it.def.file;
             imgs[key(it.kind, it.name)] = img;
           });
         }));
