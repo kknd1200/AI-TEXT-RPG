@@ -165,7 +165,7 @@ var Engine = (function(){
       tiles: map.tiles, props: map.props,
       mapW: MAP_W, mapH: MAP_H, tile: TILE, worldW: WORLD_W, worldH: WORLD_H,
       player: makePlayer(cls),
-      mobs: [], shots: [], zones: [], fx: [], texts: [], orbs: [], timers: [],
+      mobs: [], shots: [], zones: [], fx: [], texts: [], orbs: [], timers: [], corpses: [],
       wave: 0, waveState: 'ready', waveT: 2.5, spawnQueue: [], spawnT: 0,
       time: 0, paused: false, boss: null, msg: null, msgT: 0
     };
@@ -223,7 +223,9 @@ var Engine = (function(){
     var out = Math.max(1, Math.round(dmg * mit * rnd(0.94, 1.06)));
 
     m.hp -= out;
-    m.flash = 0.12;
+    m.flash = 0.13;
+    m.hitDir = Math.atan2(m.y - p.y, m.x - p.x);   /* 맞은 방향 = 밀려나는 방향 */
+    m.hitPush = 1;
     m.aggro = 6;
     dmgText(m.x, m.y - m.r - 6, out, crit ? 'crit' : 'dmg');
     fx({ type:'hit', x: m.x, y: m.y - m.r*0.4, col: EL_COLOR[opt.el] || '#fff', dur: 0.22 });
@@ -252,6 +254,8 @@ var Engine = (function(){
     var p = W.player;
     p.kills++;
     addXp(Math.round(m.xp));
+    W.corpses.push({ art: m.art, h: m.h, x: m.x, y: m.y, flip: m.flip,
+                     dir: m.hitDir === undefined ? 0 : m.hitDir, t: 0, dur: 0.5, boss: m.boss });
     fx({ type:'death', x: m.x, y: m.y, col:'#e8e2d0', size: m.r, dur: 0.45 });
     /* 회복 구슬 드랍 */
     if(Math.random() < (m.boss ? 1 : 0.14)){
@@ -306,7 +310,7 @@ var Engine = (function(){
     p.shield = 0; p.buffs.length = 0; p.invuln = 2;
     p.x = WORLD_W/2; p.y = WORLD_H/2;
     p.xp = Math.max(0, Math.round(p.xp * 0.9));
-    W.mobs.length = 0; W.shots.length = 0; W.zones.length = 0;
+    W.mobs.length = 0; W.shots.length = 0; W.zones.length = 0; W.corpses.length = 0;
     W.wave = Math.max(0, W.wave - 1);
     W.waveState = 'ready'; W.waveT = 3;
     say('부활했다. 웨이브를 다시 시작한다.', 2.5);
@@ -610,6 +614,7 @@ var Engine = (function(){
     if(m.stun > 0) m.stun -= dt;
     if(m.freeze > 0) m.freeze -= dt;
     if(m.flash > 0) m.flash -= dt;
+    if(m.hitPush > 0) m.hitPush = Math.max(0, m.hitPush - dt * 6);
     if(m.slow){ m.slow.t -= dt; if(m.slow.t <= 0) m.slow = null; }
     for(var i = m.dots.length - 1; i >= 0; i--){
       var d = m.dots[i];
@@ -995,6 +1000,10 @@ var Engine = (function(){
       t.x += t.vx * dt; t.y += t.vy * dt;
       t.vy += 40 * dt;
       if(t.t >= t.dur) W.texts.splice(i, 1);
+    }
+    for(i = W.corpses.length - 1; i >= 0; i--){
+      W.corpses[i].t += dt;
+      if(W.corpses[i].t >= W.corpses[i].dur) W.corpses.splice(i, 1);
     }
     for(i = W.timers.length - 1; i >= 0; i--){
       W.timers[i].t -= dt;

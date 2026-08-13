@@ -92,6 +92,29 @@ var Assets = (function(){
     return out;
   }
 
+  /* 단색 실루엣 — 피격 순간 흰색으로 번쩍이게 할 때 쓴다.
+     가산 합성은 밝은 그림에서 티가 안 나서, 아예 모양만 남긴 판을 덧그린다. */
+  function silhouette(kind, name, color){
+    var sp = get(kind, name);
+    if(!sp) return null;
+    var ck = 'sil|' + key(kind, name) + '|' + color;
+    if(tintCache[ck]) return tintCache[ck];
+
+    var c = document.createElement('canvas');
+    c.width = sp.img.width; c.height = sp.img.height;
+    var x = c.getContext('2d');
+    x.imageSmoothingEnabled = false;
+    x.drawImage(sp.img, 0, 0);
+    x.globalCompositeOperation = 'source-in';
+    x.fillStyle = color || '#fff';
+    x.fillRect(0, 0, c.width, c.height);
+
+    var out = { img: c, frames: sp.frames, fw: sp.fw, fh: sp.fh, dur: sp.dur,
+                bx: sp.bx, by: sp.by, bw: sp.bw, bh: sp.bh };
+    tintCache[ck] = out;
+    return out;
+  }
+
   /* art 설정({sprite,h,tint,tintAmt})을 그대로 받아 스프라이트를 돌려준다 */
   function forArt(kind, art){
     if(!art) return null;
@@ -99,7 +122,7 @@ var Assets = (function(){
   }
 
   return {
-    load: load, get: get, tinted: tinted, forArt: forArt,
+    load: load, get: get, tinted: tinted, silhouette: silhouette, forArt: forArt,
     get ready(){ return ready; },
     get progress(){ return total ? loaded / total : 0; }
   };

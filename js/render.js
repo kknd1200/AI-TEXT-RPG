@@ -183,6 +183,7 @@ var Render = (function(){
   function drawEntities(W, ui){
     var list = [], i;
     for(i = 0; i < W.props.length; i++) list.push({ d: W.props[i].x + W.props[i].y, kind:'prop', o: W.props[i] });
+    for(i = 0; i < W.corpses.length; i++) list.push({ d: W.corpses[i].x + W.corpses[i].y, kind:'corpse', o: W.corpses[i] });
     for(i = 0; i < W.mobs.length; i++) list.push({ d: W.mobs[i].x + W.mobs[i].y, kind:'mob', o: W.mobs[i] });
     for(i = 0; i < W.orbs.length; i++) list.push({ d: W.orbs[i].x + W.orbs[i].y, kind:'orb', o: W.orbs[i] });
     for(i = 0; i < W.shots.length; i++) list.push({ d: W.shots[i].x + W.shots[i].y, kind:'shot', o: W.shots[i] });
@@ -195,6 +196,7 @@ var Render = (function(){
       else if(e.kind === 'mob') drawMob(e.o);
       else if(e.kind === 'orb') drawOrb(e.o);
       else if(e.kind === 'shot') drawShot(e.o);
+      else if(e.kind === 'corpse') drawCorpse(e.o);
       else drawPlayer(W, e.o);
     }
   }
@@ -218,7 +220,7 @@ var Render = (function(){
 
   /* 스프라이트 시트에서 프레임 하나를 그린다.
      sp = {img, frames, fw, fh, bx, by, bw, bh}, targetH = 화면상 높이 */
-  function drawSprite(sp, frame, sx, sy, targetH, flip, flash, alpha){
+  function drawSprite(sp, frame, sx, sy, targetH, flip, flash, alpha, sil){
     var k = targetH / sp.bh;
     var sxSrc = (frame % sp.frames) * sp.fw;
     var dw = sp.fw * k, dh = sp.fh * k;
@@ -233,9 +235,14 @@ var Render = (function(){
     }
     ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
     if(flash > 0){
-      ctx.globalAlpha = Math.min(0.8, flash * 5);
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+      /* 실루엣이 있으면 흰 판을 덮어 확실히 번쩍이게 한다 */
+      ctx.globalAlpha = Math.min(0.85, flash * 6.5);
+      if(sil){
+        ctx.drawImage(sil.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+      }else{
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+      }
     }
     ctx.restore();
   }
@@ -270,7 +277,17 @@ var Render = (function(){
     if(sp){
       /* 걸을 때 위아래로 살짝 흔든다 (정지 이미지에 생동감을 준다) */
       var bob = m.anim === 'walk' ? Math.sin(m.animT * 3.2) * (m.h * 0.02) : 0;
-      drawSprite(sp, 0, s.x, s.y + bob, m.h, m.flip, m.flash);
+      /* 맞으면 맞은 방향으로 튕겼다가 돌아온다 */
+      var push = m.hitPush || 0, rx = 0, ry = 0;
+      if(push > 0){
+        var kick = Math.sin(push * Math.PI) * (m.boss ? 5 : 11);
+        var cd = Math.cos(m.hitDir || 0), sd = Math.sin(m.hitDir || 0);
+        rx = (cd - sd) * kick;
+        ry = (cd + sd) * 0.5 * kick;
+      }
+      var squash = 1 - Math.sin(push * Math.PI) * 0.07;
+      drawSprite(sp, 0, s.x + rx, s.y + bob + ry, m.h * squash, m.flip, m.flash,
+                 undefined, Assets.silhouette('mob', m.art, '#fff'));
     }else{
       var img = SP.unit({}, 'none', 'humanoid', m.dir, m.anim, m.frame);
       drawUnitSprite(img, s, m.flip, 1, m.flash);
@@ -294,6 +311,25 @@ var Render = (function(){
     if(m.dots.length){
       ctx.fillStyle = m.dots[0].el === 'poison' ? '#8ce35b' : '#ff7b2a';
       ctx.fillRect(Math.round(s.x - bw/2), Math.round(hy) - 5, 4, 4);
+    }
+  }
+
+  /* 쓰러지는 연출 — 흰 섬광 뒤에 맞은 방향으로 밀리며 옅어진다 */
+  function drawCorpse(c){
+    var sp = Assets.get('mob', c.art);
+    if(!sp) return;
+    var k = c.t / c.dur;
+    var s = w2s(c.x, c.y);
+    var cd = Math.cos(c.dir), sd = Math.sin(c.dir);
+    var slide = k * (c.boss ? 6 : 16);
+    var dx = (cd - sd) * slide, dy = (cd + sd) * 0.5 * slide;
+    shadow(s.x + dx, s.y + dy, c.h * 0.2 * (1 - k), 0.3 * (1 - k));
+    if(k < 0.28){
+      drawSprite(sp, 0, s.x + dx, s.y + dy, c.h, c.flip, 1, 1,
+                 Assets.silhouette('mob', c.art, '#fff'));
+    }else{
+      drawSprite(sp, 0, s.x + dx, s.y + dy - k * 10, c.h * (1 - k * 0.15),
+                 c.flip, 0, 1 - (k - 0.28) / 0.72);
     }
   }
 
@@ -340,7 +376,8 @@ var Render = (function(){
       var ly = (Math.cos(p.aim) + Math.sin(p.aim)) * lunge * 0.5;
       var bob = p.anim === 'walk' ? Math.sin(p.animT * 2.4) * 2 : 0;
       var frame = Math.floor(W.time * 1000 / sp.dur) % sp.frames;
-      drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink);
+      drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink,
+                 Assets.silhouette('hero', art.sprite, '#ff6a6a'));
     }else{
       var img = SP.unit(Engine.lookOf(p), Engine.weaponOf(p), 'humanoid', p.dir, p.anim, p.frame);
       drawUnitSprite(img, s, p.flip, 1, flash);

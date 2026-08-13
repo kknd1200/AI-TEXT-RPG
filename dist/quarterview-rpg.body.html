@@ -1211,6 +1211,29 @@ var Assets = (function(){
     return out;
   }
 
+  /* 단색 실루엣 — 피격 순간 흰색으로 번쩍이게 할 때 쓴다.
+     가산 합성은 밝은 그림에서 티가 안 나서, 아예 모양만 남긴 판을 덧그린다. */
+  function silhouette(kind, name, color){
+    var sp = get(kind, name);
+    if(!sp) return null;
+    var ck = 'sil|' + key(kind, name) + '|' + color;
+    if(tintCache[ck]) return tintCache[ck];
+
+    var c = document.createElement('canvas');
+    c.width = sp.img.width; c.height = sp.img.height;
+    var x = c.getContext('2d');
+    x.imageSmoothingEnabled = false;
+    x.drawImage(sp.img, 0, 0);
+    x.globalCompositeOperation = 'source-in';
+    x.fillStyle = color || '#fff';
+    x.fillRect(0, 0, c.width, c.height);
+
+    var out = { img: c, frames: sp.frames, fw: sp.fw, fh: sp.fh, dur: sp.dur,
+                bx: sp.bx, by: sp.by, bw: sp.bw, bh: sp.bh };
+    tintCache[ck] = out;
+    return out;
+  }
+
   /* art 설정({sprite,h,tint,tintAmt})을 그대로 받아 스프라이트를 돌려준다 */
   function forArt(kind, art){
     if(!art) return null;
@@ -1218,7 +1241,7 @@ var Assets = (function(){
   }
 
   return {
-    load: load, get: get, tinted: tinted, forArt: forArt,
+    load: load, get: get, tinted: tinted, silhouette: silhouette, forArt: forArt,
     get ready(){ return ready; },
     get progress(){ return total ? loaded / total : 0; }
   };
@@ -1476,7 +1499,7 @@ var Engine = (function(){
       tiles: map.tiles, props: map.props,
       mapW: MAP_W, mapH: MAP_H, tile: TILE, worldW: WORLD_W, worldH: WORLD_H,
       player: makePlayer(cls),
-      mobs: [], shots: [], zones: [], fx: [], texts: [], orbs: [], timers: [],
+      mobs: [], shots: [], zones: [], fx: [], texts: [], orbs: [], timers: [], corpses: [],
       wave: 0, waveState: 'ready', waveT: 2.5, spawnQueue: [], spawnT: 0,
       time: 0, paused: false, boss: null, msg: null, msgT: 0
     };
@@ -1534,7 +1557,9 @@ var Engine = (function(){
     var out = Math.max(1, Math.round(dmg * mit * rnd(0.94, 1.06)));
 
     m.hp -= out;
-    m.flash = 0.12;
+    m.flash = 0.13;
+    m.hitDir = Math.atan2(m.y - p.y, m.x - p.x);   /* 맞은 방향 = 밀려나는 방향 */
+    m.hitPush = 1;
     m.aggro = 6;
     dmgText(m.x, m.y - m.r - 6, out, crit ? 'crit' : 'dmg');
     fx({ type:'hit', x: m.x, y: m.y - m.r*0.4, col: EL_COLOR[opt.el] || '#fff', dur: 0.22 });
@@ -1563,6 +1588,8 @@ var Engine = (function(){
     var p = W.player;
     p.kills++;
     addXp(Math.round(m.xp));
+    W.corpses.push({ art: m.art, h: m.h, x: m.x, y: m.y, flip: m.flip,
+                     dir: m.hitDir === undefined ? 0 : m.hitDir, t: 0, dur: 0.5, boss: m.boss });
     fx({ type:'death', x: m.x, y: m.y, col:'#e8e2d0', size: m.r, dur: 0.45 });
     /* 회복 구슬 드랍 */
     if(Math.random() < (m.boss ? 1 : 0.14)){
@@ -1617,7 +1644,7 @@ var Engine = (function(){
     p.shield = 0; p.buffs.length = 0; p.invuln = 2;
     p.x = WORLD_W/2; p.y = WORLD_H/2;
     p.xp = Math.max(0, Math.round(p.xp * 0.9));
-    W.mobs.length = 0; W.shots.length = 0; W.zones.length = 0;
+    W.mobs.length = 0; W.shots.length = 0; W.zones.length = 0; W.corpses.length = 0;
     W.wave = Math.max(0, W.wave - 1);
     W.waveState = 'ready'; W.waveT = 3;
     say('부활했다. 웨이브를 다시 시작한다.', 2.5);
@@ -1921,6 +1948,7 @@ var Engine = (function(){
     if(m.stun > 0) m.stun -= dt;
     if(m.freeze > 0) m.freeze -= dt;
     if(m.flash > 0) m.flash -= dt;
+    if(m.hitPush > 0) m.hitPush = Math.max(0, m.hitPush - dt * 6);
     if(m.slow){ m.slow.t -= dt; if(m.slow.t <= 0) m.slow = null; }
     for(var i = m.dots.length - 1; i >= 0; i--){
       var d = m.dots[i];
@@ -2307,6 +2335,10 @@ var Engine = (function(){
       t.vy += 40 * dt;
       if(t.t >= t.dur) W.texts.splice(i, 1);
     }
+    for(i = W.corpses.length - 1; i >= 0; i--){
+      W.corpses[i].t += dt;
+      if(W.corpses[i].t >= W.corpses[i].dur) W.corpses.splice(i, 1);
+    }
     for(i = W.timers.length - 1; i >= 0; i--){
       W.timers[i].t -= dt;
       if(W.timers[i].t <= 0){ var fn = W.timers[i].fn; W.timers.splice(i, 1); fn(); }
@@ -2527,6 +2559,7 @@ var Render = (function(){
   function drawEntities(W, ui){
     var list = [], i;
     for(i = 0; i < W.props.length; i++) list.push({ d: W.props[i].x + W.props[i].y, kind:'prop', o: W.props[i] });
+    for(i = 0; i < W.corpses.length; i++) list.push({ d: W.corpses[i].x + W.corpses[i].y, kind:'corpse', o: W.corpses[i] });
     for(i = 0; i < W.mobs.length; i++) list.push({ d: W.mobs[i].x + W.mobs[i].y, kind:'mob', o: W.mobs[i] });
     for(i = 0; i < W.orbs.length; i++) list.push({ d: W.orbs[i].x + W.orbs[i].y, kind:'orb', o: W.orbs[i] });
     for(i = 0; i < W.shots.length; i++) list.push({ d: W.shots[i].x + W.shots[i].y, kind:'shot', o: W.shots[i] });
@@ -2539,6 +2572,7 @@ var Render = (function(){
       else if(e.kind === 'mob') drawMob(e.o);
       else if(e.kind === 'orb') drawOrb(e.o);
       else if(e.kind === 'shot') drawShot(e.o);
+      else if(e.kind === 'corpse') drawCorpse(e.o);
       else drawPlayer(W, e.o);
     }
   }
@@ -2562,7 +2596,7 @@ var Render = (function(){
 
   /* 스프라이트 시트에서 프레임 하나를 그린다.
      sp = {img, frames, fw, fh, bx, by, bw, bh}, targetH = 화면상 높이 */
-  function drawSprite(sp, frame, sx, sy, targetH, flip, flash, alpha){
+  function drawSprite(sp, frame, sx, sy, targetH, flip, flash, alpha, sil){
     var k = targetH / sp.bh;
     var sxSrc = (frame % sp.frames) * sp.fw;
     var dw = sp.fw * k, dh = sp.fh * k;
@@ -2577,9 +2611,14 @@ var Render = (function(){
     }
     ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
     if(flash > 0){
-      ctx.globalAlpha = Math.min(0.8, flash * 5);
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+      /* 실루엣이 있으면 흰 판을 덮어 확실히 번쩍이게 한다 */
+      ctx.globalAlpha = Math.min(0.85, flash * 6.5);
+      if(sil){
+        ctx.drawImage(sil.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+      }else{
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.drawImage(sp.img, sxSrc, 0, sp.fw, sp.fh, Math.round(dx), Math.round(dy), dw, dh);
+      }
     }
     ctx.restore();
   }
@@ -2614,7 +2653,17 @@ var Render = (function(){
     if(sp){
       /* 걸을 때 위아래로 살짝 흔든다 (정지 이미지에 생동감을 준다) */
       var bob = m.anim === 'walk' ? Math.sin(m.animT * 3.2) * (m.h * 0.02) : 0;
-      drawSprite(sp, 0, s.x, s.y + bob, m.h, m.flip, m.flash);
+      /* 맞으면 맞은 방향으로 튕겼다가 돌아온다 */
+      var push = m.hitPush || 0, rx = 0, ry = 0;
+      if(push > 0){
+        var kick = Math.sin(push * Math.PI) * (m.boss ? 5 : 11);
+        var cd = Math.cos(m.hitDir || 0), sd = Math.sin(m.hitDir || 0);
+        rx = (cd - sd) * kick;
+        ry = (cd + sd) * 0.5 * kick;
+      }
+      var squash = 1 - Math.sin(push * Math.PI) * 0.07;
+      drawSprite(sp, 0, s.x + rx, s.y + bob + ry, m.h * squash, m.flip, m.flash,
+                 undefined, Assets.silhouette('mob', m.art, '#fff'));
     }else{
       var img = SP.unit({}, 'none', 'humanoid', m.dir, m.anim, m.frame);
       drawUnitSprite(img, s, m.flip, 1, m.flash);
@@ -2638,6 +2687,25 @@ var Render = (function(){
     if(m.dots.length){
       ctx.fillStyle = m.dots[0].el === 'poison' ? '#8ce35b' : '#ff7b2a';
       ctx.fillRect(Math.round(s.x - bw/2), Math.round(hy) - 5, 4, 4);
+    }
+  }
+
+  /* 쓰러지는 연출 — 흰 섬광 뒤에 맞은 방향으로 밀리며 옅어진다 */
+  function drawCorpse(c){
+    var sp = Assets.get('mob', c.art);
+    if(!sp) return;
+    var k = c.t / c.dur;
+    var s = w2s(c.x, c.y);
+    var cd = Math.cos(c.dir), sd = Math.sin(c.dir);
+    var slide = k * (c.boss ? 6 : 16);
+    var dx = (cd - sd) * slide, dy = (cd + sd) * 0.5 * slide;
+    shadow(s.x + dx, s.y + dy, c.h * 0.2 * (1 - k), 0.3 * (1 - k));
+    if(k < 0.28){
+      drawSprite(sp, 0, s.x + dx, s.y + dy, c.h, c.flip, 1, 1,
+                 Assets.silhouette('mob', c.art, '#fff'));
+    }else{
+      drawSprite(sp, 0, s.x + dx, s.y + dy - k * 10, c.h * (1 - k * 0.15),
+                 c.flip, 0, 1 - (k - 0.28) / 0.72);
     }
   }
 
@@ -2684,7 +2752,8 @@ var Render = (function(){
       var ly = (Math.cos(p.aim) + Math.sin(p.aim)) * lunge * 0.5;
       var bob = p.anim === 'walk' ? Math.sin(p.animT * 2.4) * 2 : 0;
       var frame = Math.floor(W.time * 1000 / sp.dur) % sp.frames;
-      drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink);
+      drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink,
+                 Assets.silhouette('hero', art.sprite, '#ff6a6a'));
     }else{
       var img = SP.unit(Engine.lookOf(p), Engine.weaponOf(p), 'humanoid', p.dir, p.anim, p.frame);
       drawUnitSprite(img, s, p.flip, 1, flash);
