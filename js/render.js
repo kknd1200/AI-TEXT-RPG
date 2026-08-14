@@ -367,21 +367,27 @@ var Render = (function(){
     }
 
     var art = Engine.artOf(p);
-    var sp = Assets.forArt('hero', art);
+    var swinging = p.anim === 'atk';
+    /* 공격 모션 시트가 있는 직업은 그걸 재생한다 */
+    var atkSp = swinging ? Assets.forArt('heroatk', art) : null;
+    var sp = atkSp || Assets.forArt('hero', art);
     var flash = p.hitFlash > 0 ? p.hitFlash : 0;
     var blink = (p.invuln > 0 && Math.floor(W.time*20) % 2) ? 0.5 : undefined;
 
     if(sp){
-      /* 공격 중에는 조준 방향으로 살짝 내지르는 연출 */
-      var lunge = 0;
-      if(p.anim === 'atk') lunge = Math.max(0, 1 - p.animT / 0.24) * 9;
-      var px = s.x + Math.cos(p.aim) * lunge - Math.sin(p.aim) * 0;
-      var lx = (Math.cos(p.aim) - Math.sin(p.aim)) * lunge;         /* 화면 기준 이동 */
-      var ly = (Math.cos(p.aim) + Math.sin(p.aim)) * lunge * 0.5;
+      var frame, lx = 0, ly = 0;
+      if(atkSp){
+        frame = Math.min(atkSp.frames - 1, Math.floor(p.animT / p.atkDur * atkSp.frames));
+      }else{
+        /* 전용 모션이 없으면 조준 방향으로 내지르는 연출로 대신한다 */
+        var lunge = swinging ? Math.sin(Math.min(1, p.animT / p.atkDur) * Math.PI) * 12 : 0;
+        lx = (Math.cos(p.aim) - Math.sin(p.aim)) * lunge;         /* 화면 기준 이동 */
+        ly = (Math.cos(p.aim) + Math.sin(p.aim)) * lunge * 0.5;
+        frame = Math.floor(W.time * 1000 / sp.dur) % sp.frames;
+      }
       var bob = p.anim === 'walk' ? Math.sin(p.animT * 2.4) * 2 : 0;
-      var frame = Math.floor(W.time * 1000 / sp.dur) % sp.frames;
       drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink,
-                 Assets.silhouette('hero', art.sprite, '#ff6a6a'));
+                 Assets.silhouette(atkSp ? 'heroatk' : 'hero', art.sprite, '#ff6a6a'));
     }else{
       var img = SP.unit(Engine.lookOf(p), Engine.weaponOf(p), 'humanoid', p.dir, p.anim, p.frame);
       drawUnitSprite(img, s, p.flip, 1, flash);

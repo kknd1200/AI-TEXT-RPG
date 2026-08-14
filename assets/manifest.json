@@ -1106,5 +1106,62 @@
    "bw": 73,
    "bh": 72
   }
+ },
+ "heroatk": {
+  "mage": {
+   "file": "heroatk/mage.webp",
+   "frames": 6,
+   "fw": 210,
+   "fh": 162,
+   "dur": 145,
+   "bx": 15,
+   "by": 10,
+   "bw": 139,
+   "bh": 150
+  },
+  "knight": {
+   "file": "heroatk/knight.webp",
+   "frames": 6,
+   "fw": 191,
+   "fh": 175,
+   "dur": 133,
+   "bx": 14,
+   "by": 18,
+   "bw": 177,
+   "bh": 151
+  },
+  "warrior": {
+   "file": "heroatk/warrior.webp",
+   "frames": 6,
+   "fw": 220,
+   "fh": 200,
+   "dur": 138,
+   "bx": 34,
+   "by": 48,
+   "bw": 186,
+   "bh": 152
+  },
+  "priest": {
+   "file": "heroatk/priest.webp",
+   "frames": 6,
+   "fw": 162,
+   "fh": 188,
+   "dur": 135,
+   "bx": 0,
+   "by": 37,
+   "bw": 144,
+   "bh": 151
+  },
+  "archer": {
+   "file": "heroatk/archer.webp",
+   "frames": 6,
+   "fw": 180,
+   "fh": 169,
+   "dur": 145,
+   "bx": 0,
+   "by": 17,
+   "bw": 145,
+   "bh": 152
+  }
  }
 }

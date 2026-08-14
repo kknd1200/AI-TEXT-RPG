@@ -130,7 +130,7 @@ var Engine = (function(){
       hp: 1, mp: 1, shield: 0,
       buffs: [], cds: {}, atkCd: 0,
       slots: { 1:null, 2:null, 3:null, 4:null, R:null },
-      dash: null, invuln: 0, hitFlash: 0, dead: false,
+      dash: null, invuln: 0, hitFlash: 0, dead: false, atkDur: 0.3,
       kills: 0
     };
     recalc(p);
@@ -389,7 +389,7 @@ var Engine = (function(){
                        artFx(s.fx, p.x, p.y, 190, 0.5); break;
       case 'aura':     castAura(p, s, dmg, opt); break;
     }
-    p.anim = 'atk'; p.animT = 0; p.frame = 0;
+    p.anim = 'atk'; p.animT = 0; p.frame = 0; p.atkDur = 0.42;
     return true;
   }
 
@@ -852,8 +852,8 @@ var Engine = (function(){
     var moving = !!(wx || wy);
     if(p.anim === 'atk'){
       p.animT += dt;
-      p.frame = p.animT < 0.09 ? 0 : 1;
-      if(p.animT > 0.24) p.anim = moving ? 'walk' : 'idle';
+      p.frame = p.animT < p.atkDur * 0.35 ? 0 : 1;
+      if(p.animT >= p.atkDur) p.anim = moving ? 'walk' : 'idle';
     }else{
       p.anim = moving ? 'walk' : 'idle';
       p.animT += dt * (moving ? 7 : 3);
@@ -876,6 +876,7 @@ var Engine = (function(){
     var aspd = 1 + mods(p).aspd;
     p.atkCd = w.cd / aspd;
     p.anim = 'atk'; p.animT = 0; p.frame = 0;
+    p.atkDur = Math.max(0.24, Math.min(0.5, p.atkCd * 0.92));
     var ang = Math.atan2(aim.y - p.y, aim.x - p.x);
     p.aim = ang;
     var dmg = (w.base === 'matk' ? stat(p, 'matk') : stat(p, 'atk')) * w.coef;

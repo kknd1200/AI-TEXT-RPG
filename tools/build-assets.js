@@ -45,6 +45,11 @@ const FX = {
   d_21:'dome_white',   d_22:'water_burst',  d_23:'dust_ground',  d_24:'heal_burst',
   d_25:'slash_gold',   d_26:'crescent_gold',d_27:'arrow_rain'
 };
+/* 직업 공격 모션 (원본의 512px 공격 GIF) — 이미 오른쪽을 보고 있어 반전하지 않는다 */
+const HERO_ATK = {
+  knight_2:'knight', mage_2:'mage', archer_2:'archer',
+  priest_2:'priest', warrior_2:'warrior'
+};
 const HERO_H = 150;                  /* 대형 PNG 를 줄일 높이 */
 
 /* 공격 GIF 폴더가 있으면 몬스터 목록과 이름이 겹치는 것만 골라 담는다 */
@@ -72,6 +77,7 @@ while((m = re.exec(html)) !== null){
   if(ext === 'gif' && HERO[key] && seen[key] === 1){ kind = 'hero'; name = HERO[key]; }
   else if(ext === 'png' && HERO[key] && seen[key] === 1){ kind = 'hero'; name = HERO[key]; }
   else if(ext === 'png' && MOB.indexOf(key) >= 0 && seen[key] === 1 && !atkKeys[key]){ kind = 'mob'; name = key; }
+  else if(ext === 'gif' && HERO_ATK[uniq]){ kind = 'heroatk'; name = HERO_ATK[uniq]; }
   else if(ext === 'webp' && FX[uniq]){ kind = 'fx'; name = FX[uniq]; }
   if(kind) items.push({ kind, name, ext, b64 });
 }
@@ -92,8 +98,8 @@ console.log('처리 대상 ' + items.length + '개' + (ATK ? ' (공격모션 ' +
   const page = await browser.newPage();
   await page.goto('http://127.0.0.1:' + port + '/');
 
-  const manifest = { hero: {}, mob: {}, fx: {}, mobatk: {} };
-  ['hero','mob','fx','mobatk'].forEach(function(d){
+  const manifest = { hero: {}, mob: {}, fx: {}, mobatk: {}, heroatk: {} };
+  ['hero','mob','fx','mobatk','heroatk'].forEach(function(d){
     fs.mkdirSync(path.join(OUT, d), { recursive: true });
   });
 
@@ -224,7 +230,9 @@ console.log('처리 대상 ' + items.length + '개' + (ATK ? ' (공격모션 ' +
       return Object.assign({ b64: await toB64(blob), ext: 'png', frames: 1,
                              fw: w, fh: h, dur: 0 }, bb);
     }, { ext: it.ext, b64: it.b64, maxH: HERO_H,
-         byContent: it.kind === 'mobatk', mirror: it.kind === 'mobatk', crop: it.kind === 'mobatk' });
+         byContent: it.kind === 'mobatk' || it.kind === 'heroatk',
+         mirror: it.kind === 'mobatk',
+         crop: it.kind === 'mobatk' || it.kind === 'heroatk' });
 
     const file = it.kind + '/' + it.name + '.' + res.ext;
     fs.writeFileSync(path.join(OUT, file), Buffer.from(res.b64, 'base64'));
@@ -247,7 +255,7 @@ console.log('처리 대상 ' + items.length + '개' + (ATK ? ' (공격모션 ' +
   server.close();
 
   let total = 0;
-  for(const k of ['hero','mob','fx','mobatk'])
+  for(const k of ['hero','mob','fx','mobatk','heroatk'])
     for(const n in manifest[k]) total += fs.statSync(path.join(OUT, manifest[k][n].file)).size;
   console.log('완료 — 합계 ' + Math.round(total/1024) + 'KB');
 })();

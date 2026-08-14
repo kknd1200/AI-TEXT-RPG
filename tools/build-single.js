@@ -24,14 +24,15 @@ function read(p){ return fs.readFileSync(path.join(ROOT, p), 'utf8'); }
 const manifest = JSON.parse(read('assets/manifest.json'));
 const files = {};
 let bytes = 0;
-['hero','mob','fx'].forEach(function(kind){
+for(const kind in manifest){
   for(const name in manifest[kind]){
     const rel = manifest[kind][name].file;
+    if(files[rel]) continue;                    /* 여러 항목이 같은 파일을 가리킬 수 있다 */
     const buf = fs.readFileSync(path.join(ROOT, 'assets', rel));
     bytes += buf.length;
     files[rel] = 'data:' + MIME[rel.split('.').pop()] + ';base64,' + buf.toString('base64');
   }
-});
+}
 
 /* ---- HTML 조립 ---- */
 let html = read('index.html');
