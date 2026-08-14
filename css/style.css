@@ -109,7 +109,8 @@ h2.danger{ color:var(--danger); }
   padding:12px; cursor:pointer; transition:border-color .12s, transform .12s; text-align:center; }
 .card:hover{ border-color:#4a5a74; transform:translateY(-2px); }
 .card.on{ border-color:var(--gold); box-shadow:0 0 0 1px rgba(255,215,106,.3) inset; }
-.card canvas{ image-rendering:pixelated; display:block; margin:0 auto 8px; }
+.card canvas{ image-rendering:pixelated; display:block; margin:0 auto 8px;
+  max-width:100%; height:auto; }
 .card .nm{ font-weight:700; font-size:15px; margin-bottom:4px; }
 .card .wp{ font-size:11px; color:var(--gold); margin-bottom:6px; }
 .card .ds{ font-size:11px; color:var(--dim); line-height:1.55; }

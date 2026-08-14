@@ -51,6 +51,9 @@ const HERO_ATK = {
   priest_2:'priest', warrior_2:'warrior'
 };
 const HERO_H = 150;                  /* 대형 PNG 를 줄일 높이 */
+/* 공격 시트가 있는 직업은 그 시트를 기본 스프라이트로 삼는다 */
+const HERO_ATK_NAMES = {};
+for(const k in HERO_ATK) HERO_ATK_NAMES[HERO_ATK[k]] = true;
 
 /* 공격 GIF 폴더가 있으면 몬스터 목록과 이름이 겹치는 것만 골라 담는다 */
 const atkItems = [], atkKeys = {};
@@ -74,8 +77,8 @@ while((m = re.exec(html)) !== null){
   seen[key] = (seen[key] || 0) + 1;
   const uniq = seen[key] === 1 ? key : key + '_' + seen[key];
   let kind = null, name = null;
-  if(ext === 'gif' && HERO[key] && seen[key] === 1){ kind = 'hero'; name = HERO[key]; }
-  else if(ext === 'png' && HERO[key] && seen[key] === 1){ kind = 'hero'; name = HERO[key]; }
+  if(ext === 'gif' && HERO[key] && seen[key] === 1 && !HERO_ATK_NAMES[HERO[key]]){ kind = 'hero'; name = HERO[key]; }
+  else if(ext === 'png' && HERO[key] && seen[key] === 1 && !HERO_ATK_NAMES[HERO[key]]){ kind = 'hero'; name = HERO[key]; }
   else if(ext === 'png' && MOB.indexOf(key) >= 0 && seen[key] === 1 && !atkKeys[key]){ kind = 'mob'; name = key; }
   else if(ext === 'gif' && HERO_ATK[uniq]){ kind = 'heroatk'; name = HERO_ATK[uniq]; }
   else if(ext === 'webp' && FX[uniq]){ kind = 'fx'; name = FX[uniq]; }
@@ -242,13 +245,17 @@ console.log('처리 대상 ' + items.length + '개' + (ATK ? ' (공격모션 ' +
                 '  ' + Math.round(Buffer.from(res.b64, 'base64').length / 1024) + 'KB');
   }
 
-  /* 공격 시트가 있는 몬스터는 대기 모습도 같은 시트의 첫 프레임을 쓴다.
+  /* 공격 시트가 있으면 대기 모습도 같은 시트의 첫 프레임을 쓴다.
      (파일은 하나만 두고 manifest 에서 1프레임짜리로 가리킨다) */
-  for(const name in manifest.mobatk){
-    const a = manifest.mobatk[name];
-    manifest.mob[name] = { file: a.file, frames: 1, fw: a.fw, fh: a.fh, dur: 0,
-                           bx: a.bx, by: a.by, bw: a.bw, bh: a.bh };
+  function baseFromAtk(dst, src){
+    for(const name in src){
+      const a = src[name];
+      dst[name] = { file: a.file, frames: 1, fw: a.fw, fh: a.fh, dur: 0,
+                    bx: a.bx, by: a.by, bw: a.bw, bh: a.bh };
+    }
   }
+  baseFromAtk(manifest.mob, manifest.mobatk);
+  baseFromAtk(manifest.hero, manifest.heroatk);
 
   fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 1));
   await browser.close();

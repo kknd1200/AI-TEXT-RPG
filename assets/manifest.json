@@ -11,61 +11,6 @@
    "bw": 92,
    "bh": 144
   },
-  "warrior": {
-   "file": "hero/warrior.png",
-   "frames": 5,
-   "fw": 122,
-   "fh": 98,
-   "dur": 160,
-   "bx": 11,
-   "by": 2,
-   "bw": 100,
-   "bh": 94
-  },
-  "archer": {
-   "file": "hero/archer.png",
-   "frames": 5,
-   "fw": 71,
-   "fh": 101,
-   "dur": 160,
-   "bx": 6,
-   "by": 2,
-   "bw": 59,
-   "bh": 97
-  },
-  "mage": {
-   "file": "hero/mage.png",
-   "frames": 5,
-   "fw": 85,
-   "fh": 92,
-   "dur": 160,
-   "bx": 2,
-   "by": 2,
-   "bw": 81,
-   "bh": 88
-  },
-  "priest": {
-   "file": "hero/priest.png",
-   "frames": 5,
-   "fw": 94,
-   "fh": 90,
-   "dur": 160,
-   "bx": 2,
-   "by": 3,
-   "bw": 90,
-   "bh": 85
-  },
-  "knight": {
-   "file": "hero/knight.png",
-   "frames": 5,
-   "fw": 95,
-   "fh": 95,
-   "dur": 160,
-   "bx": 3,
-   "by": 2,
-   "bw": 88,
-   "bh": 91
-  },
   "summoner": {
    "file": "hero/summoner.png",
    "frames": 1,
@@ -98,6 +43,61 @@
    "by": 0,
    "bw": 91,
    "bh": 143
+  },
+  "mage": {
+   "file": "heroatk/mage.webp",
+   "frames": 1,
+   "fw": 210,
+   "fh": 162,
+   "dur": 0,
+   "bx": 15,
+   "by": 10,
+   "bw": 139,
+   "bh": 150
+  },
+  "knight": {
+   "file": "heroatk/knight.webp",
+   "frames": 1,
+   "fw": 191,
+   "fh": 175,
+   "dur": 0,
+   "bx": 14,
+   "by": 18,
+   "bw": 177,
+   "bh": 151
+  },
+  "warrior": {
+   "file": "heroatk/warrior.webp",
+   "frames": 1,
+   "fw": 220,
+   "fh": 200,
+   "dur": 0,
+   "bx": 34,
+   "by": 48,
+   "bw": 186,
+   "bh": 152
+  },
+  "priest": {
+   "file": "heroatk/priest.webp",
+   "frames": 1,
+   "fw": 162,
+   "fh": 188,
+   "dur": 0,
+   "bx": 0,
+   "by": 37,
+   "bw": 144,
+   "bh": 151
+  },
+  "archer": {
+   "file": "heroatk/archer.webp",
+   "frames": 1,
+   "fw": 180,
+   "fh": 169,
+   "dur": 0,
+   "bx": 0,
+   "by": 17,
+   "bw": 145,
+   "bh": 152
   }
  },
  "mob": {

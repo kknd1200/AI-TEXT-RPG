@@ -32,28 +32,28 @@ var CLASS_DB = {
     name:'기사', weapon:'sword', desc:'한손검과 방패로 전선을 지탱하는 근접 직업. 체력과 방어가 높다.',
     base:{hp:220, mp:60,  atk:16, matk:4,  def:12, crit:5,  spd:100},
     grow:{hp:26,  mp:3,   atk:2.4, matk:0.3, def:1.5, crit:0.10},
-    art:{sprite:'knight', h:104},
+    art:{sprite:'knight', h:114},
     look:{skin:'#f0c49b', hair:'#4b3a2a', main:'#5f7fa8', sub:'#c9d6e6', trim:'#e0c063', cape:'#9c3b3b'}
   },
   mage: {
     name:'마법사', weapon:'staff', desc:'스태프로 원거리 마법을 퍼붓는 직업. 화력은 최상이나 몸이 약하다.',
     base:{hp:140, mp:150, atk:6,  matk:20, def:6,  crit:5,  spd:96},
     grow:{hp:13,  mp:11,  atk:0.5, matk:3.1, def:0.7, crit:0.12},
-    art:{sprite:'mage', h:100},
+    art:{sprite:'mage', h:112},
     look:{skin:'#f2cba6', hair:'#d8d2c0', main:'#5b4a9c', sub:'#8f7fd8', trim:'#ffd76a', cape:'#3b2f6b'}
   },
   archer: {
     name:'궁수', weapon:'bow', desc:'활로 거리를 유지하며 싸우는 직업. 이동이 빠르고 치명타가 높다.',
     base:{hp:165, mp:90,  atk:15, matk:6,  def:8,  crit:12, spd:114},
     grow:{hp:17,  mp:5,   atk:2.5, matk:0.5, def:0.9, crit:0.22},
-    art:{sprite:'archer', h:104},
+    art:{sprite:'archer', h:114},
     look:{skin:'#eec49a', hair:'#8a5a2b', main:'#3f7a4a', sub:'#7ab06a', trim:'#c9a86a', cape:'#2f5a38'}
   },
   priest: {
     name:'사제', weapon:'mace', desc:'신성력으로 자신을 치유하며 버티는 직업. 균형이 잡혀 있다.',
     base:{hp:185, mp:120, atk:13, matk:15, def:10, crit:5,  spd:100},
     grow:{hp:20,  mp:8,   atk:2.0, matk:2.2, def:1.2, crit:0.12},
-    art:{sprite:'priest', h:102},
+    art:{sprite:'priest', h:112},
     look:{skin:'#f3cda9', hair:'#e8dfae', main:'#e8e2d2', sub:'#d8cfae', trim:'#e5c04e', cape:'#c8b06a'}
   }
 };
@@ -67,14 +67,14 @@ var JOB2_DB = {
     name:'대검전사', from:'knight', weapon:'greatsword',
     desc:'양손검으로 한 번에 크게 후려친다. 공격 범위와 한 방이 압도적이다.',
     add:{hp:220, atk:30, def:6}, grow:{hp:34, mp:3, atk:4.2, matk:0.3, def:1.6, crit:0.14},
-    art:{sprite:'warrior', h:112},
+    art:{sprite:'warrior', h:124},
     look:{skin:'#f0c49b', hair:'#3a2d20', main:'#7a4a3a', sub:'#c07a4a', trim:'#e0c063', cape:'#5a2222'}
   },
   magicknight: {
     name:'마검사', from:'knight', weapon:'longsword',
     desc:'장검에 마력을 실어 벤다. 물리와 마법을 함께 쓰는 근접 직업.',
     add:{hp:140, mp:90, atk:16, matk:22}, grow:{hp:24, mp:8, atk:2.6, matk:2.4, def:1.3, crit:0.16},
-    art:{sprite:'knight', h:106, tint:'#7a5ad8', tintAmt:0.45},
+    art:{sprite:'knight', h:116, tint:'#7a5ad8', tintAmt:0.45},
     look:{skin:'#f0c49b', hair:'#6a5aa8', main:'#3a3a6a', sub:'#7f7fd0', trim:'#a8e0ff', cape:'#2a2a52'}
   },
   /* ── 마법사 ── */
@@ -82,7 +82,7 @@ var JOB2_DB = {
     name:'화염법사', from:'mage', weapon:'staff',
     desc:'광역 폭발과 화상으로 지속 피해를 누적시킨다.',
     add:{mp:120, matk:40}, grow:{hp:14, mp:12, atk:0.5, matk:4.3, def:0.8, crit:0.14},
-    art:{sprite:'mage', h:102, tint:'#ff5a1a', tintAmt:0.42},
+    art:{sprite:'mage', h:114, tint:'#ff5a1a', tintAmt:0.42},
     look:{skin:'#f2cba6', hair:'#e06a2a', main:'#8a2f2f', sub:'#e0602a', trim:'#ffc04a', cape:'#5a1a1a'}
   },
   icemage: {
@@ -96,7 +96,7 @@ var JOB2_DB = {
     name:'전격법사', from:'mage', weapon:'staff',
     desc:'연쇄 번개로 무리를 한 번에 쓸어담는다. 시전이 가장 빠르다.',
     add:{mp:110, matk:34, crit:8}, grow:{hp:14, mp:11, atk:0.5, matk:4.0, def:0.8, crit:0.30},
-    art:{sprite:'mage', h:102, tint:'#ffd23a', tintAmt:0.42},
+    art:{sprite:'mage', h:114, tint:'#ffd23a', tintAmt:0.42},
     look:{skin:'#f2cba6', hair:'#ffe45c', main:'#4a3a8a', sub:'#ffe45c', trim:'#fff7c0', cape:'#2a2050'}
   },
   /* ── 궁수 ── */
@@ -104,7 +104,7 @@ var JOB2_DB = {
     name:'신궁', from:'archer', weapon:'bow',
     desc:'관통과 폭우로 화면 끝에서 적을 정리한다. 사거리가 가장 길다.',
     add:{atk:34, crit:10}, grow:{hp:19, mp:5, atk:4.0, matk:0.5, def:1.0, crit:0.30},
-    art:{sprite:'archer', h:106, tint:'#ffd76a', tintAmt:0.42},
+    art:{sprite:'archer', h:116, tint:'#ffd76a', tintAmt:0.42},
     look:{skin:'#eec49a', hair:'#e8d8a0', main:'#2f6a5a', sub:'#7ac0a0', trim:'#ffe08a', cape:'#1e4a3a'}
   },
   venom: {
@@ -126,7 +126,7 @@ var JOB2_DB = {
     name:'클레릭', from:'priest', weapon:'staff',
     desc:'스태프로 성역을 펼친다. 회복량과 광역 신성 피해가 뛰어나다.',
     add:{hp:110, mp:150, matk:32}, grow:{hp:21, mp:12, atk:1.2, matk:3.6, def:1.3, crit:0.14},
-    art:{sprite:'priest', h:104, tint:'#7fd8ff', tintAmt:0.4},
+    art:{sprite:'priest', h:114, tint:'#6ac8ff', tintAmt:0.55},
     look:{skin:'#f3cda9', hair:'#f2ecc8', main:'#f4f0e2', sub:'#ffe9a8', trim:'#e5c04e', cape:'#e0d08a'}
   },
   monk: {

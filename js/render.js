@@ -385,7 +385,9 @@ var Render = (function(){
         ly = (Math.cos(p.aim) + Math.sin(p.aim)) * lunge * 0.5;
         frame = Math.floor(W.time * 1000 / sp.dur) % sp.frames;
       }
-      var bob = p.anim === 'walk' ? Math.sin(p.animT * 2.4) * 2 : 0;
+      /* 정지 그림이라도 숨쉬듯 아주 살짝 흔들어 준다 */
+      var bob = p.anim === 'walk' ? Math.sin(p.animT * 2.4) * 2
+              : (swinging ? 0 : Math.sin(W.time * 3.2) * 1.2);
       drawSprite(sp, frame, s.x + lx, s.y + ly + bob, art.h, p.flip, flash, blink,
                  Assets.silhouette(atkSp ? 'heroatk' : 'hero', art.sprite, '#ff6a6a'));
     }else{

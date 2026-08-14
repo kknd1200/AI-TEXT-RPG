@@ -44,14 +44,15 @@ var UI = (function(){
   var portraits = [];
   function heroCanvas(art, look, weapon, targetH){
     var c = document.createElement('canvas');
-    var sp = Assets.forArt('hero', art);
+    var sp = Assets.forArt('heroatk', art) || Assets.forArt('hero', art);
     if(sp){
       var k = targetH / sp.bh;
-      c.width = Math.ceil(sp.bw * k) + 8;
-      c.height = Math.ceil(sp.bh * k) + 8;
+      /* 무기를 휘두르는 프레임이 잘리지 않도록 프레임 전체를 담는다 */
+      c.width = Math.ceil(sp.fw * k);
+      c.height = Math.ceil(sp.fh * k);
       var x = c.getContext('2d');
       x.imageSmoothingEnabled = false;
-      portraits.push({ cv: c, ctx: x, sp: sp, k: k });
+      portraits.push({ cv: c, ctx: x, sp: sp, k: k, dur: sp.frames > 1 ? 150 : 0 });
       drawPortrait(portraits[portraits.length-1], 0);
     }else{
       var pt = Sprites.portrait(look, weapon, 2);
@@ -64,8 +65,7 @@ var UI = (function(){
     var sp = p.sp, x = p.ctx, k = p.k;
     x.clearRect(0, 0, p.cv.width, p.cv.height);
     x.drawImage(sp.img, (frame % sp.frames) * sp.fw, 0, sp.fw, sp.fh,
-                Math.round(4 - sp.bx * k), Math.round(4 - sp.by * k),
-                Math.round(sp.fw * k), Math.round(sp.fh * k));
+                0, 0, Math.round(sp.fw * k), Math.round(sp.fh * k));
   }
   /* main 루프에서 매 프레임 호출 */
   function tickPortraits(ts){
@@ -73,7 +73,7 @@ var UI = (function(){
     for(var i = 0; i < portraits.length; i++){
       var p = portraits[i];
       if(p.sp.frames < 2) continue;
-      var f = Math.floor(ts / p.sp.dur) % p.sp.frames;
+      var f = Math.floor(ts / (p.dur || p.sp.dur)) % p.sp.frames;
       if(f !== p.last){ p.last = f; drawPortrait(p, f); }
     }
   }
