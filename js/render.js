@@ -271,7 +271,11 @@ var Render = (function(){
 
   function drawMob(m){
     var s = w2s(m.x, m.y);
-    var sp = Assets.get('mob', m.art);
+    /* 공격 중에는 공격 시트를, 평소에는 같은 시트의 첫 프레임을 쓴다 */
+    var atk = m.atkAnim >= 0 ? Assets.get('mobatk', m.art) : null;
+    var sp = atk || Assets.get('mob', m.art);
+    var frame = 0;
+    if(atk) frame = Math.min(atk.frames - 1, Math.floor(m.atkAnim / m.atkDur * atk.frames));
     shadow(s.x, s.y, m.r * 0.9, 0.32);
 
     if(sp){
@@ -286,8 +290,8 @@ var Render = (function(){
         ry = (cd + sd) * 0.5 * kick;
       }
       var squash = 1 - Math.sin(push * Math.PI) * 0.07;
-      drawSprite(sp, 0, s.x + rx, s.y + bob + ry, m.h * squash, m.flip, m.flash,
-                 undefined, Assets.silhouette('mob', m.art, '#fff'));
+      drawSprite(sp, frame, s.x + rx, s.y + bob + ry, m.h * squash, m.flip, m.flash,
+                 undefined, Assets.silhouette(atk ? 'mobatk' : 'mob', m.art, '#fff'));
     }else{
       var img = SP.unit({}, 'none', 'humanoid', m.dir, m.anim, m.frame);
       drawUnitSprite(img, s, m.flip, 1, m.flash);

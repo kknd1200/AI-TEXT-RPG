@@ -13,9 +13,12 @@ const fs = require('fs');
 const path = require('path');
 
 const SRC = process.argv[2];
-const OUT = process.argv[3] || path.join(__dirname, '..', 'assets');
+const ATK = process.argv[3] && !process.argv[3].startsWith('-') &&
+            fs.existsSync(process.argv[3]) && fs.statSync(process.argv[3]).isDirectory()
+            ? process.argv[3] : null;          /* 몬스터 공격 GIF 폴더(선택) */
+const OUT = (ATK ? process.argv[4] : process.argv[3]) || path.join(__dirname, '..', 'assets');
 if(!SRC || !fs.existsSync(SRC)){
-  console.error('원본 HTML 경로를 넘겨라: node tools/build-assets.js <html> [out]');
+  console.error('원본 HTML 경로를 넘겨라: node tools/build-assets.js <html> [공격gif폴더] [out]');
   process.exit(1);
 }
 
@@ -44,6 +47,18 @@ const FX = {
 };
 const HERO_H = 150;                  /* 대형 PNG 를 줄일 높이 */
 
+/* 공격 GIF 폴더가 있으면 몬스터 목록과 이름이 겹치는 것만 골라 담는다 */
+const atkItems = [], atkKeys = {};
+if(ATK){
+  for(const f of fs.readdirSync(ATK)){
+    const m = /^(.+)_attack\.gif$/.exec(f);
+    if(!m || MOB.indexOf(m[1]) < 0) continue;
+    atkKeys[m[1]] = true;
+    atkItems.push({ kind:'mobatk', name:m[1], ext:'gif',
+                    b64: fs.readFileSync(path.join(ATK, f)).toString('base64') });
+  }
+}
+
 const html = fs.readFileSync(SRC, 'utf8');
 const re = /([A-Za-z_$][A-Za-z0-9_$]*)\s*[:=]\s*["'](data:image\/(png|webp|gif);base64,([A-Za-z0-9+/=\s]+))["']/g;
 
@@ -56,11 +71,12 @@ while((m = re.exec(html)) !== null){
   let kind = null, name = null;
   if(ext === 'gif' && HERO[key] && seen[key] === 1){ kind = 'hero'; name = HERO[key]; }
   else if(ext === 'png' && HERO[key] && seen[key] === 1){ kind = 'hero'; name = HERO[key]; }
-  else if(ext === 'png' && MOB.indexOf(key) >= 0 && seen[key] === 1){ kind = 'mob'; name = key; }
+  else if(ext === 'png' && MOB.indexOf(key) >= 0 && seen[key] === 1 && !atkKeys[key]){ kind = 'mob'; name = key; }
   else if(ext === 'webp' && FX[uniq]){ kind = 'fx'; name = FX[uniq]; }
   if(kind) items.push({ kind, name, ext, b64 });
 }
-console.log('처리 대상 ' + items.length + '개');
+items.push.apply(items, atkItems);
+console.log('처리 대상 ' + items.length + '개' + (ATK ? ' (공격모션 ' + atkItems.length + '종 포함)' : ''));
 
 (async () => {
   const { chromium } = require('/opt/node22/lib/node_modules/playwright');
@@ -76,10 +92,10 @@ console.log('처리 대상 ' + items.length + '개');
   const page = await browser.newPage();
   await page.goto('http://127.0.0.1:' + port + '/');
 
-  const manifest = { hero: {}, mob: {}, fx: {} };
-  fs.mkdirSync(path.join(OUT, 'hero'), { recursive: true });
-  fs.mkdirSync(path.join(OUT, 'mob'), { recursive: true });
-  fs.mkdirSync(path.join(OUT, 'fx'), { recursive: true });
+  const manifest = { hero: {}, mob: {}, fx: {}, mobatk: {} };
+  ['hero','mob','fx','mobatk'].forEach(function(d){
+    fs.mkdirSync(path.join(OUT, d), { recursive: true });
+  });
 
   for(const it of items){
     const res = await page.evaluate(async (a) => {
@@ -117,23 +133,63 @@ console.log('처리 대상 ' + items.length + '개');
         const n = dec.tracks.selectedTrack.frameCount;
         const first = await dec.decode({ frameIndex: 0 });
         const ow = first.image.displayWidth, oh = first.image.displayHeight;
-        /* 다른 직업 스프라이트와 크기를 맞춘다 */
-        const k = oh > a.maxH ? a.maxH / oh : 1;
-        const fw = Math.round(ow * k), fh = Math.round(oh * k);
-        const cv = new OffscreenCanvas(fw * n, fh);
-        const cx = cv.getContext('2d');
+        /* 크기 기준: 보통은 캔버스 높이, 공격 모션은 첫 프레임의 "몸 높이" */
+        let ref = oh;
+        if(a.byContent){
+          const t = new OffscreenCanvas(ow, oh);
+          const tx = t.getContext('2d');
+          tx.drawImage(first.image, 0, 0);
+          ref = bboxOf(tx, ow, oh).bh;
+        }
+        const k = ref > a.maxH ? a.maxH / ref : 1;
+        let fw = Math.round(ow * k), fh = Math.round(oh * k);
+        let cv = new OffscreenCanvas(fw * n, fh);
+        let cx = cv.getContext('2d');
         cx.imageSmoothingEnabled = k < 1;
         cx.imageSmoothingQuality = 'high';
         let dur = 0;
         for(let i = 0; i < n; i++){
           const f = await dec.decode({ frameIndex: i });
-          cx.drawImage(f.image, i * fw, 0, fw, fh);
+          if(a.mirror){                       /* 원본이 왼쪽을 보고 있으면 뒤집는다 */
+            cx.save();
+            cx.translate((i + 1) * fw, 0);
+            cx.scale(-1, 1);
+            cx.drawImage(f.image, 0, 0, fw, fh);
+            cx.restore();
+          }else{
+            cx.drawImage(f.image, i * fw, 0, fw, fh);
+          }
           dur += (f.image.duration || 100000) / 1000;
         }
-        const bb = bboxOf(cx, fw, fh);
-        const blob = await cv.convertToBlob({ type: 'image/png' });
-        return Object.assign({ b64: await toB64(blob), ext: 'png', frames: n, fw, fh,
-                 dur: Math.round(dur / n) }, bb);
+        let bb = bboxOf(cx, fw, fh);
+
+        if(a.crop){
+          /* 전 프레임을 합친 여백을 잘라 용량을 줄인다 (무손실 유지) */
+          let ux0 = fw, uy0 = fh, ux1 = -1, uy1 = -1;
+          for(let i = 0; i < n; i++){
+            const t = new OffscreenCanvas(fw, fh);
+            const tx = t.getContext('2d');
+            tx.drawImage(cv, i * fw, 0, fw, fh, 0, 0, fw, fh);
+            const b2 = bboxOf(tx, fw, fh);
+            ux0 = Math.min(ux0, b2.bx); uy0 = Math.min(uy0, b2.by);
+            ux1 = Math.max(ux1, b2.bx + b2.bw); uy1 = Math.max(uy1, b2.by + b2.bh);
+          }
+          const uw = Math.max(1, ux1 - ux0), uh = Math.max(1, uy1 - uy0);
+          const cut = new OffscreenCanvas(uw * n, uh);
+          const cutx = cut.getContext('2d');
+          cutx.imageSmoothingEnabled = false;
+          for(let i = 0; i < n; i++)
+            cutx.drawImage(cv, i * fw + ux0, uy0, uw, uh, i * uw, 0, uw, uh);
+          bb = { bx: bb.bx - ux0, by: bb.by - uy0, bw: bb.bw, bh: bb.bh };
+          cv = cut; cx = cutx; fw = uw; fh = uh;
+        }
+
+        /* 공격 시트는 장수가 많아 손실 압축으로 담는다 (4배 확대해도 차이가 안 보이는 수준) */
+        const blob = a.crop
+          ? await cv.convertToBlob({ type: 'image/webp', quality: 0.92 })
+          : await cv.convertToBlob({ type: 'image/png' });
+        return Object.assign({ b64: await toB64(blob), ext: a.crop ? 'webp' : 'png',
+                 frames: n, fw, fh, dur: Math.round(dur / n) }, bb);
       }
 
       /* --- 이미지 로드 --- */
@@ -167,7 +223,8 @@ console.log('처리 대상 ' + items.length + '개');
       const blob = await cv.convertToBlob({ type: 'image/png' });
       return Object.assign({ b64: await toB64(blob), ext: 'png', frames: 1,
                              fw: w, fh: h, dur: 0 }, bb);
-    }, { ext: it.ext, b64: it.b64, maxH: HERO_H });
+    }, { ext: it.ext, b64: it.b64, maxH: HERO_H,
+         byContent: it.kind === 'mobatk', mirror: it.kind === 'mobatk', crop: it.kind === 'mobatk' });
 
     const file = it.kind + '/' + it.name + '.' + res.ext;
     fs.writeFileSync(path.join(OUT, file), Buffer.from(res.b64, 'base64'));
@@ -177,12 +234,20 @@ console.log('처리 대상 ' + items.length + '개');
                 '  ' + Math.round(Buffer.from(res.b64, 'base64').length / 1024) + 'KB');
   }
 
+  /* 공격 시트가 있는 몬스터는 대기 모습도 같은 시트의 첫 프레임을 쓴다.
+     (파일은 하나만 두고 manifest 에서 1프레임짜리로 가리킨다) */
+  for(const name in manifest.mobatk){
+    const a = manifest.mobatk[name];
+    manifest.mob[name] = { file: a.file, frames: 1, fw: a.fw, fh: a.fh, dur: 0,
+                           bx: a.bx, by: a.by, bw: a.bw, bh: a.bh };
+  }
+
   fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 1));
   await browser.close();
   server.close();
 
   let total = 0;
-  for(const k of ['hero','mob','fx'])
+  for(const k of ['hero','mob','fx','mobatk'])
     for(const n in manifest[k]) total += fs.statSync(path.join(OUT, manifest[k][n].file)).size;
   console.log('완료 — 합계 ' + Math.round(total/1024) + 'KB');
 })();

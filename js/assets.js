@@ -31,12 +31,20 @@ var Assets = (function(){
     return head
       .then(function(json){
         man = json;
-        var list = [];
-        ['hero','mob','fx'].forEach(function(kind){
+        var list = [], byFile = {};
+        for(var kind in man)
           for(var name in man[kind]) list.push({ kind: kind, name: name, def: man[kind][name] });
-        });
+
         total = list.length; loaded = 0;
         return Promise.all(list.map(function(it){
+          /* 같은 파일을 가리키는 항목(대기=공격시트 첫 프레임)은 한 번만 읽는다 */
+          var shared = byFile[it.def.file];
+          if(shared){
+            imgs[key(it.kind, it.name)] = shared;
+            loaded++;
+            if(onProgress) onProgress(loaded, total);
+            return Promise.resolve();
+          }
           return new Promise(function(res){
             var img = new Image();
             img.onload = img.onerror = function(){
@@ -46,6 +54,7 @@ var Assets = (function(){
             };
             img.src = bundle ? bundle.files[it.def.file] : base + it.def.file;
             imgs[key(it.kind, it.name)] = img;
+            byFile[it.def.file] = img;
           });
         }));
       })

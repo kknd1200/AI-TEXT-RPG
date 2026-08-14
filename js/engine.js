@@ -599,6 +599,7 @@ var Engine = (function(){
       spd: def.spd, r: def.r,
       xp: def.xp * xpMul,
       atkCd: rnd(0.3, 1.2), proj: def.proj, boss: !!boss,
+      atkAnim: -1, atkDur: boss ? 0.62 : 0.46, atkFired: false,
       dots: [], slow: null, stun: 0, freeze: 0, flash: 0,
       anim: 'walk', frame: 0, animT: rnd(0, 1), dir: 's', flip: false,
       kx: 0, ky: 0, aggro: 0, dead: false, chargeT: 0
@@ -642,6 +643,7 @@ var Engine = (function(){
     var dx = p.x - m.x, dy = p.y - m.y;
     var d = Math.sqrt(dx*dx + dy*dy) || 1;
     var spd = m.spd * (m.slow ? (1 - m.slow.amt) : 1);
+    if(m.atkAnim >= 0) spd = 0;                 /* 휘두르는 동안은 멈춘다 */
     var wantRange = m.ai === 'ranged' ? (m.proj ? m.proj.range * 0.65 : 400) : (m.r + p.r + 8);
     var moving = false;
 
@@ -663,21 +665,30 @@ var Engine = (function(){
       }
     }
 
-    /* 공격 */
+    /* 공격 — 예비동작을 보여주고 스윙 중간(4번째 프레임)에 판정이 들어간다 */
     m.atkCd -= dt;
-    if(!p.dead && m.atkCd <= 0){
-      if(m.ai === 'ranged' && m.proj){
-        if(d < m.proj.range){
-          m.atkCd = m.proj.cd;
-          var a = Math.atan2(dy, dx);
-          W.shots.push({ x: m.x, y: m.y - m.r*0.5, vx: Math.cos(a)*m.proj.speed, vy: Math.sin(a)*m.proj.speed,
-                         r: 14, life: m.proj.range / m.proj.speed, dmg: m.atk, el: m.proj.el, owner: 'm', ang: a, size: 1 });
+    var reach = (m.ai === 'ranged' && m.proj) ? m.proj.range : wantRange + 20;
+
+    if(m.atkAnim >= 0){
+      m.atkAnim += dt;
+      if(!m.atkFired && m.atkAnim >= m.atkDur * 0.5){
+        m.atkFired = true;
+        if(m.ai === 'ranged' && m.proj){
+          var a2 = Math.atan2(p.y - m.y, p.x - m.x);
+          W.shots.push({ x: m.x, y: m.y - m.h * 0.5, vx: Math.cos(a2)*m.proj.speed, vy: Math.sin(a2)*m.proj.speed,
+                         r: 14, life: m.proj.range / m.proj.speed, dmg: m.atk, el: m.proj.el,
+                         owner: 'm', ang: a2, size: 1 });
+        }else if(!p.dead && Math.sqrt(dist2(m.x, m.y, p.x, p.y)) <= reach + 14){
+          /* 근접은 때리는 순간에도 사거리 안에 있어야 맞는다 → 피할 수 있다 */
+          hurtPlayer(m.atk, m);
+          fx({ type:'hit', x: p.x, y: p.y - 24, col:'#ff8a8a', dur: 0.2 });
         }
-      }else if(d <= wantRange + 20){
-        m.atkCd = 1.25;
-        hurtPlayer(m.atk, m);
-        fx({ type:'hit', x: p.x, y: p.y - 12, col:'#ff8a8a', dur: 0.2 });
       }
+      if(m.atkAnim >= m.atkDur) m.atkAnim = -1;
+    }else if(!p.dead && m.atkCd <= 0 && m.chargeT <= 0 && d <= reach){
+      m.atkCd = (m.ai === 'ranged' && m.proj) ? m.proj.cd : 1.25;
+      m.atkAnim = 0; m.atkFired = false;
+      moving = false;
     }
 
     /* 몬스터끼리 겹침 방지 */

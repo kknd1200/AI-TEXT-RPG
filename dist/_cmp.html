@@ -1,0 +1,28 @@
+<body style="margin:0;background:#2f3542;color:#fff;font:11px monospace">
+  <div id=g style="display:flex;flex-direction:column;gap:6px;padding:8px"></div><script>
+  const rows=[{"k":"goblin","idle":{"file":"mob/goblin.png","frames":1,"fw":133,"fh":150,"dur":0,"bx":1,"by":1,"bw":131,"bh":148},"atk":{"file":"mobatk/goblin.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":36,"by":79,"bw":98,"bh":100}},{"k":"orc","idle":{"file":"mob/orc.png","frames":1,"fw":95,"fh":150,"dur":0,"bx":0,"by":0,"bw":95,"bh":150},"atk":{"file":"mobatk/orc.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":32,"by":79,"bw":111,"bh":100}},{"k":"skeleton","idle":{"file":"mob/skeleton.png","frames":1,"fw":109,"fh":150,"dur":0,"bx":0,"by":0,"bw":109,"bh":148},"atk":{"file":"mobatk/skeleton.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":39,"by":78,"bw":85,"bh":100}},{"k":"slime","idle":{"file":"mob/slime.png","frames":1,"fw":118,"fh":150,"dur":0,"bx":1,"by":0,"bw":117,"bh":150},"atk":{"file":"mobatk/slime.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":49,"by":50,"bw":93,"bh":91}},{"k":"darkelf","idle":{"file":"mob/darkelf.png","frames":1,"fw":101,"fh":150,"dur":0,"bx":0,"by":0,"bw":101,"bh":150},"atk":{"file":"mobatk/darkelf.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":47,"by":68,"bw":92,"bh":111}},{"k":"golem","idle":{"file":"mob/golem.png","frames":1,"fw":129,"fh":150,"dur":0,"bx":0,"by":0,"bw":129,"bh":150},"atk":{"file":"mobatk/golem.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":41,"by":80,"bw":93,"bh":99}},{"k":"demon_lord","idle":{"file":"mob/demon_lord.png","frames":1,"fw":84,"fh":150,"dur":0,"bx":2,"by":0,"bw":76,"bh":150},"atk":{"file":"mobatk/demon_lord.png","frames":8,"fw":192,"fh":192,"dur":100,"bx":39,"by":81,"bw":100,"bh":99}},{"k":"succubus","idle":{"file":"mob/succubus.png","frames":1,"fw":85,"fh":150,"dur":0,"bx":0,"by":0,"bw":85,"bh":150},"atk":{"file":"mobatk/succubus.png","frames":8,"fw":186,"fh":186,"dur":100,"bx":39,"by":17,"bw":108,"bh":151}}];
+  const H=110;
+  function draw(cv, img, sp, frame){
+    const x=cv.getContext('2d'); x.imageSmoothingEnabled=false;
+    const k=H/sp.bh, dw=sp.fw*k, dh=sp.fh*k;
+    const dx=cv.width/2-(sp.bx+sp.bw/2)*k, dy=cv.height-4-(sp.by+sp.bh)*k;
+    x.drawImage(img, (frame%sp.frames)*sp.fw,0,sp.fw,sp.fh, dx,dy,dw,dh);
+  }
+  (async()=>{ for(const r of rows){
+    const row=document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:flex-end';
+    const lbl=document.createElement('div'); lbl.style.cssText='width:90px;color:#ffd76a'; lbl.textContent=r.k;
+    row.appendChild(lbl);
+    const ii=new Image(); ii.src='/assets/'+r.idle.file;
+    const ai=new Image(); ai.src='/assets/'+r.atk.file;
+    await Promise.all([ii,ai].map(im=>new Promise(res=>{im.onload=res;im.onerror=res;})));
+    for(const [img,sp,fr,cap] of [[ii,r.idle,0,'대기'],[ai,r.atk,0,'f0'],[ai,r.atk,2,'f2'],[ai,r.atk,4,'f4'],[ai,r.atk,6,'f6']]){
+      const box=document.createElement('div'); box.style.textAlign='center';
+      const cv=document.createElement('canvas'); cv.width=140;cv.height=130;
+      cv.style.background='#3d4452';
+      draw(cv,img,sp,fr); box.appendChild(cv);
+      box.insertAdjacentHTML('beforeend','<br>'+cap);
+      row.appendChild(box);
+    }
+    document.getElementById('g').appendChild(row);
+  } document.title='done'; })();
+  </script></body>
