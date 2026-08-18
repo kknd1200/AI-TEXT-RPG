@@ -93,9 +93,12 @@ def quick_rival(data: GameData, state: NetworkState, hero: Hero, rng: random.Ran
 def settle(
     data: GameData, state: NetworkState, hero: Hero, rival: Rival, mode: str, won: bool
 ) -> list[str]:
-    """대전 결과를 랭킹 포인트와 전적에 반영한다.
+    """대전 결과를 랭킹 포인트 · 길드 랭킹 · 전적에 반영한다.
 
     친선배틀은 랭킹에 반영하지 않는다. 패배는 내가 진 경우에만 기록한다.
+    랭킹이 걸린 대전에서 이기면 길드 랭킹이 한 칸 오르고, 일정 구간마다 테이머
+    등급과 파티 포인트가 함께 오른다. 파티 포인트가 늘어야 상위 등급 몬스터를
+    파티에 넣을 수 있으므로, 이 경로가 없으면 파티가 common에 갇힌다.
     """
     setting = data.balance["network"]
     delta = 0
@@ -104,6 +107,10 @@ def settle(
         delta = setting["rank_point_win"] if won else -setting["rank_point_loss"]
         hero.rank_points = max(0, hero.rank_points + delta)
         messages.append(f"랭킹 포인트 {delta:+d} (현재 {hero.rank_points})")
+        if won and hero.guild_rank > 1:
+            hero.guild_rank -= 1
+            messages.append(f"길드 랭킹 {hero.guild_rank}위로 올라섰다.")
+            messages += hero.promote()
     if won:
         hero.wins += 1
     else:

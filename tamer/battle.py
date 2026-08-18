@@ -307,11 +307,23 @@ class Battle:
             )
             survivors = self.living(self.allies)
             if survivors and total:
-                share = max(1, total // len(survivors))
+                # 경험치는 나눠 갖지 않는다. 나누면 파티를 늘릴수록 개체 성장이
+                # 느려져서, 살아남기 위해 파티를 늘린 플레이어가 벌을 받는다.
                 messages.append(f"전투 결과 - 경험치 {total} 획득")
                 for monster in survivors:
-                    messages += monster.gain_experience(share)
+                    messages += monster.gain_experience(total)
+                # 쓰러진 몬스터도 절반은 받는다. 안 그러면 한 번 뒤처진 몬스터가
+                # 매 전투 먼저 죽어 경험치를 못 받고, 영영 그 레벨에 멈춘다.
+                fallen_ratio = self.balance["experience"]["fallen_ratio"]
+                for monster in self.allies:
+                    if not monster.alive:
+                        messages += monster.gain_experience(int(total * fallen_ratio))
                 messages += self.hero.gain_experience(total)
+            # 승리하면 조금 회복한다. 그래야 쉬지 않고 몇 판은 이어갈 수 있다.
+            ratio = condition.get("recover_after_win", 0.0)
+            for monster in survivors:
+                healed = min(monster.max_hp - monster.hp, int(monster.max_hp * ratio))
+                monster.hp += healed
             self._roll_drops()
             if self.gold:
                 self.hero.gold += self.gold

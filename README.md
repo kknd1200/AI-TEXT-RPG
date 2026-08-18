@@ -14,8 +14,9 @@ Python 3.10 이상. 설치할 것 없음.
 python3 main.py            # 플레이
 python3 main.py --demo     # 자동 전투 데모 (고정 시드)
 python3 -m unittest discover -s tests
-python3 tools/balance_check.py    # 전투 밸런스 시뮬레이션
-python3 tools/generate_roster.py  # 도감 다시 생성
+python3 tools/balance_check.py       # 전투 한 판 단위 밸런스
+python3 tools/playthrough.py         # 300전 자동 플레이로 진행 속도 측정
+python3 tools/generate_roster.py     # 도감 다시 생성
 ```
 
 ## 게임 시스템
@@ -68,7 +69,8 @@ tamer/save.py            저장 / 불러오기
 tamer/world.py           사냥터와 출현
 tamer/cli.py             텍스트 UI
 tools/generate_roster.py 도감 생성기
-tools/balance_check.py   밸런스 시뮬레이터
+tools/balance_check.py   전투 한 판 밸런스 시뮬레이터
+tools/playthrough.py     플레이스루 시뮬레이터 (진행 속도)
 tools/extract_apk.py     (선택) 안드로이드 APK 에셋 추출기
 docs/design.md           설계 기록 — 수치를 왜 그렇게 정했는지
 docs/data-format.md      APK 에셋 포맷 역분석 기록
@@ -76,9 +78,14 @@ docs/data-format.md      APK 에셋 포맷 역분석 기록
 
 ## 밸런스
 
-`tools/balance_check.py` 로 확인한다. 목표는 **같은 종끼리 붙었을 때 평균 8~13턴,
-선공 승률 50%**, 그리고 **상성이 유리한 쪽이 확실히 이기는 것**이다. 계수는 전부
-`data/rules/balance.json` 에 있어서 코드를 건드리지 않고 조정할 수 있다.
+두 가지로 확인한다. 계수는 전부 `data/rules/balance.json` 에 있어서 코드를 건드리지
+않고 조정할 수 있다.
+
+- `tools/balance_check.py` — 전투 한 판. 목표는 **같은 종끼리 평균 8~13턴, 승률 50%**,
+  그리고 **상성이 유리한 쪽이 확실히 이기는 것**.
+- `tools/playthrough.py` — 300전을 자동으로 플레이해 **레벨당 전투 수, 패배 비율,
+  휴식 빈도, 파티 성장**을 잰다. 전투 한 판이 괜찮아도 게임이 굴러간다는 보장은
+  없어서 따로 만들었다. 자세한 내용은 `docs/design.md`.
 
 ## 저작권
 

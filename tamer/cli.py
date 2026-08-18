@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 
-from tamer import network, save, workshop
+from tamer import network, rules, save, workshop
 from tamer.battle import ATTACK, CAPTURE, FLEE, GUARD, ITEM, SKILL, Action, Battle
 from tamer.data import GRADE_ORDER, GameData, load_game_data
 from tamer.models import Hero, Monster
@@ -182,14 +182,16 @@ class Game:
                     print("  " + monster.status_line())
             choice = prompt(
                 "",
-                ["파티 편성", "먹이 주기", "도감 보기", "돌아가기"],
+                ["파티 편성", "회복 아이템 쓰기", "먹이 주기", "도감 보기", "돌아가기"],
                 self.reader,
             )
             if choice == 0:
                 self.organize_party()
             elif choice == 1:
-                self.feed_menu()
+                self.heal_menu()
             elif choice == 2:
+                self.feed_menu()
+            elif choice == 3:
                 self.show_book()
             else:
                 return
@@ -219,6 +221,47 @@ class Game:
             print(f"{monster.name}(을)를 파티에 넣었다.\n")
         else:
             print(f"파티 포인트가 모자란다. ({monster.party_cost} 필요)\n")
+
+    def heal_menu(self) -> None:
+        """전투 밖에서도 회복 아이템을 쓴다.
+
+        이게 없으면 전투 사이 회복 수단이 '쉬기'뿐이라, 연전을 하려다 그대로 전멸한다.
+        """
+        hero = self.hero
+        assert hero is not None
+        usable = [
+            name for name, count in hero.items.items()
+            if count > 0 and self.data.items.get(name, {}).get("effect")
+        ]
+        if not usable:
+            print("쓸 수 있는 회복 아이템이 없다.\n")
+            return
+        item = usable[
+            prompt("\n무엇을 쓸까?", [f"{name} x{hero.items[name]}" for name in usable], self.reader)
+        ]
+        pool = hero.all_monsters
+        target = pool[prompt("누구에게?", [m.status_line() for m in pool], self.reader)]
+        effect = self.data.items[item]["effect"]
+        if "revive" in effect and target.alive:
+            print(f"{target.name}(은)는 멀쩡하다.\n")
+            return
+        if "hp" in effect and target.alive and target.hp >= target.max_hp:
+            print(f"{target.name}의 HP는 이미 가득 찼다.\n")
+            return
+        hero.take_item(item)
+        if "revive" in effect and not target.alive:
+            target.hp = int(target.max_hp * effect["revive"])
+            print(f"  {target.name}(이)가 부활했다.\n")
+            return
+        if "hp" in effect:
+            healed = min(effect["hp"], target.max_hp - target.hp)
+            target.hp += healed
+            print(f"  {target.name}의 HP를 {healed} 회복했다.")
+        if "sp" in effect:
+            healed = min(effect["sp"], target.max_sp - target.sp)
+            target.sp += healed
+            print(f"  {target.name}의 SP를 {healed} 회복했다.")
+        print()
 
     def feed_menu(self) -> None:
         assert self.hero is not None
@@ -548,19 +591,36 @@ class Game:
     def hunt(self) -> None:
         hero = self.hero
         assert hero is not None
+        # 해금 기준은 주인공 레벨이 아니라 파티 전력이다. 주인공은 전투마다
+        # 경험치를 온전히 받아 먼저 크는데, 정작 싸우는 것은 몬스터다.
+        power = max((monster.level for monster in hero.party), default=hero.level)
         available = [
             area for area in self.areas
-            if area.name != UNKNOWN_ISLAND and area.min_level <= hero.level + 6
+            if area.name != UNKNOWN_ISLAND and area.min_level <= power + 4
         ]
         index = prompt(
             "\n어디로 갈까?",
-            [area.describe() for area in available] + ["돌아가기"],
+            [area.describe() + self.matchup_hint(area) for area in available] + ["돌아가기"],
             self.reader,
         )
         if index == len(available):
             return
         self.area_index = index
         self.hunt_at(available[index], visiting=False)
+
+    def matchup_hint(self, area: Area) -> str:
+        """파티 선두 기준 상성 표시. 어디로 갈지 눈으로 판단할 수 있게 한다."""
+        hero = self.hero
+        assert hero is not None
+        if not hero.party or area.element == "전속성":
+            return ""
+        lead = hero.party[0]
+        multiplier = rules.element_multiplier(self.data.balance, lead.element, area.element)
+        if multiplier > 1.0:
+            return "  ◀ 유리"
+        if multiplier < 1.0:
+            return "  ◀ 불리"
+        return ""
 
     def hunt_at(self, area: Area, *, visiting: bool, island_level: int | None = None) -> None:
         hero = self.hero
@@ -569,7 +629,10 @@ class Game:
             print("싸울 수 있는 몬스터가 없다. 쉬어야 한다.\n")
             return
         level = island_level if island_level is not None else hero.island_level
-        enemies = spawn(area, self.data, self.rng, hero.level, island_level=level)
+        enemies = spawn(
+            area, self.data, self.rng, hero.level,
+            island_level=level, party_size=len(hero.alive_party),
+        )
         fight = Battle(
             data=self.data, hero=hero, allies=hero.alive_party, enemies=enemies, rng=self.rng
         )

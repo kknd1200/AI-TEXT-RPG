@@ -151,7 +151,9 @@
     "feel_per_battle": 12,
     "feel_per_marble": 60,
     "feel_loss_on_death": 80,
-    "evolution_bonus": 1.15
+    "evolution_bonus": 1.15,
+    "recover_after_win": 0.2,
+    "_comment": "승리하면 최대 HP의 recover_after_win 만큼 회복한다. 이게 없으면 전투 사이에 회복할 길이 쉬는 것뿐이라 연전이 불가능하다."
   },
   "experience": {
     "base": 8,
@@ -165,8 +167,11 @@
       "god": 4.0
     },
     "auto_battle_ratio": 0.6,
-    "level_curve": 30,
-    "max_level": 99
+    "level_curve": 25,
+    "max_level": 99,
+    "hero_level_curve": 35,
+    "_comment": "필요 경험치는 레벨에 비례해서 는다. 제곱으로 두면 얻는 경험치는 선형인데 필요량만 제곱으로 늘어, 뒤로 갈수록 레벨당 전투 수가 계속 불어난다.",
+    "fallen_ratio": 0.5
   },
   "island": {
     "_comment": "미지의 섬: 섬 레벨이 오르면 파티 포인트가 늘고 상위 등급이 출현한다.",

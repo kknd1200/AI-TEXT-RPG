@@ -145,7 +145,7 @@ class Monster:
 
     def experience_to_next(self) -> int:
         curve = self.data.balance["experience"]["level_curve"]
-        return curve * self.level * self.level // 10 + 20
+        return curve * self.level + 20
 
     def gain_experience(self, amount: int) -> list[str]:
         log: list[str] = []
@@ -272,7 +272,7 @@ class Hero:
         return True
 
     def experience_to_next(self) -> int:
-        return 40 * self.level * self.level // 10 + 30
+        return self.data.balance["experience"]["hero_level_curve"] * self.level + 30
 
     def gain_experience(self, amount: int) -> list[str]:
         """주인공도 함께 성장한다. 레벨업마다 스탯 포인트 3개."""

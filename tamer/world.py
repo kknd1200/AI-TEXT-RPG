@@ -68,11 +68,12 @@ def spawn(
     rng: random.Random,
     hero_level: int = 1,
     island_level: int = 1,
+    party_size: int = 1,
 ) -> list[Monster]:
     """사냥터에서 적 파티(1~2마리)를 만든다.
 
     미지의 섬은 주인공과 비슷한 레벨의 몬스터가 등급에 상관없이 나오고,
-    섬 레벨이 오를수록 상위 등급이 열린다.
+    섬 레벨이 오를수록 상위 등급이 열린다. 적 수는 파티 규모를 넘지 않는다.
     """
     if area.name == UNKNOWN_ISLAND:
         cap = network.island_grade_cap(data, island_level)
@@ -88,7 +89,9 @@ def spawn(
 
     # 상위 등급일수록 드물게 나온다.
     weights = [max(1, 64 >> (max(0, species.grade_index - floor) * 2)) for species in pool]
-    count = 1 if rng.random() < 0.7 else 2
+    # 적 수는 파티 규모를 넘지 않는다. 파티가 한 마리인 초반에 2:1이 나오면
+    # 선택의 여지 없이 진다.
+    count = 1 if party_size < 2 or rng.random() < 0.7 else 2
     enemies = []
     for _ in range(count):
         species = rng.choices(pool, weights=weights, k=1)[0]
