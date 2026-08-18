@@ -1,0 +1,3453 @@
+{
+  "origin": "이 저장소에서 만든 오리지널 도감",
+  "stat_order": [
+    "str",
+    "dex",
+    "mstr",
+    "int",
+    "con",
+    "spd"
+  ],
+  "elements": {
+    "수": "밸런스형",
+    "화": "물리 공격형",
+    "목": "체력형",
+    "풍": "속도형",
+    "광": "스킬 공격형",
+    "악": "복합형"
+  },
+  "monsters": [
+    {
+      "index": 0,
+      "name": "아쿠아링",
+      "element": "수",
+      "grade": "common",
+      "active_skill": {
+        "name": "물대포",
+        "description": "물줄기를 쏘아 맞힌다"
+      },
+      "base_stats": {
+        "str": 10,
+        "dex": 10,
+        "mstr": 10,
+        "int": 10,
+        "con": 11,
+        "spd": 10
+      },
+      "growth": {
+        "str": 12,
+        "dex": 12,
+        "mstr": 13,
+        "int": 12,
+        "con": 13,
+        "spd": 11
+      }
+    },
+    {
+      "index": 1,
+      "name": "물꽃게",
+      "element": "수",
+      "grade": "common",
+      "active_skill": {
+        "name": "거품폭풍",
+        "description": "거품으로 시야를 덮는다"
+      },
+      "base_stats": {
+        "str": 9,
+        "dex": 11,
+        "mstr": 10,
+        "int": 9,
+        "con": 10,
+        "spd": 9
+      },
+      "growth": {
+        "str": 11,
+        "dex": 13,
+        "mstr": 12,
+        "int": 11,
+        "con": 12,
+        "spd": 11
+      }
+    },
+    {
+      "index": 2,
+      "name": "이슬누리",
+      "element": "수",
+      "grade": "common",
+      "active_skill": {
+        "name": "물대포",
+        "description": "물줄기를 쏘아 맞힌다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 11,
+        "mstr": 11,
+        "int": 10,
+        "con": 10,
+        "spd": 10
+      },
+      "growth": {
+        "str": 13,
+        "dex": 13,
+        "mstr": 13,
+        "int": 12,
+        "con": 11,
+        "spd": 12
+      }
+    },
+    {
+      "index": 3,
+      "name": "개구리왕눈",
+      "element": "수",
+      "grade": "common",
+      "active_skill": {
+        "name": "거품폭풍",
+        "description": "거품으로 시야를 덮는다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 11,
+        "mstr": 10,
+        "int": 11,
+        "con": 10,
+        "spd": 10
+      },
+      "growth": {
+        "str": 13,
+        "dex": 13,
+        "mstr": 12,
+        "int": 13,
+        "con": 12,
+        "spd": 12
+      }
+    },
+    {
+      "index": 4,
+      "name": "파도치",
+      "element": "수",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "거품폭풍",
+        "description": "거품으로 시야를 덮는다"
+      },
+      "base_stats": {
+        "str": 17,
+        "dex": 17,
+        "mstr": 15,
+        "int": 15,
+        "con": 15,
+        "spd": 16
+      },
+      "growth": {
+        "str": 17,
+        "dex": 17,
+        "mstr": 15,
+        "int": 15,
+        "con": 15,
+        "spd": 16
+      }
+    },
+    {
+      "index": 5,
+      "name": "산호돌이",
+      "element": "수",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "소용돌이",
+        "description": "적을 휘감아 끌어당긴다"
+      },
+      "base_stats": {
+        "str": 16,
+        "dex": 17,
+        "mstr": 17,
+        "int": 15,
+        "con": 17,
+        "spd": 14
+      },
+      "growth": {
+        "str": 16,
+        "dex": 17,
+        "mstr": 17,
+        "int": 15,
+        "con": 17,
+        "spd": 14
+      }
+    },
+    {
+      "index": 6,
+      "name": "해무늘보",
+      "element": "수",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "거품폭풍",
+        "description": "거품으로 시야를 덮는다"
+      },
+      "base_stats": {
+        "str": 15,
+        "dex": 17,
+        "mstr": 17,
+        "int": 16,
+        "con": 17,
+        "spd": 16
+      },
+      "growth": {
+        "str": 15,
+        "dex": 17,
+        "mstr": 17,
+        "int": 16,
+        "con": 17,
+        "spd": 16
+      }
+    },
+    {
+      "index": 7,
+      "name": "물갈퀴범",
+      "element": "수",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "소용돌이",
+        "description": "적을 휘감아 끌어당긴다"
+      },
+      "base_stats": {
+        "str": 17,
+        "dex": 18,
+        "mstr": 17,
+        "int": 16,
+        "con": 15,
+        "spd": 14
+      },
+      "growth": {
+        "str": 17,
+        "dex": 18,
+        "mstr": 17,
+        "int": 16,
+        "con": 15,
+        "spd": 14
+      }
+    },
+    {
+      "index": 8,
+      "name": "조개장군",
+      "element": "수",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "거품폭풍",
+        "description": "거품으로 시야를 덮는다"
+      },
+      "base_stats": {
+        "str": 17,
+        "dex": 17,
+        "mstr": 16,
+        "int": 17,
+        "con": 15,
+        "spd": 14
+      },
+      "growth": {
+        "str": 17,
+        "dex": 17,
+        "mstr": 16,
+        "int": 17,
+        "con": 15,
+        "spd": 14
+      }
+    },
+    {
+      "index": 9,
+      "name": "심해아귀",
+      "element": "수",
+      "grade": "rare",
+      "active_skill": {
+        "name": "소용돌이",
+        "description": "적을 휘감아 끌어당긴다"
+      },
+      "base_stats": {
+        "str": 23,
+        "dex": 24,
+        "mstr": 26,
+        "int": 24,
+        "con": 24,
+        "spd": 23
+      },
+      "growth": {
+        "str": 20,
+        "dex": 21,
+        "mstr": 22,
+        "int": 21,
+        "con": 21,
+        "spd": 21
+      }
+    },
+    {
+      "index": 10,
+      "name": "빙정사슴",
+      "element": "수",
+      "grade": "rare",
+      "active_skill": {
+        "name": "한파",
+        "description": "얼려서 움직임을 늦춘다"
+      },
+      "base_stats": {
+        "str": 25,
+        "dex": 23,
+        "mstr": 26,
+        "int": 25,
+        "con": 24,
+        "spd": 24
+      },
+      "growth": {
+        "str": 22,
+        "dex": 20,
+        "mstr": 22,
+        "int": 22,
+        "con": 21,
+        "spd": 21
+      }
+    },
+    {
+      "index": 11,
+      "name": "해류뱀",
+      "element": "수",
+      "grade": "rare",
+      "active_skill": {
+        "name": "소용돌이",
+        "description": "적을 휘감아 끌어당긴다"
+      },
+      "base_stats": {
+        "str": 24,
+        "dex": 23,
+        "mstr": 26,
+        "int": 24,
+        "con": 24,
+        "spd": 22
+      },
+      "growth": {
+        "str": 21,
+        "dex": 21,
+        "mstr": 23,
+        "int": 21,
+        "con": 21,
+        "spd": 20
+      }
+    },
+    {
+      "index": 12,
+      "name": "물기둥거신",
+      "element": "수",
+      "grade": "rare",
+      "active_skill": {
+        "name": "한파",
+        "description": "얼려서 움직임을 늦춘다"
+      },
+      "base_stats": {
+        "str": 26,
+        "dex": 24,
+        "mstr": 24,
+        "int": 25,
+        "con": 22,
+        "spd": 21
+      },
+      "growth": {
+        "str": 23,
+        "dex": 21,
+        "mstr": 21,
+        "int": 22,
+        "con": 19,
+        "spd": 19
+      }
+    },
+    {
+      "index": 13,
+      "name": "창천고래",
+      "element": "수",
+      "grade": "special",
+      "active_skill": {
+        "name": "빙결창",
+        "description": "얼음 창으로 꿰뚫는다"
+      },
+      "base_stats": {
+        "str": 35,
+        "dex": 38,
+        "mstr": 35,
+        "int": 36,
+        "con": 35,
+        "spd": 31
+      },
+      "growth": {
+        "str": 26,
+        "dex": 29,
+        "mstr": 27,
+        "int": 27,
+        "con": 27,
+        "spd": 24
+      }
+    },
+    {
+      "index": 14,
+      "name": "서리마녀",
+      "element": "수",
+      "grade": "special",
+      "active_skill": {
+        "name": "심해압",
+        "description": "수압으로 짓누른다"
+      },
+      "base_stats": {
+        "str": 33,
+        "dex": 36,
+        "mstr": 34,
+        "int": 37,
+        "con": 32,
+        "spd": 31
+      },
+      "growth": {
+        "str": 25,
+        "dex": 27,
+        "mstr": 26,
+        "int": 28,
+        "con": 24,
+        "spd": 24
+      }
+    },
+    {
+      "index": 15,
+      "name": "소용돌이수호자",
+      "element": "수",
+      "grade": "special",
+      "active_skill": {
+        "name": "빙결창",
+        "description": "얼음 창으로 꿰뚫는다"
+      },
+      "base_stats": {
+        "str": 33,
+        "dex": 37,
+        "mstr": 34,
+        "int": 32,
+        "con": 36,
+        "spd": 33
+      },
+      "growth": {
+        "str": 25,
+        "dex": 28,
+        "mstr": 26,
+        "int": 25,
+        "con": 28,
+        "spd": 25
+      }
+    },
+    {
+      "index": 16,
+      "name": "해령무사",
+      "element": "수",
+      "grade": "special",
+      "active_skill": {
+        "name": "심해압",
+        "description": "수압으로 짓누른다"
+      },
+      "base_stats": {
+        "str": 32,
+        "dex": 34,
+        "mstr": 34,
+        "int": 33,
+        "con": 35,
+        "spd": 30
+      },
+      "growth": {
+        "str": 25,
+        "dex": 26,
+        "mstr": 26,
+        "int": 25,
+        "con": 27,
+        "spd": 23
+      }
+    },
+    {
+      "index": 17,
+      "name": "만조의룡",
+      "element": "수",
+      "grade": "legend",
+      "active_skill": {
+        "name": "심해압",
+        "description": "수압으로 짓누른다"
+      },
+      "base_stats": {
+        "str": 48,
+        "dex": 49,
+        "mstr": 52,
+        "int": 47,
+        "con": 45,
+        "spd": 44
+      },
+      "growth": {
+        "str": 32,
+        "dex": 33,
+        "mstr": 35,
+        "int": 32,
+        "con": 30,
+        "spd": 30
+      }
+    },
+    {
+      "index": 18,
+      "name": "심연사제",
+      "element": "수",
+      "grade": "legend",
+      "active_skill": {
+        "name": "해일",
+        "description": "거센 물결로 쓸어버린다"
+      },
+      "base_stats": {
+        "str": 45,
+        "dex": 48,
+        "mstr": 47,
+        "int": 43,
+        "con": 47,
+        "spd": 46
+      },
+      "growth": {
+        "str": 30,
+        "dex": 33,
+        "mstr": 32,
+        "int": 29,
+        "con": 32,
+        "spd": 31
+      }
+    },
+    {
+      "index": 19,
+      "name": "해왕상어",
+      "element": "수",
+      "grade": "legend",
+      "active_skill": {
+        "name": "심해압",
+        "description": "수압으로 짓누른다"
+      },
+      "base_stats": {
+        "str": 48,
+        "dex": 44,
+        "mstr": 46,
+        "int": 43,
+        "con": 45,
+        "spd": 44
+      },
+      "growth": {
+        "str": 33,
+        "dex": 30,
+        "mstr": 31,
+        "int": 29,
+        "con": 30,
+        "spd": 30
+      }
+    },
+    {
+      "index": 20,
+      "name": "대해군주",
+      "element": "수",
+      "grade": "god",
+      "active_skill": {
+        "name": "해일",
+        "description": "거센 물결로 쓸어버린다"
+      },
+      "base_stats": {
+        "str": 62,
+        "dex": 66,
+        "mstr": 61,
+        "int": 61,
+        "con": 60,
+        "spd": 61
+      },
+      "growth": {
+        "str": 37,
+        "dex": 40,
+        "mstr": 37,
+        "int": 36,
+        "con": 36,
+        "spd": 36
+      }
+    },
+    {
+      "index": 21,
+      "name": "창해신",
+      "element": "수",
+      "grade": "god",
+      "active_skill": {
+        "name": "대해일",
+        "description": "바다를 통째로 들이붓는다"
+      },
+      "base_stats": {
+        "str": 61,
+        "dex": 63,
+        "mstr": 59,
+        "int": 61,
+        "con": 56,
+        "spd": 54
+      },
+      "growth": {
+        "str": 37,
+        "dex": 38,
+        "mstr": 35,
+        "int": 37,
+        "con": 34,
+        "spd": 33
+      }
+    },
+    {
+      "index": 22,
+      "name": "불씨쥐",
+      "element": "화",
+      "grade": "common",
+      "active_skill": {
+        "name": "불꽃탄",
+        "description": "작은 불덩이를 던진다"
+      },
+      "base_stats": {
+        "str": 13,
+        "dex": 11,
+        "mstr": 9,
+        "int": 9,
+        "con": 9,
+        "spd": 10
+      },
+      "growth": {
+        "str": 15,
+        "dex": 13,
+        "mstr": 11,
+        "int": 10,
+        "con": 11,
+        "spd": 12
+      }
+    },
+    {
+      "index": 23,
+      "name": "잉걸새",
+      "element": "화",
+      "grade": "common",
+      "active_skill": {
+        "name": "연기폭발",
+        "description": "연기와 함께 터뜨린다"
+      },
+      "base_stats": {
+        "str": 14,
+        "dex": 11,
+        "mstr": 8,
+        "int": 8,
+        "con": 11,
+        "spd": 10
+      },
+      "growth": {
+        "str": 16,
+        "dex": 13,
+        "mstr": 10,
+        "int": 10,
+        "con": 13,
+        "spd": 12
+      }
+    },
+    {
+      "index": 24,
+      "name": "화롯이",
+      "element": "화",
+      "grade": "common",
+      "active_skill": {
+        "name": "불꽃탄",
+        "description": "작은 불덩이를 던진다"
+      },
+      "base_stats": {
+        "str": 13,
+        "dex": 9,
+        "mstr": 9,
+        "int": 9,
+        "con": 10,
+        "spd": 9
+      },
+      "growth": {
+        "str": 15,
+        "dex": 11,
+        "mstr": 11,
+        "int": 11,
+        "con": 13,
+        "spd": 11
+      }
+    },
+    {
+      "index": 25,
+      "name": "재두더지",
+      "element": "화",
+      "grade": "common",
+      "active_skill": {
+        "name": "연기폭발",
+        "description": "연기와 함께 터뜨린다"
+      },
+      "base_stats": {
+        "str": 13,
+        "dex": 10,
+        "mstr": 9,
+        "int": 9,
+        "con": 11,
+        "spd": 10
+      },
+      "growth": {
+        "str": 16,
+        "dex": 12,
+        "mstr": 11,
+        "int": 11,
+        "con": 13,
+        "spd": 12
+      }
+    },
+    {
+      "index": 26,
+      "name": "화염늑대",
+      "element": "화",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "연기폭발",
+        "description": "연기와 함께 터뜨린다"
+      },
+      "base_stats": {
+        "str": 21,
+        "dex": 15,
+        "mstr": 15,
+        "int": 14,
+        "con": 17,
+        "spd": 15
+      },
+      "growth": {
+        "str": 21,
+        "dex": 15,
+        "mstr": 15,
+        "int": 14,
+        "con": 17,
+        "spd": 15
+      }
+    },
+    {
+      "index": 27,
+      "name": "용암달팽이",
+      "element": "화",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "화염방사",
+        "description": "불길을 내뿜는다"
+      },
+      "base_stats": {
+        "str": 20,
+        "dex": 15,
+        "mstr": 14,
+        "int": 14,
+        "con": 16,
+        "spd": 15
+      },
+      "growth": {
+        "str": 20,
+        "dex": 15,
+        "mstr": 14,
+        "int": 14,
+        "con": 16,
+        "spd": 15
+      }
+    },
+    {
+      "index": 28,
+      "name": "숯불곰",
+      "element": "화",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "연기폭발",
+        "description": "연기와 함께 터뜨린다"
+      },
+      "base_stats": {
+        "str": 20,
+        "dex": 17,
+        "mstr": 15,
+        "int": 14,
+        "con": 17,
+        "spd": 15
+      },
+      "growth": {
+        "str": 20,
+        "dex": 17,
+        "mstr": 15,
+        "int": 14,
+        "con": 17,
+        "spd": 15
+      }
+    },
+    {
+      "index": 29,
+      "name": "불꽃무희",
+      "element": "화",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "화염방사",
+        "description": "불길을 내뿜는다"
+      },
+      "base_stats": {
+        "str": 23,
+        "dex": 15,
+        "mstr": 15,
+        "int": 14,
+        "con": 15,
+        "spd": 15
+      },
+      "growth": {
+        "str": 23,
+        "dex": 15,
+        "mstr": 15,
+        "int": 14,
+        "con": 15,
+        "spd": 15
+      }
+    },
+    {
+      "index": 30,
+      "name": "연기여우",
+      "element": "화",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "연기폭발",
+        "description": "연기와 함께 터뜨린다"
+      },
+      "base_stats": {
+        "str": 23,
+        "dex": 16,
+        "mstr": 15,
+        "int": 14,
+        "con": 16,
+        "spd": 16
+      },
+      "growth": {
+        "str": 23,
+        "dex": 16,
+        "mstr": 15,
+        "int": 14,
+        "con": 16,
+        "spd": 16
+      }
+    },
+    {
+      "index": 31,
+      "name": "폭염전갈",
+      "element": "화",
+      "grade": "rare",
+      "active_skill": {
+        "name": "화염방사",
+        "description": "불길을 내뿜는다"
+      },
+      "base_stats": {
+        "str": 31,
+        "dex": 25,
+        "mstr": 22,
+        "int": 21,
+        "con": 25,
+        "spd": 23
+      },
+      "growth": {
+        "str": 27,
+        "dex": 22,
+        "mstr": 19,
+        "int": 19,
+        "con": 22,
+        "spd": 20
+      }
+    },
+    {
+      "index": 32,
+      "name": "마그마골렘",
+      "element": "화",
+      "grade": "rare",
+      "active_skill": {
+        "name": "작열베기",
+        "description": "달군 발톱으로 벤다"
+      },
+      "base_stats": {
+        "str": 34,
+        "dex": 23,
+        "mstr": 20,
+        "int": 19,
+        "con": 24,
+        "spd": 22
+      },
+      "growth": {
+        "str": 30,
+        "dex": 20,
+        "mstr": 18,
+        "int": 17,
+        "con": 21,
+        "spd": 20
+      }
+    },
+    {
+      "index": 33,
+      "name": "화산도마뱀",
+      "element": "화",
+      "grade": "rare",
+      "active_skill": {
+        "name": "화염방사",
+        "description": "불길을 내뿜는다"
+      },
+      "base_stats": {
+        "str": 33,
+        "dex": 23,
+        "mstr": 21,
+        "int": 21,
+        "con": 25,
+        "spd": 21
+      },
+      "growth": {
+        "str": 29,
+        "dex": 20,
+        "mstr": 18,
+        "int": 19,
+        "con": 22,
+        "spd": 18
+      }
+    },
+    {
+      "index": 34,
+      "name": "불새정령",
+      "element": "화",
+      "grade": "rare",
+      "active_skill": {
+        "name": "작열베기",
+        "description": "달군 발톱으로 벤다"
+      },
+      "base_stats": {
+        "str": 34,
+        "dex": 23,
+        "mstr": 22,
+        "int": 21,
+        "con": 22,
+        "spd": 22
+      },
+      "growth": {
+        "str": 30,
+        "dex": 20,
+        "mstr": 19,
+        "int": 18,
+        "con": 19,
+        "spd": 19
+      }
+    },
+    {
+      "index": 35,
+      "name": "작열기사",
+      "element": "화",
+      "grade": "special",
+      "active_skill": {
+        "name": "용암분출",
+        "description": "발밑에서 용암을 뿜는다"
+      },
+      "base_stats": {
+        "str": 45,
+        "dex": 34,
+        "mstr": 29,
+        "int": 27,
+        "con": 33,
+        "spd": 31
+      },
+      "growth": {
+        "str": 34,
+        "dex": 26,
+        "mstr": 22,
+        "int": 21,
+        "con": 26,
+        "spd": 24
+      }
+    },
+    {
+      "index": 36,
+      "name": "화룡새끼",
+      "element": "화",
+      "grade": "special",
+      "active_skill": {
+        "name": "화산탄",
+        "description": "불덩이를 쏟아붓는다"
+      },
+      "base_stats": {
+        "str": 43,
+        "dex": 33,
+        "mstr": 29,
+        "int": 27,
+        "con": 33,
+        "spd": 31
+      },
+      "growth": {
+        "str": 33,
+        "dex": 26,
+        "mstr": 22,
+        "int": 21,
+        "con": 25,
+        "spd": 24
+      }
+    },
+    {
+      "index": 37,
+      "name": "열풍술사",
+      "element": "화",
+      "grade": "special",
+      "active_skill": {
+        "name": "용암분출",
+        "description": "발밑에서 용암을 뿜는다"
+      },
+      "base_stats": {
+        "str": 44,
+        "dex": 32,
+        "mstr": 33,
+        "int": 29,
+        "con": 34,
+        "spd": 34
+      },
+      "growth": {
+        "str": 34,
+        "dex": 25,
+        "mstr": 25,
+        "int": 22,
+        "con": 26,
+        "spd": 26
+      }
+    },
+    {
+      "index": 38,
+      "name": "잿빛거인",
+      "element": "화",
+      "grade": "special",
+      "active_skill": {
+        "name": "화산탄",
+        "description": "불덩이를 쏟아붓는다"
+      },
+      "base_stats": {
+        "str": 43,
+        "dex": 33,
+        "mstr": 30,
+        "int": 31,
+        "con": 37,
+        "spd": 34
+      },
+      "growth": {
+        "str": 33,
+        "dex": 25,
+        "mstr": 23,
+        "int": 24,
+        "con": 28,
+        "spd": 26
+      }
+    },
+    {
+      "index": 39,
+      "name": "겁화의룡",
+      "element": "화",
+      "grade": "legend",
+      "active_skill": {
+        "name": "화산탄",
+        "description": "불덩이를 쏟아붓는다"
+      },
+      "base_stats": {
+        "str": 58,
+        "dex": 47,
+        "mstr": 43,
+        "int": 39,
+        "con": 44,
+        "spd": 47
+      },
+      "growth": {
+        "str": 39,
+        "dex": 32,
+        "mstr": 29,
+        "int": 26,
+        "con": 29,
+        "spd": 31
+      }
+    },
+    {
+      "index": 40,
+      "name": "태양수호자",
+      "element": "화",
+      "grade": "legend",
+      "active_skill": {
+        "name": "겁화",
+        "description": "꺼지지 않는 불로 태운다"
+      },
+      "base_stats": {
+        "str": 58,
+        "dex": 46,
+        "mstr": 43,
+        "int": 36,
+        "con": 45,
+        "spd": 40
+      },
+      "growth": {
+        "str": 39,
+        "dex": 31,
+        "mstr": 29,
+        "int": 24,
+        "con": 30,
+        "spd": 27
+      }
+    },
+    {
+      "index": 41,
+      "name": "용암군주",
+      "element": "화",
+      "grade": "legend",
+      "active_skill": {
+        "name": "화산탄",
+        "description": "불덩이를 쏟아붓는다"
+      },
+      "base_stats": {
+        "str": 66,
+        "dex": 43,
+        "mstr": 41,
+        "int": 39,
+        "con": 46,
+        "spd": 47
+      },
+      "growth": {
+        "str": 44,
+        "dex": 29,
+        "mstr": 28,
+        "int": 26,
+        "con": 31,
+        "spd": 32
+      }
+    },
+    {
+      "index": 42,
+      "name": "대화염제",
+      "element": "화",
+      "grade": "god",
+      "active_skill": {
+        "name": "겁화",
+        "description": "꺼지지 않는 불로 태운다"
+      },
+      "base_stats": {
+        "str": 76,
+        "dex": 59,
+        "mstr": 57,
+        "int": 51,
+        "con": 60,
+        "spd": 61
+      },
+      "growth": {
+        "str": 46,
+        "dex": 36,
+        "mstr": 34,
+        "int": 31,
+        "con": 36,
+        "spd": 36
+      }
+    },
+    {
+      "index": 43,
+      "name": "염룡신",
+      "element": "화",
+      "grade": "god",
+      "active_skill": {
+        "name": "천화멸",
+        "description": "하늘에서 불비를 내린다"
+      },
+      "base_stats": {
+        "str": 82,
+        "dex": 63,
+        "mstr": 50,
+        "int": 48,
+        "con": 63,
+        "spd": 56
+      },
+      "growth": {
+        "str": 49,
+        "dex": 38,
+        "mstr": 30,
+        "int": 29,
+        "con": 38,
+        "spd": 34
+      }
+    },
+    {
+      "index": 44,
+      "name": "새싹몬",
+      "element": "목",
+      "grade": "common",
+      "active_skill": {
+        "name": "덩굴채찍",
+        "description": "덩굴을 휘둘러 때린다"
+      },
+      "base_stats": {
+        "str": 10,
+        "dex": 12,
+        "mstr": 10,
+        "int": 9,
+        "con": 14,
+        "spd": 8
+      },
+      "growth": {
+        "str": 12,
+        "dex": 14,
+        "mstr": 11,
+        "int": 11,
+        "con": 17,
+        "spd": 10
+      }
+    },
+    {
+      "index": 45,
+      "name": "도토리쥐",
+      "element": "목",
+      "grade": "common",
+      "active_skill": {
+        "name": "씨앗포",
+        "description": "단단한 씨앗을 쏜다"
+      },
+      "base_stats": {
+        "str": 10,
+        "dex": 12,
+        "mstr": 9,
+        "int": 9,
+        "con": 13,
+        "spd": 8
+      },
+      "growth": {
+        "str": 12,
+        "dex": 14,
+        "mstr": 11,
+        "int": 11,
+        "con": 16,
+        "spd": 10
+      }
+    },
+    {
+      "index": 46,
+      "name": "넝쿨이",
+      "element": "목",
+      "grade": "common",
+      "active_skill": {
+        "name": "덩굴채찍",
+        "description": "덩굴을 휘둘러 때린다"
+      },
+      "base_stats": {
+        "str": 9,
+        "dex": 12,
+        "mstr": 10,
+        "int": 10,
+        "con": 13,
+        "spd": 7
+      },
+      "growth": {
+        "str": 11,
+        "dex": 14,
+        "mstr": 12,
+        "int": 12,
+        "con": 16,
+        "spd": 9
+      }
+    },
+    {
+      "index": 47,
+      "name": "이끼두꺼비",
+      "element": "목",
+      "grade": "common",
+      "active_skill": {
+        "name": "씨앗포",
+        "description": "단단한 씨앗을 쏜다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 10,
+        "mstr": 9,
+        "int": 10,
+        "con": 14,
+        "spd": 8
+      },
+      "growth": {
+        "str": 13,
+        "dex": 12,
+        "mstr": 11,
+        "int": 12,
+        "con": 16,
+        "spd": 9
+      }
+    },
+    {
+      "index": 48,
+      "name": "가시덤불",
+      "element": "목",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "씨앗포",
+        "description": "단단한 씨앗을 쏜다"
+      },
+      "base_stats": {
+        "str": 15,
+        "dex": 16,
+        "mstr": 14,
+        "int": 16,
+        "con": 20,
+        "spd": 14
+      },
+      "growth": {
+        "str": 15,
+        "dex": 16,
+        "mstr": 14,
+        "int": 16,
+        "con": 20,
+        "spd": 14
+      }
+    },
+    {
+      "index": 49,
+      "name": "버섯광대",
+      "element": "목",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "뿌리결박",
+        "description": "뿌리로 발을 묶는다"
+      },
+      "base_stats": {
+        "str": 15,
+        "dex": 17,
+        "mstr": 15,
+        "int": 15,
+        "con": 20,
+        "spd": 13
+      },
+      "growth": {
+        "str": 15,
+        "dex": 17,
+        "mstr": 15,
+        "int": 15,
+        "con": 20,
+        "spd": 13
+      }
+    },
+    {
+      "index": 50,
+      "name": "느림보정령",
+      "element": "목",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "씨앗포",
+        "description": "단단한 씨앗을 쏜다"
+      },
+      "base_stats": {
+        "str": 16,
+        "dex": 18,
+        "mstr": 14,
+        "int": 14,
+        "con": 20,
+        "spd": 12
+      },
+      "growth": {
+        "str": 16,
+        "dex": 18,
+        "mstr": 14,
+        "int": 14,
+        "con": 20,
+        "spd": 12
+      }
+    },
+    {
+      "index": 51,
+      "name": "꽃사슴",
+      "element": "목",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "뿌리결박",
+        "description": "뿌리로 발을 묶는다"
+      },
+      "base_stats": {
+        "str": 16,
+        "dex": 17,
+        "mstr": 14,
+        "int": 16,
+        "con": 23,
+        "spd": 13
+      },
+      "growth": {
+        "str": 16,
+        "dex": 17,
+        "mstr": 14,
+        "int": 16,
+        "con": 23,
+        "spd": 13
+      }
+    },
+    {
+      "index": 52,
+      "name": "씨앗술사",
+      "element": "목",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "씨앗포",
+        "description": "단단한 씨앗을 쏜다"
+      },
+      "base_stats": {
+        "str": 17,
+        "dex": 17,
+        "mstr": 13,
+        "int": 16,
+        "con": 23,
+        "spd": 13
+      },
+      "growth": {
+        "str": 17,
+        "dex": 17,
+        "mstr": 13,
+        "int": 16,
+        "con": 23,
+        "spd": 13
+      }
+    },
+    {
+      "index": 53,
+      "name": "고목수호자",
+      "element": "목",
+      "grade": "rare",
+      "active_skill": {
+        "name": "뿌리결박",
+        "description": "뿌리로 발을 묶는다"
+      },
+      "base_stats": {
+        "str": 23,
+        "dex": 28,
+        "mstr": 22,
+        "int": 25,
+        "con": 31,
+        "spd": 21
+      },
+      "growth": {
+        "str": 20,
+        "dex": 25,
+        "mstr": 19,
+        "int": 21,
+        "con": 27,
+        "spd": 18
+      }
+    },
+    {
+      "index": 54,
+      "name": "독초거미",
+      "element": "목",
+      "grade": "rare",
+      "active_skill": {
+        "name": "잎날폭풍",
+        "description": "잎사귀 칼날을 날린다"
+      },
+      "base_stats": {
+        "str": 24,
+        "dex": 27,
+        "mstr": 22,
+        "int": 21,
+        "con": 34,
+        "spd": 19
+      },
+      "growth": {
+        "str": 21,
+        "dex": 24,
+        "mstr": 19,
+        "int": 19,
+        "con": 30,
+        "spd": 17
+      }
+    },
+    {
+      "index": 55,
+      "name": "대나무무사",
+      "element": "목",
+      "grade": "rare",
+      "active_skill": {
+        "name": "뿌리결박",
+        "description": "뿌리로 발을 묶는다"
+      },
+      "base_stats": {
+        "str": 24,
+        "dex": 27,
+        "mstr": 23,
+        "int": 23,
+        "con": 34,
+        "spd": 19
+      },
+      "growth": {
+        "str": 21,
+        "dex": 23,
+        "mstr": 20,
+        "int": 20,
+        "con": 29,
+        "spd": 17
+      }
+    },
+    {
+      "index": 56,
+      "name": "뿌리거인",
+      "element": "목",
+      "grade": "rare",
+      "active_skill": {
+        "name": "잎날폭풍",
+        "description": "잎사귀 칼날을 날린다"
+      },
+      "base_stats": {
+        "str": 25,
+        "dex": 26,
+        "mstr": 21,
+        "int": 23,
+        "con": 34,
+        "spd": 18
+      },
+      "growth": {
+        "str": 22,
+        "dex": 23,
+        "mstr": 19,
+        "int": 20,
+        "con": 30,
+        "spd": 16
+      }
+    },
+    {
+      "index": 57,
+      "name": "세계수묘목",
+      "element": "목",
+      "grade": "special",
+      "active_skill": {
+        "name": "가시갑주",
+        "description": "가시를 세워 반격한다"
+      },
+      "base_stats": {
+        "str": 34,
+        "dex": 40,
+        "mstr": 30,
+        "int": 30,
+        "con": 49,
+        "spd": 27
+      },
+      "growth": {
+        "str": 26,
+        "dex": 31,
+        "mstr": 23,
+        "int": 23,
+        "con": 38,
+        "spd": 21
+      }
+    },
+    {
+      "index": 58,
+      "name": "숲의마녀",
+      "element": "목",
+      "grade": "special",
+      "active_skill": {
+        "name": "대지진동",
+        "description": "땅을 흔들어 넘어뜨린다"
+      },
+      "base_stats": {
+        "str": 34,
+        "dex": 36,
+        "mstr": 33,
+        "int": 33,
+        "con": 45,
+        "spd": 25
+      },
+      "growth": {
+        "str": 26,
+        "dex": 27,
+        "mstr": 25,
+        "int": 25,
+        "con": 35,
+        "spd": 19
+      }
+    },
+    {
+      "index": 59,
+      "name": "가시장미기사",
+      "element": "목",
+      "grade": "special",
+      "active_skill": {
+        "name": "가시갑주",
+        "description": "가시를 세워 반격한다"
+      },
+      "base_stats": {
+        "str": 36,
+        "dex": 36,
+        "mstr": 32,
+        "int": 31,
+        "con": 49,
+        "spd": 29
+      },
+      "growth": {
+        "str": 28,
+        "dex": 27,
+        "mstr": 24,
+        "int": 23,
+        "con": 38,
+        "spd": 22
+      }
+    },
+    {
+      "index": 60,
+      "name": "수액드래곤",
+      "element": "목",
+      "grade": "special",
+      "active_skill": {
+        "name": "대지진동",
+        "description": "땅을 흔들어 넘어뜨린다"
+      },
+      "base_stats": {
+        "str": 32,
+        "dex": 36,
+        "mstr": 32,
+        "int": 33,
+        "con": 43,
+        "spd": 27
+      },
+      "growth": {
+        "str": 24,
+        "dex": 28,
+        "mstr": 24,
+        "int": 26,
+        "con": 33,
+        "spd": 20
+      }
+    },
+    {
+      "index": 61,
+      "name": "천년고목",
+      "element": "목",
+      "grade": "legend",
+      "active_skill": {
+        "name": "대지진동",
+        "description": "땅을 흔들어 넘어뜨린다"
+      },
+      "base_stats": {
+        "str": 44,
+        "dex": 47,
+        "mstr": 39,
+        "int": 43,
+        "con": 60,
+        "spd": 39
+      },
+      "growth": {
+        "str": 30,
+        "dex": 31,
+        "mstr": 26,
+        "int": 29,
+        "con": 40,
+        "spd": 26
+      }
+    },
+    {
+      "index": 62,
+      "name": "대지의사제",
+      "element": "목",
+      "grade": "legend",
+      "active_skill": {
+        "name": "숲의분노",
+        "description": "숲 전체가 달려든다"
+      },
+      "base_stats": {
+        "str": 50,
+        "dex": 54,
+        "mstr": 43,
+        "int": 44,
+        "con": 64,
+        "spd": 34
+      },
+      "growth": {
+        "str": 33,
+        "dex": 36,
+        "mstr": 29,
+        "int": 30,
+        "con": 43,
+        "spd": 23
+      }
+    },
+    {
+      "index": 63,
+      "name": "숲왕사자",
+      "element": "목",
+      "grade": "legend",
+      "active_skill": {
+        "name": "대지진동",
+        "description": "땅을 흔들어 넘어뜨린다"
+      },
+      "base_stats": {
+        "str": 45,
+        "dex": 50,
+        "mstr": 44,
+        "int": 44,
+        "con": 62,
+        "spd": 35
+      },
+      "growth": {
+        "str": 30,
+        "dex": 33,
+        "mstr": 30,
+        "int": 30,
+        "con": 42,
+        "spd": 24
+      }
+    },
+    {
+      "index": 64,
+      "name": "세계수화신",
+      "element": "목",
+      "grade": "god",
+      "active_skill": {
+        "name": "숲의분노",
+        "description": "숲 전체가 달려든다"
+      },
+      "base_stats": {
+        "str": 65,
+        "dex": 70,
+        "mstr": 53,
+        "int": 61,
+        "con": 87,
+        "spd": 50
+      },
+      "growth": {
+        "str": 39,
+        "dex": 42,
+        "mstr": 32,
+        "int": 36,
+        "con": 52,
+        "spd": 30
+      }
+    },
+    {
+      "index": 65,
+      "name": "녹룡신",
+      "element": "목",
+      "grade": "god",
+      "active_skill": {
+        "name": "세계수숨결",
+        "description": "세계수의 기운을 쏟는다"
+      },
+      "base_stats": {
+        "str": 59,
+        "dex": 70,
+        "mstr": 53,
+        "int": 59,
+        "con": 85,
+        "spd": 48
+      },
+      "growth": {
+        "str": 36,
+        "dex": 42,
+        "mstr": 32,
+        "int": 35,
+        "con": 51,
+        "spd": 29
+      }
+    },
+    {
+      "index": 66,
+      "name": "산들새",
+      "element": "풍",
+      "grade": "common",
+      "active_skill": {
+        "name": "돌풍",
+        "description": "거센 바람으로 밀친다"
+      },
+      "base_stats": {
+        "str": 10,
+        "dex": 9,
+        "mstr": 10,
+        "int": 9,
+        "con": 9,
+        "spd": 14
+      },
+      "growth": {
+        "str": 12,
+        "dex": 11,
+        "mstr": 11,
+        "int": 10,
+        "con": 11,
+        "spd": 17
+      }
+    },
+    {
+      "index": 67,
+      "name": "민들레씨",
+      "element": "풍",
+      "grade": "common",
+      "active_skill": {
+        "name": "깃털칼날",
+        "description": "깃털을 칼처럼 날린다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 9,
+        "mstr": 9,
+        "int": 9,
+        "con": 9,
+        "spd": 14
+      },
+      "growth": {
+        "str": 13,
+        "dex": 10,
+        "mstr": 11,
+        "int": 10,
+        "con": 11,
+        "spd": 17
+      }
+    },
+    {
+      "index": 68,
+      "name": "회오리쥐",
+      "element": "풍",
+      "grade": "common",
+      "active_skill": {
+        "name": "돌풍",
+        "description": "거센 바람으로 밀친다"
+      },
+      "base_stats": {
+        "str": 10,
+        "dex": 9,
+        "mstr": 9,
+        "int": 9,
+        "con": 8,
+        "spd": 14
+      },
+      "growth": {
+        "str": 13,
+        "dex": 11,
+        "mstr": 11,
+        "int": 11,
+        "con": 10,
+        "spd": 16
+      }
+    },
+    {
+      "index": 69,
+      "name": "깃털토끼",
+      "element": "풍",
+      "grade": "common",
+      "active_skill": {
+        "name": "깃털칼날",
+        "description": "깃털을 칼처럼 날린다"
+      },
+      "base_stats": {
+        "str": 10,
+        "dex": 8,
+        "mstr": 9,
+        "int": 9,
+        "con": 9,
+        "spd": 15
+      },
+      "growth": {
+        "str": 13,
+        "dex": 10,
+        "mstr": 11,
+        "int": 11,
+        "con": 11,
+        "spd": 18
+      }
+    },
+    {
+      "index": 70,
+      "name": "질풍표범",
+      "element": "풍",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "깃털칼날",
+        "description": "깃털을 칼처럼 날린다"
+      },
+      "base_stats": {
+        "str": 17,
+        "dex": 15,
+        "mstr": 16,
+        "int": 14,
+        "con": 15,
+        "spd": 22
+      },
+      "growth": {
+        "str": 17,
+        "dex": 15,
+        "mstr": 16,
+        "int": 14,
+        "con": 15,
+        "spd": 22
+      }
+    },
+    {
+      "index": 71,
+      "name": "구름양",
+      "element": "풍",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "회오리",
+        "description": "작은 회오리에 가둔다"
+      },
+      "base_stats": {
+        "str": 16,
+        "dex": 14,
+        "mstr": 15,
+        "int": 13,
+        "con": 13,
+        "spd": 22
+      },
+      "growth": {
+        "str": 16,
+        "dex": 14,
+        "mstr": 15,
+        "int": 13,
+        "con": 13,
+        "spd": 22
+      }
+    },
+    {
+      "index": 72,
+      "name": "바람가오리",
+      "element": "풍",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "깃털칼날",
+        "description": "깃털을 칼처럼 날린다"
+      },
+      "base_stats": {
+        "str": 16,
+        "dex": 14,
+        "mstr": 14,
+        "int": 14,
+        "con": 15,
+        "spd": 21
+      },
+      "growth": {
+        "str": 16,
+        "dex": 14,
+        "mstr": 14,
+        "int": 14,
+        "con": 15,
+        "spd": 21
+      }
+    },
+    {
+      "index": 73,
+      "name": "소리매",
+      "element": "풍",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "회오리",
+        "description": "작은 회오리에 가둔다"
+      },
+      "base_stats": {
+        "str": 15,
+        "dex": 15,
+        "mstr": 16,
+        "int": 13,
+        "con": 15,
+        "spd": 24
+      },
+      "growth": {
+        "str": 15,
+        "dex": 15,
+        "mstr": 16,
+        "int": 13,
+        "con": 15,
+        "spd": 24
+      }
+    },
+    {
+      "index": 74,
+      "name": "회전날다람쥐",
+      "element": "풍",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "깃털칼날",
+        "description": "깃털을 칼처럼 날린다"
+      },
+      "base_stats": {
+        "str": 18,
+        "dex": 15,
+        "mstr": 14,
+        "int": 14,
+        "con": 14,
+        "spd": 22
+      },
+      "growth": {
+        "str": 18,
+        "dex": 15,
+        "mstr": 14,
+        "int": 14,
+        "con": 14,
+        "spd": 22
+      }
+    },
+    {
+      "index": 75,
+      "name": "폭풍독수리",
+      "element": "풍",
+      "grade": "rare",
+      "active_skill": {
+        "name": "회오리",
+        "description": "작은 회오리에 가둔다"
+      },
+      "base_stats": {
+        "str": 26,
+        "dex": 22,
+        "mstr": 21,
+        "int": 22,
+        "con": 23,
+        "spd": 35
+      },
+      "growth": {
+        "str": 23,
+        "dex": 20,
+        "mstr": 19,
+        "int": 19,
+        "con": 20,
+        "spd": 31
+      }
+    },
+    {
+      "index": 76,
+      "name": "진공사마귀",
+      "element": "풍",
+      "grade": "rare",
+      "active_skill": {
+        "name": "진공날",
+        "description": "공기를 갈라 벤다"
+      },
+      "base_stats": {
+        "str": 27,
+        "dex": 22,
+        "mstr": 25,
+        "int": 19,
+        "con": 23,
+        "spd": 34
+      },
+      "growth": {
+        "str": 24,
+        "dex": 20,
+        "mstr": 21,
+        "int": 17,
+        "con": 20,
+        "spd": 30
+      }
+    },
+    {
+      "index": 77,
+      "name": "하늘연무사",
+      "element": "풍",
+      "grade": "rare",
+      "active_skill": {
+        "name": "회오리",
+        "description": "작은 회오리에 가둔다"
+      },
+      "base_stats": {
+        "str": 25,
+        "dex": 22,
+        "mstr": 23,
+        "int": 21,
+        "con": 22,
+        "spd": 33
+      },
+      "growth": {
+        "str": 22,
+        "dex": 19,
+        "mstr": 20,
+        "int": 18,
+        "con": 19,
+        "spd": 29
+      }
+    },
+    {
+      "index": 78,
+      "name": "번개제비",
+      "element": "풍",
+      "grade": "rare",
+      "active_skill": {
+        "name": "진공날",
+        "description": "공기를 갈라 벤다"
+      },
+      "base_stats": {
+        "str": 27,
+        "dex": 22,
+        "mstr": 24,
+        "int": 21,
+        "con": 23,
+        "spd": 36
+      },
+      "growth": {
+        "str": 23,
+        "dex": 19,
+        "mstr": 21,
+        "int": 18,
+        "con": 20,
+        "spd": 31
+      }
+    },
+    {
+      "index": 79,
+      "name": "태풍기사",
+      "element": "풍",
+      "grade": "special",
+      "active_skill": {
+        "name": "질풍연격",
+        "description": "눈에 안 보이게 연타한다"
+      },
+      "base_stats": {
+        "str": 38,
+        "dex": 30,
+        "mstr": 33,
+        "int": 31,
+        "con": 31,
+        "spd": 51
+      },
+      "growth": {
+        "str": 29,
+        "dex": 23,
+        "mstr": 25,
+        "int": 24,
+        "con": 24,
+        "spd": 39
+      }
+    },
+    {
+      "index": 80,
+      "name": "창공비룡",
+      "element": "풍",
+      "grade": "special",
+      "active_skill": {
+        "name": "폭풍우",
+        "description": "비바람으로 몰아친다"
+      },
+      "base_stats": {
+        "str": 39,
+        "dex": 32,
+        "mstr": 33,
+        "int": 31,
+        "con": 29,
+        "spd": 44
+      },
+      "growth": {
+        "str": 29,
+        "dex": 24,
+        "mstr": 26,
+        "int": 23,
+        "con": 22,
+        "spd": 34
+      }
+    },
+    {
+      "index": 81,
+      "name": "무풍술사",
+      "element": "풍",
+      "grade": "special",
+      "active_skill": {
+        "name": "질풍연격",
+        "description": "눈에 안 보이게 연타한다"
+      },
+      "base_stats": {
+        "str": 33,
+        "dex": 31,
+        "mstr": 30,
+        "int": 30,
+        "con": 29,
+        "spd": 49
+      },
+      "growth": {
+        "str": 25,
+        "dex": 24,
+        "mstr": 23,
+        "int": 23,
+        "con": 22,
+        "spd": 38
+      }
+    },
+    {
+      "index": 82,
+      "name": "하늘고래",
+      "element": "풍",
+      "grade": "special",
+      "active_skill": {
+        "name": "폭풍우",
+        "description": "비바람으로 몰아친다"
+      },
+      "base_stats": {
+        "str": 38,
+        "dex": 29,
+        "mstr": 33,
+        "int": 31,
+        "con": 29,
+        "spd": 48
+      },
+      "growth": {
+        "str": 29,
+        "dex": 22,
+        "mstr": 25,
+        "int": 23,
+        "con": 23,
+        "spd": 36
+      }
+    },
+    {
+      "index": 83,
+      "name": "폭풍의룡",
+      "element": "풍",
+      "grade": "legend",
+      "active_skill": {
+        "name": "폭풍우",
+        "description": "비바람으로 몰아친다"
+      },
+      "base_stats": {
+        "str": 45,
+        "dex": 41,
+        "mstr": 41,
+        "int": 41,
+        "con": 40,
+        "spd": 66
+      },
+      "growth": {
+        "str": 30,
+        "dex": 27,
+        "mstr": 27,
+        "int": 28,
+        "con": 27,
+        "spd": 44
+      }
+    },
+    {
+      "index": 84,
+      "name": "창천수호자",
+      "element": "풍",
+      "grade": "legend",
+      "active_skill": {
+        "name": "창공가르기",
+        "description": "하늘째로 갈라놓는다"
+      },
+      "base_stats": {
+        "str": 47,
+        "dex": 41,
+        "mstr": 44,
+        "int": 41,
+        "con": 44,
+        "spd": 64
+      },
+      "growth": {
+        "str": 32,
+        "dex": 28,
+        "mstr": 29,
+        "int": 28,
+        "con": 30,
+        "spd": 43
+      }
+    },
+    {
+      "index": 85,
+      "name": "질풍군주",
+      "element": "풍",
+      "grade": "legend",
+      "active_skill": {
+        "name": "폭풍우",
+        "description": "비바람으로 몰아친다"
+      },
+      "base_stats": {
+        "str": 47,
+        "dex": 39,
+        "mstr": 42,
+        "int": 41,
+        "con": 41,
+        "spd": 69
+      },
+      "growth": {
+        "str": 32,
+        "dex": 27,
+        "mstr": 28,
+        "int": 28,
+        "con": 28,
+        "spd": 47
+      }
+    },
+    {
+      "index": 86,
+      "name": "대풍신",
+      "element": "풍",
+      "grade": "god",
+      "active_skill": {
+        "name": "창공가르기",
+        "description": "하늘째로 갈라놓는다"
+      },
+      "base_stats": {
+        "str": 66,
+        "dex": 55,
+        "mstr": 56,
+        "int": 54,
+        "con": 52,
+        "spd": 82
+      },
+      "growth": {
+        "str": 40,
+        "dex": 33,
+        "mstr": 34,
+        "int": 32,
+        "con": 31,
+        "spd": 49
+      }
+    },
+    {
+      "index": 87,
+      "name": "천공제",
+      "element": "풍",
+      "grade": "god",
+      "active_skill": {
+        "name": "대선풍",
+        "description": "모든 것을 날려버린다"
+      },
+      "base_stats": {
+        "str": 63,
+        "dex": 52,
+        "mstr": 57,
+        "int": 53,
+        "con": 53,
+        "spd": 83
+      },
+      "growth": {
+        "str": 38,
+        "dex": 31,
+        "mstr": 34,
+        "int": 32,
+        "con": 32,
+        "spd": 50
+      }
+    },
+    {
+      "index": 88,
+      "name": "반딧불이",
+      "element": "광",
+      "grade": "common",
+      "active_skill": {
+        "name": "섬광",
+        "description": "눈부신 빛을 터뜨린다"
+      },
+      "base_stats": {
+        "str": 8,
+        "dex": 9,
+        "mstr": 13,
+        "int": 11,
+        "con": 9,
+        "spd": 9
+      },
+      "growth": {
+        "str": 10,
+        "dex": 11,
+        "mstr": 15,
+        "int": 13,
+        "con": 11,
+        "spd": 10
+      }
+    },
+    {
+      "index": 89,
+      "name": "빛구슬",
+      "element": "광",
+      "grade": "common",
+      "active_skill": {
+        "name": "성광탄",
+        "description": "빛 구슬을 쏜다"
+      },
+      "base_stats": {
+        "str": 9,
+        "dex": 10,
+        "mstr": 13,
+        "int": 10,
+        "con": 9,
+        "spd": 8
+      },
+      "growth": {
+        "str": 11,
+        "dex": 12,
+        "mstr": 15,
+        "int": 13,
+        "con": 11,
+        "spd": 10
+      }
+    },
+    {
+      "index": 90,
+      "name": "햇살나비",
+      "element": "광",
+      "grade": "common",
+      "active_skill": {
+        "name": "섬광",
+        "description": "눈부신 빛을 터뜨린다"
+      },
+      "base_stats": {
+        "str": 9,
+        "dex": 10,
+        "mstr": 13,
+        "int": 11,
+        "con": 10,
+        "spd": 9
+      },
+      "growth": {
+        "str": 11,
+        "dex": 12,
+        "mstr": 15,
+        "int": 13,
+        "con": 12,
+        "spd": 10
+      }
+    },
+    {
+      "index": 91,
+      "name": "별똥쥐",
+      "element": "광",
+      "grade": "common",
+      "active_skill": {
+        "name": "성광탄",
+        "description": "빛 구슬을 쏜다"
+      },
+      "base_stats": {
+        "str": 9,
+        "dex": 10,
+        "mstr": 14,
+        "int": 11,
+        "con": 10,
+        "spd": 9
+      },
+      "growth": {
+        "str": 11,
+        "dex": 12,
+        "mstr": 17,
+        "int": 13,
+        "con": 12,
+        "spd": 11
+      }
+    },
+    {
+      "index": 92,
+      "name": "성광기사",
+      "element": "광",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "성광탄",
+        "description": "빛 구슬을 쏜다"
+      },
+      "base_stats": {
+        "str": 13,
+        "dex": 14,
+        "mstr": 21,
+        "int": 18,
+        "con": 14,
+        "spd": 15
+      },
+      "growth": {
+        "str": 13,
+        "dex": 14,
+        "mstr": 21,
+        "int": 18,
+        "con": 14,
+        "spd": 15
+      }
+    },
+    {
+      "index": 93,
+      "name": "은빛여우",
+      "element": "광",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "정화의빛",
+        "description": "어둠을 걷어낸다"
+      },
+      "base_stats": {
+        "str": 14,
+        "dex": 15,
+        "mstr": 21,
+        "int": 18,
+        "con": 13,
+        "spd": 14
+      },
+      "growth": {
+        "str": 14,
+        "dex": 15,
+        "mstr": 21,
+        "int": 18,
+        "con": 13,
+        "spd": 14
+      }
+    },
+    {
+      "index": 94,
+      "name": "서광새",
+      "element": "광",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "성광탄",
+        "description": "빛 구슬을 쏜다"
+      },
+      "base_stats": {
+        "str": 13,
+        "dex": 16,
+        "mstr": 20,
+        "int": 18,
+        "con": 14,
+        "spd": 13
+      },
+      "growth": {
+        "str": 13,
+        "dex": 16,
+        "mstr": 20,
+        "int": 18,
+        "con": 14,
+        "spd": 13
+      }
+    },
+    {
+      "index": 95,
+      "name": "광휘사슴",
+      "element": "광",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "정화의빛",
+        "description": "어둠을 걷어낸다"
+      },
+      "base_stats": {
+        "str": 14,
+        "dex": 15,
+        "mstr": 23,
+        "int": 18,
+        "con": 13,
+        "spd": 14
+      },
+      "growth": {
+        "str": 14,
+        "dex": 15,
+        "mstr": 23,
+        "int": 18,
+        "con": 13,
+        "spd": 14
+      }
+    },
+    {
+      "index": 96,
+      "name": "빛의무희",
+      "element": "광",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "성광탄",
+        "description": "빛 구슬을 쏜다"
+      },
+      "base_stats": {
+        "str": 13,
+        "dex": 16,
+        "mstr": 20,
+        "int": 17,
+        "con": 15,
+        "spd": 14
+      },
+      "growth": {
+        "str": 13,
+        "dex": 16,
+        "mstr": 20,
+        "int": 17,
+        "con": 15,
+        "spd": 14
+      }
+    },
+    {
+      "index": 97,
+      "name": "백광사자",
+      "element": "광",
+      "grade": "rare",
+      "active_skill": {
+        "name": "정화의빛",
+        "description": "어둠을 걷어낸다"
+      },
+      "base_stats": {
+        "str": 22,
+        "dex": 24,
+        "mstr": 30,
+        "int": 26,
+        "con": 21,
+        "spd": 21
+      },
+      "growth": {
+        "str": 19,
+        "dex": 21,
+        "mstr": 27,
+        "int": 23,
+        "con": 18,
+        "spd": 18
+      }
+    },
+    {
+      "index": 98,
+      "name": "성혼술사",
+      "element": "광",
+      "grade": "rare",
+      "active_skill": {
+        "name": "광선검",
+        "description": "빛으로 벼린 검을 휘두른다"
+      },
+      "base_stats": {
+        "str": 22,
+        "dex": 22,
+        "mstr": 32,
+        "int": 25,
+        "con": 23,
+        "spd": 21
+      },
+      "growth": {
+        "str": 19,
+        "dex": 19,
+        "mstr": 28,
+        "int": 22,
+        "con": 20,
+        "spd": 19
+      }
+    },
+    {
+      "index": 99,
+      "name": "광검전사",
+      "element": "광",
+      "grade": "rare",
+      "active_skill": {
+        "name": "정화의빛",
+        "description": "어둠을 걷어낸다"
+      },
+      "base_stats": {
+        "str": 21,
+        "dex": 23,
+        "mstr": 33,
+        "int": 25,
+        "con": 21,
+        "spd": 22
+      },
+      "growth": {
+        "str": 18,
+        "dex": 20,
+        "mstr": 28,
+        "int": 22,
+        "con": 19,
+        "spd": 19
+      }
+    },
+    {
+      "index": 100,
+      "name": "여명천사",
+      "element": "광",
+      "grade": "rare",
+      "active_skill": {
+        "name": "광선검",
+        "description": "빛으로 벼린 검을 휘두른다"
+      },
+      "base_stats": {
+        "str": 22,
+        "dex": 24,
+        "mstr": 30,
+        "int": 28,
+        "con": 21,
+        "spd": 22
+      },
+      "growth": {
+        "str": 19,
+        "dex": 21,
+        "mstr": 26,
+        "int": 24,
+        "con": 19,
+        "spd": 19
+      }
+    },
+    {
+      "index": 101,
+      "name": "대천사병",
+      "element": "광",
+      "grade": "special",
+      "active_skill": {
+        "name": "여명의창",
+        "description": "새벽빛 창을 던진다"
+      },
+      "base_stats": {
+        "str": 28,
+        "dex": 32,
+        "mstr": 48,
+        "int": 40,
+        "con": 29,
+        "spd": 31
+      },
+      "growth": {
+        "str": 22,
+        "dex": 24,
+        "mstr": 37,
+        "int": 30,
+        "con": 22,
+        "spd": 24
+      }
+    },
+    {
+      "index": 102,
+      "name": "광휘룡",
+      "element": "광",
+      "grade": "special",
+      "active_skill": {
+        "name": "성역",
+        "description": "빛의 결계로 짓누른다"
+      },
+      "base_stats": {
+        "str": 31,
+        "dex": 33,
+        "mstr": 50,
+        "int": 37,
+        "con": 30,
+        "spd": 29
+      },
+      "growth": {
+        "str": 24,
+        "dex": 25,
+        "mstr": 38,
+        "int": 28,
+        "con": 23,
+        "spd": 22
+      }
+    },
+    {
+      "index": 103,
+      "name": "성좌술사",
+      "element": "광",
+      "grade": "special",
+      "active_skill": {
+        "name": "여명의창",
+        "description": "새벽빛 창을 던진다"
+      },
+      "base_stats": {
+        "str": 28,
+        "dex": 31,
+        "mstr": 44,
+        "int": 35,
+        "con": 29,
+        "spd": 29
+      },
+      "growth": {
+        "str": 21,
+        "dex": 24,
+        "mstr": 33,
+        "int": 27,
+        "con": 22,
+        "spd": 23
+      }
+    },
+    {
+      "index": 104,
+      "name": "백야기사",
+      "element": "광",
+      "grade": "special",
+      "active_skill": {
+        "name": "성역",
+        "description": "빛의 결계로 짓누른다"
+      },
+      "base_stats": {
+        "str": 31,
+        "dex": 30,
+        "mstr": 49,
+        "int": 36,
+        "con": 28,
+        "spd": 29
+      },
+      "growth": {
+        "str": 23,
+        "dex": 23,
+        "mstr": 38,
+        "int": 28,
+        "con": 22,
+        "spd": 22
+      }
+    },
+    {
+      "index": 105,
+      "name": "여명의룡",
+      "element": "광",
+      "grade": "legend",
+      "active_skill": {
+        "name": "성역",
+        "description": "빛의 결계로 짓누른다"
+      },
+      "base_stats": {
+        "str": 38,
+        "dex": 44,
+        "mstr": 64,
+        "int": 54,
+        "con": 40,
+        "spd": 43
+      },
+      "growth": {
+        "str": 26,
+        "dex": 30,
+        "mstr": 43,
+        "int": 36,
+        "con": 27,
+        "spd": 29
+      }
+    },
+    {
+      "index": 106,
+      "name": "대성당수호자",
+      "element": "광",
+      "grade": "legend",
+      "active_skill": {
+        "name": "심판의빛",
+        "description": "하늘에서 빛기둥이 떨어진다"
+      },
+      "base_stats": {
+        "str": 40,
+        "dex": 44,
+        "mstr": 62,
+        "int": 51,
+        "con": 41,
+        "spd": 44
+      },
+      "growth": {
+        "str": 27,
+        "dex": 30,
+        "mstr": 41,
+        "int": 34,
+        "con": 28,
+        "spd": 30
+      }
+    },
+    {
+      "index": 107,
+      "name": "광명사제",
+      "element": "광",
+      "grade": "legend",
+      "active_skill": {
+        "name": "성역",
+        "description": "빛의 결계로 짓누른다"
+      },
+      "base_stats": {
+        "str": 39,
+        "dex": 44,
+        "mstr": 62,
+        "int": 47,
+        "con": 44,
+        "spd": 42
+      },
+      "growth": {
+        "str": 26,
+        "dex": 30,
+        "mstr": 42,
+        "int": 32,
+        "con": 30,
+        "spd": 28
+      }
+    },
+    {
+      "index": 108,
+      "name": "광휘신",
+      "element": "광",
+      "grade": "god",
+      "active_skill": {
+        "name": "심판의빛",
+        "description": "하늘에서 빛기둥이 떨어진다"
+      },
+      "base_stats": {
+        "str": 53,
+        "dex": 57,
+        "mstr": 86,
+        "int": 63,
+        "con": 57,
+        "spd": 53
+      },
+      "growth": {
+        "str": 32,
+        "dex": 34,
+        "mstr": 52,
+        "int": 38,
+        "con": 34,
+        "spd": 32
+      }
+    },
+    {
+      "index": 109,
+      "name": "태양신관",
+      "element": "광",
+      "grade": "god",
+      "active_skill": {
+        "name": "천상광휘",
+        "description": "온 하늘이 빛난다"
+      },
+      "base_stats": {
+        "str": 54,
+        "dex": 60,
+        "mstr": 76,
+        "int": 61,
+        "con": 56,
+        "spd": 54
+      },
+      "growth": {
+        "str": 32,
+        "dex": 36,
+        "mstr": 45,
+        "int": 37,
+        "con": 34,
+        "spd": 33
+      }
+    },
+    {
+      "index": 110,
+      "name": "그림자쥐",
+      "element": "악",
+      "grade": "common",
+      "active_skill": {
+        "name": "그림자손톱",
+        "description": "그림자를 세워 할퀸다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 10,
+        "mstr": 10,
+        "int": 12,
+        "con": 9,
+        "spd": 9
+      },
+      "growth": {
+        "str": 13,
+        "dex": 11,
+        "mstr": 13,
+        "int": 15,
+        "con": 10,
+        "spd": 10
+      }
+    },
+    {
+      "index": 111,
+      "name": "검은박쥐",
+      "element": "악",
+      "grade": "common",
+      "active_skill": {
+        "name": "저주",
+        "description": "약한 저주를 건다"
+      },
+      "base_stats": {
+        "str": 12,
+        "dex": 8,
+        "mstr": 12,
+        "int": 12,
+        "con": 8,
+        "spd": 8
+      },
+      "growth": {
+        "str": 14,
+        "dex": 10,
+        "mstr": 14,
+        "int": 15,
+        "con": 10,
+        "spd": 10
+      }
+    },
+    {
+      "index": 112,
+      "name": "저주인형",
+      "element": "악",
+      "grade": "common",
+      "active_skill": {
+        "name": "그림자손톱",
+        "description": "그림자를 세워 할퀸다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 10,
+        "mstr": 12,
+        "int": 12,
+        "con": 9,
+        "spd": 8
+      },
+      "growth": {
+        "str": 13,
+        "dex": 12,
+        "mstr": 14,
+        "int": 14,
+        "con": 11,
+        "spd": 10
+      }
+    },
+    {
+      "index": 113,
+      "name": "늪귀신",
+      "element": "악",
+      "grade": "common",
+      "active_skill": {
+        "name": "저주",
+        "description": "약한 저주를 건다"
+      },
+      "base_stats": {
+        "str": 11,
+        "dex": 9,
+        "mstr": 11,
+        "int": 12,
+        "con": 10,
+        "spd": 9
+      },
+      "growth": {
+        "str": 13,
+        "dex": 10,
+        "mstr": 13,
+        "int": 14,
+        "con": 12,
+        "spd": 11
+      }
+    },
+    {
+      "index": 114,
+      "name": "밤까마귀",
+      "element": "악",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "저주",
+        "description": "약한 저주를 건다"
+      },
+      "base_stats": {
+        "str": 18,
+        "dex": 14,
+        "mstr": 16,
+        "int": 20,
+        "con": 15,
+        "spd": 14
+      },
+      "growth": {
+        "str": 18,
+        "dex": 14,
+        "mstr": 16,
+        "int": 20,
+        "con": 15,
+        "spd": 14
+      }
+    },
+    {
+      "index": 115,
+      "name": "해골병사",
+      "element": "악",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "흡혈",
+        "description": "상대의 기운을 빨아들인다"
+      },
+      "base_stats": {
+        "str": 18,
+        "dex": 15,
+        "mstr": 19,
+        "int": 19,
+        "con": 14,
+        "spd": 13
+      },
+      "growth": {
+        "str": 18,
+        "dex": 15,
+        "mstr": 19,
+        "int": 19,
+        "con": 14,
+        "spd": 13
+      }
+    },
+    {
+      "index": 116,
+      "name": "흑묘요괴",
+      "element": "악",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "저주",
+        "description": "약한 저주를 건다"
+      },
+      "base_stats": {
+        "str": 20,
+        "dex": 14,
+        "mstr": 17,
+        "int": 18,
+        "con": 13,
+        "spd": 13
+      },
+      "growth": {
+        "str": 20,
+        "dex": 14,
+        "mstr": 17,
+        "int": 18,
+        "con": 13,
+        "spd": 13
+      }
+    },
+    {
+      "index": 117,
+      "name": "독무령",
+      "element": "악",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "흡혈",
+        "description": "상대의 기운을 빨아들인다"
+      },
+      "base_stats": {
+        "str": 18,
+        "dex": 15,
+        "mstr": 19,
+        "int": 19,
+        "con": 14,
+        "spd": 14
+      },
+      "growth": {
+        "str": 18,
+        "dex": 15,
+        "mstr": 19,
+        "int": 19,
+        "con": 14,
+        "spd": 14
+      }
+    },
+    {
+      "index": 118,
+      "name": "그믐늑대",
+      "element": "악",
+      "grade": "uncommon",
+      "active_skill": {
+        "name": "저주",
+        "description": "약한 저주를 건다"
+      },
+      "base_stats": {
+        "str": 18,
+        "dex": 14,
+        "mstr": 18,
+        "int": 19,
+        "con": 15,
+        "spd": 13
+      },
+      "growth": {
+        "str": 18,
+        "dex": 14,
+        "mstr": 18,
+        "int": 19,
+        "con": 15,
+        "spd": 13
+      }
+    },
+    {
+      "index": 119,
+      "name": "사령술사",
+      "element": "악",
+      "grade": "rare",
+      "active_skill": {
+        "name": "흡혈",
+        "description": "상대의 기운을 빨아들인다"
+      },
+      "base_stats": {
+        "str": 29,
+        "dex": 23,
+        "mstr": 25,
+        "int": 29,
+        "con": 22,
+        "spd": 20
+      },
+      "growth": {
+        "str": 26,
+        "dex": 20,
+        "mstr": 22,
+        "int": 25,
+        "con": 20,
+        "spd": 17
+      }
+    },
+    {
+      "index": 120,
+      "name": "흑염거미",
+      "element": "악",
+      "grade": "rare",
+      "active_skill": {
+        "name": "암흑탄",
+        "description": "어둠 덩어리를 쏜다"
+      },
+      "base_stats": {
+        "str": 27,
+        "dex": 23,
+        "mstr": 25,
+        "int": 29,
+        "con": 21,
+        "spd": 20
+      },
+      "growth": {
+        "str": 24,
+        "dex": 20,
+        "mstr": 22,
+        "int": 25,
+        "con": 19,
+        "spd": 17
+      }
+    },
+    {
+      "index": 121,
+      "name": "망령기사",
+      "element": "악",
+      "grade": "rare",
+      "active_skill": {
+        "name": "흡혈",
+        "description": "상대의 기운을 빨아들인다"
+      },
+      "base_stats": {
+        "str": 28,
+        "dex": 22,
+        "mstr": 25,
+        "int": 29,
+        "con": 20,
+        "spd": 20
+      },
+      "growth": {
+        "str": 25,
+        "dex": 19,
+        "mstr": 22,
+        "int": 25,
+        "con": 18,
+        "spd": 18
+      }
+    },
+    {
+      "index": 122,
+      "name": "어둠거인",
+      "element": "악",
+      "grade": "rare",
+      "active_skill": {
+        "name": "암흑탄",
+        "description": "어둠 덩어리를 쏜다"
+      },
+      "base_stats": {
+        "str": 30,
+        "dex": 22,
+        "mstr": 28,
+        "int": 26,
+        "con": 23,
+        "spd": 22
+      },
+      "growth": {
+        "str": 26,
+        "dex": 19,
+        "mstr": 25,
+        "int": 23,
+        "con": 20,
+        "spd": 19
+      }
+    },
+    {
+      "index": 123,
+      "name": "흑룡새끼",
+      "element": "악",
+      "grade": "special",
+      "active_skill": {
+        "name": "공포의포효",
+        "description": "겁을 주어 위축시킨다"
+      },
+      "base_stats": {
+        "str": 41,
+        "dex": 30,
+        "mstr": 37,
+        "int": 40,
+        "con": 29,
+        "spd": 30
+      },
+      "growth": {
+        "str": 32,
+        "dex": 23,
+        "mstr": 28,
+        "int": 31,
+        "con": 22,
+        "spd": 23
+      }
+    },
+    {
+      "index": 124,
+      "name": "심연마녀",
+      "element": "악",
+      "grade": "special",
+      "active_skill": {
+        "name": "사념의칼날",
+        "description": "원념을 칼로 벼린다"
+      },
+      "base_stats": {
+        "str": 41,
+        "dex": 29,
+        "mstr": 38,
+        "int": 40,
+        "con": 31,
+        "spd": 30
+      },
+      "growth": {
+        "str": 31,
+        "dex": 22,
+        "mstr": 29,
+        "int": 31,
+        "con": 23,
+        "spd": 23
+      }
+    },
+    {
+      "index": 125,
+      "name": "저주공작",
+      "element": "악",
+      "grade": "special",
+      "active_skill": {
+        "name": "공포의포효",
+        "description": "겁을 주어 위축시킨다"
+      },
+      "base_stats": {
+        "str": 40,
+        "dex": 32,
+        "mstr": 36,
+        "int": 37,
+        "con": 30,
+        "spd": 31
+      },
+      "growth": {
+        "str": 31,
+        "dex": 24,
+        "mstr": 27,
+        "int": 28,
+        "con": 23,
+        "spd": 24
+      }
+    },
+    {
+      "index": 126,
+      "name": "암흑기사",
+      "element": "악",
+      "grade": "special",
+      "active_skill": {
+        "name": "사념의칼날",
+        "description": "원념을 칼로 벼린다"
+      },
+      "base_stats": {
+        "str": 38,
+        "dex": 30,
+        "mstr": 40,
+        "int": 36,
+        "con": 29,
+        "spd": 30
+      },
+      "growth": {
+        "str": 29,
+        "dex": 23,
+        "mstr": 31,
+        "int": 28,
+        "con": 22,
+        "spd": 23
+      }
+    },
+    {
+      "index": 127,
+      "name": "심연의룡",
+      "element": "악",
+      "grade": "legend",
+      "active_skill": {
+        "name": "사념의칼날",
+        "description": "원념을 칼로 벼린다"
+      },
+      "base_stats": {
+        "str": 55,
+        "dex": 41,
+        "mstr": 47,
+        "int": 52,
+        "con": 41,
+        "spd": 39
+      },
+      "growth": {
+        "str": 37,
+        "dex": 28,
+        "mstr": 32,
+        "int": 35,
+        "con": 27,
+        "spd": 26
+      }
+    },
+    {
+      "index": 128,
+      "name": "나락사제",
+      "element": "악",
+      "grade": "legend",
+      "active_skill": {
+        "name": "나락의손길",
+        "description": "발밑에서 손이 솟는다"
+      },
+      "base_stats": {
+        "str": 53,
+        "dex": 42,
+        "mstr": 48,
+        "int": 53,
+        "con": 39,
+        "spd": 37
+      },
+      "growth": {
+        "str": 36,
+        "dex": 28,
+        "mstr": 32,
+        "int": 36,
+        "con": 26,
+        "spd": 25
+      }
+    },
+    {
+      "index": 129,
+      "name": "흑월군주",
+      "element": "악",
+      "grade": "legend",
+      "active_skill": {
+        "name": "사념의칼날",
+        "description": "원념을 칼로 벼린다"
+      },
+      "base_stats": {
+        "str": 49,
+        "dex": 42,
+        "mstr": 53,
+        "int": 52,
+        "con": 42,
+        "spd": 41
+      },
+      "growth": {
+        "str": 33,
+        "dex": 28,
+        "mstr": 36,
+        "int": 35,
+        "con": 28,
+        "spd": 27
+      }
+    },
+    {
+      "index": 130,
+      "name": "암흑제",
+      "element": "악",
+      "grade": "god",
+      "active_skill": {
+        "name": "나락의손길",
+        "description": "발밑에서 손이 솟는다"
+      },
+      "base_stats": {
+        "str": 66,
+        "dex": 55,
+        "mstr": 66,
+        "int": 64,
+        "con": 52,
+        "spd": 49
+      },
+      "growth": {
+        "str": 40,
+        "dex": 33,
+        "mstr": 39,
+        "int": 38,
+        "con": 31,
+        "spd": 29
+      }
+    },
+    {
+      "index": 131,
+      "name": "나락신",
+      "element": "악",
+      "grade": "god",
+      "active_skill": {
+        "name": "종말의어둠",
+        "description": "빛을 통째로 삼킨다"
+      },
+      "base_stats": {
+        "str": 68,
+        "dex": 57,
+        "mstr": 64,
+        "int": 68,
+        "con": 51,
+        "spd": 55
+      },
+      "growth": {
+        "str": 41,
+        "dex": 34,
+        "mstr": 39,
+        "int": 41,
+        "con": 30,
+        "spd": 33
+      }
+    }
+  ]
+}

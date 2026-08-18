@@ -1,0 +1,44 @@
+{
+  "origin": "이 저장소에서 만든 오리지널 아이템 목록",
+  "items": {
+    "포션":        {"category": "소비", "price": 60,   "effect": {"hp": 60}},
+    "하이포션":     {"category": "소비", "price": 220,  "effect": {"hp": 200}},
+    "엑스포션":     {"category": "소비", "price": 700,  "effect": {"hp": 600}},
+    "에테르":       {"category": "소비", "price": 300,  "effect": {"sp": 40}},
+    "부활깃털":     {"category": "소비", "price": 900,  "effect": {"revive": 0.5}},
+
+    "몬스터볼":     {"category": "볼",   "price": 100,  "capture_bonus": 1.0},
+    "하이볼":       {"category": "볼",   "price": 400,  "capture_bonus": 1.6},
+    "마스터볼":     {"category": "볼",   "price": 5000, "capture_bonus": 3.0},
+
+    "강화촉매":     {"category": "보조", "price": 500,  "enhance_bonus": 0.20},
+    "조합촉매":     {"category": "보조", "price": 800,  "fuse_bonus": 0.20},
+
+    "마블-수":      {"category": "먹이", "price": 120, "element": "수"},
+    "마블-화":      {"category": "먹이", "price": 120, "element": "화"},
+    "마블-목":      {"category": "먹이", "price": 120, "element": "목"},
+    "마블-풍":      {"category": "먹이", "price": 120, "element": "풍"},
+    "마블-광":      {"category": "먹이", "price": 120, "element": "광"},
+    "마블-악":      {"category": "먹이", "price": 120, "element": "악"},
+
+    "단단한뿔":     {"category": "재료", "price": 80},
+    "맑은수정":     {"category": "재료", "price": 80},
+    "불꽃결정":     {"category": "재료", "price": 80},
+    "잎맥섬유":     {"category": "재료", "price": 80},
+    "바람깃털":     {"category": "재료", "price": 80},
+    "빛조각":       {"category": "재료", "price": 120},
+    "어둠파편":     {"category": "재료", "price": 120},
+    "두꺼운가죽":   {"category": "재료", "price": 80},
+    "날카로운송곳니": {"category": "재료", "price": 80},
+    "마력의알":     {"category": "재료", "price": 150}
+  },
+  "drops": {
+    "_comment": "전투 승리 시 등급별로 굴리는 재료 드롭 후보",
+    "common":   ["단단한뿔", "두꺼운가죽", "잎맥섬유"],
+    "uncommon": ["날카로운송곳니", "바람깃털", "맑은수정"],
+    "rare":     ["불꽃결정", "마력의알", "맑은수정"],
+    "special":  ["빛조각", "어둠파편", "마력의알"],
+    "legend":   ["빛조각", "어둠파편"],
+    "god":      ["빛조각", "어둠파편"]
+  }
+}

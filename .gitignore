@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*.apk
+
+# 원작 APK에서 추출한 데이터는 저장소에 두지 않는다. 필요하면 각자
+# tools/extract_apk.py 로 직접 뽑아 쓴다.
+data/extracted/
+saves/

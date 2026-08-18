@@ -1,0 +1,23 @@
+{
+  "origin": "이 저장소에서 만든 오리지널 지역 목록",
+  "areas": [
+    {"name": "여울 해변",   "element": "수", "levels": [2, 6],   "grades": ["common", "common"]},
+    {"name": "새벽 숲",     "element": "목", "levels": [4, 9],   "grades": ["common", "common"]},
+    {"name": "바람 언덕",   "element": "풍", "levels": [7, 12],  "grades": ["common", "uncommon"]},
+    {"name": "잿빛 협곡",   "element": "화", "levels": [10, 15], "grades": ["common", "uncommon"]},
+    {"name": "여명 평원",   "element": "광", "levels": [13, 18], "grades": ["common", "uncommon"]},
+    {"name": "그믐 습지",   "element": "악", "levels": [16, 21], "grades": ["uncommon", "uncommon"]},
+    {"name": "안개늪",      "element": "수", "levels": [20, 25], "grades": ["uncommon", "rare"]},
+    {"name": "이끼 계곡",   "element": "목", "levels": [24, 29], "grades": ["uncommon", "rare"]},
+    {"name": "구름 고원",   "element": "풍", "levels": [28, 33], "grades": ["rare", "rare"]},
+    {"name": "용암 동굴",   "element": "화", "levels": [32, 37], "grades": ["rare", "special"]},
+    {"name": "빛의 회랑",   "element": "광", "levels": [36, 41], "grades": ["rare", "special"]},
+    {"name": "폐허 묘지",   "element": "악", "levels": [40, 45], "grades": ["special", "special"]},
+    {"name": "산호 해구",   "element": "수", "levels": [45, 50], "grades": ["special", "legend"]},
+    {"name": "세계수 뿌리", "element": "목", "levels": [50, 55], "grades": ["special", "legend"]},
+    {"name": "폭풍 절벽",   "element": "풍", "levels": [55, 60], "grades": ["legend", "legend"]},
+    {"name": "불의 신전",   "element": "화", "levels": [60, 66], "grades": ["legend", "god"]},
+    {"name": "성좌 신전",   "element": "광", "levels": [66, 72], "grades": ["legend", "god"]},
+    {"name": "나락 심연",   "element": "악", "levels": [72, 80], "grades": ["god", "god"]}
+  ]
+}

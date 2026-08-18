@@ -1,0 +1,248 @@
+{
+  "_comment": [
+    "원작에서 뽑아낸 것은 이름/속성/등급/기본스탯/성장치/파티포인트뿐이다.",
+    "아래 계수와 상성표는 원작 바이너리에 텍스트로 남아 있지 않아 이 프로젝트에서",
+    "새로 정한 값이다. 밸런스를 바꾸고 싶으면 코드가 아니라 이 파일을 고친다."
+  ],
+  "stat_order": [
+    "str",
+    "dex",
+    "mstr",
+    "int",
+    "con",
+    "spd"
+  ],
+  "party_cost": {
+    "common": 1,
+    "uncommon": 2,
+    "rare": 4,
+    "special": 7,
+    "legend": 8,
+    "god": 9
+  },
+  "rank_party_points": [
+    {
+      "rank": "수련생",
+      "points": 4
+    },
+    {
+      "rank": "견습",
+      "points": 5
+    },
+    {
+      "rank": "비기너",
+      "points": 6
+    },
+    {
+      "rank": "헌터",
+      "points": 7
+    },
+    {
+      "rank": "스컬러",
+      "points": 8
+    },
+    {
+      "rank": "러너",
+      "points": 9
+    },
+    {
+      "rank": "액터",
+      "points": 10
+    },
+    {
+      "rank": "익스퍼터",
+      "points": 12
+    },
+    {
+      "rank": "레전드",
+      "points": 14
+    },
+    {
+      "rank": "마스터",
+      "points": 16
+    },
+    {
+      "rank": "진마스터",
+      "points": 18
+    }
+  ],
+  "element_chart": {
+    "_comment": "화>목>풍>수>화 순환. 광과 악은 서로에게만 강하다. 스킬 공격은 배율을 그대로 받고, 물리 공격은 physical_weight 만큼만 받는다.",
+    "strong_against": {
+      "화": [
+        "목"
+      ],
+      "목": [
+        "풍"
+      ],
+      "풍": [
+        "수"
+      ],
+      "수": [
+        "화"
+      ],
+      "광": [
+        "악"
+      ],
+      "악": [
+        "광"
+      ]
+    },
+    "advantage_multiplier": 1.5,
+    "disadvantage_multiplier": 0.75,
+    "physical_weight": 0.4
+  },
+  "growth": {
+    "_comment": "레벨당 성장 = item_attr.dat 성장치 / growth_divisor",
+    "growth_divisor": 10
+  },
+  "vitals": {
+    "hp_base": 15,
+    "hp_per_con": 5,
+    "hp_per_level": 2,
+    "sp_base": 20,
+    "sp_per_int": 1,
+    "sp_per_level": 1
+  },
+  "damage": {
+    "physical_attack_scale": 1.0,
+    "physical_defense_scale": 0.45,
+    "skill_attack_scale": 1.0,
+    "skill_defense_scale": 0.45,
+    "variance_min": 0.9,
+    "variance_max": 1.1,
+    "critical_chance": 0.05,
+    "critical_multiplier": 1.8,
+    "guard_reduction": 0.5,
+    "minimum_damage": 1
+  },
+  "skill_cost": {
+    "base": 6,
+    "per_five_levels": 1
+  },
+  "flee": {
+    "base_chance": 0.4,
+    "speed_weight": 0.01,
+    "min": 0.1,
+    "max": 0.95
+  },
+  "capture": {
+    "grade_base": {
+      "common": 0.6,
+      "uncommon": 0.45,
+      "rare": 0.3,
+      "special": 0.18,
+      "legend": 0.08,
+      "god": 0.03
+    },
+    "hp_weight": 0.8,
+    "same_element_bonus": 1.2,
+    "ball_bonus": {
+      "몬스터볼": 1.0,
+      "하이몬스터볼": 1.6,
+      "마스터몬스터볼": 3.0
+    }
+  },
+  "condition": {
+    "food_max": 100,
+    "food_per_battle": 2,
+    "starving_penalty": 0.8,
+    "feel_max": 999,
+    "feel_per_battle": 12,
+    "feel_per_marble": 60,
+    "feel_loss_on_death": 80,
+    "evolution_bonus": 1.15
+  },
+  "experience": {
+    "base": 8,
+    "per_level": 6,
+    "grade_multiplier": {
+      "common": 1.0,
+      "uncommon": 1.3,
+      "rare": 1.8,
+      "special": 2.4,
+      "legend": 3.2,
+      "god": 4.0
+    },
+    "auto_battle_ratio": 0.6,
+    "level_curve": 30,
+    "max_level": 99
+  },
+  "island": {
+    "_comment": "미지의 섬: 섬 레벨이 오르면 파티 포인트가 늘고 상위 등급이 출현한다.",
+    "party_point_levels": [
+      20,
+      40,
+      60,
+      80
+    ],
+    "grade_unlock": {
+      "special": 10,
+      "legend": 20,
+      "god": 30
+    },
+    "visit_experience_bonus": 1.5,
+    "host_experience_share": 0.2,
+    "experience_per_level": 120,
+    "max_level": 99
+  },
+  "fusion": {
+    "_comment": "같은 등급 둘을 합쳐 한 등급 위를 노린다. 실패하면 한 등급 아래가 나온다.",
+    "success_rate": {
+      "common": 0.7,
+      "uncommon": 0.55,
+      "rare": 0.4,
+      "special": 0.28,
+      "legend": 0.15
+    },
+    "cost_gold": {
+      "common": 200,
+      "uncommon": 600,
+      "rare": 1600,
+      "special": 4000,
+      "legend": 9000
+    },
+    "inherit_passive_chance": 0.5
+  },
+  "enhance": {
+    "_comment": "BRAIN(지능)을 올린다. 지능이 높을수록 성공률이 떨어진다.",
+    "base_rate": 0.85,
+    "decay_per_point": 0.012,
+    "min_rate": 0.1,
+    "cost_gold_per_point": 40,
+    "max_brain": 99
+  },
+  "skill_craft": {
+    "_comment": "패시브 장착과 레벨업에 드는 골드. 재료는 data/passives.json 에 있다.",
+    "attach_gold": 300,
+    "level_up_gold_multiplier": 2.0
+  },
+  "network": {
+    "_comment": "네트워크 기능은 서버 없이 이 저장소 안에서 흉내 낸다.",
+    "rank_point_win": 24,
+    "rank_point_loss": 12,
+    "rank_range": 8,
+    "challenge_rounds": 3,
+    "market_sell_ratio": 0.4,
+    "market_price_per_level": 18,
+    "market_grade_multiplier": {
+      "common": 1.0,
+      "uncommon": 1.6,
+      "rare": 2.6,
+      "special": 4.2,
+      "legend": 6.5,
+      "god": 10.0
+    },
+    "mailbox_gift_pool": [
+      "포션",
+      "하이포션",
+      "에테르",
+      "몬스터볼",
+      "강화촉매",
+      "조합촉매",
+      "맑은수정",
+      "빛조각"
+    ],
+    "mailbox_gifts_per_day": 2
+  }
+}

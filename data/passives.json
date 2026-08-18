@@ -1,0 +1,299 @@
+{
+  "origin": "이 저장소에서 만든 오리지널 패시브 스킬 목록",
+  "slots": {
+    "base": 3,
+    "evolved": 6
+  },
+  "passives": [
+    {
+      "id": "strike",
+      "name": "강타",
+      "description": "물리 공격력이 오른다",
+      "kind": "physical_up",
+      "levels": [
+        0.1,
+        0.16,
+        0.24
+      ],
+      "materials": {
+        "날카로운송곳니": 2
+      }
+    },
+    {
+      "id": "amplify",
+      "name": "마력증폭",
+      "description": "스킬 공격력이 오른다",
+      "kind": "skill_up",
+      "levels": [
+        0.1,
+        0.16,
+        0.24
+      ],
+      "materials": {
+        "마력의알": 2
+      }
+    },
+    {
+      "id": "ironhide",
+      "name": "철갑",
+      "description": "받는 물리 피해가 줄어든다",
+      "kind": "physical_guard",
+      "levels": [
+        0.08,
+        0.13,
+        0.2
+      ],
+      "materials": {
+        "두꺼운가죽": 2
+      }
+    },
+    {
+      "id": "barrier",
+      "name": "결계강화",
+      "description": "받는 스킬 피해가 줄어든다",
+      "kind": "skill_guard",
+      "levels": [
+        0.08,
+        0.13,
+        0.2
+      ],
+      "materials": {
+        "맑은수정": 2
+      }
+    },
+    {
+      "id": "keen",
+      "name": "예리함",
+      "description": "크리티컬 확률이 오른다",
+      "kind": "critical_up",
+      "levels": [
+        0.05,
+        0.09,
+        0.14
+      ],
+      "materials": {
+        "날카로운송곳니": 1,
+        "맑은수정": 1
+      }
+    },
+    {
+      "id": "haste",
+      "name": "신속",
+      "description": "속도가 오른다",
+      "kind": "speed_up",
+      "levels": [
+        0.08,
+        0.14,
+        0.2
+      ],
+      "materials": {
+        "바람깃털": 2
+      }
+    },
+    {
+      "id": "desperate",
+      "name": "배수의진",
+      "description": "HP가 30% 이하일 때 공격력이 크게 오른다",
+      "kind": "desperate",
+      "levels": [
+        0.2,
+        0.32,
+        0.45
+      ],
+      "materials": {
+        "불꽃결정": 2
+      }
+    },
+    {
+      "id": "rage",
+      "name": "분노",
+      "description": "공격받을 때마다 공격력이 누적으로 오른다 (5회까지)",
+      "kind": "rage",
+      "levels": [
+        0.04,
+        0.06,
+        0.09
+      ],
+      "materials": {
+        "불꽃결정": 1,
+        "어둠파편": 1
+      }
+    },
+    {
+      "id": "bulwark",
+      "name": "방벽술",
+      "description": "방어할 때 피해를 더 줄인다",
+      "kind": "guard_master",
+      "levels": [
+        0.1,
+        0.16,
+        0.24
+      ],
+      "materials": {
+        "두꺼운가죽": 1,
+        "단단한뿔": 1
+      }
+    },
+    {
+      "id": "thrift",
+      "name": "절약",
+      "description": "스킬의 SP 소모가 줄어든다",
+      "kind": "sp_saver",
+      "levels": [
+        0.15,
+        0.25,
+        0.4
+      ],
+      "materials": {
+        "마력의알": 1,
+        "잎맥섬유": 1
+      }
+    },
+    {
+      "id": "vanguard",
+      "name": "선제",
+      "description": "속도가 같을 때 먼저 움직인다",
+      "kind": "first_strike",
+      "levels": [
+        1,
+        1,
+        1
+      ],
+      "materials": {
+        "바람깃털": 1,
+        "빛조각": 1
+      }
+    },
+    {
+      "id": "affinity",
+      "name": "속성친화",
+      "description": "속성 상성이 유리할 때 위력이 더 오른다",
+      "kind": "affinity",
+      "levels": [
+        0.12,
+        0.2,
+        0.3
+      ],
+      "materials": {
+        "맑은수정": 1,
+        "빛조각": 1
+      }
+    },
+    {
+      "id": "drain",
+      "name": "흡혈",
+      "description": "준 피해의 일부만큼 HP를 회복한다",
+      "kind": "drain",
+      "levels": [
+        0.1,
+        0.16,
+        0.25
+      ],
+      "materials": {
+        "어둠파편": 2
+      }
+    },
+    {
+      "id": "regen",
+      "name": "재생",
+      "description": "라운드마다 최대 HP의 일부를 회복한다",
+      "kind": "regen",
+      "levels": [
+        0.03,
+        0.05,
+        0.08
+      ],
+      "materials": {
+        "잎맥섬유": 2
+      }
+    },
+    {
+      "id": "counter",
+      "name": "반격",
+      "description": "물리 공격을 받으면 확률로 되받아친다",
+      "kind": "counter",
+      "levels": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "materials": {
+        "단단한뿔": 1,
+        "날카로운송곳니": 1
+      }
+    },
+    {
+      "id": "pierce",
+      "name": "관통",
+      "description": "상대 방어력의 일부를 무시한다",
+      "kind": "pierce",
+      "levels": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "materials": {
+        "단단한뿔": 2
+      }
+    },
+    {
+      "id": "endure",
+      "name": "근성",
+      "description": "쓰러질 피해를 전투당 한 번 HP 1로 버틴다",
+      "kind": "endure",
+      "levels": [
+        1,
+        1,
+        1
+      ],
+      "materials": {
+        "두꺼운가죽": 2,
+        "빛조각": 1
+      }
+    },
+    {
+      "id": "hunter",
+      "name": "사냥꾼",
+      "description": "포획 성공률이 오른다",
+      "kind": "hunter",
+      "levels": [
+        0.15,
+        0.25,
+        0.4
+      ],
+      "materials": {
+        "잎맥섬유": 1,
+        "바람깃털": 1
+      }
+    },
+    {
+      "id": "gourmet",
+      "name": "미식가",
+      "description": "전투로 줄어드는 허기도가 적어진다",
+      "kind": "gourmet",
+      "levels": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "materials": {
+        "잎맥섬유": 2,
+        "마력의알": 1
+      }
+    },
+    {
+      "id": "bond",
+      "name": "교감",
+      "description": "전투로 얻는 교감도가 늘어난다",
+      "kind": "bond",
+      "levels": [
+        0.3,
+        0.5,
+        0.8
+      ],
+      "materials": {
+        "빛조각": 2
+      }
+    }
+  ]
+}
