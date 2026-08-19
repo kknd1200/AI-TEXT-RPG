@@ -71,7 +71,11 @@ tamer/cli.py             텍스트 UI
 tools/generate_roster.py 도감 생성기
 tools/balance_check.py   전투 한 판 밸런스 시뮬레이터
 tools/playthrough.py     플레이스루 시뮬레이터 (진행 속도)
-tools/extract_apk.py     (선택) 안드로이드 APK 에셋 추출기
+tools/extract_apk.py     (선택) 안드로이드 APK 데이터 테이블 추출기
+tools/decode_fbm.py      (선택) .fbm 이미지 컨테이너 디코더
+tools/playthrough.py     플레이스루 시뮬레이터 — 진행 속도와 승패를 잰다
+tools/build_web.py       웹판(단일 HTML) 빌드
+web/                     웹판 소스와 결과물(web/tamer.html)
 docs/design.md           설계 기록 — 수치를 왜 그렇게 정했는지
 docs/data-format.md      APK 에셋 포맷 역분석 기록
 ```

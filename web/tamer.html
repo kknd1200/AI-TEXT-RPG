@@ -1,0 +1,2089 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#12100E">
+<meta name="description" content="몬스터를 잡고 기르고 합치는 턴제 텍스트 RPG. 132종, 6속성.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>엘리멘탈 테이머</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* 엘리멘탈 테이머 — 세로 화면 전용. 밤에 도감을 넘기는 화면을 기준으로 짰다. */
+
+:root {
+  color-scheme: light dark;
+
+  /* 밝은 테마: 양피지 지면 */
+  --ground: #EFE7D7;
+  --surface: #FBF6EC;
+  --surface-2: #E6DCC7;
+  --line: #CFC2A7;
+  --ink: #241F18;
+  --ink-soft: #6B6151;
+  --ink-faint: #948871;
+  --ember: #A85B1E;
+  --ember-ink: #FFF6EA;
+  --danger: #A33227;
+  --good: #3F7A46;
+
+  --water: #2E6E9E;
+  --fire: #BE4A25;
+  --wood: #4A833F;
+  --wind: #2F8378;
+  --light: #A87C15;
+  --dark: #6D4E94;
+
+  --radius: 10px;
+  --dock-gap: 8px;
+  --tap: 46px;
+
+  --display: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+  --body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", "Menlo", monospace;
+}
+
+/* 어두운 테마: 잉크 지면. 시스템 설정(스탬프 없음)과 명시적 선택 둘 다 받는다. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #12100E;
+    --surface: #1D1A16;
+    --surface-2: #2A251F;
+    --line: #3B342B;
+    --ink: #EDE4D3;
+    --ink-soft: #B0A48E;
+    --ink-faint: #7D7261;
+    --ember: #C9752F;
+    --ember-ink: #1A1209;
+    --danger: #D06052;
+    --good: #74B47C;
+
+    --water: #4A90C4;
+    --fire: #D2603A;
+    --wood: #5C9E4F;
+    --wind: #48A79A;
+    --light: #D6A83A;
+    --dark: #8C6BB1;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #12100E;
+  --surface: #1D1A16;
+  --surface-2: #2A251F;
+  --line: #3B342B;
+  --ink: #EDE4D3;
+  --ink-soft: #B0A48E;
+  --ink-faint: #7D7261;
+  --ember: #C9752F;
+  --ember-ink: #1A1209;
+  --danger: #D06052;
+  --good: #74B47C;
+
+  --water: #4A90C4;
+  --fire: #D2603A;
+  --wood: #5C9E4F;
+  --wind: #48A79A;
+  --light: #D6A83A;
+  --dark: #8C6BB1;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--ground);
+}
+
+/* ── 상단 상태바 ───────────────────────────────────────────── */
+
+.status {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px 9px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.status__top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.status__name {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.status__rank {
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+.status__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.status__row b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ── 본문 ─────────────────────────────────────────────────── */
+
+main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+h1, h2, h3 {
+  font-family: var(--display);
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 { font-size: 26px; letter-spacing: -.01em; }
+h2 { font-size: 17px; }
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.muted { color: var(--ink-soft); font-size: 13px; }
+.center { text-align: center; }
+
+/* ── 버튼 ─────────────────────────────────────────────────── */
+
+.dock {
+  flex: none;
+  display: grid;
+  gap: var(--dock-gap);
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.dock--two { grid-template-columns: 1fr 1fr; }
+
+/* 전투 커맨드는 수가 많아 화면을 먹는다. 촘촘하게 깐다. */
+.dock--compact button { min-height: 42px; padding: 7px 10px; }
+.dock--compact .sub { font-size: 11px; }
+.span-all { grid-column: 1 / -1; }
+
+button {
+  font: inherit;
+  color: inherit;
+  min-height: var(--tap);
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  transition: transform .08s ease, border-color .15s ease;
+}
+
+button:active { transform: scale(.985); }
+button:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+button[disabled] { opacity: .45; cursor: default; }
+
+button .sub {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.btn--primary {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: var(--ember-ink);
+  font-weight: 600;
+  align-items: center;
+  text-align: center;
+}
+
+.btn--primary .sub { color: var(--ember-ink); opacity: .8; }
+
+.btn--ghost { background: transparent; }
+
+.btn--row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.list { display: flex; flex-direction: column; gap: var(--dock-gap); }
+
+/* ── 속성 칩과 등급 ────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.chip::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--el, var(--ink-faint));
+  transform: rotate(45deg);
+}
+
+.el-수 { --el: var(--water); }
+.el-화 { --el: var(--fire); }
+.el-목 { --el: var(--wood); }
+.el-풍 { --el: var(--wind); }
+.el-광 { --el: var(--light); }
+.el-악 { --el: var(--dark); }
+
+.grade {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ── 몬스터 카드 ───────────────────────────────────────────── */
+
+.mon {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--el, var(--line));
+  border-radius: var(--radius);
+}
+
+.mon__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mon__name { font-weight: 600; }
+.mon__lv { font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.bar > i {
+  display: block;
+  height: 100%;
+  background: var(--good);
+  transition: width .25s ease;
+}
+
+.bar--sp > i { background: var(--water); }
+.bar--low > i { background: var(--danger); }
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-soft);
+}
+
+/* ── 전투 로그 ─────────────────────────────────────────────── */
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-size: 13.5px;
+}
+
+.log p {
+  margin: 0;
+  padding: 7px 0 7px 10px;
+  border-top: 1px solid var(--line);
+  border-left: 2px solid transparent;
+}
+
+.log p:first-child { border-top: none; }
+.log p.by-ally { border-left-color: var(--ember); }
+.log p.by-foe { border-left-color: var(--ink-faint); }
+.log p.crit { color: var(--ember); font-weight: 600; }
+.log p.down { color: var(--danger); }
+.log p.gain { color: var(--good); }
+
+.log b { font-weight: 600; }
+
+/* ── 토스트 ───────────────────────────────────────────────── */
+
+#toast {
+  /* 하단 독 위에 두면 탭하려는 버튼을 가린다. 위로 올려 둔다. */
+  position: fixed;
+  left: 50%;
+  top: calc(10px + env(safe-area-inset-top));
+  transform: translateX(-50%);
+  max-width: 420px;
+  width: calc(100% - 36px);
+  background: var(--ink);
+  color: var(--ground);
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 10;
+}
+
+#toast.show { opacity: .96; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const D = {"roster":{"origin":"이 저장소에서 만든 오리지널 도감","stat_order":["str","dex","mstr","int","con","spd"],"elements":{"수":"밸런스형","화":"물리 공격형","목":"체력형","풍":"속도형","광":"스킬 공격형","악":"복합형"},"monsters":[{"index":0,"name":"아쿠아링","element":"수","grade":"common","active_skill":{"name":"물대포","description":"물줄기를 쏘아 맞힌다"},"base_stats":{"str":10,"dex":10,"mstr":10,"int":10,"con":11,"spd":10},"growth":{"str":12,"dex":12,"mstr":13,"int":12,"con":13,"spd":11}},{"index":1,"name":"물꽃게","element":"수","grade":"common","active_skill":{"name":"거품폭풍","description":"거품으로 시야를 덮는다"},"base_stats":{"str":9,"dex":11,"mstr":10,"int":9,"con":10,"spd":9},"growth":{"str":11,"dex":13,"mstr":12,"int":11,"con":12,"spd":11}},{"index":2,"name":"이슬누리","element":"수","grade":"common","active_skill":{"name":"물대포","description":"물줄기를 쏘아 맞힌다"},"base_stats":{"str":11,"dex":11,"mstr":11,"int":10,"con":10,"spd":10},"growth":{"str":13,"dex":13,"mstr":13,"int":12,"con":11,"spd":12}},{"index":3,"name":"개구리왕눈","element":"수","grade":"common","active_skill":{"name":"거품폭풍","description":"거품으로 시야를 덮는다"},"base_stats":{"str":11,"dex":11,"mstr":10,"int":11,"con":10,"spd":10},"growth":{"str":13,"dex":13,"mstr":12,"int":13,"con":12,"spd":12}},{"index":4,"name":"파도치","element":"수","grade":"uncommon","active_skill":{"name":"거품폭풍","description":"거품으로 시야를 덮는다"},"base_stats":{"str":17,"dex":17,"mstr":15,"int":15,"con":15,"spd":16},"growth":{"str":15,"dex":15,"mstr":14,"int":13,"con":13,"spd":14}},{"index":5,"name":"산호돌이","element":"수","grade":"uncommon","active_skill":{"name":"소용돌이","description":"적을 휘감아 끌어당긴다"},"base_stats":{"str":16,"dex":17,"mstr":17,"int":15,"con":17,"spd":14},"growth":{"str":14,"dex":15,"mstr":15,"int":14,"con":15,"spd":12}},{"index":6,"name":"해무늘보","element":"수","grade":"uncommon","active_skill":{"name":"거품폭풍","description":"거품으로 시야를 덮는다"},"base_stats":{"str":15,"dex":17,"mstr":17,"int":16,"con":17,"spd":16},"growth":{"str":14,"dex":15,"mstr":15,"int":14,"con":15,"spd":14}},{"index":7,"name":"물갈퀴범","element":"수","grade":"uncommon","active_skill":{"name":"소용돌이","description":"적을 휘감아 끌어당긴다"},"base_stats":{"str":17,"dex":18,"mstr":17,"int":16,"con":15,"spd":14},"growth":{"str":15,"dex":16,"mstr":15,"int":14,"con":13,"spd":13}},{"index":8,"name":"조개장군","element":"수","grade":"uncommon","active_skill":{"name":"거품폭풍","description":"거품으로 시야를 덮는다"},"base_stats":{"str":17,"dex":17,"mstr":16,"int":17,"con":15,"spd":14},"growth":{"str":14,"dex":15,"mstr":14,"int":15,"con":13,"spd":13}},{"index":9,"name":"심해아귀","element":"수","grade":"rare","active_skill":{"name":"소용돌이","description":"적을 휘감아 끌어당긴다"},"base_stats":{"str":23,"dex":24,"mstr":26,"int":24,"con":24,"spd":23},"growth":{"str":15,"dex":16,"mstr":17,"int":16,"con":16,"spd":16}},{"index":10,"name":"빙정사슴","element":"수","grade":"rare","active_skill":{"name":"한파","description":"얼려서 움직임을 늦춘다"},"base_stats":{"str":25,"dex":23,"mstr":26,"int":25,"con":24,"spd":24},"growth":{"str":16,"dex":16,"mstr":17,"int":17,"con":16,"spd":16}},{"index":11,"name":"해류뱀","element":"수","grade":"rare","active_skill":{"name":"소용돌이","description":"적을 휘감아 끌어당긴다"},"base_stats":{"str":24,"dex":23,"mstr":26,"int":24,"con":24,"spd":22},"growth":{"str":16,"dex":16,"mstr":17,"int":16,"con":16,"spd":15}},{"index":12,"name":"물기둥거신","element":"수","grade":"rare","active_skill":{"name":"한파","description":"얼려서 움직임을 늦춘다"},"base_stats":{"str":26,"dex":24,"mstr":24,"int":25,"con":22,"spd":21},"growth":{"str":17,"dex":16,"mstr":16,"int":16,"con":15,"spd":14}},{"index":13,"name":"창천고래","element":"수","grade":"special","active_skill":{"name":"빙결창","description":"얼음 창으로 꿰뚫는다"},"base_stats":{"str":35,"dex":38,"mstr":35,"int":36,"con":35,"spd":31},"growth":{"str":18,"dex":20,"mstr":19,"int":19,"con":19,"spd":17}},{"index":14,"name":"서리마녀","element":"수","grade":"special","active_skill":{"name":"심해압","description":"수압으로 짓누른다"},"base_stats":{"str":33,"dex":36,"mstr":34,"int":37,"con":32,"spd":31},"growth":{"str":17,"dex":19,"mstr":18,"int":19,"con":17,"spd":16}},{"index":15,"name":"소용돌이수호자","element":"수","grade":"special","active_skill":{"name":"빙결창","description":"얼음 창으로 꿰뚫는다"},"base_stats":{"str":33,"dex":37,"mstr":34,"int":32,"con":36,"spd":33},"growth":{"str":17,"dex":19,"mstr":18,"int":17,"con":19,"spd":17}},{"index":16,"name":"해령무사","element":"수","grade":"special","active_skill":{"name":"심해압","description":"수압으로 짓누른다"},"base_stats":{"str":32,"dex":34,"mstr":34,"int":33,"con":35,"spd":30},"growth":{"str":17,"dex":18,"mstr":18,"int":18,"con":19,"spd":16}},{"index":17,"name":"만조의룡","element":"수","grade":"legend","active_skill":{"name":"심해압","description":"수압으로 짓누른다"},"base_stats":{"str":48,"dex":49,"mstr":52,"int":47,"con":45,"spd":44},"growth":{"str":21,"dex":21,"mstr":23,"int":20,"con":19,"spd":19}},{"index":18,"name":"심연사제","element":"수","grade":"legend","active_skill":{"name":"해일","description":"거센 물결로 쓸어버린다"},"base_stats":{"str":45,"dex":48,"mstr":47,"int":43,"con":47,"spd":46},"growth":{"str":20,"dex":21,"mstr":20,"int":19,"con":21,"spd":20}},{"index":19,"name":"해왕상어","element":"수","grade":"legend","active_skill":{"name":"심해압","description":"수압으로 짓누른다"},"base_stats":{"str":48,"dex":44,"mstr":46,"int":43,"con":45,"spd":44},"growth":{"str":21,"dex":19,"mstr":20,"int":19,"con":20,"spd":19}},{"index":20,"name":"대해군주","element":"수","grade":"god","active_skill":{"name":"해일","description":"거센 물결로 쓸어버린다"},"base_stats":{"str":62,"dex":66,"mstr":61,"int":61,"con":60,"spd":61},"growth":{"str":23,"dex":24,"mstr":22,"int":22,"con":22,"spd":22}},{"index":21,"name":"창해신","element":"수","grade":"god","active_skill":{"name":"대해일","description":"바다를 통째로 들이붓는다"},"base_stats":{"str":61,"dex":63,"mstr":59,"int":61,"con":56,"spd":54},"growth":{"str":22,"dex":23,"mstr":22,"int":22,"con":21,"spd":20}},{"index":22,"name":"불씨쥐","element":"화","grade":"common","active_skill":{"name":"불꽃탄","description":"작은 불덩이를 던진다"},"base_stats":{"str":13,"dex":11,"mstr":9,"int":9,"con":9,"spd":10},"growth":{"str":15,"dex":13,"mstr":11,"int":10,"con":11,"spd":12}},{"index":23,"name":"잉걸새","element":"화","grade":"common","active_skill":{"name":"연기폭발","description":"연기와 함께 터뜨린다"},"base_stats":{"str":14,"dex":11,"mstr":8,"int":8,"con":11,"spd":10},"growth":{"str":16,"dex":13,"mstr":10,"int":10,"con":13,"spd":12}},{"index":24,"name":"화롯이","element":"화","grade":"common","active_skill":{"name":"불꽃탄","description":"작은 불덩이를 던진다"},"base_stats":{"str":13,"dex":9,"mstr":9,"int":9,"con":10,"spd":9},"growth":{"str":15,"dex":11,"mstr":11,"int":11,"con":13,"spd":11}},{"index":25,"name":"재두더지","element":"화","grade":"common","active_skill":{"name":"연기폭발","description":"연기와 함께 터뜨린다"},"base_stats":{"str":13,"dex":10,"mstr":9,"int":9,"con":11,"spd":10},"growth":{"str":16,"dex":12,"mstr":11,"int":11,"con":13,"spd":12}},{"index":26,"name":"화염늑대","element":"화","grade":"uncommon","active_skill":{"name":"연기폭발","description":"연기와 함께 터뜨린다"},"base_stats":{"str":21,"dex":15,"mstr":15,"int":14,"con":17,"spd":15},"growth":{"str":19,"dex":13,"mstr":13,"int":12,"con":15,"spd":13}},{"index":27,"name":"용암달팽이","element":"화","grade":"uncommon","active_skill":{"name":"화염방사","description":"불길을 내뿜는다"},"base_stats":{"str":20,"dex":15,"mstr":14,"int":14,"con":16,"spd":15},"growth":{"str":18,"dex":13,"mstr":13,"int":12,"con":14,"spd":13}},{"index":28,"name":"숯불곰","element":"화","grade":"uncommon","active_skill":{"name":"연기폭발","description":"연기와 함께 터뜨린다"},"base_stats":{"str":20,"dex":17,"mstr":15,"int":14,"con":17,"spd":15},"growth":{"str":18,"dex":15,"mstr":13,"int":12,"con":15,"spd":13}},{"index":29,"name":"불꽃무희","element":"화","grade":"uncommon","active_skill":{"name":"화염방사","description":"불길을 내뿜는다"},"base_stats":{"str":23,"dex":15,"mstr":15,"int":14,"con":15,"spd":15},"growth":{"str":20,"dex":13,"mstr":13,"int":12,"con":13,"spd":13}},{"index":30,"name":"연기여우","element":"화","grade":"uncommon","active_skill":{"name":"연기폭발","description":"연기와 함께 터뜨린다"},"base_stats":{"str":23,"dex":16,"mstr":15,"int":14,"con":16,"spd":16},"growth":{"str":20,"dex":14,"mstr":13,"int":12,"con":14,"spd":14}},{"index":31,"name":"폭염전갈","element":"화","grade":"rare","active_skill":{"name":"화염방사","description":"불길을 내뿜는다"},"base_stats":{"str":31,"dex":25,"mstr":22,"int":21,"con":25,"spd":23},"growth":{"str":21,"dex":17,"mstr":14,"int":14,"con":17,"spd":15}},{"index":32,"name":"마그마골렘","element":"화","grade":"rare","active_skill":{"name":"작열베기","description":"달군 발톱으로 벤다"},"base_stats":{"str":34,"dex":23,"mstr":20,"int":19,"con":24,"spd":22},"growth":{"str":23,"dex":15,"mstr":13,"int":13,"con":16,"spd":15}},{"index":33,"name":"화산도마뱀","element":"화","grade":"rare","active_skill":{"name":"화염방사","description":"불길을 내뿜는다"},"base_stats":{"str":33,"dex":23,"mstr":21,"int":21,"con":25,"spd":21},"growth":{"str":22,"dex":15,"mstr":14,"int":14,"con":17,"spd":14}},{"index":34,"name":"불새정령","element":"화","grade":"rare","active_skill":{"name":"작열베기","description":"달군 발톱으로 벤다"},"base_stats":{"str":34,"dex":23,"mstr":22,"int":21,"con":22,"spd":22},"growth":{"str":23,"dex":15,"mstr":14,"int":14,"con":15,"spd":14}},{"index":35,"name":"작열기사","element":"화","grade":"special","active_skill":{"name":"용암분출","description":"발밑에서 용암을 뿜는다"},"base_stats":{"str":45,"dex":34,"mstr":29,"int":27,"con":33,"spd":31},"growth":{"str":24,"dex":18,"mstr":15,"int":14,"con":18,"spd":17}},{"index":36,"name":"화룡새끼","element":"화","grade":"special","active_skill":{"name":"화산탄","description":"불덩이를 쏟아붓는다"},"base_stats":{"str":43,"dex":33,"mstr":29,"int":27,"con":33,"spd":31},"growth":{"str":23,"dex":18,"mstr":15,"int":14,"con":17,"spd":17}},{"index":37,"name":"열풍술사","element":"화","grade":"special","active_skill":{"name":"용암분출","description":"발밑에서 용암을 뿜는다"},"base_stats":{"str":44,"dex":32,"mstr":33,"int":29,"con":34,"spd":34},"growth":{"str":23,"dex":17,"mstr":17,"int":15,"con":18,"spd":18}},{"index":38,"name":"잿빛거인","element":"화","grade":"special","active_skill":{"name":"화산탄","description":"불덩이를 쏟아붓는다"},"base_stats":{"str":43,"dex":33,"mstr":30,"int":31,"con":37,"spd":34},"growth":{"str":23,"dex":17,"mstr":16,"int":16,"con":19,"spd":18}},{"index":39,"name":"겁화의룡","element":"화","grade":"legend","active_skill":{"name":"화산탄","description":"불덩이를 쏟아붓는다"},"base_stats":{"str":58,"dex":47,"mstr":43,"int":39,"con":44,"spd":47},"growth":{"str":25,"dex":21,"mstr":19,"int":17,"con":19,"spd":20}},{"index":40,"name":"태양수호자","element":"화","grade":"legend","active_skill":{"name":"겁화","description":"꺼지지 않는 불로 태운다"},"base_stats":{"str":58,"dex":46,"mstr":43,"int":36,"con":45,"spd":40},"growth":{"str":25,"dex":20,"mstr":19,"int":16,"con":20,"spd":18}},{"index":41,"name":"용암군주","element":"화","grade":"legend","active_skill":{"name":"화산탄","description":"불덩이를 쏟아붓는다"},"base_stats":{"str":66,"dex":43,"mstr":41,"int":39,"con":46,"spd":47},"growth":{"str":29,"dex":19,"mstr":18,"int":17,"con":20,"spd":20}},{"index":42,"name":"대화염제","element":"화","grade":"god","active_skill":{"name":"겁화","description":"꺼지지 않는 불로 태운다"},"base_stats":{"str":76,"dex":59,"mstr":57,"int":51,"con":60,"spd":61},"growth":{"str":28,"dex":22,"mstr":21,"int":19,"con":22,"spd":22}},{"index":43,"name":"염룡신","element":"화","grade":"god","active_skill":{"name":"천화멸","description":"하늘에서 불비를 내린다"},"base_stats":{"str":82,"dex":63,"mstr":50,"int":48,"con":63,"spd":56},"growth":{"str":30,"dex":23,"mstr":18,"int":18,"con":23,"spd":21}},{"index":44,"name":"새싹몬","element":"목","grade":"common","active_skill":{"name":"덩굴채찍","description":"덩굴을 휘둘러 때린다"},"base_stats":{"str":10,"dex":12,"mstr":10,"int":9,"con":14,"spd":8},"growth":{"str":12,"dex":14,"mstr":11,"int":11,"con":17,"spd":10}},{"index":45,"name":"도토리쥐","element":"목","grade":"common","active_skill":{"name":"씨앗포","description":"단단한 씨앗을 쏜다"},"base_stats":{"str":10,"dex":12,"mstr":9,"int":9,"con":13,"spd":8},"growth":{"str":12,"dex":14,"mstr":11,"int":11,"con":16,"spd":10}},{"index":46,"name":"넝쿨이","element":"목","grade":"common","active_skill":{"name":"덩굴채찍","description":"덩굴을 휘둘러 때린다"},"base_stats":{"str":9,"dex":12,"mstr":10,"int":10,"con":13,"spd":7},"growth":{"str":11,"dex":14,"mstr":12,"int":12,"con":16,"spd":9}},{"index":47,"name":"이끼두꺼비","element":"목","grade":"common","active_skill":{"name":"씨앗포","description":"단단한 씨앗을 쏜다"},"base_stats":{"str":11,"dex":10,"mstr":9,"int":10,"con":14,"spd":8},"growth":{"str":13,"dex":12,"mstr":11,"int":12,"con":16,"spd":9}},{"index":48,"name":"가시덤불","element":"목","grade":"uncommon","active_skill":{"name":"씨앗포","description":"단단한 씨앗을 쏜다"},"base_stats":{"str":15,"dex":16,"mstr":14,"int":16,"con":20,"spd":14},"growth":{"str":13,"dex":14,"mstr":12,"int":14,"con":18,"spd":12}},{"index":49,"name":"버섯광대","element":"목","grade":"uncommon","active_skill":{"name":"뿌리결박","description":"뿌리로 발을 묶는다"},"base_stats":{"str":15,"dex":17,"mstr":15,"int":15,"con":20,"spd":13},"growth":{"str":13,"dex":15,"mstr":13,"int":13,"con":18,"spd":11}},{"index":50,"name":"느림보정령","element":"목","grade":"uncommon","active_skill":{"name":"씨앗포","description":"단단한 씨앗을 쏜다"},"base_stats":{"str":16,"dex":18,"mstr":14,"int":14,"con":20,"spd":12},"growth":{"str":14,"dex":15,"mstr":12,"int":12,"con":18,"spd":11}},{"index":51,"name":"꽃사슴","element":"목","grade":"uncommon","active_skill":{"name":"뿌리결박","description":"뿌리로 발을 묶는다"},"base_stats":{"str":16,"dex":17,"mstr":14,"int":16,"con":23,"spd":13},"growth":{"str":14,"dex":15,"mstr":12,"int":14,"con":20,"spd":12}},{"index":52,"name":"씨앗술사","element":"목","grade":"uncommon","active_skill":{"name":"씨앗포","description":"단단한 씨앗을 쏜다"},"base_stats":{"str":17,"dex":17,"mstr":13,"int":16,"con":23,"spd":13},"growth":{"str":15,"dex":15,"mstr":12,"int":14,"con":20,"spd":11}},{"index":53,"name":"고목수호자","element":"목","grade":"rare","active_skill":{"name":"뿌리결박","description":"뿌리로 발을 묶는다"},"base_stats":{"str":23,"dex":28,"mstr":22,"int":25,"con":31,"spd":21},"growth":{"str":15,"dex":19,"mstr":14,"int":16,"con":20,"spd":14}},{"index":54,"name":"독초거미","element":"목","grade":"rare","active_skill":{"name":"잎날폭풍","description":"잎사귀 칼날을 날린다"},"base_stats":{"str":24,"dex":27,"mstr":22,"int":21,"con":34,"spd":19},"growth":{"str":16,"dex":18,"mstr":15,"int":14,"con":23,"spd":13}},{"index":55,"name":"대나무무사","element":"목","grade":"rare","active_skill":{"name":"뿌리결박","description":"뿌리로 발을 묶는다"},"base_stats":{"str":24,"dex":27,"mstr":23,"int":23,"con":34,"spd":19},"growth":{"str":16,"dex":18,"mstr":15,"int":15,"con":22,"spd":13}},{"index":56,"name":"뿌리거인","element":"목","grade":"rare","active_skill":{"name":"잎날폭풍","description":"잎사귀 칼날을 날린다"},"base_stats":{"str":25,"dex":26,"mstr":21,"int":23,"con":34,"spd":18},"growth":{"str":16,"dex":18,"mstr":14,"int":15,"con":23,"spd":12}},{"index":57,"name":"세계수묘목","element":"목","grade":"special","active_skill":{"name":"가시갑주","description":"가시를 세워 반격한다"},"base_stats":{"str":34,"dex":40,"mstr":30,"int":30,"con":49,"spd":27},"growth":{"str":18,"dex":21,"mstr":16,"int":16,"con":26,"spd":14}},{"index":58,"name":"숲의마녀","element":"목","grade":"special","active_skill":{"name":"대지진동","description":"땅을 흔들어 넘어뜨린다"},"base_stats":{"str":34,"dex":36,"mstr":33,"int":33,"con":45,"spd":25},"growth":{"str":18,"dex":19,"mstr":17,"int":18,"con":24,"spd":13}},{"index":59,"name":"가시장미기사","element":"목","grade":"special","active_skill":{"name":"가시갑주","description":"가시를 세워 반격한다"},"base_stats":{"str":36,"dex":36,"mstr":32,"int":31,"con":49,"spd":29},"growth":{"str":19,"dex":19,"mstr":17,"int":16,"con":26,"spd":15}},{"index":60,"name":"수액드래곤","element":"목","grade":"special","active_skill":{"name":"대지진동","description":"땅을 흔들어 넘어뜨린다"},"base_stats":{"str":32,"dex":36,"mstr":32,"int":33,"con":43,"spd":27},"growth":{"str":17,"dex":19,"mstr":17,"int":18,"con":23,"spd":14}},{"index":61,"name":"천년고목","element":"목","grade":"legend","active_skill":{"name":"대지진동","description":"땅을 흔들어 넘어뜨린다"},"base_stats":{"str":44,"dex":47,"mstr":39,"int":43,"con":60,"spd":39},"growth":{"str":19,"dex":20,"mstr":17,"int":18,"con":26,"spd":17}},{"index":62,"name":"대지의사제","element":"목","grade":"legend","active_skill":{"name":"숲의분노","description":"숲 전체가 달려든다"},"base_stats":{"str":50,"dex":54,"mstr":43,"int":44,"con":64,"spd":34},"growth":{"str":22,"dex":23,"mstr":19,"int":19,"con":28,"spd":15}},{"index":63,"name":"숲왕사자","element":"목","grade":"legend","active_skill":{"name":"대지진동","description":"땅을 흔들어 넘어뜨린다"},"base_stats":{"str":45,"dex":50,"mstr":44,"int":44,"con":62,"spd":35},"growth":{"str":19,"dex":22,"mstr":19,"int":19,"con":27,"spd":15}},{"index":64,"name":"세계수화신","element":"목","grade":"god","active_skill":{"name":"숲의분노","description":"숲 전체가 달려든다"},"base_stats":{"str":65,"dex":70,"mstr":53,"int":61,"con":87,"spd":50},"growth":{"str":24,"dex":26,"mstr":19,"int":22,"con":32,"spd":18}},{"index":65,"name":"녹룡신","element":"목","grade":"god","active_skill":{"name":"세계수숨결","description":"세계수의 기운을 쏟는다"},"base_stats":{"str":59,"dex":70,"mstr":53,"int":59,"con":85,"spd":48},"growth":{"str":22,"dex":26,"mstr":20,"int":22,"con":31,"spd":18}},{"index":66,"name":"산들새","element":"풍","grade":"common","active_skill":{"name":"돌풍","description":"거센 바람으로 밀친다"},"base_stats":{"str":10,"dex":9,"mstr":10,"int":9,"con":9,"spd":14},"growth":{"str":12,"dex":11,"mstr":11,"int":10,"con":11,"spd":17}},{"index":67,"name":"민들레씨","element":"풍","grade":"common","active_skill":{"name":"깃털칼날","description":"깃털을 칼처럼 날린다"},"base_stats":{"str":11,"dex":9,"mstr":9,"int":9,"con":9,"spd":14},"growth":{"str":13,"dex":10,"mstr":11,"int":10,"con":11,"spd":17}},{"index":68,"name":"회오리쥐","element":"풍","grade":"common","active_skill":{"name":"돌풍","description":"거센 바람으로 밀친다"},"base_stats":{"str":10,"dex":9,"mstr":9,"int":9,"con":8,"spd":14},"growth":{"str":13,"dex":11,"mstr":11,"int":11,"con":10,"spd":16}},{"index":69,"name":"깃털토끼","element":"풍","grade":"common","active_skill":{"name":"깃털칼날","description":"깃털을 칼처럼 날린다"},"base_stats":{"str":10,"dex":8,"mstr":9,"int":9,"con":9,"spd":15},"growth":{"str":13,"dex":10,"mstr":11,"int":11,"con":11,"spd":18}},{"index":70,"name":"질풍표범","element":"풍","grade":"uncommon","active_skill":{"name":"깃털칼날","description":"깃털을 칼처럼 날린다"},"base_stats":{"str":17,"dex":15,"mstr":16,"int":14,"con":15,"spd":22},"growth":{"str":15,"dex":13,"mstr":14,"int":13,"con":13,"spd":19}},{"index":71,"name":"구름양","element":"풍","grade":"uncommon","active_skill":{"name":"회오리","description":"작은 회오리에 가둔다"},"base_stats":{"str":16,"dex":14,"mstr":15,"int":13,"con":13,"spd":22},"growth":{"str":14,"dex":13,"mstr":13,"int":12,"con":12,"spd":19}},{"index":72,"name":"바람가오리","element":"풍","grade":"uncommon","active_skill":{"name":"깃털칼날","description":"깃털을 칼처럼 날린다"},"base_stats":{"str":16,"dex":14,"mstr":14,"int":14,"con":15,"spd":21},"growth":{"str":14,"dex":13,"mstr":12,"int":13,"con":13,"spd":18}},{"index":73,"name":"소리매","element":"풍","grade":"uncommon","active_skill":{"name":"회오리","description":"작은 회오리에 가둔다"},"base_stats":{"str":15,"dex":15,"mstr":16,"int":13,"con":15,"spd":24},"growth":{"str":14,"dex":13,"mstr":14,"int":11,"con":13,"spd":21}},{"index":74,"name":"회전날다람쥐","element":"풍","grade":"uncommon","active_skill":{"name":"깃털칼날","description":"깃털을 칼처럼 날린다"},"base_stats":{"str":18,"dex":15,"mstr":14,"int":14,"con":14,"spd":22},"growth":{"str":16,"dex":13,"mstr":13,"int":12,"con":12,"spd":19}},{"index":75,"name":"폭풍독수리","element":"풍","grade":"rare","active_skill":{"name":"회오리","description":"작은 회오리에 가둔다"},"base_stats":{"str":26,"dex":22,"mstr":21,"int":22,"con":23,"spd":35},"growth":{"str":18,"dex":15,"mstr":14,"int":14,"con":15,"spd":23}},{"index":76,"name":"진공사마귀","element":"풍","grade":"rare","active_skill":{"name":"진공날","description":"공기를 갈라 벤다"},"base_stats":{"str":27,"dex":22,"mstr":25,"int":19,"con":23,"spd":34},"growth":{"str":18,"dex":15,"mstr":16,"int":13,"con":16,"spd":23}},{"index":77,"name":"하늘연무사","element":"풍","grade":"rare","active_skill":{"name":"회오리","description":"작은 회오리에 가둔다"},"base_stats":{"str":25,"dex":22,"mstr":23,"int":21,"con":22,"spd":33},"growth":{"str":17,"dex":15,"mstr":15,"int":14,"con":14,"spd":22}},{"index":78,"name":"번개제비","element":"풍","grade":"rare","active_skill":{"name":"진공날","description":"공기를 갈라 벤다"},"base_stats":{"str":27,"dex":22,"mstr":24,"int":21,"con":23,"spd":36},"growth":{"str":18,"dex":15,"mstr":16,"int":14,"con":16,"spd":24}},{"index":79,"name":"태풍기사","element":"풍","grade":"special","active_skill":{"name":"질풍연격","description":"눈에 안 보이게 연타한다"},"base_stats":{"str":38,"dex":30,"mstr":33,"int":31,"con":31,"spd":51},"growth":{"str":20,"dex":16,"mstr":17,"int":16,"con":16,"spd":27}},{"index":80,"name":"창공비룡","element":"풍","grade":"special","active_skill":{"name":"폭풍우","description":"비바람으로 몰아친다"},"base_stats":{"str":39,"dex":32,"mstr":33,"int":31,"con":29,"spd":44},"growth":{"str":20,"dex":17,"mstr":18,"int":16,"con":15,"spd":23}},{"index":81,"name":"무풍술사","element":"풍","grade":"special","active_skill":{"name":"질풍연격","description":"눈에 안 보이게 연타한다"},"base_stats":{"str":33,"dex":31,"mstr":30,"int":30,"con":29,"spd":49},"growth":{"str":17,"dex":16,"mstr":16,"int":16,"con":15,"spd":26}},{"index":82,"name":"하늘고래","element":"풍","grade":"special","active_skill":{"name":"폭풍우","description":"비바람으로 몰아친다"},"base_stats":{"str":38,"dex":29,"mstr":33,"int":31,"con":29,"spd":48},"growth":{"str":20,"dex":15,"mstr":18,"int":16,"con":16,"spd":25}},{"index":83,"name":"폭풍의룡","element":"풍","grade":"legend","active_skill":{"name":"폭풍우","description":"비바람으로 몰아친다"},"base_stats":{"str":45,"dex":41,"mstr":41,"int":41,"con":40,"spd":66},"growth":{"str":19,"dex":18,"mstr":18,"int":18,"con":17,"spd":29}},{"index":84,"name":"창천수호자","element":"풍","grade":"legend","active_skill":{"name":"창공가르기","description":"하늘째로 갈라놓는다"},"base_stats":{"str":47,"dex":41,"mstr":44,"int":41,"con":44,"spd":64},"growth":{"str":20,"dex":18,"mstr":19,"int":18,"con":19,"spd":28}},{"index":85,"name":"질풍군주","element":"풍","grade":"legend","active_skill":{"name":"폭풍우","description":"비바람으로 몰아친다"},"base_stats":{"str":47,"dex":39,"mstr":42,"int":41,"con":41,"spd":69},"growth":{"str":21,"dex":17,"mstr":18,"int":18,"con":18,"spd":30}},{"index":86,"name":"대풍신","element":"풍","grade":"god","active_skill":{"name":"창공가르기","description":"하늘째로 갈라놓는다"},"base_stats":{"str":66,"dex":55,"mstr":56,"int":54,"con":52,"spd":82},"growth":{"str":24,"dex":20,"mstr":21,"int":20,"con":19,"spd":30}},{"index":87,"name":"천공제","element":"풍","grade":"god","active_skill":{"name":"대선풍","description":"모든 것을 날려버린다"},"base_stats":{"str":63,"dex":52,"mstr":57,"int":53,"con":53,"spd":83},"growth":{"str":23,"dex":19,"mstr":21,"int":19,"con":19,"spd":31}},{"index":88,"name":"반딧불이","element":"광","grade":"common","active_skill":{"name":"섬광","description":"눈부신 빛을 터뜨린다"},"base_stats":{"str":8,"dex":9,"mstr":13,"int":11,"con":9,"spd":9},"growth":{"str":10,"dex":11,"mstr":15,"int":13,"con":11,"spd":10}},{"index":89,"name":"빛구슬","element":"광","grade":"common","active_skill":{"name":"성광탄","description":"빛 구슬을 쏜다"},"base_stats":{"str":9,"dex":10,"mstr":13,"int":10,"con":9,"spd":8},"growth":{"str":11,"dex":12,"mstr":15,"int":13,"con":11,"spd":10}},{"index":90,"name":"햇살나비","element":"광","grade":"common","active_skill":{"name":"섬광","description":"눈부신 빛을 터뜨린다"},"base_stats":{"str":9,"dex":10,"mstr":13,"int":11,"con":10,"spd":9},"growth":{"str":11,"dex":12,"mstr":15,"int":13,"con":12,"spd":10}},{"index":91,"name":"별똥쥐","element":"광","grade":"common","active_skill":{"name":"성광탄","description":"빛 구슬을 쏜다"},"base_stats":{"str":9,"dex":10,"mstr":14,"int":11,"con":10,"spd":9},"growth":{"str":11,"dex":12,"mstr":17,"int":13,"con":12,"spd":11}},{"index":92,"name":"성광기사","element":"광","grade":"uncommon","active_skill":{"name":"성광탄","description":"빛 구슬을 쏜다"},"base_stats":{"str":13,"dex":14,"mstr":21,"int":18,"con":14,"spd":15},"growth":{"str":11,"dex":13,"mstr":18,"int":16,"con":12,"spd":13}},{"index":93,"name":"은빛여우","element":"광","grade":"uncommon","active_skill":{"name":"정화의빛","description":"어둠을 걷어낸다"},"base_stats":{"str":14,"dex":15,"mstr":21,"int":18,"con":13,"spd":14},"growth":{"str":12,"dex":13,"mstr":18,"int":16,"con":12,"spd":12}},{"index":94,"name":"서광새","element":"광","grade":"uncommon","active_skill":{"name":"성광탄","description":"빛 구슬을 쏜다"},"base_stats":{"str":13,"dex":16,"mstr":20,"int":18,"con":14,"spd":13},"growth":{"str":11,"dex":14,"mstr":18,"int":16,"con":12,"spd":12}},{"index":95,"name":"광휘사슴","element":"광","grade":"uncommon","active_skill":{"name":"정화의빛","description":"어둠을 걷어낸다"},"base_stats":{"str":14,"dex":15,"mstr":23,"int":18,"con":13,"spd":14},"growth":{"str":12,"dex":13,"mstr":20,"int":16,"con":12,"spd":13}},{"index":96,"name":"빛의무희","element":"광","grade":"uncommon","active_skill":{"name":"성광탄","description":"빛 구슬을 쏜다"},"base_stats":{"str":13,"dex":16,"mstr":20,"int":17,"con":15,"spd":14},"growth":{"str":11,"dex":14,"mstr":18,"int":15,"con":13,"spd":12}},{"index":97,"name":"백광사자","element":"광","grade":"rare","active_skill":{"name":"정화의빛","description":"어둠을 걷어낸다"},"base_stats":{"str":22,"dex":24,"mstr":30,"int":26,"con":21,"spd":21},"growth":{"str":14,"dex":16,"mstr":20,"int":18,"con":14,"spd":14}},{"index":98,"name":"성혼술사","element":"광","grade":"rare","active_skill":{"name":"광선검","description":"빛으로 벼린 검을 휘두른다"},"base_stats":{"str":22,"dex":22,"mstr":32,"int":25,"con":23,"spd":21},"growth":{"str":15,"dex":15,"mstr":22,"int":17,"con":15,"spd":14}},{"index":99,"name":"광검전사","element":"광","grade":"rare","active_skill":{"name":"정화의빛","description":"어둠을 걷어낸다"},"base_stats":{"str":21,"dex":23,"mstr":33,"int":25,"con":21,"spd":22},"growth":{"str":14,"dex":15,"mstr":22,"int":17,"con":14,"spd":15}},{"index":100,"name":"여명천사","element":"광","grade":"rare","active_skill":{"name":"광선검","description":"빛으로 벼린 검을 휘두른다"},"base_stats":{"str":22,"dex":24,"mstr":30,"int":28,"con":21,"spd":22},"growth":{"str":14,"dex":16,"mstr":20,"int":19,"con":14,"spd":14}},{"index":101,"name":"대천사병","element":"광","grade":"special","active_skill":{"name":"여명의창","description":"새벽빛 창을 던진다"},"base_stats":{"str":28,"dex":32,"mstr":48,"int":40,"con":29,"spd":31},"growth":{"str":15,"dex":17,"mstr":25,"int":21,"con":15,"spd":17}},{"index":102,"name":"광휘룡","element":"광","grade":"special","active_skill":{"name":"성역","description":"빛의 결계로 짓누른다"},"base_stats":{"str":31,"dex":33,"mstr":50,"int":37,"con":30,"spd":29},"growth":{"str":16,"dex":17,"mstr":26,"int":19,"con":16,"spd":16}},{"index":103,"name":"성좌술사","element":"광","grade":"special","active_skill":{"name":"여명의창","description":"새벽빛 창을 던진다"},"base_stats":{"str":28,"dex":31,"mstr":44,"int":35,"con":29,"spd":29},"growth":{"str":15,"dex":17,"mstr":23,"int":19,"con":15,"spd":16}},{"index":104,"name":"백야기사","element":"광","grade":"special","active_skill":{"name":"성역","description":"빛의 결계로 짓누른다"},"base_stats":{"str":31,"dex":30,"mstr":49,"int":36,"con":28,"spd":29},"growth":{"str":16,"dex":16,"mstr":26,"int":19,"con":15,"spd":15}},{"index":105,"name":"여명의룡","element":"광","grade":"legend","active_skill":{"name":"성역","description":"빛의 결계로 짓누른다"},"base_stats":{"str":38,"dex":44,"mstr":64,"int":54,"con":40,"spd":43},"growth":{"str":17,"dex":19,"mstr":28,"int":23,"con":18,"spd":19}},{"index":106,"name":"대성당수호자","element":"광","grade":"legend","active_skill":{"name":"심판의빛","description":"하늘에서 빛기둥이 떨어진다"},"base_stats":{"str":40,"dex":44,"mstr":62,"int":51,"con":41,"spd":44},"growth":{"str":18,"dex":19,"mstr":27,"int":22,"con":18,"spd":19}},{"index":107,"name":"광명사제","element":"광","grade":"legend","active_skill":{"name":"성역","description":"빛의 결계로 짓누른다"},"base_stats":{"str":39,"dex":44,"mstr":62,"int":47,"con":44,"spd":42},"growth":{"str":17,"dex":19,"mstr":27,"int":20,"con":19,"spd":18}},{"index":108,"name":"광휘신","element":"광","grade":"god","active_skill":{"name":"심판의빛","description":"하늘에서 빛기둥이 떨어진다"},"base_stats":{"str":53,"dex":57,"mstr":86,"int":63,"con":57,"spd":53},"growth":{"str":19,"dex":21,"mstr":32,"int":23,"con":21,"spd":19}},{"index":109,"name":"태양신관","element":"광","grade":"god","active_skill":{"name":"천상광휘","description":"온 하늘이 빛난다"},"base_stats":{"str":54,"dex":60,"mstr":76,"int":61,"con":56,"spd":54},"growth":{"str":20,"dex":22,"mstr":28,"int":22,"con":21,"spd":20}},{"index":110,"name":"그림자쥐","element":"악","grade":"common","active_skill":{"name":"그림자손톱","description":"그림자를 세워 할퀸다"},"base_stats":{"str":11,"dex":10,"mstr":10,"int":12,"con":9,"spd":9},"growth":{"str":13,"dex":11,"mstr":13,"int":15,"con":10,"spd":10}},{"index":111,"name":"검은박쥐","element":"악","grade":"common","active_skill":{"name":"저주","description":"약한 저주를 건다"},"base_stats":{"str":12,"dex":8,"mstr":12,"int":12,"con":8,"spd":8},"growth":{"str":14,"dex":10,"mstr":14,"int":15,"con":10,"spd":10}},{"index":112,"name":"저주인형","element":"악","grade":"common","active_skill":{"name":"그림자손톱","description":"그림자를 세워 할퀸다"},"base_stats":{"str":11,"dex":10,"mstr":12,"int":12,"con":9,"spd":8},"growth":{"str":13,"dex":12,"mstr":14,"int":14,"con":11,"spd":10}},{"index":113,"name":"늪귀신","element":"악","grade":"common","active_skill":{"name":"저주","description":"약한 저주를 건다"},"base_stats":{"str":11,"dex":9,"mstr":11,"int":12,"con":10,"spd":9},"growth":{"str":13,"dex":10,"mstr":13,"int":14,"con":12,"spd":11}},{"index":114,"name":"밤까마귀","element":"악","grade":"uncommon","active_skill":{"name":"저주","description":"약한 저주를 건다"},"base_stats":{"str":18,"dex":14,"mstr":16,"int":20,"con":15,"spd":14},"growth":{"str":16,"dex":12,"mstr":14,"int":17,"con":13,"spd":13}},{"index":115,"name":"해골병사","element":"악","grade":"uncommon","active_skill":{"name":"흡혈","description":"상대의 기운을 빨아들인다"},"base_stats":{"str":18,"dex":15,"mstr":19,"int":19,"con":14,"spd":13},"growth":{"str":16,"dex":13,"mstr":16,"int":17,"con":12,"spd":12}},{"index":116,"name":"흑묘요괴","element":"악","grade":"uncommon","active_skill":{"name":"저주","description":"약한 저주를 건다"},"base_stats":{"str":20,"dex":14,"mstr":17,"int":18,"con":13,"spd":13},"growth":{"str":17,"dex":12,"mstr":15,"int":15,"con":12,"spd":11}},{"index":117,"name":"독무령","element":"악","grade":"uncommon","active_skill":{"name":"흡혈","description":"상대의 기운을 빨아들인다"},"base_stats":{"str":18,"dex":15,"mstr":19,"int":19,"con":14,"spd":14},"growth":{"str":16,"dex":13,"mstr":17,"int":17,"con":12,"spd":12}},{"index":118,"name":"그믐늑대","element":"악","grade":"uncommon","active_skill":{"name":"저주","description":"약한 저주를 건다"},"base_stats":{"str":18,"dex":14,"mstr":18,"int":19,"con":15,"spd":13},"growth":{"str":16,"dex":12,"mstr":16,"int":17,"con":14,"spd":11}},{"index":119,"name":"사령술사","element":"악","grade":"rare","active_skill":{"name":"흡혈","description":"상대의 기운을 빨아들인다"},"base_stats":{"str":29,"dex":23,"mstr":25,"int":29,"con":22,"spd":20},"growth":{"str":19,"dex":15,"mstr":17,"int":19,"con":15,"spd":13}},{"index":120,"name":"흑염거미","element":"악","grade":"rare","active_skill":{"name":"암흑탄","description":"어둠 덩어리를 쏜다"},"base_stats":{"str":27,"dex":23,"mstr":25,"int":29,"con":21,"spd":20},"growth":{"str":18,"dex":15,"mstr":17,"int":19,"con":14,"spd":13}},{"index":121,"name":"망령기사","element":"악","grade":"rare","active_skill":{"name":"흡혈","description":"상대의 기운을 빨아들인다"},"base_stats":{"str":28,"dex":22,"mstr":25,"int":29,"con":20,"spd":20},"growth":{"str":19,"dex":15,"mstr":17,"int":19,"con":13,"spd":14}},{"index":122,"name":"어둠거인","element":"악","grade":"rare","active_skill":{"name":"암흑탄","description":"어둠 덩어리를 쏜다"},"base_stats":{"str":30,"dex":22,"mstr":28,"int":26,"con":23,"spd":22},"growth":{"str":20,"dex":14,"mstr":19,"int":18,"con":15,"spd":14}},{"index":123,"name":"흑룡새끼","element":"악","grade":"special","active_skill":{"name":"공포의포효","description":"겁을 주어 위축시킨다"},"base_stats":{"str":41,"dex":30,"mstr":37,"int":40,"con":29,"spd":30},"growth":{"str":22,"dex":16,"mstr":19,"int":21,"con":16,"spd":16}},{"index":124,"name":"심연마녀","element":"악","grade":"special","active_skill":{"name":"사념의칼날","description":"원념을 칼로 벼린다"},"base_stats":{"str":41,"dex":29,"mstr":38,"int":40,"con":31,"spd":30},"growth":{"str":22,"dex":15,"mstr":20,"int":21,"con":16,"spd":16}},{"index":125,"name":"저주공작","element":"악","grade":"special","active_skill":{"name":"공포의포효","description":"겁을 주어 위축시킨다"},"base_stats":{"str":40,"dex":32,"mstr":36,"int":37,"con":30,"spd":31},"growth":{"str":21,"dex":17,"mstr":19,"int":20,"con":16,"spd":16}},{"index":126,"name":"암흑기사","element":"악","grade":"special","active_skill":{"name":"사념의칼날","description":"원념을 칼로 벼린다"},"base_stats":{"str":38,"dex":30,"mstr":40,"int":36,"con":29,"spd":30},"growth":{"str":20,"dex":16,"mstr":21,"int":19,"con":15,"spd":16}},{"index":127,"name":"심연의룡","element":"악","grade":"legend","active_skill":{"name":"사념의칼날","description":"원념을 칼로 벼린다"},"base_stats":{"str":55,"dex":41,"mstr":47,"int":52,"con":41,"spd":39},"growth":{"str":24,"dex":18,"mstr":21,"int":23,"con":18,"spd":17}},{"index":128,"name":"나락사제","element":"악","grade":"legend","active_skill":{"name":"나락의손길","description":"발밑에서 손이 솟는다"},"base_stats":{"str":53,"dex":42,"mstr":48,"int":53,"con":39,"spd":37},"growth":{"str":23,"dex":18,"mstr":21,"int":23,"con":17,"spd":16}},{"index":129,"name":"흑월군주","element":"악","grade":"legend","active_skill":{"name":"사념의칼날","description":"원념을 칼로 벼린다"},"base_stats":{"str":49,"dex":42,"mstr":53,"int":52,"con":42,"spd":41},"growth":{"str":21,"dex":18,"mstr":23,"int":23,"con":18,"spd":18}},{"index":130,"name":"암흑제","element":"악","grade":"god","active_skill":{"name":"나락의손길","description":"발밑에서 손이 솟는다"},"base_stats":{"str":66,"dex":55,"mstr":66,"int":64,"con":52,"spd":49},"growth":{"str":24,"dex":20,"mstr":24,"int":23,"con":19,"spd":18}},{"index":131,"name":"나락신","element":"악","grade":"god","active_skill":{"name":"종말의어둠","description":"빛을 통째로 삼킨다"},"base_stats":{"str":68,"dex":57,"mstr":64,"int":68,"con":51,"spd":55},"growth":{"str":25,"dex":21,"mstr":24,"int":25,"con":19,"spd":20}}]},"passives":[{"id":"strike","name":"강타","description":"물리 공격력이 오른다","kind":"physical_up","levels":[0.1,0.16,0.24],"materials":{"날카로운송곳니":2}},{"id":"amplify","name":"마력증폭","description":"스킬 공격력이 오른다","kind":"skill_up","levels":[0.1,0.16,0.24],"materials":{"마력의알":2}},{"id":"ironhide","name":"철갑","description":"받는 물리 피해가 줄어든다","kind":"physical_guard","levels":[0.08,0.13,0.2],"materials":{"두꺼운가죽":2}},{"id":"barrier","name":"결계강화","description":"받는 스킬 피해가 줄어든다","kind":"skill_guard","levels":[0.08,0.13,0.2],"materials":{"맑은수정":2}},{"id":"keen","name":"예리함","description":"크리티컬 확률이 오른다","kind":"critical_up","levels":[0.05,0.09,0.14],"materials":{"날카로운송곳니":1,"맑은수정":1}},{"id":"haste","name":"신속","description":"속도가 오른다","kind":"speed_up","levels":[0.08,0.14,0.2],"materials":{"바람깃털":2}},{"id":"desperate","name":"배수의진","description":"HP가 30% 이하일 때 공격력이 크게 오른다","kind":"desperate","levels":[0.2,0.32,0.45],"materials":{"불꽃결정":2}},{"id":"rage","name":"분노","description":"공격받을 때마다 공격력이 누적으로 오른다 (5회까지)","kind":"rage","levels":[0.04,0.06,0.09],"materials":{"불꽃결정":1,"어둠파편":1}},{"id":"bulwark","name":"방벽술","description":"방어할 때 피해를 더 줄인다","kind":"guard_master","levels":[0.1,0.16,0.24],"materials":{"두꺼운가죽":1,"단단한뿔":1}},{"id":"thrift","name":"절약","description":"스킬의 SP 소모가 줄어든다","kind":"sp_saver","levels":[0.15,0.25,0.4],"materials":{"마력의알":1,"잎맥섬유":1}},{"id":"vanguard","name":"선제","description":"속도가 같을 때 먼저 움직인다","kind":"first_strike","levels":[1,1,1],"materials":{"바람깃털":1,"빛조각":1}},{"id":"affinity","name":"속성친화","description":"속성 상성이 유리할 때 위력이 더 오른다","kind":"affinity","levels":[0.12,0.2,0.3],"materials":{"맑은수정":1,"빛조각":1}},{"id":"drain","name":"흡혈","description":"준 피해의 일부만큼 HP를 회복한다","kind":"drain","levels":[0.1,0.16,0.25],"materials":{"어둠파편":2}},{"id":"regen","name":"재생","description":"라운드마다 최대 HP의 일부를 회복한다","kind":"regen","levels":[0.03,0.05,0.08],"materials":{"잎맥섬유":2}},{"id":"counter","name":"반격","description":"물리 공격을 받으면 확률로 되받아친다","kind":"counter","levels":[0.15,0.25,0.35],"materials":{"단단한뿔":1,"날카로운송곳니":1}},{"id":"pierce","name":"관통","description":"상대 방어력의 일부를 무시한다","kind":"pierce","levels":[0.15,0.25,0.35],"materials":{"단단한뿔":2}},{"id":"endure","name":"근성","description":"쓰러질 피해를 전투당 한 번 HP 1로 버틴다","kind":"endure","levels":[1,1,1],"materials":{"두꺼운가죽":2,"빛조각":1}},{"id":"hunter","name":"사냥꾼","description":"포획 성공률이 오른다","kind":"hunter","levels":[0.15,0.25,0.4],"materials":{"잎맥섬유":1,"바람깃털":1}},{"id":"gourmet","name":"미식가","description":"전투로 줄어드는 허기도가 적어진다","kind":"gourmet","levels":[0.5,0.5,0.5],"materials":{"잎맥섬유":2,"마력의알":1}},{"id":"bond","name":"교감","description":"전투로 얻는 교감도가 늘어난다","kind":"bond","levels":[0.3,0.5,0.8],"materials":{"빛조각":2}}],"slots":{"base":3,"evolved":6},"items":{"포션":{"category":"소비","price":60,"effect":{"hp":60}},"하이포션":{"category":"소비","price":220,"effect":{"hp":200}},"엑스포션":{"category":"소비","price":700,"effect":{"hp":600}},"에테르":{"category":"소비","price":300,"effect":{"sp":40}},"부활깃털":{"category":"소비","price":900,"effect":{"revive":0.5}},"몬스터볼":{"category":"볼","price":100,"capture_bonus":1.0},"하이볼":{"category":"볼","price":400,"capture_bonus":1.6},"마스터볼":{"category":"볼","price":5000,"capture_bonus":3.0},"강화촉매":{"category":"보조","price":500,"enhance_bonus":0.2},"조합촉매":{"category":"보조","price":800,"fuse_bonus":0.2},"마블-수":{"category":"먹이","price":120,"element":"수"},"마블-화":{"category":"먹이","price":120,"element":"화"},"마블-목":{"category":"먹이","price":120,"element":"목"},"마블-풍":{"category":"먹이","price":120,"element":"풍"},"마블-광":{"category":"먹이","price":120,"element":"광"},"마블-악":{"category":"먹이","price":120,"element":"악"},"단단한뿔":{"category":"재료","price":80},"맑은수정":{"category":"재료","price":80},"불꽃결정":{"category":"재료","price":80},"잎맥섬유":{"category":"재료","price":80},"바람깃털":{"category":"재료","price":80},"빛조각":{"category":"재료","price":120},"어둠파편":{"category":"재료","price":120},"두꺼운가죽":{"category":"재료","price":80},"날카로운송곳니":{"category":"재료","price":80},"마력의알":{"category":"재료","price":150}},"drops":{"common":["단단한뿔","두꺼운가죽","잎맥섬유"],"uncommon":["날카로운송곳니","바람깃털","맑은수정"],"rare":["불꽃결정","마력의알","맑은수정"],"special":["빛조각","어둠파편","마력의알"],"legend":["빛조각","어둠파편"],"god":["빛조각","어둠파편"]},"world":{"origin":"이 저장소에서 만든 오리지널 지역 목록","areas":[{"name":"여울 해변","element":"수","levels":[2,6],"grades":["common","common"]},{"name":"새벽 숲","element":"목","levels":[4,9],"grades":["common","common"]},{"name":"바람 언덕","element":"풍","levels":[7,12],"grades":["common","uncommon"]},{"name":"잿빛 협곡","element":"화","levels":[10,15],"grades":["common","uncommon"]},{"name":"여명 평원","element":"광","levels":[13,18],"grades":["common","uncommon"]},{"name":"그믐 습지","element":"악","levels":[16,21],"grades":["uncommon","uncommon"]},{"name":"안개늪","element":"수","levels":[20,25],"grades":["uncommon","rare"]},{"name":"이끼 계곡","element":"목","levels":[24,29],"grades":["uncommon","rare"]},{"name":"구름 고원","element":"풍","levels":[28,33],"grades":["rare","rare"]},{"name":"용암 동굴","element":"화","levels":[32,37],"grades":["rare","special"]},{"name":"빛의 회랑","element":"광","levels":[36,41],"grades":["rare","special"]},{"name":"폐허 묘지","element":"악","levels":[40,45],"grades":["special","special"]},{"name":"산호 해구","element":"수","levels":[45,50],"grades":["special","legend"]},{"name":"세계수 뿌리","element":"목","levels":[50,55],"grades":["special","legend"]},{"name":"폭풍 절벽","element":"풍","levels":[55,60],"grades":["legend","legend"]},{"name":"불의 신전","element":"화","levels":[60,66],"grades":["legend","god"]},{"name":"성좌 신전","element":"광","levels":[66,72],"grades":["legend","god"]},{"name":"나락 심연","element":"악","levels":[72,80],"grades":["god","god"]}]},"balance":{"stat_order":["str","dex","mstr","int","con","spd"],"party_cost":{"common":1,"uncommon":2,"rare":4,"special":7,"legend":8,"god":9},"rank_party_points":[{"rank":"수련생","points":4},{"rank":"견습","points":5},{"rank":"비기너","points":6},{"rank":"헌터","points":7},{"rank":"스컬러","points":8},{"rank":"러너","points":9},{"rank":"액터","points":10},{"rank":"익스퍼터","points":12},{"rank":"레전드","points":14},{"rank":"마스터","points":16},{"rank":"진마스터","points":18}],"element_chart":{"strong_against":{"화":["목"],"목":["풍"],"풍":["수"],"수":["화"],"광":["악"],"악":["광"]},"advantage_multiplier":1.5,"disadvantage_multiplier":0.75,"physical_weight":0.4},"growth":{"growth_divisor":10},"vitals":{"hp_base":15,"hp_per_con":5,"hp_per_level":2,"sp_base":20,"sp_per_int":1,"sp_per_level":1},"damage":{"physical_attack_scale":1.0,"physical_defense_scale":0.45,"skill_attack_scale":1.0,"skill_defense_scale":0.45,"variance_min":0.9,"variance_max":1.1,"critical_chance":0.05,"critical_multiplier":1.8,"guard_reduction":0.5,"minimum_damage":1},"skill_cost":{"base":6,"per_five_levels":1},"flee":{"base_chance":0.4,"speed_weight":0.01,"min":0.1,"max":0.95},"capture":{"grade_base":{"common":0.6,"uncommon":0.45,"rare":0.3,"special":0.18,"legend":0.08,"god":0.03},"hp_weight":0.8,"same_element_bonus":1.2,"ball_bonus":{"몬스터볼":1.0,"하이몬스터볼":1.6,"마스터몬스터볼":3.0}},"condition":{"food_max":100,"food_per_battle":2,"starving_penalty":0.8,"feel_max":999,"feel_per_battle":12,"feel_per_marble":60,"feel_loss_on_death":80,"evolution_bonus":1.15,"recover_after_win":0.2},"experience":{"base":8,"per_level":6,"grade_multiplier":{"common":1.0,"uncommon":1.3,"rare":1.8,"special":2.4,"legend":3.2,"god":4.0},"auto_battle_ratio":0.6,"level_curve":25,"max_level":99,"hero_level_curve":35,"fallen_ratio":0.5},"island":{"party_point_levels":[20,40,60,80],"grade_unlock":{"special":10,"legend":20,"god":30},"visit_experience_bonus":1.5,"host_experience_share":0.2,"experience_per_level":120,"max_level":99},"fusion":{"success_rate":{"common":0.7,"uncommon":0.55,"rare":0.4,"special":0.28,"legend":0.15},"cost_gold":{"common":200,"uncommon":600,"rare":1600,"special":4000,"legend":9000},"inherit_passive_chance":0.5},"enhance":{"base_rate":0.85,"decay_per_point":0.012,"min_rate":0.1,"cost_gold_per_point":40,"max_brain":99},"skill_craft":{"attach_gold":300,"level_up_gold_multiplier":2.0},"network":{"rank_point_win":24,"rank_point_loss":12,"rank_range":8,"challenge_rounds":3,"market_sell_ratio":0.4,"market_price_per_level":18,"market_grade_multiplier":{"common":1.0,"uncommon":1.6,"rare":2.6,"special":4.2,"legend":6.5,"god":10.0},"mailbox_gift_pool":["포션","하이포션","에테르","몬스터볼","강화촉매","조합촉매","맑은수정","빛조각"],"mailbox_gifts_per_day":2}}};
+</script>
+<script>
+/* 엘리멘탈 테이머 — 파이썬판(tamer/)의 규칙을 그대로 옮긴 웹 구현.
+   수치는 전부 D.balance 에서 읽으므로, 밸런스를 고치려면 data/rules/balance.json 만
+   고치고 tools/build_web.py 로 다시 만들면 된다. */
+
+(function () {
+  "use strict";
+
+  const B = D.balance;
+  const SPECIES = D.roster.monsters;
+  const GRADES = ["common", "uncommon", "rare", "special", "legend", "god"];
+  const ELEMENTS = Object.keys(D.roster.elements);
+  const STATS = ["str", "dex", "mstr", "int", "con", "spd"];
+  const STAT_LABEL = {
+    str: "STR 물리공격", dex: "DEX 물리방어", mstr: "MSTR 스킬공격",
+    int: "INT 스킬방어", con: "CON 체력", spd: "SPD 속도",
+  };
+
+  const rnd = () => Math.random();
+  const randInt = (lo, hi) => lo + Math.floor(rnd() * (hi - lo + 1));
+  const pick = (list) => list[Math.floor(rnd() * list.length)];
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+  function weightedPick(list, weights) {
+    let total = 0;
+    for (const w of weights) total += w;
+    let roll = rnd() * total;
+    for (let i = 0; i < list.length; i++) {
+      roll -= weights[i];
+      if (roll <= 0) return list[i];
+    }
+    return list[list.length - 1];
+  }
+
+  const speciesOf = (m) => SPECIES[m.species];
+  const gradeIndex = (sp) => GRADES.indexOf(sp.grade);
+  const byName = (name) => SPECIES.findIndex((s) => s.name === name);
+  const filterSpecies = (element, grade) =>
+    SPECIES.filter((s) => (!element || s.element === element) && (!grade || s.grade === grade));
+
+  /* ── 몬스터 ──────────────────────────────────────────────── */
+
+  function makeMonster(speciesIndex, level) {
+    const m = {
+      species: speciesIndex, level: level || 1, brain: 0, feel: 0, food: 100,
+      evolved: false, exp: 0, passives: [], hp: 0, sp: 0,
+      guarding: false, rage: 0, endured: false,
+    };
+    m.hp = maxHp(m);
+    m.sp = maxSp(m);
+    return m;
+  }
+
+  function stat(m, key) {
+    const sp = speciesOf(m);
+    let value = sp.base_stats[key] +
+      Math.floor(sp.growth[key] * (m.level - 1) / B.growth.growth_divisor);
+    value += Math.floor(m.brain / 10);
+    if (m.evolved) value = Math.floor(value * B.condition.evolution_bonus);
+    if (m.food <= 0) value = Math.floor(value * B.condition.starving_penalty);
+    return Math.max(1, value);
+  }
+
+  const maxHp = (m) =>
+    B.vitals.hp_base + stat(m, "con") * B.vitals.hp_per_con + m.level * B.vitals.hp_per_level;
+  const maxSp = (m) =>
+    B.vitals.sp_base + stat(m, "int") * B.vitals.sp_per_int + m.level * B.vitals.sp_per_level;
+
+  function baseSkillCost(m) {
+    const c = B.skill_cost.base + Math.floor(m.level / 5) * B.skill_cost.per_five_levels;
+    return m.evolved ? c * 2 : c;
+  }
+
+  const partyCost = (m) => B.party_cost[speciesOf(m).grade];
+  const slotLimit = (m) => (m.evolved ? D.slots.evolved : D.slots.base);
+  const alive = (m) => m.hp > 0;
+  const monName = (m) => speciesOf(m).name;
+  const monElement = (m) => speciesOf(m).element;
+
+  function expToNext(m) { return B.experience.level_curve * m.level + 20; }
+
+  function gainExp(m, amount, log) {
+    m.exp += amount;
+    while (m.level < B.experience.max_level && m.exp >= expToNext(m)) {
+      m.exp -= expToNext(m);
+      m.level += 1;
+      m.hp = maxHp(m);
+      m.sp = maxSp(m);
+      log.push({ text: `${monName(m)}의 레벨이 ${m.level}이 되었다!`, kind: "gain" });
+    }
+  }
+
+  function gainFeel(m, amount, log) {
+    if (m.evolved) { m.feel = Math.min(B.condition.feel_max, m.feel + amount); return; }
+    m.feel += amount;
+    if (m.feel < B.condition.feel_max) return;
+    m.feel = 0;
+    m.evolved = true;
+    m.hp = maxHp(m);
+    log.push({
+      text: `${monName(m)}의 교감도가 최대치에 달했다. 진화했다! (패시브 슬롯 ${slotLimit(m)}칸)`,
+      kind: "gain",
+    });
+  }
+
+  function restMonster(m) {
+    m.hp = maxHp(m);
+    m.sp = maxSp(m);
+    m.guarding = false;
+    m.rage = 0;
+    m.endured = false;
+  }
+
+  /* ── 패시브 ──────────────────────────────────────────────── */
+
+  const passiveById = (id) => D.passives.find((p) => p.id === id);
+
+  function magnitude(m, kind) {
+    let total = 0;
+    for (const learned of m.passives) {
+      const p = passiveById(learned.passive_id);
+      if (p && p.kind === kind) total += p.levels[clamp(learned.level, 1, p.levels.length) - 1];
+    }
+    return total;
+  }
+
+  const hasKind = (m, kind) =>
+    m.passives.some((l) => (passiveById(l.passive_id) || {}).kind === kind);
+
+  function attackMultiplier(m, skill, advantaged) {
+    let bonus = magnitude(m, skill ? "skill_up" : "physical_up");
+    if (m.hp <= maxHp(m) * 0.3) bonus += magnitude(m, "desperate");
+    bonus += magnitude(m, "rage") * Math.min(m.rage, 5);
+    if (advantaged) bonus += magnitude(m, "affinity");
+    return 1 + bonus;
+  }
+
+  const defenseMultiplier = (m, skill) =>
+    Math.max(0.2, 1 - magnitude(m, skill ? "skill_guard" : "physical_guard"));
+  const spCost = (m) =>
+    Math.max(1, Math.round(baseSkillCost(m) * (1 - Math.min(0.7, magnitude(m, "sp_saver")))));
+  const effectiveSpeed = (m) => stat(m, "spd") * (1 + magnitude(m, "speed_up"));
+  const passiveLevel = (m, id) => {
+    const found = m.passives.find((l) => l.passive_id === id);
+    return found ? found.level : 0;
+  };
+
+  /* ── 규칙 ────────────────────────────────────────────────── */
+
+  function elementMultiplier(attacker, defender) {
+    const strong = B.element_chart.strong_against;
+    if ((strong[attacker] || []).includes(defender)) return B.element_chart.advantage_multiplier;
+    if ((strong[defender] || []).includes(attacker)) return B.element_chart.disadvantage_multiplier;
+    return 1;
+  }
+
+  const physicalElementMultiplier = (a, d) =>
+    1 + (elementMultiplier(a, d) - 1) * (B.element_chart.physical_weight || 0);
+
+  function estimateDamage(attacker, defender, skill) {
+    const s = B.damage;
+    let attack, defense, multiplier;
+    if (skill) {
+      attack = stat(attacker, "mstr") * s.skill_attack_scale;
+      defense = stat(defender, "int") * s.skill_defense_scale;
+      multiplier = elementMultiplier(monElement(attacker), monElement(defender));
+    } else {
+      attack = stat(attacker, "str") * s.physical_attack_scale;
+      defense = stat(defender, "dex") * s.physical_defense_scale;
+      multiplier = physicalElementMultiplier(monElement(attacker), monElement(defender));
+    }
+    attack *= attackMultiplier(attacker, skill, multiplier > 1);
+    defense *= 1 - Math.min(0.6, magnitude(attacker, "pierce"));
+    let raw = (attack - defense) * multiplier;
+    raw *= defenseMultiplier(defender, skill);
+    return Math.max(s.minimum_damage, raw);
+  }
+
+  function rollDamage(attacker, defender, skill) {
+    const s = B.damage;
+    let attack, defense, multiplier;
+    if (skill) {
+      attack = stat(attacker, "mstr") * s.skill_attack_scale;
+      defense = stat(defender, "int") * s.skill_defense_scale;
+      multiplier = elementMultiplier(monElement(attacker), monElement(defender));
+    } else {
+      attack = stat(attacker, "str") * s.physical_attack_scale;
+      defense = stat(defender, "dex") * s.physical_defense_scale;
+      multiplier = physicalElementMultiplier(monElement(attacker), monElement(defender));
+    }
+    attack *= attackMultiplier(attacker, skill, multiplier > 1);
+    defense *= 1 - Math.min(0.6, magnitude(attacker, "pierce"));
+
+    let raw = (attack - defense) * multiplier;
+    raw *= s.variance_min + rnd() * (s.variance_max - s.variance_min);
+    const critical = rnd() < s.critical_chance + magnitude(attacker, "critical_up");
+    if (critical) raw *= s.critical_multiplier;
+    if (defender.guarding) {
+      raw *= Math.max(0.1, 1 - (s.guard_reduction + magnitude(defender, "guard_master")));
+    }
+    raw *= defenseMultiplier(defender, skill);
+    return { amount: Math.max(s.minimum_damage, Math.floor(raw)), critical, multiplier };
+  }
+
+  function fleeChance(runner, opponent) {
+    const s = B.flee;
+    const chance = s.base_chance +
+      (effectiveSpeed(runner) - effectiveSpeed(opponent)) * s.speed_weight;
+    return clamp(chance, s.min, s.max);
+  }
+
+  function captureChance(target, hero, ball, catcher) {
+    const s = B.capture;
+    if (target.level > hero.level) return 0;
+    let chance = s.grade_base[speciesOf(target).grade];
+    chance *= 1 - s.hp_weight * (target.hp / Math.max(1, maxHp(target)));
+    chance *= (D.items[ball] || {}).capture_bonus || 1;
+    if (monElement(target) === hero.element) chance *= s.same_element_bonus;
+    if (catcher) chance *= 1 + magnitude(catcher, "hunter");
+    return clamp(chance, 0, 0.95);
+  }
+
+  const expReward = (foe, auto) => {
+    const s = B.experience;
+    let amount = (s.base + s.per_level * foe.level) * s.grade_multiplier[speciesOf(foe).grade];
+    if (auto) amount *= s.auto_battle_ratio;
+    return Math.max(1, Math.floor(amount));
+  };
+
+  const goldReward = (foe) =>
+    Math.max(1, Math.floor(foe.level * 3 * B.experience.grade_multiplier[speciesOf(foe).grade]));
+
+  /* ── 주인공 ──────────────────────────────────────────────── */
+
+  function makeHero(name, element) {
+    return {
+      name, element, level: 5, exp: 0, statPoints: 0, rankIndex: 0,
+      gold: 500, guildRank: 99, rankPoints: 1000, wins: 0, losses: 0,
+      islandLevel: 1, islandExp: 0, day: 1,
+      lastGiftDay: 0, lastChestDay: 0, marketDay: 0, market: null,
+      party: [], storage: [], items: { "포션": 5, "몬스터볼": 5, "에테르": 2 },
+      seen: [], log: [],
+    };
+  }
+
+  const rankName = (hero) => B.rank_party_points[hero.rankIndex].rank;
+
+  function partyPoints(hero) {
+    const extra = B.island.party_point_levels.filter((t) => hero.islandLevel >= t).length;
+    return B.rank_party_points[hero.rankIndex].points + extra;
+  }
+
+  const usedPoints = (hero) => hero.party.reduce((sum, m) => sum + partyCost(m), 0);
+  const alivePartyOf = (hero) => hero.party.filter(alive);
+  const allMonsters = (hero) => hero.party.concat(hero.storage);
+
+  function heroExpToNext(hero) { return B.experience.hero_level_curve * hero.level + 30; }
+
+  function heroGainExp(hero, amount, log) {
+    hero.exp += amount;
+    while (hero.level < B.experience.max_level && hero.exp >= heroExpToNext(hero)) {
+      hero.exp -= heroExpToNext(hero);
+      hero.level += 1;
+      hero.statPoints += 3;
+      log.push({ text: `${hero.name}의 레벨이 ${hero.level}이 되었다!`, kind: "gain" });
+    }
+  }
+
+  function promote(hero, log) {
+    const target = Math.min(B.rank_party_points.length - 1, Math.floor((99 - hero.guildRank) / 9));
+    while (hero.rankIndex < target) {
+      hero.rankIndex += 1;
+      log.push({
+        text: `테이머 등급이 ${rankName(hero)}(으)로 올랐다. 파티 포인트 ${partyPoints(hero)}`,
+        kind: "gain",
+      });
+    }
+  }
+
+  function catchMonster(hero, m) {
+    if (!hero.seen.includes(monName(m))) hero.seen.push(monName(m));
+    if (usedPoints(hero) + partyCost(m) <= partyPoints(hero)) {
+      hero.party.push(m);
+      return `${monName(m)}(이)가 파티에 합류했다.`;
+    }
+    hero.storage.push(m);
+    return `${monName(m)}(은)는 파티 포인트가 모자라 보관함으로 갔다.`;
+  }
+
+  const addItem = (hero, name, count) => {
+    hero.items[name] = (hero.items[name] || 0) + (count || 1);
+  };
+
+  function takeItem(hero, name, count) {
+    count = count || 1;
+    if ((hero.items[name] || 0) < count) return false;
+    hero.items[name] -= count;
+    if (hero.items[name] === 0) delete hero.items[name];
+    return true;
+  }
+
+  /* ── 사냥터 ──────────────────────────────────────────────── */
+
+  const AREAS = D.world.areas.map((a) => {
+    const low = GRADES.indexOf(a.grades[0]);
+    const high = GRADES.indexOf(a.grades[1]);
+    let pool = SPECIES
+      .map((s, i) => ({ s, i }))
+      .filter(({ s }) => s.element === a.element &&
+        gradeIndex(s) >= low && gradeIndex(s) <= high)
+      .map(({ i }) => i);
+    if (pool.length < 3) {
+      pool = SPECIES.map((s, i) => ({ s, i }))
+        .filter(({ s }) => gradeIndex(s) >= low && gradeIndex(s) <= high)
+        .map(({ i }) => i);
+    }
+    return {
+      name: a.name, element: a.element,
+      minLevel: a.levels[0], maxLevel: a.levels[1],
+      minGrade: low, maxGrade: high, pool, island: false,
+    };
+  });
+
+  const ISLAND = {
+    name: "미지의 섬", element: "전속성", minLevel: 1, maxLevel: 99,
+    minGrade: 0, maxGrade: GRADES.length - 1,
+    pool: SPECIES.map((_, i) => i), island: true,
+  };
+
+  function islandGradeCap(islandLevel) {
+    let cap = GRADES.indexOf("rare");
+    for (const [grade, level] of Object.entries(B.island.grade_unlock)) {
+      if (islandLevel >= level) cap = Math.max(cap, GRADES.indexOf(grade));
+    }
+    return cap;
+  }
+
+  function spawn(area, hero, islandLevel) {
+    let pool = area.pool, floor = area.minGrade, low, high;
+    if (area.island) {
+      const cap = islandGradeCap(islandLevel);
+      floor = Math.max(0, cap - 2);
+      pool = pool.filter((i) => gradeIndex(SPECIES[i]) <= cap &&
+        gradeIndex(SPECIES[i]) >= floor);
+      if (!pool.length) pool = area.pool;
+      low = Math.max(1, hero.level - 2);
+      high = hero.level + 2;
+    } else {
+      low = area.minLevel;
+      high = area.maxLevel;
+    }
+    const weights = pool.map((i) => Math.max(1, 64 >> (Math.max(0, gradeIndex(SPECIES[i]) - floor) * 2)));
+    // 적 수는 파티 규모를 넘지 않는다. 파티 한 마리에 2:1이면 선택의 여지가 없다.
+    const partySize = alivePartyOf(hero).length;
+    const count = partySize < 2 || rnd() < 0.7 ? 1 : 2;
+    const foes = [];
+    for (let i = 0; i < count; i++) {
+      foes.push(makeMonster(weightedPick(pool, weights), randInt(low, high)));
+    }
+    return foes;
+  }
+
+  /* ── 전투 ────────────────────────────────────────────────── */
+
+  function makeBattle(hero, foes, options) {
+    options = options || {};
+    return {
+      hero, allies: alivePartyOf(hero), enemies: foes,
+      turn: 0, log: [], result: null, captured: null,
+      capturable: options.capturable !== false,
+      mode: options.mode || null, rival: options.rival || null,
+      auto: false, gold: 0, drops: {},
+    };
+  }
+
+  const livingIn = (side) => side.filter(alive);
+  const isAlly = (fight, m) => fight.allies.indexOf(m) >= 0;
+  const foesOf = (fight, m) => (isAlly(fight, m) ? fight.enemies : fight.allies);
+
+  function autoAction(fight, actor) {
+    const targets = livingIn(foesOf(fight, actor));
+    if (!targets.length) return { kind: "guard", actor };
+    const target = targets.reduce((a, b) => (a.hp <= b.hp ? a : b));
+    const physical = estimateDamage(actor, target, false);
+    if (actor.sp < spCost(actor)) return { kind: "attack", actor, target };
+    const skill = estimateDamage(actor, target, true);
+    return { kind: skill > physical ? "skill" : "attack", actor, target };
+  }
+
+  function say(fight, text, kind, actor) {
+    fight.log.push({
+      text, kind: kind || "",
+      side: actor ? (isAlly(fight, actor) ? "ally" : "foe") : "",
+    });
+  }
+
+  function runRound(fight, allyActions) {
+    if (fight.result) return;
+    fight.turn += 1;
+
+    const queue = allyActions.slice();
+    for (const foe of livingIn(fight.enemies)) queue.push(autoAction(fight, foe));
+    queue.sort((a, b) => {
+      const speed = effectiveSpeed(b.actor) - effectiveSpeed(a.actor);
+      if (speed) return speed;
+      const priority = (hasKind(b.actor, "first_strike") ? 1 : 0) -
+        (hasKind(a.actor, "first_strike") ? 1 : 0);
+      return priority || rnd() - 0.5;
+    });
+
+    for (const m of fight.allies.concat(fight.enemies)) m.guarding = false;
+    for (const action of queue) if (action.kind === "guard") action.actor.guarding = true;
+
+    for (const action of queue) {
+      if (fight.result || !alive(action.actor)) continue;
+      resolve(fight, action);
+      checkEnd(fight);
+    }
+    tickRegen(fight);
+    checkEnd(fight);
+  }
+
+  function tickRegen(fight) {
+    for (const m of livingIn(fight.allies).concat(livingIn(fight.enemies))) {
+      const ratio = magnitude(m, "regen");
+      if (ratio <= 0 || m.hp >= maxHp(m)) continue;
+      const healed = Math.min(maxHp(m) - m.hp, Math.max(1, Math.floor(maxHp(m) * ratio)));
+      m.hp += healed;
+      say(fight, `${monName(m)}의 재생. HP ${healed} 회복`, "gain", m);
+    }
+  }
+
+  function targetFor(fight, action) {
+    if (action.target && alive(action.target)) return action.target;
+    return livingIn(foesOf(fight, action.actor))[0] || null;
+  }
+
+  function applyDamage(fight, attacker, target, amount, physical) {
+    if (amount >= target.hp && hasKind(target, "endure") && !target.endured) {
+      amount = target.hp - 1;
+      target.endured = true;
+      say(fight, `${monName(target)}의 근성! HP 1로 버텼다.`, "", target);
+    }
+    target.hp = Math.max(0, target.hp - amount);
+    target.rage += 1;
+
+    const drain = magnitude(attacker, "drain");
+    if (drain > 0 && alive(attacker)) {
+      const healed = Math.min(maxHp(attacker) - attacker.hp, Math.max(1, Math.floor(amount * drain)));
+      if (healed > 0) {
+        attacker.hp += healed;
+        say(fight, `${monName(attacker)}의 흡혈. HP ${healed} 회복`, "gain", attacker);
+      }
+    }
+
+    if (!alive(target)) { say(fight, `${monName(target)}(은)는 쓰러졌다.`, "down", target); return; }
+    if (physical && rnd() < magnitude(target, "counter")) {
+      const back = rollDamage(target, attacker, false).amount;
+      attacker.hp = Math.max(0, attacker.hp - back);
+      say(fight, `${monName(target)}의 반격! ${monName(attacker)}에게 ${back}`, "", target);
+      if (!alive(attacker)) say(fight, `${monName(attacker)}(은)는 쓰러졌다.`, "down", attacker);
+    }
+  }
+
+  function resolve(fight, action) {
+    const actor = action.actor;
+    if (action.kind === "guard") { say(fight, `${monName(actor)}(은)는 방어했다.`, "", actor); return; }
+
+    if (action.kind === "flee") {
+      const foes = livingIn(fight.enemies);
+      if (!foes.length) return;
+      const fastest = foes.reduce((a, b) => (effectiveSpeed(a) >= effectiveSpeed(b) ? a : b));
+      if (rnd() < fleeChance(actor, fastest)) { say(fight, "도망쳤다.", "", actor); fight.result = "fled"; }
+      else say(fight, "도망치지 못했다.", "", actor);
+      return;
+    }
+
+    if (action.kind === "item") {
+      useItemInBattle(fight, actor, action.item);
+      return;
+    }
+
+    if (action.kind === "capture") {
+      const target = targetFor(fight, action);
+      if (!target) return;
+      if (!fight.capturable) { say(fight, "포획할 수 없는 전투다.", "", actor); return; }
+      if (target.level > fight.hero.level) {
+        say(fight, `내 레벨이 낮아 잡을 수 없다. (Lv${target.level} 필요)`, "", actor);
+        return;
+      }
+      const ball = action.item || "몬스터볼";
+      if (!takeItem(fight.hero, ball)) { say(fight, `${ball}(이)가 없다.`, "", actor); return; }
+      if (rnd() < captureChance(target, fight.hero, ball, actor)) {
+        say(fight, `포획 성공! ${monName(target)}(을)를 잡았다.`, "gain", actor);
+        fight.captured = target;
+        target.hp = 0;
+        fight.result = "captured";
+      } else say(fight, "포획 실패", "", actor);
+      return;
+    }
+
+    const skill = action.kind === "skill";
+    if (skill && actor.sp < spCost(actor)) {
+      say(fight, `${monName(actor)}: SP가 모자라 물리 공격으로 바꿨다.`, "", actor);
+      resolve(fight, { kind: "attack", actor, target: action.target });
+      return;
+    }
+    const target = targetFor(fight, action);
+    if (!target) return;
+    if (skill) actor.sp -= spCost(actor);
+
+    const roll = rollDamage(actor, target, skill);
+    const move = skill ? speciesOf(actor).active_skill.name : "물리 공격";
+    let text = `${monName(actor)}의 ${move}! ${monName(target)}에게 ${roll.amount}`;
+    if (roll.critical) text += " 크리티컬!";
+    if (skill && roll.multiplier > 1) text += " 효과가 굉장했다!";
+    if (skill && roll.multiplier < 1) text += " 효과가 별로였다...";
+    say(fight, text, roll.critical ? "crit" : "", actor);
+    applyDamage(fight, actor, target, roll.amount, !skill);
+  }
+
+  function useItemInBattle(fight, actor, name) {
+    const hero = fight.hero;
+    const entry = D.items[name] || {};
+    if (!entry.effect) { say(fight, `${name}(은)는 전투 중에 쓸 수 없다.`, "", actor); return; }
+    if (!takeItem(hero, name)) { say(fight, `${name}(이)가 없다.`, "", actor); return; }
+    const effect = entry.effect;
+    if (effect.hp && alive(actor)) {
+      const healed = Math.min(effect.hp, maxHp(actor) - actor.hp);
+      actor.hp += healed;
+      say(fight, `${name}으로 ${monName(actor)}의 HP ${healed} 회복`, "gain", actor);
+    }
+    if (effect.sp) {
+      const healed = Math.min(effect.sp, maxSp(actor) - actor.sp);
+      actor.sp += healed;
+      say(fight, `${name}으로 ${monName(actor)}의 SP ${healed} 회복`, "gain", actor);
+    }
+  }
+
+  function checkEnd(fight) {
+    if (fight.result) return;
+    if (!livingIn(fight.enemies).length) fight.result = "win";
+    else if (!livingIn(fight.allies).length) fight.result = "lose";
+  }
+
+  function finishBattle(fight) {
+    const hero = fight.hero;
+    const out = [];
+    const won = fight.result === "win" || fight.result === "captured";
+    const survivors = livingIn(fight.allies);
+
+    if (won) {
+      let total = 0;
+      for (const foe of fight.enemies) if (!alive(foe)) total += expReward(foe, fight.auto);
+      if (survivors.length && total) {
+        out.push({ text: `경험치 ${total} 획득`, kind: "gain" });
+        // 경험치는 나눠 갖지 않는다. 나누면 파티를 늘린 플레이어가 벌을 받는다.
+        for (const m of survivors) gainExp(m, total, out);
+        // 쓰러진 몬스터도 절반은 받는다. 안 그러면 한 번 뒤처진 몬스터가 영영 못 큰다.
+        for (const m of fight.allies) {
+          if (!alive(m)) gainExp(m, Math.floor(total * B.experience.fallen_ratio), out);
+        }
+        heroGainExp(hero, total, out);
+      }
+      // 승리하면 조금 회복한다. 그래야 쉬지 않고 몇 판은 이어갈 수 있다.
+      for (const m of survivors) {
+        m.hp = Math.min(maxHp(m), m.hp + Math.floor(maxHp(m) * (B.condition.recover_after_win || 0)));
+      }
+      for (const foe of fight.enemies) {
+        if (alive(foe)) continue;
+        fight.gold += goldReward(foe);
+        const candidates = D.drops[speciesOf(foe).grade] || [];
+        if (candidates.length && rnd() < 0.45) {
+          const item = pick(candidates);
+          fight.drops[item] = (fight.drops[item] || 0) + 1;
+        }
+      }
+      if (fight.gold) { hero.gold += fight.gold; out.push({ text: `골드 ${fight.gold} 획득`, kind: "gain" }); }
+      for (const [item, count] of Object.entries(fight.drops)) {
+        addItem(hero, item, count);
+        out.push({ text: `${item} x${count} 획득`, kind: "gain" });
+      }
+    }
+
+    for (const m of fight.allies) {
+      const ratio = hasKind(m, "gourmet") ? 0.5 : 1;
+      const before = m.food;
+      m.food = Math.max(0, m.food - Math.max(1, Math.round(B.condition.food_per_battle * ratio)));
+      if (before > 0 && m.food === 0) out.push({ text: `${monName(m)}의 허기도가 0이다. 능력치가 떨어졌다.` });
+      if (alive(m)) gainFeel(m, Math.floor(B.condition.feel_per_battle * (1 + magnitude(m, "bond"))), out);
+      else m.feel = Math.max(0, m.feel - B.condition.feel_loss_on_death);
+      m.rage = 0;
+      m.endured = false;
+    }
+
+    if (fight.captured) {
+      const fresh = makeMonster(fight.captured.species, fight.captured.level);
+      fresh.brain = fight.captured.brain;
+      fresh.passives = fight.captured.passives.map((l) => ({ ...l }));
+      out.push({ text: catchMonster(hero, fresh), kind: "gain" });
+    }
+    for (const foe of fight.enemies) if (!hero.seen.includes(monName(foe))) hero.seen.push(monName(foe));
+
+    if (fight.mode) settleRanked(hero, fight, won, out);
+    fight.log = fight.log.concat(out);
+    return out;
+  }
+
+  /* ── 네트워크 (오프라인 흉내) ──────────────────────────────── */
+
+  const TAMER_NAMES = ["하람", "노아", "제이", "린", "서우", "카이런", "미르", "타린", "유하", "벨",
+    "이든", "소야", "라온", "테오", "나리", "쥰", "아린", "도윤", "세라", "훈"];
+  const TITLES = ["떠돌이", "수집가", "추격자", "은둔", "폭풍", "새벽", "그림자", "불꽃", "고요", "질주"];
+  const rivalName = () => `${pick(TITLES)} ${pick(TAMER_NAMES)}`;
+
+  function makeRival(hero) {
+    const points = Math.max(100, hero.rankPoints + randInt(-80, 80));
+    const tier = clamp(Math.floor((points - 800) / 250), 0, GRADES.length - 1);
+    const size = clamp(1 + Math.floor(partyPoints(hero) / 5), 1, 3);
+    const party = [];
+    for (let i = 0; i < size; i++) {
+      const grade = GRADES[clamp(randInt(Math.max(0, tier - 1), tier), 0, GRADES.length - 1)];
+      const pool = filterSpecies(null, grade);
+      const sp = pick(pool);
+      party.push(makeMonster(byName(sp.name), Math.max(1, hero.level + randInt(-3, 3))));
+    }
+    return { name: rivalName(), rankPoints: points, party };
+  }
+
+  function settleRanked(hero, fight, won, out) {
+    const s = B.network;
+    let delta = 0;
+    if (fight.mode !== "친선배틀") {
+      delta = won ? s.rank_point_win : -s.rank_point_loss;
+      hero.rankPoints = Math.max(0, hero.rankPoints + delta);
+      out.push({ text: `랭킹 포인트 ${delta > 0 ? "+" : ""}${delta} (${hero.rankPoints})`, kind: won ? "gain" : "" });
+      // 파티 포인트가 늘어야 상위 등급을 파티에 넣을 수 있다. 이 경로가 없으면 common에 갇힌다.
+      if (won && hero.guildRank > 1) {
+        hero.guildRank -= 1;
+        out.push({ text: `길드 랭킹 ${hero.guildRank}위`, kind: "gain" });
+        promote(hero, out);
+      }
+    }
+    if (won) hero.wins += 1; else hero.losses += 1;
+    hero.log.unshift({
+      day: hero.day, mode: fight.mode, opponent: fight.rival ? fight.rival.name : "?",
+      result: won ? "승" : "패", delta,
+    });
+    hero.log = hero.log.slice(0, 20);
+  }
+
+  function marketPrice(m) {
+    const s = B.network;
+    let price = m.level * s.market_price_per_level * s.market_grade_multiplier[speciesOf(m).grade];
+    price *= 1 + m.brain / 50;
+    if (m.evolved) price *= 1.5;
+    return Math.max(50, Math.floor(price));
+  }
+
+  function marketListings(hero) {
+    if (hero.market && hero.marketDay === hero.day) return hero.market;
+    const listings = [];
+    for (let i = 0; i < 5; i++) {
+      const tier = clamp(randInt(0, 1 + Math.floor(hero.islandLevel / 12)), 0, GRADES.length - 1);
+      const sp = pick(filterSpecies(null, GRADES[tier]));
+      const m = makeMonster(byName(sp.name), Math.max(1, hero.level + randInt(-4, 4)));
+      m.brain = randInt(0, 5);
+      listings.push({ monster: m, price: Math.floor(marketPrice(m) * (0.9 + rnd() * 0.5)), seller: rivalName() });
+    }
+    hero.market = listings;
+    hero.marketDay = hero.day;
+    return listings;
+  }
+
+  function islandGain(hero, amount, visiting) {
+    const s = B.island;
+    const out = [];
+    if (visiting) amount = Math.floor(amount * s.visit_experience_bonus);
+    hero.islandExp += amount;
+    let need = s.experience_per_level * hero.islandLevel;
+    while (hero.islandLevel < s.max_level && hero.islandExp >= need) {
+      hero.islandExp -= need;
+      hero.islandLevel += 1;
+      out.push({ text: `미지의 섬 레벨 ${hero.islandLevel}`, kind: "gain" });
+      if (s.party_point_levels.includes(hero.islandLevel)) {
+        out.push({ text: `파티 포인트가 늘었다. (${partyPoints(hero)})`, kind: "gain" });
+      }
+      need = s.experience_per_level * hero.islandLevel;
+    }
+    return out;
+  }
+
+  /* ── 공방 ────────────────────────────────────────────────── */
+
+  const fusionRate = (grade, catalyst) => {
+    const rate = B.fusion.success_rate[grade];
+    if (rate === undefined) return 0;
+    return Math.min(0.95, rate + (catalyst ? D.items["조합촉매"].fuse_bonus : 0));
+  };
+  const fusionCost = (grade) => B.fusion.cost_gold[grade] || 0;
+
+  function fuse(hero, first, second, catalyst) {
+    if (first === second) return ["같은 몬스터를 두 번 넣을 수는 없다."];
+    const grade = speciesOf(first).grade;
+    if (grade !== speciesOf(second).grade) return ["조합은 같은 등급끼리만 된다."];
+    if (grade === GRADES[GRADES.length - 1]) return ["god 등급은 더 위가 없다."];
+    const cost = fusionCost(grade);
+    if (hero.gold < cost) return [`골드가 모자란다. (${cost} 필요)`];
+    if (catalyst && !(hero.items["조합촉매"] > 0)) return ["조합촉매가 없다."];
+
+    hero.gold -= cost;
+    if (catalyst) takeItem(hero, "조합촉매");
+
+    const out = [];
+    const success = rnd() < fusionRate(grade, catalyst);
+    const index = GRADES.indexOf(grade);
+    const nextGrade = GRADES[success ? index + 1 : Math.max(0, index - 1)];
+    out.push(success ? "조합 성공!" : "조합 실패... 등급이 떨어졌다.");
+
+    const element = pick([monElement(first), monElement(second)]);
+    let pool = filterSpecies(element, nextGrade);
+    if (!pool.length) pool = filterSpecies(null, nextGrade);
+    const result = makeMonster(byName(pick(pool).name), Math.max(1, Math.floor((first.level + second.level) / 2)));
+    result.brain = Math.floor((first.brain + second.brain) / 2);
+
+    const inherited = [];
+    for (const learned of first.passives.concat(second.passives)) {
+      if (inherited.some((l) => l.passive_id === learned.passive_id)) continue;
+      if (rnd() < B.fusion.inherit_passive_chance) inherited.push({ ...learned });
+    }
+    result.passives = inherited.slice(0, slotLimit(result));
+    if (result.passives.length) {
+      out.push("계승한 패시브: " + result.passives.map((l) => passiveById(l.passive_id).name).join(", "));
+    }
+
+    for (const material of [first, second]) {
+      let at = hero.party.indexOf(material);
+      if (at >= 0) hero.party.splice(at, 1);
+      else { at = hero.storage.indexOf(material); if (at >= 0) hero.storage.splice(at, 1); }
+    }
+    out.push(catchMonster(hero, result));
+    return out;
+  }
+
+  function enhanceRate(m, catalyst) {
+    const s = B.enhance;
+    let rate = s.base_rate - s.decay_per_point * m.brain;
+    if (catalyst) rate += D.items["강화촉매"].enhance_bonus;
+    return Math.min(0.95, Math.max(s.min_rate, rate));
+  }
+  const enhanceCost = (m) => B.enhance.cost_gold_per_point * (m.brain + 1);
+
+  function enhance(hero, m, catalyst) {
+    if (m.brain >= B.enhance.max_brain) return [`${monName(m)}의 지능은 이미 최대다.`];
+    const cost = enhanceCost(m);
+    if (hero.gold < cost) return [`골드가 모자란다. (${cost} 필요)`];
+    if (catalyst && !(hero.items["강화촉매"] > 0)) return ["강화촉매가 없다."];
+    hero.gold -= cost;
+    if (catalyst) takeItem(hero, "강화촉매");
+    const rate = enhanceRate(m, catalyst);
+    if (rnd() < rate) { m.brain += 1; return [`강화 성공! BRAIN ${m.brain}`]; }
+    return ["강화 실패..."];
+  }
+
+  function attachCost(m, id) {
+    const p = passiveById(id);
+    const s = B.skill_craft;
+    const level = passiveLevel(m, id);
+    let gold = s.attach_gold;
+    let materials = { ...p.materials };
+    if (level) {
+      gold = Math.floor(gold * s.level_up_gold_multiplier * level);
+      materials = Object.fromEntries(Object.entries(materials).map(([k, v]) => [k, v * (level + 1)]));
+    }
+    return { gold, materials };
+  }
+
+  function attachPassive(hero, m, id) {
+    const p = passiveById(id);
+    const level = passiveLevel(m, id);
+    if (level === 0 && m.passives.length >= slotLimit(m)) {
+      return [`패시브 슬롯이 찼다. (${slotLimit(m)}칸, 진화하면 늘어난다)`];
+    }
+    if (level >= p.levels.length) return [`${p.name}(은)는 이미 최대 레벨이다.`];
+    const { gold, materials } = attachCost(m, id);
+    if (hero.gold < gold) return [`골드가 모자란다. (${gold} 필요)`];
+    const missing = Object.entries(materials)
+      .filter(([name, count]) => (hero.items[name] || 0) < count)
+      .map(([name, count]) => `${name} ${count - (hero.items[name] || 0)}개`);
+    if (missing.length) return ["재료가 모자란다: " + missing.join(", ")];
+
+    hero.gold -= gold;
+    for (const [name, count] of Object.entries(materials)) takeItem(hero, name, count);
+    if (level) {
+      m.passives.find((l) => l.passive_id === id).level += 1;
+      return [`${p.name} Lv${level + 1}`];
+    }
+    m.passives.push({ passive_id: id, level: 1 });
+    return [`${monName(m)}(이)가 ${p.name}(을)를 익혔다.`];
+  }
+
+  /* ── 저장 ────────────────────────────────────────────────── */
+
+  const SAVE_KEY = "elemental-tamer/save/v1";
+  const saveGame = (hero) => {
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(hero)); return true; }
+    catch (e) { return false; }
+  };
+  const loadGame = () => {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return null;
+      const hero = JSON.parse(raw);
+      for (const m of hero.party.concat(hero.storage)) {
+        m.hp = Math.min(m.hp, maxHp(m));
+        m.sp = Math.min(m.sp, maxSp(m));
+      }
+      return hero;
+    } catch (e) { return null; }
+  };
+  const clearGame = () => { try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* 무시 */ } };
+
+  window.Game = {
+    B, SPECIES, GRADES, ELEMENTS, STATS, STAT_LABEL, AREAS, ISLAND,
+    makeMonster, speciesOf, gradeIndex, byName, filterSpecies,
+    stat, maxHp, maxSp, spCost, partyCost, slotLimit, alive, monName, monElement,
+    restMonster, passiveById, passiveLevel, magnitude, hasKind,
+    elementMultiplier, physicalElementMultiplier, estimateDamage, rollDamage,
+    captureChance, fleeChance, expReward, goldReward, expToNext,
+    makeHero, rankName, partyPoints, usedPoints, alivePartyOf, allMonsters,
+    catchMonster, addItem, takeItem, promote,
+    spawn, makeBattle, autoAction, runRound, finishBattle, livingIn, isAlly,
+    makeRival, marketPrice, marketListings, islandGain, islandGradeCap,
+    fuse, fusionRate, fusionCost, enhance, enhanceRate, enhanceCost,
+    attachPassive, attachCost,
+    saveGame, loadGame, clearGame, pick, randInt, rnd,
+  };
+})();
+
+</script>
+<script>
+/* 화면. 세로 한 칸, 상단 상태바 · 가운데 스크롤 · 하단 커맨드 독으로 고정한다. */
+
+(function () {
+  "use strict";
+  const G = window.Game;
+
+  const app = document.getElementById("app");
+  const toastBox = document.getElementById("toast");
+
+  let hero = null;
+  let stack = [];          // 화면 스택. 뒤로 가기용
+  let fight = null;        // 진행 중인 전투
+  let pending = [];        // 이번 라운드에 모은 아군 커맨드
+  let toastTimer = null;
+
+  /* ── DOM 도우미 ─────────────────────────────────────────── */
+
+  function el(tag, props, kids) {
+    const node = document.createElement(tag);
+    if (props) {
+      for (const [key, value] of Object.entries(props)) {
+        if (key === "class") node.className = value;
+        else if (key === "html") node.innerHTML = value;
+        else if (key === "text") node.textContent = value;
+        else if (key.startsWith("on")) node.addEventListener(key.slice(2), value);
+        else if (value !== null && value !== undefined) node.setAttribute(key, value);
+      }
+    }
+    for (const kid of [].concat(kids || [])) {
+      if (kid === null || kid === undefined || kid === false) continue;
+      node.appendChild(typeof kid === "string" ? document.createTextNode(kid) : kid);
+    }
+    return node;
+  }
+
+  function toast(message) {
+    toastBox.textContent = message;
+    toastBox.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastBox.classList.remove("show"), 2200);
+  }
+
+  const button = (label, onClick, opts) => {
+    opts = opts || {};
+    const node = el("button", {
+      class: opts.class || (opts.primary ? "btn--primary" : ""),
+      onclick: onClick,
+    }, [el("span", { text: label }), opts.sub ? el("span", { class: "sub", text: opts.sub }) : null]);
+    if (opts.disabled) node.disabled = true;
+    return node;
+  };
+
+  const rowButton = (label, sub, onClick, opts) => {
+    opts = opts || {};
+    const node = el("button", { class: "btn--row " + (opts.class || ""), onclick: onClick }, [
+      el("span", { text: label }),
+      sub ? el("span", { class: "sub", text: sub }) : null,
+    ]);
+    if (opts.disabled) node.disabled = true;
+    return node;
+  };
+
+  /* ── 공통 조각 ─────────────────────────────────────────── */
+
+  function statusBar() {
+    if (!hero) return el("div", { class: "status" }, [el("div", { class: "status__name", text: "엘리멘탈 테이머" })]);
+    return el("div", { class: "status" }, [
+      el("div", { class: "status__top" }, [
+        el("span", { class: "status__name", text: hero.name }),
+        el("span", { class: "status__rank", text: G.rankName(hero) }),
+        el("span", { class: "chip el-" + hero.element, text: hero.element + "속성" }),
+      ]),
+      el("div", { class: "status__row" }, [
+        el("span", { html: `Lv <b>${hero.level}</b>` }),
+        el("span", { html: `골드 <b>${hero.gold}</b>` }),
+        el("span", { html: `파티 <b>${G.usedPoints(hero)}/${G.partyPoints(hero)}</b>` }),
+        el("span", { html: `RP <b>${hero.rankPoints}</b>` }),
+        el("span", { html: `섬 <b>${hero.islandLevel}</b>` }),
+        el("span", { html: `<b>${hero.day}</b>일차` }),
+      ]),
+    ]);
+  }
+
+  function bar(value, max, extraClass) {
+    const ratio = Math.max(0, Math.min(1, value / Math.max(1, max)));
+    const low = ratio <= 0.3 ? " bar--low" : "";
+    return el("div", { class: "bar " + (extraClass || "") + low },
+      [el("i", { style: `width:${ratio * 100}%` })]);
+  }
+
+  function monsterCard(m, opts) {
+    opts = opts || {};
+    const sp = G.speciesOf(m);
+    const kids = [
+      el("div", { class: "mon__head" }, [
+        el("span", { class: "mon__name", text: (m.evolved ? "★ " : "") + sp.name }),
+        el("span", { class: "mon__lv", text: `Lv${m.level}` }),
+      ]),
+      el("div", { class: "meta" }, [
+        el("span", { class: "chip el-" + sp.element, text: sp.element }),
+        el("span", { class: "grade", text: sp.grade }),
+        el("span", { text: `HP ${m.hp}/${G.maxHp(m)}` }),
+        opts.compact ? null : el("span", { text: `SP ${m.sp}/${G.maxSp(m)}` }),
+        opts.compact ? null : el("span", { text: `파티 ${G.partyCost(m)}` }),
+      ]),
+      bar(m.hp, G.maxHp(m)),
+    ];
+    if (!opts.compact) {
+      kids.push(bar(m.sp, G.maxSp(m), "bar--sp"));
+      kids.push(el("div", { class: "meta" }, [
+        el("span", { text: `BRAIN ${m.brain}` }),
+        el("span", { text: `FOOD ${m.food}` }),
+        el("span", { text: `FEEL ${m.feel}/${G.B.condition.feel_max}` }),
+        el("span", { text: sp.active_skill.name }),
+      ]));
+      if (m.passives.length) {
+        kids.push(el("div", { class: "tags" }, m.passives.map((l) =>
+          el("span", { class: "tag", text: `${G.passiveById(l.passive_id).name} ${l.level}` }))));
+      }
+    }
+    return el("div", { class: "mon el-" + sp.element, style: `--el: var(--${elementVar(sp.element)})` }, kids);
+  }
+
+  const ELEMENT_VAR = { "수": "water", "화": "fire", "목": "wood", "풍": "wind", "광": "light", "악": "dark" };
+  const elementVar = (element) => ELEMENT_VAR[element] || "line";
+
+  /* ── 화면 틀 ───────────────────────────────────────────── */
+
+  function paint(view) {
+    app.replaceChildren();
+    app.appendChild(view.status === false ? el("div") : statusBar());
+    const main = el("main", {}, view.body || []);
+    app.appendChild(main);
+    if (view.dock && view.dock.length) {
+      app.appendChild(el("div", { class: "dock " + (view.dockClass || "") }, view.dock));
+    }
+    if (view.scrollBottom) main.scrollTop = main.scrollHeight;
+  }
+
+  function go(builder) { stack.push(builder); paint(builder()); }
+  function replace(builder) { stack[stack.length - 1] = builder; paint(builder()); }
+  function refresh() { paint(stack[stack.length - 1]()); }
+  function back() {
+    if (stack.length > 1) stack.pop();
+    paint(stack[stack.length - 1]());
+  }
+  const backButton = () => button("← 돌아가기", back, { class: "btn--ghost" });
+
+  function section(title, kids) {
+    return el("section", { class: "list" }, [title ? el("h2", { text: title }) : null].concat(kids));
+  }
+
+  /* ── 타이틀 · 캐릭터 만들기 ─────────────────────────────── */
+
+  function titleScreen() {
+    const saved = G.loadGame();
+    return {
+      status: false,
+      body: [
+        el("div", { class: "card center", style: "gap:14px;padding:26px 16px;margin-top:8vh" }, [
+          el("div", { class: "eyebrow", text: "턴제 몬스터 육성" }),
+          el("h1", { text: "엘리멘탈 테이머" }),
+          el("p", { class: "muted", text: "몬스터를 잡고 · 기르고 · 합쳐서 강해진다. 132종, 6속성." }),
+        ]),
+      ],
+      dock: [
+        saved ? button("이어하기", () => {
+          hero = saved;
+          stack = [];
+          go(hubScreen);
+        }, { primary: true, sub: `${saved.name} · Lv${saved.level} · ${saved.day}일차` }) : null,
+        button(saved ? "새로 시작하기" : "시작하기", () => {
+          if (saved && !confirm("저장된 기록을 지우고 새로 시작할까요?")) return;
+          go(createScreen);
+        }, { primary: !saved }),
+      ].filter(Boolean),
+    };
+  }
+
+  function createScreen() {
+    const nameInput = el("input", {
+      type: "text", placeholder: "카이", maxlength: "8",
+      style: "width:100%;font:inherit;color:inherit;background:var(--surface-2);" +
+        "border:1px solid var(--line);border-radius:10px;padding:12px;min-height:46px",
+    });
+    let element = null;
+
+    const elementButtons = el("div", { class: "list" }, G.ELEMENTS.map((name) =>
+      button(`${name}속성`, () => { element = name; refreshPick(); },
+        { sub: G.SPECIES.length && D.roster.elements[name] })));
+
+    function refreshPick() {
+      [...elementButtons.children].forEach((node, i) => {
+        node.style.borderColor = G.ELEMENTS[i] === element ? "var(--ember)" : "";
+      });
+    }
+
+    return {
+      status: false,
+      body: [
+        section("이름", [nameInput]),
+        section("속성", [
+          el("p", { class: "muted", text: "같은 속성 몬스터는 포획 확률과 교감도가 유리하다. 능력치 총합은 속성마다 같다." }),
+          elementButtons,
+        ]),
+      ],
+      dock: [
+        button("파트너 고르기 →", () => {
+          if (!element) { toast("속성을 고르세요."); return; }
+          const name = (nameInput.value || "").trim() || "카이";
+          go(() => starterScreen(name, element));
+        }, { primary: true }),
+        backButton(),
+      ],
+    };
+  }
+
+  function starterScreen(name, element) {
+    const starters = G.filterSpecies(element, "common");
+    return {
+      status: false,
+      body: [
+        section("첫 파트너", starters.map((sp) =>
+          rowButton(sp.name, `${sp.active_skill.name} · ${sp.active_skill.description}`, () => {
+            hero = G.makeHero(name, element);
+            const starter = G.makeMonster(G.byName(sp.name), 5);
+            hero.party.push(starter);
+            hero.seen.push(sp.name);
+            G.saveGame(hero);
+            stack = [];
+            go(hubScreen);
+            toast(`${name}(은)는 ${sp.name}(와)과 함께 길을 나섰다.`);
+          }))),
+      ],
+      dock: [backButton()],
+    };
+  }
+
+  /* ── 허브 ──────────────────────────────────────────────── */
+
+  function hubScreen() {
+    const lead = hero.party[0];
+    return {
+      body: [
+        lead ? monsterCard(lead) : null,
+        section(null, [
+          rowButton("파티 · 도감", `${hero.party.length}마리 · 도감 ${hero.seen.length}/${G.SPECIES.length}`, () => go(partyScreen)),
+          rowButton("공방", "조합 · 강화 · 패시브", () => go(workshopScreen)),
+          rowButton("배틀존", `RP ${hero.rankPoints} · ${hero.wins}승 ${hero.losses}패`, () => go(zoneScreen)),
+          rowButton("몬스터마트", "몬스터를 사고판다", () => go(marketScreen)),
+          rowButton("우체통", "하루 한 번 선물", () => go(mailScreen)),
+          rowButton("미지의 섬", `섬 Lv${hero.islandLevel}`, () => go(islandScreen)),
+          rowButton("상점", `골드 ${hero.gold}`, () => go(shopScreen)),
+        ]),
+      ].filter(Boolean),
+      dockClass: "dock--two",
+      dock: [
+        el("div", { class: "span-all" }, [
+          button("사냥하기", () => go(huntScreen), { primary: true, sub: "몬스터를 만나고 잡는다" }),
+        ]),
+        button("쉬기 (다음 날로)", () => {
+          hero.party.forEach(G.restMonster);
+          hero.party.forEach((m) => { m.food = G.B.condition.food_max; });
+          hero.day += 1;
+          G.saveGame(hero);
+          refresh();
+          toast(`하룻밤 쉬었다. ${hero.day}일차.`);
+        }, { sub: "전체 회복" }),
+        button("저장하고 타이틀로", () => {
+          G.saveGame(hero);
+          stack = [];
+          go(titleScreen);
+        }, { class: "btn--ghost" }),
+      ],
+    };
+  }
+
+  /* ── 사냥 ──────────────────────────────────────────────── */
+
+  function matchupHint(area) {
+    if (!hero.party.length || area.element === "전속성") return "";
+    const multiplier = G.elementMultiplier(G.monElement(hero.party[0]), area.element);
+    if (multiplier > 1) return " · 유리";
+    if (multiplier < 1) return " · 불리";
+    return "";
+  }
+
+  function huntScreen() {
+    // 해금 기준은 주인공이 아니라 파티 전력이다. 주인공이 먼저 크기 때문이다.
+    const power = Math.max(...hero.party.map((m) => m.level), hero.level);
+    const areas = G.AREAS.filter((a) => a.minLevel <= power + 4);
+    return {
+      body: [section("어디로 갈까", areas.map((area) =>
+        rowButton(area.name,
+          `${area.element}속성 · Lv${area.minLevel}~${area.maxLevel}${matchupHint(area)}`,
+          () => startHunt(area, false, hero.islandLevel))))],
+      dock: [backButton()],
+    };
+  }
+
+  function startHunt(area, visiting, islandLevel) {
+    if (!G.alivePartyOf(hero).length) { toast("싸울 수 있는 몬스터가 없다. 쉬어야 한다."); return; }
+    fight = G.makeBattle(hero, G.spawn(area, hero, islandLevel));
+    fight.area = area;
+    fight.visiting = visiting;
+    pending = [];
+    go(battleScreen);
+  }
+
+  /* ── 전투 ──────────────────────────────────────────────── */
+
+  function battleScreen() {
+    const body = [
+      section(null, fight.enemies.map((m) => monsterCard(m, { compact: true }))),
+      el("div", { class: "eyebrow", text: "내 파티" }),
+      section(null, fight.allies.map((m) => monsterCard(m, { compact: true }))),
+      fight.log.length ? el("div", { class: "card log" }, fight.log.slice(-40).map((line) =>
+        el("p", { class: [line.kind, line.side ? "by-" + line.side : ""].join(" ").trim(), text: line.text }))) : null,
+    ].filter(Boolean);
+
+    if (fight.result) {
+      return {
+        body,
+        scrollBottom: true,
+        dock: [button("계속", () => {
+          const wasIsland = fight.area && fight.area.island;
+          if (wasIsland && (fight.result === "win" || fight.result === "captured")) {
+            const gain = fight.enemies.reduce((sum, m) => sum + m.level, 0) * 3;
+            for (const line of G.islandGain(hero, gain, fight.visiting)) fight.log.push(line);
+          }
+          G.saveGame(hero);
+          fight = null;
+          back();
+        }, { primary: true })],
+      };
+    }
+
+    const actor = G.livingIn(fight.allies)[pending.length];
+    if (!actor) { setTimeout(runPendingRound, 0); return { body, scrollBottom: true, dock: [] }; }
+
+    const many = G.livingIn(fight.allies).length > 1;
+    return {
+      body,
+      scrollBottom: true,
+      dockClass: "dock--two dock--compact",
+      dock: [
+        many ? el("div", { class: "span-all eyebrow", text: `${G.monName(actor)}의 차례` }) : null,
+        button("물리 공격", () => command(actor, "attack")),
+        button(G.speciesOf(actor).active_skill.name, () => command(actor, "skill"),
+          { sub: `SP ${G.spCost(actor)}` }),
+        button("방어", () => command(actor, "guard")),
+        button("아이템", () => go(() => itemPicker(actor))),
+        button("포획", () => go(() => ballPicker(actor))),
+        button("도망", () => command(actor, "flee")),
+        button("자동 전투로 끝까지", () => {
+          fight.auto = true;
+          pending = [];
+          runAuto();
+        }, { primary: true, class: "btn--primary span-all", sub: "경험치 60%" }),
+      ].filter(Boolean),
+    };
+  }
+
+  function command(actor, kind, item) {
+    const foes = G.livingIn(fight.enemies);
+    if ((kind === "attack" || kind === "skill" || kind === "capture") && foes.length > 1) {
+      go(() => targetPicker(actor, kind, item));
+      return;
+    }
+    pending.push({ kind, actor, target: foes[0] || null, item });
+    refresh();
+  }
+
+  function targetPicker(actor, kind, item) {
+    return {
+      body: [section("누구를 노릴까", G.livingIn(fight.enemies).map((foe) =>
+        rowButton(G.monName(foe), `Lv${foe.level} · HP ${foe.hp}/${G.maxHp(foe)}`, () => {
+          pending.push({ kind, actor, target: foe, item });
+          back();
+          refresh();
+        })))],
+      dock: [backButton()],
+    };
+  }
+
+  function itemPicker(actor) {
+    const usable = Object.keys(hero.items).filter((n) => hero.items[n] > 0 && (D.items[n] || {}).effect);
+    return {
+      body: [usable.length
+        ? section("무엇을 쓸까", usable.map((name) =>
+          rowButton(name, `x${hero.items[name]}`, () => {
+            pending.push({ kind: "item", actor, item: name });
+            back();
+            refresh();
+          })))
+        : el("p", { class: "muted", text: "쓸 수 있는 아이템이 없다." })],
+      dock: [backButton()],
+    };
+  }
+
+  function ballPicker(actor) {
+    const balls = Object.keys(hero.items).filter((n) => hero.items[n] > 0 && (D.items[n] || {}).capture_bonus);
+    return {
+      body: [balls.length
+        ? section("어떤 볼로", balls.map((name) => {
+          const target = G.livingIn(fight.enemies)[0];
+          const chance = Math.round(G.captureChance(target, hero, name, actor) * 100);
+          return rowButton(name, `x${hero.items[name]} · 성공률 약 ${chance}%`, () => {
+            back();
+            command(actor, "capture", name);
+          });
+        }))
+        : el("p", { class: "muted", text: "몬스터볼이 없다. 상점에서 살 수 있다." })],
+      dock: [backButton()],
+    };
+  }
+
+  function runPendingRound() {
+    G.runRound(fight, pending);
+    pending = [];
+    if (fight.result) G.finishBattle(fight);
+    refresh();
+  }
+
+  function runAuto() {
+    let guard = 0;
+    while (!fight.result && guard++ < 80) {
+      G.runRound(fight, G.livingIn(fight.allies).map((a) => G.autoAction(fight, a)));
+    }
+    G.finishBattle(fight);
+    refresh();
+  }
+
+  /* ── 파티 · 도감 ───────────────────────────────────────── */
+
+  function partyScreen() {
+    return {
+      body: [
+        section("파티", hero.party.map((m) =>
+          el("div", { onclick: () => go(() => monsterScreen(m)) }, [monsterCard(m)]))),
+        hero.storage.length ? section("보관함", hero.storage.map((m) =>
+          el("div", { onclick: () => go(() => monsterScreen(m)) }, [monsterCard(m, { compact: true })]))) : null,
+      ].filter(Boolean),
+      dock: [
+        button("도감 보기", () => go(bookScreen), { sub: `${hero.seen.length}/${G.SPECIES.length}종` }),
+        backButton(),
+      ],
+    };
+  }
+
+  function monsterScreen(m) {
+    const inParty = hero.party.includes(m);
+    const healables = Object.keys(hero.items).filter((n) => hero.items[n] > 0 && (D.items[n] || {}).effect);
+    const marbles = Object.keys(hero.items).filter((n) => hero.items[n] > 0 && n.startsWith("마블-"));
+    return {
+      body: [
+        monsterCard(m),
+        section("능력치", [el("div", { class: "card" }, G.STATS.map((key) =>
+          el("div", { class: "meta", style: "justify-content:space-between" }, [
+            el("span", { text: G.STAT_LABEL[key] }),
+            el("span", { text: String(G.stat(m, key)) }),
+          ])))]),
+        section("돌보기", [
+          rowButton(inParty ? "보관함으로 보내기" : "파티에 넣기", `파티 포인트 ${G.partyCost(m)}`, () => {
+            if (inParty) {
+              if (hero.party.length === 1) { toast("파티가 비면 사냥할 수 없다."); return; }
+              hero.party.splice(hero.party.indexOf(m), 1);
+              hero.storage.push(m);
+            } else if (G.usedPoints(hero) + G.partyCost(m) <= G.partyPoints(hero)) {
+              hero.storage.splice(hero.storage.indexOf(m), 1);
+              hero.party.push(m);
+            } else { toast("파티 포인트가 모자란다."); return; }
+            G.saveGame(hero);
+            back();
+            refresh();
+          }),
+          rowButton("회복 아이템 쓰기", healables.length ? healables.join(", ") : "없음", () => {
+            if (!healables.length) { toast("회복 아이템이 없다."); return; }
+            go(() => healScreen(m, healables));
+          }, { disabled: !healables.length }),
+          rowButton("마블 먹이기", marbles.length ? "허기도와 교감도가 오른다" : "마블이 없다", () => {
+            if (!marbles.length) { toast("상점에서 마블을 살 수 있다."); return; }
+            go(() => feedScreen(m, marbles));
+          }, { disabled: !marbles.length }),
+        ]),
+      ],
+      dock: [backButton()],
+    };
+  }
+
+  function healScreen(m, items) {
+    return {
+      body: [section("무엇을 쓸까", items.map((name) =>
+        rowButton(name, `x${hero.items[name]}`, () => {
+          const effect = D.items[name].effect;
+          if (effect.revive && G.alive(m)) { toast(`${G.monName(m)}(은)는 멀쩡하다.`); return; }
+          if (effect.hp && G.alive(m) && m.hp >= G.maxHp(m)) { toast("HP가 이미 가득하다."); return; }
+          G.takeItem(hero, name);
+          if (effect.revive && !G.alive(m)) { m.hp = Math.floor(G.maxHp(m) * effect.revive); toast("부활했다."); }
+          if (effect.hp && G.alive(m)) {
+            const healed = Math.min(effect.hp, G.maxHp(m) - m.hp);
+            m.hp += healed;
+            toast(`HP ${healed} 회복`);
+          }
+          if (effect.sp) {
+            const healed = Math.min(effect.sp, G.maxSp(m) - m.sp);
+            m.sp += healed;
+            if (!effect.hp) toast(`SP ${healed} 회복`);
+          }
+          G.saveGame(hero);
+          back();
+          refresh();
+        })))],
+      dock: [backButton()],
+    };
+  }
+
+  function feedScreen(m, marbles) {
+    return {
+      body: [section("어떤 마블을", marbles.map((name) =>
+        rowButton(name, `x${hero.items[name]}`, () => {
+          G.takeItem(hero, name);
+          m.food = Math.min(G.B.condition.food_max, m.food + 40);
+          const element = name.split("-")[1];
+          const out = [];
+          const gain = element === G.monElement(m) ? G.B.condition.feel_per_marble : 10;
+          m.feel += gain;
+          if (m.feel >= G.B.condition.feel_max && !m.evolved) {
+            m.feel = 0;
+            m.evolved = true;
+            m.hp = G.maxHp(m);
+            out.push("진화했다!");
+          }
+          G.saveGame(hero);
+          back();
+          refresh();
+          toast(out.length ? out[0] : `허기도와 교감도가 올랐다. (FEEL ${m.feel})`);
+        })))],
+      dock: [backButton()],
+    };
+  }
+
+  function bookScreen() {
+    const rows = G.GRADES.map((grade) => {
+      const names = G.filterSpecies(null, grade).filter((s) => hero.seen.includes(s.name)).map((s) => s.name);
+      const total = G.filterSpecies(null, grade).length;
+      return el("div", { class: "card" }, [
+        el("div", { class: "meta", style: "justify-content:space-between" }, [
+          el("span", { class: "grade", text: grade }),
+          el("span", { text: `${names.length}/${total}` }),
+        ]),
+        el("p", { class: "muted", text: names.length ? names.join(", ") : "아직 만난 적 없다." }),
+      ]);
+    });
+    return { body: [section(`도감 ${hero.seen.length}/${G.SPECIES.length}`, rows)], dock: [backButton()] };
+  }
+
+  /* ── 공방 ──────────────────────────────────────────────── */
+
+  function workshopScreen() {
+    return {
+      body: [section(null, [
+        rowButton("몬스터 조합", "같은 등급 둘을 합쳐 위를 노린다", () => go(() => fusePick(null))),
+        rowButton("몬스터 강화", "BRAIN을 올려 능력치를 높인다", () => go(enhancePick)),
+        rowButton("패시브 스킬", "재료를 들여 능력을 붙인다", () => go(passivePick)),
+      ])],
+      dock: [backButton()],
+    };
+  }
+
+  function fusePick(first) {
+    const pool = G.allMonsters(hero).filter((m) => m !== first &&
+      (!first || G.speciesOf(m).grade === G.speciesOf(first).grade));
+    if (!first) {
+      return {
+        body: [section("재료 1", pool.map((m) =>
+          rowButton(G.monName(m), `${G.speciesOf(m).grade} Lv${m.level}`, () => replace(() => fusePick(m)))))],
+        dock: [backButton()],
+      };
+    }
+    const grade = G.speciesOf(first).grade;
+    const catalyst = hero.items["조합촉매"] > 0;
+    return {
+      body: [
+        el("div", { class: "card" }, [
+          el("div", { class: "eyebrow", text: "재료 1" }),
+          el("div", { text: `${G.monName(first)} · ${grade} Lv${first.level}` }),
+          el("p", { class: "muted", text: `성공률 ${Math.round(G.fusionRate(grade) * 100)}%` +
+            (catalyst ? ` (촉매 사용 시 ${Math.round(G.fusionRate(grade, true) * 100)}%)` : "") +
+            ` · 비용 ${G.fusionCost(grade)}골드 · 실패하면 한 등급 아래가 나온다` }),
+        ]),
+        section("재료 2 (같은 등급)", pool.length ? pool.map((m) =>
+          rowButton(G.monName(m), `Lv${m.level}`, () => {
+            const messages = G.fuse(hero, first, m, catalyst);
+            G.saveGame(hero);
+            back();
+            refresh();
+            toast(messages.join(" "));
+          })) : [el("p", { class: "muted", text: `${grade} 등급 짝이 없다.` })]),
+      ],
+      dock: [backButton()],
+    };
+  }
+
+  function enhancePick() {
+    const catalyst = hero.items["강화촉매"] > 0;
+    return {
+      body: [section("어느 몬스터를", G.allMonsters(hero).map((m) =>
+        rowButton(G.monName(m),
+          `BRAIN ${m.brain} · 성공률 ${Math.round(G.enhanceRate(m, catalyst) * 100)}% · ${G.enhanceCost(m)}골드`,
+          () => {
+            const messages = G.enhance(hero, m, catalyst);
+            G.saveGame(hero);
+            refresh();
+            toast(messages.join(" "));
+          })))],
+      dock: [backButton()],
+    };
+  }
+
+  function passivePick() {
+    return {
+      body: [section("어느 몬스터에게", G.allMonsters(hero).map((m) =>
+        rowButton(G.monName(m), `슬롯 ${m.passives.length}/${G.slotLimit(m)}`,
+          () => go(() => passiveList(m)))))],
+      dock: [backButton()],
+    };
+  }
+
+  function passiveList(m) {
+    const rows = D.passives.map((p) => {
+      const level = G.passiveLevel(m, p.id);
+      if (level >= p.levels.length) return null;
+      const { gold, materials } = G.attachCost(m, p.id);
+      const need = Object.entries(materials).map(([k, v]) => `${k} ${v}`).join(", ");
+      return rowButton(`${p.name}${level ? ` Lv${level}→${level + 1}` : ""}`,
+        `${p.description} · ${gold}골드 · ${need}`, () => {
+          const messages = G.attachPassive(hero, m, p.id);
+          G.saveGame(hero);
+          refresh();
+          toast(messages.join(" "));
+        });
+    }).filter(Boolean);
+    return {
+      body: [
+        monsterCard(m),
+        section("배울 수 있는 패시브", rows.length ? rows : [el("p", { class: "muted", text: "더 배울 것이 없다." })]),
+      ],
+      dock: [backButton()],
+    };
+  }
+
+  /* ── 배틀존 · 마트 · 우체통 · 섬 · 상점 ────────────────── */
+
+  function zoneScreen() {
+    const start = (mode) => {
+      if (!G.alivePartyOf(hero).length) { toast("싸울 수 있는 몬스터가 없다."); return; }
+      const rival = G.makeRival(hero);
+      fight = G.makeBattle(hero, rival.party.map((m) => {
+        const copy = G.makeMonster(m.species, m.level);
+        copy.brain = m.brain;
+        return copy;
+      }), { capturable: false, mode, rival });
+      pending = [];
+      go(battleScreen);
+      toast(`${mode}: ${rival.name}`);
+    };
+    return {
+      body: [
+        section(null, [
+          rowButton("퀵배틀", "범위 안에서 상대가 정해진다 · 랭킹 반영", () => start("퀵배틀")),
+          rowButton("랭킹배틀", "이기면 길드 랭킹이 올라 파티 포인트가 는다", () => start("랭킹배틀")),
+          rowButton("친선배틀", "랭킹에 반영되지 않는다", () => start("친선배틀")),
+        ]),
+        section("배틀로그", hero.log.length
+          ? hero.log.slice(0, 10).map((r) => el("div", { class: "card" }, [
+            el("div", { class: "meta", style: "justify-content:space-between" }, [
+              el("span", { text: `${r.day}일차 ${r.mode}` }),
+              el("span", { text: `${r.result} ${r.delta > 0 ? "+" : ""}${r.delta}` }),
+            ]),
+            el("div", { class: "muted", text: r.opponent }),
+          ]))
+          : [el("p", { class: "muted", text: "아직 기록이 없다." })]),
+      ],
+      dock: [backButton()],
+    };
+  }
+
+  function marketScreen() {
+    const listings = G.marketListings(hero);
+    return {
+      body: [
+        section("매물 (하루에 한 번 바뀐다)", listings.map((listing) =>
+          rowButton(G.monName(listing.monster),
+            `${G.speciesOf(listing.monster).grade} Lv${listing.monster.level} · ${listing.price}골드`,
+            () => {
+              if (hero.gold < listing.price) { toast("골드가 모자란다."); return; }
+              hero.gold -= listing.price;
+              const message = G.catchMonster(hero, listing.monster);
+              hero.market = listings.filter((l) => l !== listing);
+              G.saveGame(hero);
+              refresh();
+              toast(message);
+            }))),
+        section("내 몬스터 팔기", G.allMonsters(hero).map((m) =>
+          rowButton(G.monName(m),
+            `Lv${m.level} · ${Math.floor(G.marketPrice(m) * G.B.network.market_sell_ratio)}골드`, () => {
+              if (hero.party.includes(m) && hero.party.length === 1) { toast("마지막 파티 몬스터는 팔 수 없다."); return; }
+              const price = Math.floor(G.marketPrice(m) * G.B.network.market_sell_ratio);
+              hero.gold += price;
+              const list = hero.party.includes(m) ? hero.party : hero.storage;
+              list.splice(list.indexOf(m), 1);
+              G.saveGame(hero);
+              refresh();
+              toast(`${price}골드에 팔았다.`);
+            }))),
+      ],
+      dock: [backButton()],
+    };
+  }
+
+  function mailScreen() {
+    const ready = hero.lastGiftDay < hero.day;
+    return {
+      body: [
+        el("div", { class: "card" }, [
+          el("h2", { text: "우체통" }),
+          el("p", { class: "muted", text: ready ? "오늘 받을 선물이 있다." : "오늘 선물은 이미 받았다. 쉬면 다시 찬다." }),
+        ]),
+        section("소지품", Object.entries(hero.items).map(([name, count]) =>
+          el("div", { class: "card" }, [el("div", { class: "meta", style: "justify-content:space-between" }, [
+            el("span", { text: name }), el("span", { text: `x${count}` })])]))),
+      ],
+      dock: [
+        button("선물 받기", () => {
+          if (!ready) { toast("오늘 선물은 이미 받았다."); return; }
+          hero.lastGiftDay = hero.day;
+          const names = [];
+          for (let i = 0; i < G.B.network.mailbox_gifts_per_day; i++) {
+            const item = G.pick(G.B.network.mailbox_gift_pool);
+            G.addItem(hero, item, 1);
+            names.push(item);
+          }
+          G.saveGame(hero);
+          refresh();
+          toast("친구들이 보낸 " + names.join(", ") + "(을)를 받았다.");
+        }, { primary: true, disabled: !ready }),
+        backButton(),
+      ],
+    };
+  }
+
+  function islandScreen() {
+    const ready = hero.lastChestDay < hero.day;
+    const cap = G.GRADES[G.islandGradeCap(hero.islandLevel)];
+    return {
+      body: [
+        el("div", { class: "card" }, [
+          el("h2", { text: "미지의 섬" }),
+          el("p", { class: "muted", text:
+            `섬 Lv${hero.islandLevel} · 지금 ${cap} 등급까지 나온다. 섬 레벨 ` +
+            `${G.B.island.party_point_levels.join(", ")}에서 파티 포인트가 는다.` }),
+        ]),
+        section(null, [
+          rowButton("내 섬에서 사냥", "주인공과 비슷한 레벨이 등급 상관없이 나온다",
+            () => startHunt(G.ISLAND, false, hero.islandLevel)),
+          rowButton("친구의 섬 방문", `경험치 ${G.B.island.visit_experience_bonus}배`,
+            () => startHunt(G.ISLAND, true, hero.islandLevel + G.randInt(2, 10))),
+        ]),
+      ],
+      dock: [
+        button("보물상자 열기", () => {
+          if (!ready) { toast("오늘 보물상자는 이미 열었다."); return; }
+          hero.lastChestDay = hero.day;
+          const gold = G.randInt(100, 300) * Math.max(1, Math.floor(hero.islandLevel / 5));
+          hero.gold += gold;
+          const names = [];
+          for (let i = 0; i < 2; i++) {
+            const item = G.pick(G.B.network.mailbox_gift_pool);
+            G.addItem(hero, item, 1);
+            names.push(item);
+          }
+          G.saveGame(hero);
+          refresh();
+          toast(`골드 ${gold}, ${names.join(", ")}(을)를 얻었다.`);
+        }, { primary: true, disabled: !ready }),
+        backButton(),
+      ],
+    };
+  }
+
+  function shopScreen() {
+    const stock = Object.entries(D.items).filter(([, entry]) =>
+      ["소비", "볼", "보조", "먹이"].includes(entry.category));
+    return {
+      body: [section("상점", stock.map(([name, entry]) =>
+        rowButton(name, `${entry.price}골드 · ${entry.category}${hero.items[name] ? ` · 보유 ${hero.items[name]}` : ""}`,
+          () => {
+            if (hero.gold < entry.price) { toast("골드가 모자란다."); return; }
+            hero.gold -= entry.price;
+            G.addItem(hero, name, 1);
+            G.saveGame(hero);
+            refresh();
+            toast(`${name}(을)를 샀다.`);
+          })))],
+      dock: [backButton()],
+    };
+  }
+
+  /* ── 시작 ──────────────────────────────────────────────── */
+
+  go(titleScreen);
+})();
+
+</script>
+</body>
+</html>

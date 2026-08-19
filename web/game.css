@@ -1,0 +1,407 @@
+/* 엘리멘탈 테이머 — 세로 화면 전용. 밤에 도감을 넘기는 화면을 기준으로 짰다. */
+
+:root {
+  color-scheme: light dark;
+
+  /* 밝은 테마: 양피지 지면 */
+  --ground: #EFE7D7;
+  --surface: #FBF6EC;
+  --surface-2: #E6DCC7;
+  --line: #CFC2A7;
+  --ink: #241F18;
+  --ink-soft: #6B6151;
+  --ink-faint: #948871;
+  --ember: #A85B1E;
+  --ember-ink: #FFF6EA;
+  --danger: #A33227;
+  --good: #3F7A46;
+
+  --water: #2E6E9E;
+  --fire: #BE4A25;
+  --wood: #4A833F;
+  --wind: #2F8378;
+  --light: #A87C15;
+  --dark: #6D4E94;
+
+  --radius: 10px;
+  --dock-gap: 8px;
+  --tap: 46px;
+
+  --display: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+  --body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", "Menlo", monospace;
+}
+
+/* 어두운 테마: 잉크 지면. 시스템 설정(스탬프 없음)과 명시적 선택 둘 다 받는다. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #12100E;
+    --surface: #1D1A16;
+    --surface-2: #2A251F;
+    --line: #3B342B;
+    --ink: #EDE4D3;
+    --ink-soft: #B0A48E;
+    --ink-faint: #7D7261;
+    --ember: #C9752F;
+    --ember-ink: #1A1209;
+    --danger: #D06052;
+    --good: #74B47C;
+
+    --water: #4A90C4;
+    --fire: #D2603A;
+    --wood: #5C9E4F;
+    --wind: #48A79A;
+    --light: #D6A83A;
+    --dark: #8C6BB1;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #12100E;
+  --surface: #1D1A16;
+  --surface-2: #2A251F;
+  --line: #3B342B;
+  --ink: #EDE4D3;
+  --ink-soft: #B0A48E;
+  --ink-faint: #7D7261;
+  --ember: #C9752F;
+  --ember-ink: #1A1209;
+  --danger: #D06052;
+  --good: #74B47C;
+
+  --water: #4A90C4;
+  --fire: #D2603A;
+  --wood: #5C9E4F;
+  --wind: #48A79A;
+  --light: #D6A83A;
+  --dark: #8C6BB1;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--ground);
+}
+
+/* ── 상단 상태바 ───────────────────────────────────────────── */
+
+.status {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px 9px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.status__top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.status__name {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.status__rank {
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+.status__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.status__row b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ── 본문 ─────────────────────────────────────────────────── */
+
+main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+h1, h2, h3 {
+  font-family: var(--display);
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 { font-size: 26px; letter-spacing: -.01em; }
+h2 { font-size: 17px; }
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.muted { color: var(--ink-soft); font-size: 13px; }
+.center { text-align: center; }
+
+/* ── 버튼 ─────────────────────────────────────────────────── */
+
+.dock {
+  flex: none;
+  display: grid;
+  gap: var(--dock-gap);
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.dock--two { grid-template-columns: 1fr 1fr; }
+
+/* 전투 커맨드는 수가 많아 화면을 먹는다. 촘촘하게 깐다. */
+.dock--compact button { min-height: 42px; padding: 7px 10px; }
+.dock--compact .sub { font-size: 11px; }
+.span-all { grid-column: 1 / -1; }
+
+button {
+  font: inherit;
+  color: inherit;
+  min-height: var(--tap);
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  transition: transform .08s ease, border-color .15s ease;
+}
+
+button:active { transform: scale(.985); }
+button:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+button[disabled] { opacity: .45; cursor: default; }
+
+button .sub {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.btn--primary {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: var(--ember-ink);
+  font-weight: 600;
+  align-items: center;
+  text-align: center;
+}
+
+.btn--primary .sub { color: var(--ember-ink); opacity: .8; }
+
+.btn--ghost { background: transparent; }
+
+.btn--row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.list { display: flex; flex-direction: column; gap: var(--dock-gap); }
+
+/* ── 속성 칩과 등급 ────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.chip::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--el, var(--ink-faint));
+  transform: rotate(45deg);
+}
+
+.el-수 { --el: var(--water); }
+.el-화 { --el: var(--fire); }
+.el-목 { --el: var(--wood); }
+.el-풍 { --el: var(--wind); }
+.el-광 { --el: var(--light); }
+.el-악 { --el: var(--dark); }
+
+.grade {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ── 몬스터 카드 ───────────────────────────────────────────── */
+
+.mon {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--el, var(--line));
+  border-radius: var(--radius);
+}
+
+.mon__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mon__name { font-weight: 600; }
+.mon__lv { font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.bar > i {
+  display: block;
+  height: 100%;
+  background: var(--good);
+  transition: width .25s ease;
+}
+
+.bar--sp > i { background: var(--water); }
+.bar--low > i { background: var(--danger); }
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-soft);
+}
+
+/* ── 전투 로그 ─────────────────────────────────────────────── */
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-size: 13.5px;
+}
+
+.log p {
+  margin: 0;
+  padding: 7px 0 7px 10px;
+  border-top: 1px solid var(--line);
+  border-left: 2px solid transparent;
+}
+
+.log p:first-child { border-top: none; }
+.log p.by-ally { border-left-color: var(--ember); }
+.log p.by-foe { border-left-color: var(--ink-faint); }
+.log p.crit { color: var(--ember); font-weight: 600; }
+.log p.down { color: var(--danger); }
+.log p.gain { color: var(--good); }
+
+.log b { font-weight: 600; }
+
+/* ── 토스트 ───────────────────────────────────────────────── */
+
+#toast {
+  /* 하단 독 위에 두면 탭하려는 버튼을 가린다. 위로 올려 둔다. */
+  position: fixed;
+  left: 50%;
+  top: calc(10px + env(safe-area-inset-top));
+  transform: translateX(-50%);
+  max-width: 420px;
+  width: calc(100% - 36px);
+  background: var(--ink);
+  color: var(--ground);
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+  z-index: 10;
+}
+
+#toast.show { opacity: .96; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
