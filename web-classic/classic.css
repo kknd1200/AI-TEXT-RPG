@@ -1,0 +1,127 @@
+/* 320x240 화면을 정수배로 키워 픽셀을 살린다. */
+:root {
+  --ground: #0b0d0a;
+  --panel: #161a14;
+  --line: #2c3427;
+  --ink: #d8e2cf;
+  --ink-soft: #8b9a7e;
+  --accent: #7fa855;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", system-ui, sans-serif;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+#shell {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;   /* 화면은 위, 조작부는 엄지 쪽에 붙인다 */
+  gap: 10px;
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+}
+
+#stage {
+  position: relative;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  background: #000;
+  border: 1px solid var(--line);
+}
+
+#hud {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 4px 7px;
+  font-size: 11px;
+  color: var(--ink);
+  background: rgba(11, 13, 10, .72);
+  border-bottom-right-radius: 6px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+#notice {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 8px 10px;
+  font-size: 12px;
+  background: rgba(11, 13, 10, .85);
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+#notice:empty { display: none; }
+
+#pad {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 6px;
+}
+
+#dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-rows: repeat(3, 56px);
+  gap: 4px;
+}
+
+#dpad button:nth-child(1) { grid-area: 1 / 2; }
+#dpad button:nth-child(2) { grid-area: 2 / 1; }
+#dpad button:nth-child(3) { grid-area: 2 / 3; }
+#dpad button:nth-child(4) { grid-area: 3 / 2; }
+
+#keys { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+
+button {
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  min-height: 46px;
+  min-width: 56px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+button:active { background: var(--line); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+#btnA {
+  min-height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #12180c;
+  font-weight: 700;
+  border-color: var(--accent);
+}
+
+#btnPrev, #btnNext { font-size: 12px; min-height: 40px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

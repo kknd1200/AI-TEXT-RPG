@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0d0a">
+<title>원작 복원 필드</title>
+<link rel="stylesheet" href="./classic.css">
+</head>
+<body>
+<div id="shell">
+  <div id="stage">
+    <canvas id="screen" width="320" height="240"></canvas>
+    <div id="hud"></div>
+    <div id="notice">에셋을 불러오는 중...</div>
+  </div>
+  <div id="pad">
+    <div id="dpad">
+      <button data-dir="up" aria-label="위">▲</button>
+      <button data-dir="left" aria-label="왼쪽">◀</button>
+      <button data-dir="right" aria-label="오른쪽">▶</button>
+      <button data-dir="down" aria-label="아래">▼</button>
+    </div>
+    <div id="keys">
+      <button id="btnA">A</button>
+      <button id="btnPrev">◁ 화면</button>
+      <button id="btnNext">화면 ▷</button>
+    </div>
+  </div>
+</div>
+<script src="./classic.js"></script>
+</body>
+</html>

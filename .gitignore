@@ -6,3 +6,4 @@ __pycache__/
 # tools/extract_apk.py 로 직접 뽑아 쓴다.
 data/extracted/
 saves/
+classic/
