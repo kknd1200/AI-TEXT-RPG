@@ -1,0 +1,1607 @@
+<title>미지의 해안</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gugi&family=Gothic+A1:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --page-bg:#e7e4dc; --page-ink:#2b2a26; --page-dim:#6d6a61; --page-rule:#c9c5ba;
+  /* 단말기는 사물이라 테마와 무관하게 고정 */
+  --shell:#23262e; --shell-hi:#343945; --shell-lo:#171a20; --shell-edge:#4a5160;
+  --key:#2c313b; --key-ink:#c3cad6; --key-hot:#ffd029;
+  /* LCD 팔레트 - 원작 에셋에서 추출 */
+  --lcd-void:#0e1a12; --lcd-grass:#33984f; --lcd-deep:#1f7635; --lcd-sky:#a7dbf2;
+  --lcd-earth:#6a6843; --lcd-gold:#ffd029; --lcd-ink:#eef4ea; --lcd-shadow:#0b1410;
+  --panel:#12261a; --panel-hi:#1d3d29; --panel-line:#5fd18a;
+  --hp-full:#4fd97a; --hp-warn:#ffd029; --hp-low:#ff5f52;
+  --px:3;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page-bg:#15171c; --page-ink:#e5e8ee; --page-dim:#8f96a4; --page-rule:#2b2f38;
+  }
+}
+:root[data-theme="dark"]{
+  --page-bg:#15171c; --page-ink:#e5e8ee; --page-dim:#8f96a4; --page-rule:#2b2f38;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--page-bg); color:var(--page-ink);
+  font-family:"Gothic A1","Malgun Gothic",system-ui,sans-serif;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; padding:16px 12px 22px; overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.masthead{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; justify-content:center}
+.masthead h1{
+  font-family:Gugi,"Gothic A1",sans-serif; font-size:23px; font-weight:400;
+  margin:0; letter-spacing:.06em; text-wrap:balance;
+}
+.masthead p{margin:0; font-size:12px; color:var(--page-dim); letter-spacing:.03em}
+
+/* ── 단말기 ─────────────────────────────────────── */
+.handset{
+  background:linear-gradient(178deg,var(--shell-hi),var(--shell) 22%,var(--shell-lo));
+  border:1px solid var(--shell-edge); border-radius:18px;
+  padding:14px 14px 16px; display:flex; flex-direction:column; gap:11px;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.07);
+}
+.brandbar{
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:9px; letter-spacing:.2em; color:#79808f; text-transform:uppercase;
+  padding:0 3px;
+}
+.brandbar b{font-family:Gugi,sans-serif; font-weight:400; letter-spacing:.14em; color:#98a1b2}
+
+.lcd{
+  position:relative; background:var(--lcd-void);
+  width:calc(240px * var(--px)); height:calc(320px * var(--px));
+  border:2px solid #0a0d11; border-radius:3px;
+  box-shadow:inset 0 0 0 1px #3d4756, 0 0 34px -8px rgba(122,220,160,.34);
+  overflow:hidden; touch-action:none;
+}
+.lcd canvas{
+  position:absolute; inset:0; width:100%; height:100%;
+  image-rendering:pixelated; image-rendering:crisp-edges;
+}
+.lcd .grid{
+  position:absolute; inset:0; pointer-events:none; opacity:.16; z-index:5;
+  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.55) 0 1px,transparent 1px calc(1px * var(--px)));
+}
+
+/* ── LCD 위 한글 UI 레이어 ───────────────────────── */
+.ui{position:absolute; inset:0; z-index:6; pointer-events:none; font-size:13px; line-height:1.45}
+.ui > *{pointer-events:auto}
+.panel{
+  position:absolute; background:rgba(9,26,16,.94); color:var(--lcd-ink);
+  border:2px solid var(--panel-line); box-shadow:0 0 0 2px #071009, 0 6px 0 rgba(0,0,0,.35);
+  padding:9px 11px;
+}
+.panel h3{
+  margin:0 0 7px; font-family:Gugi,sans-serif; font-weight:400; font-size:13px;
+  letter-spacing:.09em; color:var(--lcd-gold);
+}
+#dialogue{left:10px; right:10px; bottom:10px; min-height:74px}
+#dialogue .who{font-size:10px; letter-spacing:.12em; color:var(--panel-line); margin-bottom:3px}
+#dialogue .next{position:absolute; right:9px; bottom:5px; color:var(--lcd-gold); font-size:11px; animation:bob .9s infinite}
+@keyframes bob{50%{transform:translateY(3px)}}
+
+.menu{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px}
+.menu li{
+  padding:4px 8px 4px 20px; position:relative; cursor:pointer; font-weight:500;
+  border:1px solid transparent;
+}
+.menu li[aria-selected="true"]{background:rgba(95,209,138,.17); border-color:var(--panel-line)}
+.menu li[aria-selected="true"]::before{content:"▶"; position:absolute; left:6px; color:var(--lcd-gold)}
+.menu li .sub{float:right; color:var(--panel-line); font-size:11px; font-variant-numeric:tabular-nums}
+.menu li .ico{width:22px; height:22px; margin:-4px 5px -5px 0; image-rendering:pixelated; vertical-align:middle}
+.dexcard{display:flex; gap:11px; align-items:center; margin-bottom:9px;
+  border-bottom:1px solid rgba(95,209,138,.3); padding-bottom:9px}
+.dexcard img{width:78px; height:78px; image-rendering:pixelated; flex:none}
+.dexcard .nm2{font-family:Gugi,sans-serif; font-size:15px; color:var(--lcd-ink); letter-spacing:.05em}
+.dexcard .ty{display:inline-block; font-size:10px; padding:1px 7px; margin-top:3px;
+  background:var(--panel-line); color:#08170e; font-weight:700}
+.dexcard .st{font-size:11px; color:#a9c4b3; font-variant-numeric:tabular-nums; margin-top:5px; line-height:1.5}
+.menu li[data-off="1"]{color:#6d8a77}
+
+/* 전투 HUD */
+.combatant{position:absolute; width:118px}
+.combatant .nm{
+  display:flex; justify-content:space-between; align-items:baseline; gap:5px;
+  font-size:11px; font-weight:700; margin-bottom:3px;
+}
+.combatant .lv{color:var(--lcd-gold); font-variant-numeric:tabular-nums; font-size:10px}
+.bar{height:7px; background:#08160e; border:1px solid #24503a}
+.bar i{display:block; height:100%; background:var(--hp-full); transition:width .32s ease, background .3s}
+.bar.warn i{background:var(--hp-warn)} .bar.low i{background:var(--hp-low)}
+.combatant .hpnum{font-size:10px; color:#a9c4b3; text-align:right; margin-top:2px; font-variant-numeric:tabular-nums}
+#foeHud{left:10px; top:12px}
+#meHud{right:10px; top:150px}
+
+.topbar{
+  position:absolute; left:0; right:0; top:0; display:flex; justify-content:space-between;
+  padding:5px 9px; font-size:10px; letter-spacing:.06em;
+  background:linear-gradient(180deg,rgba(6,16,10,.9),transparent);
+  color:#cfe4d7; text-shadow:0 1px 0 #04100a; font-variant-numeric:tabular-nums;
+}
+.topbar b{color:var(--lcd-gold); font-weight:700}
+
+.float{
+  position:absolute; font-family:Gugi,sans-serif; font-size:19px; color:#fff;
+  text-shadow:0 2px 0 #b3260f,0 0 8px rgba(0,0,0,.6); pointer-events:none;
+  animation:rise 1s ease-out forwards;
+}
+.float.heal{text-shadow:0 2px 0 #1a7a3d,0 0 8px rgba(0,0,0,.6)}
+@keyframes rise{to{transform:translateY(-30px); opacity:0}}
+
+.toast{
+  position:absolute; left:50%; top:44%; transform:translateX(-50%);
+  font-family:Gugi,sans-serif; font-size:17px; color:var(--lcd-gold); letter-spacing:.08em;
+  text-shadow:0 2px 0 #0b1410; animation:pop .5s ease-out;
+}
+@keyframes pop{from{transform:translateX(-50%) scale(.7); opacity:0}}
+
+/* 타이틀 */
+#title{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; text-align:center}
+#title .big{font-family:Gugi,sans-serif; font-size:34px; color:var(--lcd-ink); letter-spacing:.1em; text-shadow:0 3px 0 #0b3f22,0 0 22px rgba(95,209,138,.5)}
+#title .sm{font-size:11px; color:var(--panel-line); letter-spacing:.28em}
+#title .go{margin-top:24px; font-size:12px; color:var(--lcd-gold); animation:blink 1.15s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+
+/* ── 키패드 ────────────────────────────────────── */
+.pad{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px}
+.dpad{display:grid; grid-template:repeat(3,32px)/repeat(3,32px); gap:2px}
+.dpad button{grid-area:var(--ga)}
+.softs{display:flex; flex-direction:column; gap:6px; justify-content:center}
+.softs button{width:76px}
+button.k{
+  font-family:"Gothic A1",sans-serif; font-size:12px; font-weight:700;
+  background:linear-gradient(180deg,#39404d,var(--key)); color:var(--key-ink);
+  border:1px solid #454c59; border-radius:6px; padding:8px 0; cursor:pointer;
+  box-shadow:0 2px 0 #12151b; transition:transform .05s, background .12s;
+}
+button.k:active,button.k.on{
+  transform:translateY(2px); box-shadow:0 0 0 #12151b; color:var(--key-hot);
+  background:linear-gradient(180deg,#4b5464,#39404d);
+}
+button.k:focus-visible{outline:2px solid var(--key-hot); outline-offset:2px}
+.hint{font-size:11px; color:var(--page-dim); text-align:center; max-width:min(92vw,520px); line-height:1.6}
+.hint kbd{
+  font-family:inherit; font-size:10px; font-weight:700; background:var(--page-rule);
+  color:var(--page-ink); border-radius:3px; padding:1px 5px; margin:0 1px;
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important; transition-duration:.01ms !important}}
+</style>
+
+<header class="masthead">
+  <h1>미지의 해안</h1>
+  <p>2000년대 한국 피처폰 RPG의 결을 그대로 옮긴 웹 게임</p>
+</header>
+
+<div class="handset">
+  <div class="brandbar"><span>EN·SHORE</span><b>240 × 320</b></div>
+  <div class="lcd" id="lcd">
+    <canvas id="cv" width="240" height="320"></canvas>
+    <div class="grid"></div>
+    <div class="ui" id="ui"></div>
+  </div>
+  <div class="pad">
+    <div class="dpad">
+      <button class="k" style="--ga:1/2" data-key="ArrowUp" aria-label="위">▲</button>
+      <button class="k" style="--ga:2/1" data-key="ArrowLeft" aria-label="왼쪽">◀</button>
+      <button class="k" style="--ga:2/3" data-key="ArrowRight" aria-label="오른쪽">▶</button>
+      <button class="k" style="--ga:3/2" data-key="ArrowDown" aria-label="아래">▼</button>
+    </div>
+    <div></div>
+    <div class="softs">
+      <button class="k" data-key="Enter">확인</button>
+      <button class="k" data-key="Escape">취소 · 메뉴</button>
+    </div>
+  </div>
+</div>
+
+<p class="hint">
+  <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> 이동 · <kbd>Enter</kbd> 확인 · <kbd>Esc</kbd> 취소/메뉴 —
+  키풀에서 야생 몬스터가 나옵니다. 체력을 깎고 <b>포획</b>하면 동료가 됩니다. 진행 상황은 자동 저장됩니다.
+</p>
+
+<script>
+"use strict";
+/* ══ 미지의 해안 ═══════════════════════════════════════════════════════
+   240×320 LCD. 픽셀 그래픽은 캔버스, 한글 UI는 그 위 DOM 레이어.
+   그래픽 에셋은 전부 코드로 생성한다 — 원작 리소스는 쓰지 않는다.
+   팔레트만 원작 에셋에서 뽑아낸 값을 기준으로 잡았다.
+   ══════════════════════════════════════════════════════════════════ */
+
+const W = 240, H = 320, TS = 16;
+const cv = document.getElementById("cv");
+const g  = cv.getContext("2d");
+g.imageSmoothingEnabled = false;
+
+/* ── 난수 ─────────────────────────────────────────────────────────── */
+function rng(seed){
+  let a = seed >>> 0;
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand  = (n) => Math.floor(Math.random() * n);
+const pick  = (a) => a[rand(a.length)];
+const clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
+
+/* ── 색 ───────────────────────────────────────────────────────────── */
+function hsl(h, s, l){
+  h = ((h % 360) + 360) % 360; s = clamp(s, 0, 1); l = clamp(l, 0, 1);
+  const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2;
+  const t = h < 60 ? [c,x,0] : h < 120 ? [x,c,0] : h < 180 ? [0,c,x]
+          : h < 240 ? [0,x,c] : h < 300 ? [x,0,c] : [c,0,x];
+  return [Math.round((t[0]+m)*255), Math.round((t[1]+m)*255), Math.round((t[2]+m)*255)];
+}
+const rgb = (c) => `rgb(${c[0]},${c[1]},${c[2]})`;
+function mix(a, b, t){ return [0,1,2].map(i => Math.round(a[i] + (b[i] - a[i]) * t)); }
+
+/* 원작 에셋에서 추출한 기준 색 */
+const PAL = {
+  grass:[0x33,0x98,0x4f], grassDk:[0x1f,0x76,0x35], grassLt:[0x42,0x98,0x6e],
+  water:[0x3b,0x70,0x98], waterLt:[0xa7,0xdb,0xf2], waterMd:[0x63,0x85,0x9e],
+  sand:[0xd6,0xc7,0x8e], sandDk:[0x9d,0x8d,0x5b],
+  earth:[0x6a,0x68,0x43], earthDk:[0x30,0x24,0x0a], bark:[0x66,0x53,0x3c], barkDk:[0x53,0x45,0x34],
+  gold:[0xff,0xd0,0x29], stone:[0x8d,0x93,0x8c], stoneDk:[0x4f,0x56,0x52],
+  night:[0x0b,0x14,0x10],
+};
+
+/* ══ 픽셀 아트 생성기 ═══════════════════════════════════════════════ */
+function surface(w, h){
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const x = c.getContext("2d");
+  x.imageSmoothingEnabled = false;
+  return { c, x, img: x.createImageData(w, h), w, h };
+}
+function put(s, x, y, col, a){
+  x = x | 0; y = y | 0;
+  if (x < 0 || y < 0 || x >= s.w || y >= s.h) return;
+  const i = (y * s.w + x) * 4, d = s.img.data;
+  d[i] = col[0]; d[i+1] = col[1]; d[i+2] = col[2]; d[i+3] = a === undefined ? 255 : a;
+}
+function commit(s){ s.x.putImageData(s.img, 0, 0); return s.c; }
+
+/* 2×2 베이어 디더 — 이 시절 스프라이트의 질감 */
+const BAYER = [[0,2],[3,1]];
+function dither(x, y, t){ return t * 4 > BAYER[y & 1][x & 1]; }
+
+/* 값 노이즈 */
+function noiseField(w, h, seed, scale){
+  const r = rng(seed), gw = Math.ceil(w / scale) + 2, gh = Math.ceil(h / scale) + 2;
+  const grid = Array.from({ length: gh }, () => Array.from({ length: gw }, () => r()));
+  const sm = (t) => t * t * (3 - 2 * t);
+  return (x, y) => {
+    const fx = x / scale, fy = y / scale;
+    const x0 = Math.floor(fx), y0 = Math.floor(fy), tx = sm(fx - x0), ty = sm(fy - y0);
+    const a = grid[y0 % gh][x0 % gw], b = grid[y0 % gh][(x0+1) % gw];
+    const c = grid[(y0+1) % gh][x0 % gw], d = grid[(y0+1) % gh][(x0+1) % gw];
+    const top = a + (b - a) * tx, bot = c + (d - c) * tx;
+    return top + (bot - top) * ty;
+  };
+}
+
+/* ── 타일 ─────────────────────────────────────────────────────────── */
+const TILE = { WATER:0, SAND:1, GRASS:2, TALL:3, TREE:4, ROCK:5, PATH:6, FLOWER:7, CLIFF:8 };
+const SOLID = new Set([TILE.WATER, TILE.TREE, TILE.ROCK, TILE.CLIFF]);
+
+function makeTile(kind, frame){
+  const s = surface(TS, TS), seed = kind * 977 + frame * 31 + 5;
+  const n = noiseField(TS, TS, seed, 5), n2 = noiseField(TS, TS, seed + 404, 2.2);
+  for (let y = 0; y < TS; y++) for (let x = 0; x < TS; x++){
+    const v = n(x, y), f = n2(x, y);
+    let col;
+    switch (kind){
+      case TILE.WATER: {
+        const wave = Math.sin((x * 0.7 + y * 0.35) + frame * 2.1) * 0.5 + 0.5;
+        col = mix(PAL.water, PAL.waterMd, v * 0.6 + wave * 0.4);
+        if (wave > 0.86 && dither(x, y, 0.5)) col = mix(col, PAL.waterLt, 0.65);
+        break;
+      }
+      case TILE.SAND:
+        col = mix(PAL.sand, PAL.sandDk, v * 0.55);
+        if (f > 0.82 && dither(x, y, 0.35)) col = mix(col, PAL.sandDk, 0.5);
+        break;
+      case TILE.GRASS:
+        col = mix(PAL.grass, PAL.grassDk, v * 0.7);
+        if (f > 0.78) col = mix(col, PAL.grassLt, 0.4);
+        break;
+      case TILE.TALL: {
+        col = mix([0x0e,0x40,0x1e], [0x16,0x53,0x28], v * 0.8);
+        /* 두 줄로 어긋난 풀잎 — 멀리서도 초원과 구별된다 */
+        for (const [bx, by, bh] of [[2,15,7],[6,13,9],[10,15,7],[13,12,9],[8,16,6],[0,13,8]]){
+          const dx = x - bx, lean = Math.round((by - y) * 0.22);
+          if (y <= by && y > by - bh && dx - lean >= 0 && dx - lean <= 1){
+            const t = (by - y) / bh;
+            col = mix([0x2c,0x8f,0x45], [0x62,0xc9,0x77], t * 0.9);
+            if (dx - lean === 1) col = mix(col, [0x0a,0x33,0x18], 0.45);
+          }
+        }
+        if (y > 13) col = mix(col, [0x08,0x2c,0x14], 0.35);
+        break;
+      }
+      case TILE.TREE: {
+        col = mix(PAL.grass, PAL.grassDk, v * 0.7);
+        const cx = 8, cy = 7, d = Math.hypot(x - cx, (y - cy) * 1.12);
+        const r = 7.1 + Math.sin(x * 1.7 + y) * 0.75;
+        if (d < r){
+          const lt = clamp(1 - (d / r) - (x - cx) * 0.035 - (y - cy) * 0.05, 0, 1);
+          col = mix([0x12,0x4a,0x22], [0x4f,0xb0,0x63], lt);
+          if (dither(x, y, lt * 0.55)) col = mix(col, [0x6a,0xc9,0x7d], 0.3);
+          if (d > r - 1.2) col = [0x0c,0x33,0x18];
+        } else if (x >= 7 && x <= 9 && y >= 12){
+          col = x === 9 ? PAL.barkDk : PAL.bark;
+        }
+        break;
+      }
+      case TILE.ROCK: {
+        col = mix(PAL.grass, PAL.grassDk, v * 0.7);
+        const d = Math.hypot((x - 8) * 1.05, (y - 9) * 1.35);
+        if (d < 6.2 + f * 1.1){
+          const lt = clamp(1 - d / 7 - (y - 5) * 0.055, 0, 1);
+          col = mix(PAL.stoneDk, [0xc2,0xc8,0xc0], lt);
+          if (dither(x, y, lt * 0.5)) col = mix(col, PAL.stone, 0.35);
+          if (d > 5.4 + f) col = [0x33,0x3a,0x37];
+        }
+        break;
+      }
+      case TILE.PATH:
+        col = mix(PAL.earth, PAL.earthDk, v * 0.5);
+        if (f > 0.85 && dither(x, y, 0.4)) col = mix(col, PAL.sandDk, 0.45);
+        break;
+      case TILE.FLOWER: {
+        col = mix(PAL.grass, PAL.grassDk, v * 0.7);
+        const fr = rng(seed + x * 31 + y * 17)();
+        if (fr > 0.955) col = [PAL.gold, [0xe8,0x6a,0xa8], [0xd8,0xe8,0xf4]][Math.floor(fr * 97) % 3];
+        break;
+      }
+      default: {
+        col = mix(PAL.earthDk, PAL.earth, v * 0.8);
+        if (y < 4) col = mix(col, PAL.grassDk, 0.55 - y * 0.12);
+        if ((x * 5 + Math.floor(y / 4) * 9) % 16 < 1) col = mix(col, [0x1a,0x13,0x08], 0.7);
+        if (dither(x, y, v * 0.4)) col = mix(col, PAL.stoneDk, 0.22);
+      }
+    }
+    put(s, x, y, col);
+  }
+  return commit(s);
+}
+
+const TILES = {};
+for (const k of Object.values(TILE)) TILES[k] = [0,1,2].map(f => makeTile(k, f));
+/* 같은 타일이라도 위치마다 다른 변주를 골라 바닥이 붕어빵처럼 보이지 않게 */
+const variantOf = (t, x, y) =>
+  t === TILE.WATER ? TILES[t][Math.floor(animT / 16) % 3]
+                   : TILES[t][(x * 7 + y * 13) % 3];
+</script>
+
+<script>
+/* ══ 몬스터 스프라이트 생성기 ═══════════════════════════════════════
+   메타볼로 덩어리진 몸을 만들고, 좌상단 광원으로 5단 램프 셰이딩 +
+   경계 디더 + 1px 외곽선. 원작 몬스터 그림의 말랑한 질감을 노렸다.  */
+
+const TYPES = {
+  풀:  { hue:110, weak:["불"],        strong:["물","땅"] },
+  물:  { hue:205, weak:["풀"],        strong:["불","땅"] },
+  불:  { hue:18,  weak:["물"],        strong:["풀","바람"] },
+  땅:  { hue:38,  weak:["풀","물"],   strong:["불"] },
+  바람:{ hue:284, weak:["불"],        strong:["풀"] },
+};
+const TYPE_LIST = Object.keys(TYPES);
+
+function effectiveness(atk, def){
+  if (TYPES[atk].strong.includes(def)) return 2;
+  if (TYPES[atk].weak.includes(def))   return 0.5;
+  return 1;
+}
+
+const MS = 56; /* 몬스터 스프라이트 한 변 */
+
+function makeMonster(spec){
+  const r = rng(spec.seed), s = surface(MS, MS);
+  const hue = TYPES[spec.type].hue + (r() * 26 - 13);
+  const sat = 0.52 + r() * 0.26;
+  const ramp = [0.16,0.26,0.36,0.46,0.57,0.68,0.79].map(L => hsl(hue, sat * (1.05 - L*0.25), L));
+  const line   = hsl(hue, sat * 0.8, 0.10);
+  const accent = hsl(hue + 140 + r() * 80, 0.66, 0.58);
+  const big = spec.tier >= 3 ? 1.3 : spec.tier === 2 ? 1.14 : 1;
+  const CX = 28, FLOOR = 50;
+
+  /* 타원 하나 = 몸의 한 덩어리. 합집합이라 팔다리가 실루엣으로 튀어나온다. */
+  const lobes = [];
+  const add = (x, y, rx, ry, o = {}) => lobes.push({ x, y, rx, ry, bias: o.bias || 0, role: o.role });
+
+  const shape = spec.shape;
+  let headX = CX, headY = 20, headR = 8 * big;
+
+  if (shape === "biped"){
+    const bw = (9 + r() * 3) * big, bh = (11 + r() * 3) * big;
+    const by = FLOOR - bh - 4 * big;
+    add(CX, by, bw, bh, { role:"body" });
+    headR = (6.5 + r() * 2.4) * big; headY = by - bh - headR * 0.45;
+    add(CX, headY, headR * 1.06, headR, { role:"head" });
+    for (const sd of [-1, 1]){                       /* 팔 */
+      add(CX + sd * (bw + 1.5), by + 1, 3.2 * big, 6 * big, { bias:-0.13 });
+      add(CX + sd * (bw * 0.55), FLOOR - 3, 3.6 * big, 4 * big, { bias:-0.06 });  /* 다리 */
+      add(CX + sd * (bw * 0.55), FLOOR, 4.4 * big, 2.2 * big);                    /* 발 */
+    }
+  } else if (shape === "quad"){
+    const bw = (13 + r() * 3) * big, bh = (7.5 + r() * 2) * big;
+    const by = FLOOR - bh - 6 * big;
+    add(CX - 2, by, bw, bh, { role:"body" });
+    headR = (6 + r() * 2.2) * big;
+    headX = CX + bw * 0.72; headY = by - bh * 0.5;
+    add(headX, headY, headR * 1.1, headR, { role:"head" });
+    add(CX + bw * 0.25, by - bh * 0.35, bw * 0.4, bh * 0.7, { bias:0.05 });  /* 어깨 */
+    for (const sd of [-1, 1]) for (const fx of [-0.62, 0.5]){
+      add(CX - 2 + bw * fx + sd * 1.2, FLOOR - 4, 3 * big, 5.4 * big, { bias:-0.1 + sd * 0.06 });
+      add(CX - 2 + bw * fx + sd * 1.2, FLOOR, 3.8 * big, 2 * big, { bias:-0.05 });
+    }
+    let tx = CX - bw * 0.98, ty = by - bh * 0.25;    /* 꼬리 */
+    for (let i = 0; i < 5; i++){
+      add(tx - i * 2.6, ty - i * 1.5, 3.2 - i * 0.5, 3 - i * 0.45, { bias:-0.18 });
+    }
+  } else if (shape === "serpent"){
+    let x = CX + 8, y = FLOOR - 6;
+    for (let i = 0; i < 8; i++){
+      const rr = Math.max(2.6, (7.6 - i * 0.72) * big);
+      add(x, y, rr, rr * 0.94, { bias:-i * 0.035, role: i === 0 ? "body" : undefined });
+      x -= rr * 0.72; y -= rr * 0.5;
+    }
+    headR = (7 + r() * 2) * big; headX = CX + 12; headY = FLOOR - 15;
+    add(headX, headY, headR * 1.15, headR * 0.92, { role:"head" });
+  } else if (shape === "wing"){
+    const bw = (8 + r() * 2.4) * big, bh = (9 + r() * 2.4) * big;
+    const by = FLOOR - bh - 8 * big;
+    for (const sd of [-1, 1]){                       /* 날개 — 몸 뒤 */
+      add(CX + sd * (bw + 6.5), by - 5, 8.5 * big, 6.5 * big, { bias:-0.3 });
+      add(CX + sd * (bw + 12), by - 1, 5.5 * big, 4.5 * big, { bias:-0.38 });
+    }
+    add(CX, by, bw, bh, { role:"body" });
+    headR = (6.2 + r() * 2) * big; headY = by - bh - headR * 0.4;
+    add(CX, headY, headR, headR * 1.02, { role:"head" });
+    for (const sd of [-1, 1]){
+      add(CX + sd * bw * 0.44, by + bh * 0.9, 3.2 * big, 4.4 * big, { bias:-0.12 });
+      add(CX + sd * bw * 0.44, by + bh + 3 * big, 3.8 * big, 2 * big, { bias:-0.06 });
+    }
+  } else {                                            /* blob */
+    const bw = (11.5 + r() * 3.5) * big, bh = (10 + r() * 3) * big;
+    const by = FLOOR - bh - 1;
+    add(CX, by, bw, bh, { role:"body" });
+    headR = bw * (0.52 + r() * 0.16); headY = by - bh * (0.78 + r() * 0.2);
+    add(CX, headY, headR * 1.1, headR, { role:"head" });
+    for (const sd of [-1, 1]){
+      add(CX + sd * (bw * 0.92), by + bh * 0.3, 4.2 * big, 4.6 * big, { bias:-0.12 });
+      add(CX + sd * bw * 0.45, FLOOR - 1, 3.6 * big, 2.6 * big, { bias:-0.08 });
+    }
+  }
+
+  /* 귀 · 뿔 · 지느러미 — 실루엣의 개성 */
+  if (spec.ears === "ear") for (const sd of [-1, 1])
+    add(headX + sd * headR * 0.78, headY - headR * 0.85, headR * 0.34, headR * 0.72, { bias:-0.05 });
+  if (spec.ears === "fin") for (const sd of [-1, 1])
+    add(headX + sd * headR * 1.05, headY - headR * 0.2, headR * 0.55, headR * 0.3, { bias:-0.15 });
+
+  const N = lobes.length;
+  const q = (L, x, y) => { const a = (x - L.x) / L.rx, b = (y - L.y) / L.ry; return a * a + b * b; };
+  const solid = new Uint8Array(MS * MS);
+  const shade = new Float32Array(MS * MS);
+  const LDIR = [-0.52, -0.66, 0.54];
+
+  for (let y = 0; y < MS; y++) for (let x = 0; x < MS; x++){
+    let best = -1, bi = -1;
+    for (let i = 0; i < N; i++){
+      const v = q(lobes[i], x + 0.5, y + 0.5);
+      if (v <= 1){ const d = 1 - v; if (d > best){ best = d; bi = i; } }
+    }
+    if (bi < 0) continue;
+    const L = lobes[bi];
+    const nx = (x + 0.5 - L.x) / (L.rx * L.rx), ny = (y + 0.5 - L.y) / (L.ry * L.ry);
+    const nz = Math.sqrt(best) / Math.max(L.rx, L.ry);
+    const n = Math.hypot(nx, ny, nz) + 1e-6;
+    let lt = (nx / n) * LDIR[0] + (ny / n) * LDIR[1] + (nz / n) * LDIR[2];
+    lt = clamp(0.5 + lt * 0.62 + L.bias, 0.02, 0.98);
+    solid[y * MS + x] = 1;
+    shade[y * MS + x] = lt;
+  }
+
+  /* 램프 + 경계에서만 디더 */
+  for (let y = 0; y < MS; y++) for (let x = 0; x < MS; x++){
+    if (!solid[y * MS + x]) continue;
+    const f = shade[y * MS + x] * (ramp.length - 1);
+    let i = Math.floor(f); const frac = f - i;
+    if (frac > 0.28 && frac < 0.72 && dither(x, y, frac)) i += 1;
+    put(s, x, y, ramp[clamp(i, 0, ramp.length - 1)]);
+  }
+
+  /* 배 무늬 */
+  if (spec.belly){
+    const B = lobes.find(l => l.role === "body") || lobes[0];
+    for (let y = 0; y < MS; y++) for (let x = 0; x < MS; x++){
+      if (!solid[y * MS + x]) continue;
+      const d = Math.hypot((x - B.x) / (B.rx * 0.6), (y - (B.y + B.ry * 0.3)) / (B.ry * 0.55));
+      if (d < 1){
+        const cur = [s.img.data[(y*MS+x)*4], s.img.data[(y*MS+x)*4+1], s.img.data[(y*MS+x)*4+2]];
+        put(s, x, y, mix(cur, [252, 246, 232], 0.42 * (1 - d * d)));
+      }
+    }
+  }
+  /* 등 가시 */
+  if (spec.spikes && shape !== "wing"){
+    const B = lobes.find(l => l.role === "body") || lobes[0];
+    for (let i = 0; i < 3; i++){
+      const px = Math.round(B.x - B.rx * 0.42 + i * B.rx * 0.42);
+      const top = Math.round(B.y - B.ry * 0.92);
+      const hgt = 4 - Math.abs(i - 1);
+      for (let t = 0; t < hgt; t++){
+        const w = t < hgt - 1 ? 1 : 0;
+        for (let o = -w; o <= w; o++) put(s, px + o, top - t, t === hgt - 1 ? accent : ramp[1]);
+      }
+    }
+  }
+
+  /* 1px 외곽선 — 램프 위에 덮어써서 실루엣을 또렷하게 */
+  const sol = (x, y) => x >= 0 && y >= 0 && x < MS && y < MS && solid[y * MS + x];
+  const outline = [];
+  for (let y = 0; y < MS; y++) for (let x = 0; x < MS; x++){
+    if (!sol(x, y)) continue;
+    if (!sol(x-1,y) || !sol(x+1,y) || !sol(x,y-1) || !sol(x,y+1)) outline.push([x, y]);
+  }
+  for (const [x, y] of outline) put(s, x, y, line);
+
+  /* 뿔 */
+  if (spec.horn) for (const sd of (spec.horn === 2 ? [-1, 1] : [0])){
+    const hx = headX + sd * headR * 0.55, len = 5 + r() * 4;
+    for (let t = 0; t < len; t++){
+      const w = Math.max(0, Math.round((1 - t / len) * 2));
+      for (let o = -w; o <= w; o++)
+        put(s, Math.round(hx + sd * t * 0.35 + o), Math.round(headY - headR * 0.9 - t),
+            t > len - 2.5 ? accent : (o === -w ? line : ramp[2]));
+    }
+  }
+
+  /* 눈 */
+  const ey = Math.round(headY + headR * 0.04);
+  const gaze = shape === "quad" || shape === "serpent" ? 1 : 0;   /* 옆모습이면 한쪽만 */
+  const iris = [22, 24, 32], glint = [255, 255, 255];
+  for (const sd of (gaze ? [1] : [-1, 1])){
+    const ex = Math.round(headX + sd * headR * (gaze ? 0.42 : 0.46));
+    for (let dy = 0; dy < 3; dy++){
+      const w = dy === 1 ? 1 : 0;
+      for (let dx = -w; dx <= w; dx++) if (sol(ex + dx, ey + dy)) put(s, ex + dx, ey + dy, iris);
+    }
+    if (sol(ex, ey)) put(s, ex, ey, glint);
+    if (sol(ex - sd, ey + 2)) put(s, ex - sd, ey + 2, mix(iris, ramp[5], 0.45));
+  }
+  return commit(s);
+}
+
+/* ── 도감 ─────────────────────────────────────────────────────────── */
+const SPECIES = [
+  { id:0,  name:"모샤",   type:"풀",   base:{hp:30,atk:11,def:10,spd:11}, tier:1, evo:1 },
+  { id:1,  name:"모샤르", type:"풀",   base:{hp:48,atk:18,def:16,spd:15}, tier:2 },
+  { id:2,  name:"물뱅",   type:"물",   base:{hp:32,atk:10,def:12,spd:10}, tier:1, evo:3 },
+  { id:3,  name:"해뱅이", type:"물",   base:{hp:50,atk:16,def:19,spd:13}, tier:2 },
+  { id:4,  name:"부시",   type:"불",   base:{hp:28,atk:13,def:9, spd:13}, tier:1, evo:5 },
+  { id:5,  name:"부시라", type:"불",   base:{hp:45,atk:21,def:14,spd:18}, tier:2 },
+  { id:6,  name:"돌쟁이", type:"땅",   base:{hp:36,atk:12,def:15,spd:7 }, tier:1, evo:7 },
+  { id:7,  name:"암각",   type:"땅",   base:{hp:56,atk:19,def:24,spd:9 }, tier:2 },
+  { id:8,  name:"바람깃", type:"바람", base:{hp:27,atk:11,def:8, spd:16}, tier:1, evo:9 },
+  { id:9,  name:"질풍깃", type:"바람", base:{hp:42,atk:18,def:13,spd:23}, tier:2 },
+  { id:10, name:"이끼톨", type:"풀",   base:{hp:34,atk:12,def:13,spd:9 }, tier:1 },
+  { id:11, name:"불티",   type:"불",   base:{hp:30,atk:15,def:8, spd:14}, tier:1 },
+  { id:12, name:"여울치", type:"물",   base:{hp:33,atk:13,def:11,spd:12}, tier:1 },
+  { id:13, name:"모래발", type:"땅",   base:{hp:38,atk:14,def:14,spd:8 }, tier:1 },
+  { id:14, name:"해무",   type:"바람", base:{hp:31,atk:13,def:10,spd:15}, tier:1 },
+  { id:15, name:"심연각", type:"물",   base:{hp:64,atk:24,def:22,spd:14}, tier:3, boss:true },
+];
+const SHAPES = ["blob","biped","quad","serpent","wing"];
+SPECIES.forEach((sp, i) => {
+  const r = rng(7717 + i * 913);
+  sp.seed   = 1000 + i * 7717;
+  sp.shape  = sp.type === "바람" ? "wing"
+            : sp.type === "물"   ? (r() > 0.45 ? "serpent" : "quad")
+            : sp.type === "땅"   ? "quad"
+            : sp.type === "불"   ? (r() > 0.5 ? "biped" : "quad")
+            : (r() > 0.5 ? "blob" : "biped");
+  sp.belly  = r() > 0.4;
+  sp.ears   = r() > 0.6 ? "ear" : r() > 0.45 ? "fin" : null;
+  sp.horn   = sp.tier >= 2 ? 2 : (r() > 0.68 ? 1 : 0);
+  sp.spikes = r() > 0.62 || sp.tier >= 3;
+});
+const ART = SPECIES.map(makeMonster);
+
+/* ── 주인공 스프라이트 ─────────────────────────────────────────────── */
+const HERO_PAL = {
+  ".":null, o:[0x14,0x1b,0x18], h:[0x3d,0x2b,0x4e], H:[0x5c,0x42,0x72],
+  s:[0xf0,0xc9,0xa2], S:[0xd3,0xa5,0x7c], c:[0x3f,0x86,0xb8], C:[0x2a,0x5f,0x8a],
+  b:[0x6a,0x4b,0x33], w:[0xff,0xff,0xff], g:[0xff,0xd0,0x29],
+};
+const HERO = {
+  down:[
+    "....oooooo......","...ohHHHHho.....","..ohHHHHHHo.....","..ohHHHHHHo.....",
+    "..ohssssSho.....","..ohswsswho.....","...osssssso.....","....oossoo......",
+    "...occcccco.....","..ocCccccCco....","..ocCccccCco....","..oscccccc so...",
+    "...occcccco.....","...obb..bbo.....","...oo....oo.....","................",
+  ],
+  up:[
+    "....oooooo......","...ohHHHHho.....","..ohHHHHHHo.....","..ohHHHHHHo.....",
+    "..ohhhhhhho.....","..ohhhhhhho.....","...ohhhhhho.....","....oohhoo......",
+    "...occcccco.....","..ocCccccCco....","..ocCccccCco....","..osccccccso....",
+    "...occcccco.....","...obb..bbo.....","...oo....oo.....","................",
+  ],
+  side:[
+    "....oooooo......","...ohHHHHho.....","..ohHHHHHHo.....","..ohHHHHHHho....",
+    "..ohsssssho.....","..ohwssssho.....","...osssssoo.....","....oossoo......",
+    "...occcccco.....","...oCccccCo.....","..osCccccCo.....","..oscccccco.....",
+    "...occcccco.....","....obbbbo......","....oo..oo......","................",
+  ],
+};
+function makeHero(rows, flip, step){
+  const s = surface(16, 16);
+  rows.forEach((row, y) => {
+    for (let x = 0; x < 16; x++){
+      const ch = row[x] || ".";
+      const col = HERO_PAL[ch];
+      if (!col) continue;
+      let yy = y;
+      /* 걷기: 아래 두 줄의 다리를 한 칸씩 어긋나게 */
+      let xx = flip ? 15 - x : x;
+      if (step && y >= 13){
+        if (step === 1 && xx < 8) yy = y - 1;
+        if (step === 2 && xx >= 8) yy = y - 1;
+      }
+      put(s, xx, yy, col);
+    }
+  });
+  return commit(s);
+}
+const HERO_ART = {
+  down:  [0,1,0,2].map(st => makeHero(HERO.down, false, st)),
+  up:    [0,1,0,2].map(st => makeHero(HERO.up,   false, st)),
+  left:  [0,1,0,2].map(st => makeHero(HERO.side, true,  st)),
+  right: [0,1,0,2].map(st => makeHero(HERO.side, false, st)),
+};
+</script>
+
+<script>
+/* ══ 데이터 ═════════════════════════════════════════════════════════ */
+const BASIC = [
+  { name:"몸통박치기", type:null, pow:36, acc:1.00 },
+  { name:"할퀴기",     type:null, pow:41, acc:0.95 },
+];
+const TYPE_MOVES = {
+  풀:  [{ name:"잎날리기", pow:46, acc:0.95 }, { name:"덩굴채찍", pow:72, acc:0.85 }],
+  물:  [{ name:"물대포",   pow:46, acc:0.95 }, { name:"파도타기", pow:72, acc:0.85 }],
+  불:  [{ name:"불씨",     pow:46, acc:0.95 }, { name:"화염방사", pow:72, acc:0.85 }],
+  땅:  [{ name:"모래날림", pow:44, acc:1.00 }, { name:"바위깨기", pow:72, acc:0.85 }],
+  바람:[{ name:"돌풍",     pow:46, acc:0.95 }, { name:"폭풍",     pow:72, acc:0.85 }],
+};
+const BALLS = [
+  { key:"ball",  name:"포획구슬", mult:1.00 },
+  { key:"ball2", name:"상급구슬", mult:1.75 },
+];
+const ITEMS = {
+  ball:  { name:"포획구슬", desc:"야생 몬스터를 잡는다" },
+  ball2: { name:"상급구슬", desc:"잘 잡히는 구슬" },
+  herb:  { name:"회복초",   desc:"체력을 40% 회복" },
+};
+
+function statsOf(sp, lv){
+  const b = sp.base;
+  return {
+    hp:  Math.floor(b.hp  * (1 + lv * 0.14)) + lv * 2,
+    atk: Math.floor(b.atk * (1 + lv * 0.12)),
+    def: Math.floor(b.def * (1 + lv * 0.12)),
+    spd: Math.floor(b.spd * (1 + lv * 0.11)),
+  };
+}
+function movesOf(sp, lv){
+  const t = TYPE_MOVES[sp.type];
+  const list = [BASIC[sp.id % 2], { ...t[0], type: sp.type }];
+  if (lv >= 8) list.push({ ...t[1], type: sp.type });
+  return list;
+}
+function makeMon(spId, lv){
+  const sp = SPECIES[spId], st = statsOf(sp, lv);
+  return { spId, lv, exp:0, hp:st.hp, st, moves:movesOf(sp, lv) };
+}
+const spOf   = (m) => SPECIES[m.spId];
+const expCap = (lv) => 14 + lv * lv * 3;
+
+/* ══ 섬 ════════════════════════════════════════════════════════════ */
+const MW = 52, MH = 52;
+function buildIsland(seed){
+  const r = rng(seed);
+  const n1 = noiseField(MW, MH, seed, 9), n2 = noiseField(MW, MH, seed + 71, 3.4);
+  const map = [];
+  for (let y = 0; y < MH; y++){
+    const row = [];
+    for (let x = 0; x < MW; x++){
+      const dx = (x - MW / 2) / (MW / 2), dy = (y - MH / 2) / (MH / 2);
+      const d = Math.hypot(dx, dy * 1.04);
+      const h = n1(x, y) * 0.72 + n2(x, y) * 0.28 - d * 0.92 + 0.38;
+      let t;
+      if (h < 0.02) t = TILE.WATER;
+      else if (h < 0.10) t = TILE.SAND;
+      else if (h > 0.46 && n2(x, y) > 0.60) t = TILE.TREE;
+      else if (h > 0.40 && n2(x, y) > 0.50) t = TILE.TALL;
+      else if (n2(x, y) < 0.13) t = TILE.ROCK;
+      else if (n2(x, y) > 0.86) t = TILE.FLOWER;
+      else t = TILE.GRASS;
+      row.push(t);
+    }
+    map.push(row);
+  }
+  /* 야영지 — 시작점 주변을 다지고 길을 낸다 */
+  const cx = MW >> 1, cy = MH >> 1;
+  for (let y = cy - 3; y <= cy + 3; y++) for (let x = cx - 4; x <= cx + 4; x++)
+    map[y][x] = (Math.abs(x - cx) < 2 && Math.abs(y - cy) < 2) ? TILE.PATH : TILE.GRASS;
+  for (let i = 0; i < 26; i++){ map[cy + i - 1] && (map[cy + i - 1][cx] = TILE.PATH); }
+  for (let i = 0; i < 18; i++){ map[cy][cx + i - 9] = map[cy][cx + i - 9] === TILE.WATER ? TILE.WATER : TILE.PATH; }
+  return map;
+}
+function zoneOf(map, x, y){
+  if (y < MH * 0.28) return { name:"깊은 안개", lo:8,  hi:13, pool:[2,3,12,14,15,9] };
+  const t = map[y][x];
+  if (t === TILE.SAND) return { name:"해안",     lo:2, hi:4,  pool:[12,2,13,8] };
+  let trees = 0;
+  for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++){
+    const yy = y + dy, xx = x + dx;
+    if (map[yy] && map[yy][xx] === TILE.TREE) trees++;
+  }
+  if (trees >= 5) return { name:"숲그늘", lo:5, hi:9, pool:[0,10,4,11,1,5] };
+  return { name:"초원", lo:3, hi:6, pool:[0,10,8,6,13,4] };
+}
+
+/* ══ 상태 ══════════════════════════════════════════════════════════ */
+const SAVE_KEY = "mijieui-haean-v1";
+let S = null;
+function newGame(){
+  const seed = 20260821;
+  S = {
+    seed, map: buildIsland(seed),
+    ptx: MW >> 1, pty: MH >> 1,
+    dir:"down", steps:0, nextEnc: 5 + rand(8),
+    party:[ makeMon(pick([0,2,4,6,8]), 5) ],
+    box:[], bag:{ ball:6, ball2:1, herb:2 }, gold:120,
+    dex: {}, chests:{}, playtime:0,
+  };
+  S.dex[S.party[0].spId] = 2;
+  const r = rng(seed + 9);
+  S.chestList = [];
+  while (S.chestList.length < 8){
+    const x = 3 + Math.floor(r() * (MW - 6)), y = 3 + Math.floor(r() * (MH - 6));
+    if (!SOLID.has(S.map[y][x])) S.chestList.push({ x, y });
+  }
+}
+function save(){
+  if (!S) return;
+  const { map, ...rest } = S;
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(rest)); } catch (e) {}
+}
+function load(){
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    d.map = buildIsland(d.seed);
+    S = d;
+    return true;
+  } catch (e) { return false; }
+}
+
+/* ══ 화면 상태 ═════════════════════════════════════════════════════ */
+let mode = "title";          /* title | field | menu | battle | over */
+let ui   = document.getElementById("ui");
+let dialogQueue = [], onDialogEnd = null;
+let cursor = 0, menuStack = [], menuCur = [];
+let shake = 0, flash = 0, fade = 0, fadeDir = 0, fadeThen = null;
+let toastText = "", toastT = 0;
+
+function say(lines, then){
+  dialogQueue = Array.isArray(lines) ? lines.slice() : [lines];
+  onDialogEnd = then || null;
+  drawUI();
+}
+function toast(t){ toastText = t; toastT = 52; drawUI(); }
+function fadeTo(fn){ fadeDir = 1; fadeThen = fn; }
+</script>
+
+<script>
+/* ══ 코루틴 러너 — 전투 연출을 순서대로 ═════════════════════════════ */
+let co = null, coWait = 0, coInput = false;
+function run(gen){ co = typeof gen === "function" ? gen() : gen; coWait = 0; coInput = false; }
+function coStep(){
+  if (!co || coInput) return;
+  if (coWait > 0){ coWait--; return; }
+  const r = co.next();
+  if (r.done){ co = null; drawUI(); return; }
+  if (r.value === "input"){ coInput = true; }
+  else coWait = r.value | 0;
+}
+function coResume(){ if (coInput){ coInput = false; coWait = 0; } }
+
+/* ══ 필드 ══════════════════════════════════════════════════════════ */
+let walk = null, animT = 0;
+const CAMP = { x: MW >> 1, y: (MH >> 1) - 2 };
+
+function tileAt(x, y){
+  if (x < 0 || y < 0 || x >= MW || y >= MH) return TILE.WATER;
+  return S.map[y][x];
+}
+function chestAt(x, y){
+  return S.chestList.findIndex(c => c.x === x && c.y === y && !S.chests[c.x + "," + c.y]);
+}
+function tryWalk(dx, dy){
+  if (walk || co) return;
+  S.dir = dx < 0 ? "left" : dx > 0 ? "right" : dy < 0 ? "up" : "down";
+  const nx = S.ptx + dx, ny = S.pty + dy;
+  if (SOLID.has(tileAt(nx, ny))) { drawUI(); return; }
+  if (nx === CAMP.x && ny === CAMP.y) { drawUI(); return; }
+  walk = { dx, dy, t: 0 };
+}
+function finishStep(){
+  S.ptx += walk.dx; S.pty += walk.dy; walk = null;
+  const ci = chestAt(S.ptx, S.pty);
+  if (ci >= 0){ openChest(ci); return; }
+  if (tileAt(S.ptx, S.pty) === TILE.TALL){
+    if (--S.nextEnc <= 0){ S.nextEnc = 5 + rand(9); startBattle(); return; }
+  }
+  drawUI();
+}
+function openChest(i){
+  const c = S.chestList[i];
+  S.chests[c.x + "," + c.y] = 1;
+  const roll = rand(100);
+  let msg;
+  if (roll < 40){ const n = 40 + rand(90); S.gold += n; msg = `골드 ${n}을 주웠다.`; }
+  else if (roll < 74){ const n = 2 + rand(3); S.bag.ball += n; msg = `포획구슬 ${n}개를 주웠다.`; }
+  else if (roll < 90){ S.bag.herb += 2; msg = "회복초 2개를 주웠다."; }
+  else { S.bag.ball2 += 1; msg = "상급구슬을 하나 주웠다!"; }
+  say(["낡은 상자를 열었다.", msg], () => { save(); });
+}
+function healParty(){
+  S.party.forEach(m => { m.hp = m.st.hp; });
+  toast("파티 전원 회복!");
+  save();
+}
+
+/* ══ 전투 ══════════════════════════════════════════════════════════ */
+let B = null;
+function activeMon(){ return S.party[B.me]; }
+
+function startBattle(boss){
+  const z = zoneOf(S.map, S.ptx, S.pty);
+  const spId = boss ? 15 : pick(z.pool);
+  const lv = clamp(z.lo + rand(z.hi - z.lo + 1), 2, 20);
+  const foe = makeMon(spId, lv);
+  const me = S.party.findIndex(m => m.hp > 0);
+  if (me < 0){ gameOver(); return; }
+  B = { foe, me, zone:z.name, sel:"root", cursor:0, msg:"", myOff:0, foeOff:0, ballShake:0, over:false };
+  S.dex[spId] = Math.max(S.dex[spId] || 0, 1);
+  mode = "battle"; flash = 8;
+  run(function*(){
+    B.msg = `앗! 야생 ${spOf(foe).name}(Lv.${foe.lv}) 이(가) 나타났다!`;
+    drawUI(); yield "input";
+    B.msg = `가라, ${spOf(activeMon()).name}!`;
+    drawUI(); yield 26;
+    B.sel = "root"; B.cursor = 0; B.msg = "";
+    drawUI();
+  });
+}
+function damage(att, def, move){
+  const eff = move.type ? effectiveness(move.type, spOf(def).type) : 1;
+  const crit = Math.random() < 0.07 ? 1.5 : 1;
+  const base = Math.floor(((2 * att.lv / 5 + 2) * move.pow * att.st.atk / def.st.def) / 50) + 2;
+  const dmg = Math.max(1, Math.floor(base * eff * crit * (0.85 + Math.random() * 0.15)));
+  return { dmg, eff, crit: crit > 1 };
+}
+function floatText(txt, x, y, cls){
+  const el = document.createElement("div");
+  el.className = "float" + (cls ? " " + cls : "");
+  el.textContent = txt;
+  el.style.left = x + "px"; el.style.top = y + "px";
+  ui.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
+}
+const PXS = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--px")) || 3;
+
+function* hit(attacker, defender, move, toFoe){
+  B.msg = `${spOf(attacker).name}의 ${move.name}!`;
+  drawUI(); yield 22;
+  if (Math.random() > move.acc){
+    B.msg = "빗나갔다!"; drawUI(); yield "input"; return;
+  }
+  const { dmg, eff, crit } = damage(attacker, defender, move);
+  if (toFoe) B.foeOff = 6; else B.myOff = -6;
+  shake = eff > 1 ? 7 : 4; flash = 3;
+  const s = PXS();
+  floatText("-" + dmg, (toFoe ? 150 : 46) * s, (toFoe ? 60 : 176) * s);
+  if (toFoe) B.foe.hp = Math.max(0, B.foe.hp - dmg);
+  else       defender.hp = Math.max(0, defender.hp - dmg);
+  syncHud(); yield 16;
+  B.foeOff = 0; B.myOff = 0;
+  if (crit){ B.msg = "급소에 맞았다!"; drawUI(); yield "input"; }
+  if (eff > 1){ B.msg = "효과가 굉장했다!"; drawUI(); yield "input"; }
+  else if (eff < 1){ B.msg = "효과가 별로인 듯하다…"; drawUI(); yield "input"; }
+}
+function* foeTurn(){
+  if (B.foe.hp <= 0 || B.over) return;
+  const mv = pick(B.foe.moves);
+  yield* hit(B.foe, activeMon(), mv, false);
+  if (activeMon().hp <= 0){
+    B.msg = `${spOf(activeMon()).name}은(는) 쓰러졌다…`;
+    drawUI(); yield "input";
+    const nxt = S.party.findIndex(m => m.hp > 0);
+    if (nxt < 0){ B.over = true; yield* lose(); return; }
+    B.me = nxt;
+    B.msg = `가라, ${spOf(activeMon()).name}!`;
+    drawUI(); yield "input";
+  }
+}
+function* win(){
+  B.over = true;
+  B.msg = `야생 ${spOf(B.foe).name}을(를) 쓰러뜨렸다!`;
+  drawUI(); yield "input";
+  const gain = B.foe.lv * 7 + 10, gold = B.foe.lv * 4 + rand(12);
+  S.gold += gold;
+  const m = activeMon();
+  m.exp += gain;
+  B.msg = `경험치 ${gain}, 골드 ${gold}을 얻었다.`;
+  drawUI(); yield "input";
+  while (m.exp >= expCap(m.lv)){
+    m.exp -= expCap(m.lv); m.lv++;
+    const before = m.st;
+    m.st = statsOf(spOf(m), m.lv);
+    m.hp += m.st.hp - before.hp;
+    m.moves = movesOf(spOf(m), m.lv);
+    B.msg = `${spOf(m).name}은(는) Lv.${m.lv}가 되었다!`;
+    drawUI(); yield "input";
+    const evo = spOf(m).evo;
+    if (evo !== undefined && m.lv >= 12){
+      const oldName = spOf(m).name;
+      m.spId = evo; m.st = statsOf(spOf(m), m.lv); m.moves = movesOf(spOf(m), m.lv);
+      S.dex[evo] = 2; flash = 14;
+      B.msg = `${oldName}은(는) ${spOf(m).name}(으)로 진화했다!`;
+      drawUI(); yield "input";
+    }
+  }
+  endBattle();
+}
+function* lose(){
+  B.msg = "눈앞이 캄캄해졌다…";
+  drawUI(); yield "input";
+  gameOver();
+}
+function endBattle(){
+  save(); B = null; mode = "field"; flash = 6; drawUI();
+}
+function gameOver(){
+  mode = "over"; B = null;
+  S.party.forEach(m => { m.hp = Math.max(1, Math.floor(m.st.hp * 0.5)); });
+  S.ptx = CAMP.x; S.pty = CAMP.y + 2;
+  save(); drawUI();
+}
+function* tryCatch(ball){
+  const f = B.foe;
+  if (S.bag[ball.key] <= 0){ B.msg = "구슬이 없다!"; drawUI(); yield "input"; return; }
+  S.bag[ball.key]--;
+  B.msg = `${ball.name}을(를) 던졌다!`;
+  drawUI(); yield 20;
+  const hpFactor = 1 - (f.hp / f.st.hp) * 0.78;
+  const lvFactor = 1 + (activeMon().lv - f.lv) * 0.02;
+  let p = clamp(hpFactor * ball.mult * lvFactor * 0.82, 0.04, 0.94);
+  if (spOf(f).boss) p *= 0.3;
+  const ok = Math.random() < p;
+  const shakes = ok ? 3 : rand(3);
+  for (let i = 0; i < shakes; i++){
+    B.ballShake = 1; drawUI(); yield 12;
+    B.ballShake = 0; drawUI(); yield 10;
+  }
+  if (!ok){
+    B.msg = "앗! 빠져나왔다!";
+    drawUI(); yield "input";
+    return;
+  }
+  B.over = true; flash = 12;
+  S.dex[f.spId] = 2;
+  B.msg = `신난다! ${spOf(f).name}을(를) 잡았다!`;
+  drawUI(); yield "input";
+  if (S.party.length < 4){ S.party.push(f); B.msg = `${spOf(f).name}이(가) 파티에 들어왔다.`; }
+  else { S.box.push(f); B.msg = "파티가 가득 차서 보관함으로 보냈다."; }
+  drawUI(); yield "input";
+  endBattle();
+}
+function* tryFlee(){
+  B.msg = "도망치려 한다…";
+  drawUI(); yield 20;
+  const chance = 0.42 + (activeMon().st.spd - B.foe.st.spd) * 0.03;
+  if (spOf(B.foe).boss || Math.random() > chance){
+    B.msg = "도망칠 수 없었다!";
+    drawUI(); yield "input";
+    yield* foeTurn();
+    if (!B.over){ B.sel = "root"; B.cursor = 0; B.msg = ""; drawUI(); }
+    return;
+  }
+  B.over = true;
+  B.msg = "무사히 도망쳤다!";
+  drawUI(); yield "input";
+  endBattle();
+}
+function* playerTurn(action){
+  const me = activeMon();
+  if (action.kind === "move"){
+    const first = me.st.spd >= B.foe.st.spd;
+    if (first){
+      yield* hit(me, B.foe, action.move, true);
+      if (B.foe.hp <= 0){ yield* win(); return; }
+      yield* foeTurn();
+    } else {
+      yield* foeTurn();
+      if (B.over) return;
+      if (me.hp > 0){
+        yield* hit(activeMon(), B.foe, action.move, true);
+        if (B.foe.hp <= 0){ yield* win(); return; }
+      }
+    }
+  } else if (action.kind === "ball"){
+    yield* tryCatch(action.ball);
+    if (B && !B.over) yield* foeTurn();
+  } else if (action.kind === "herb"){
+    if (S.bag.herb <= 0){ B.msg = "회복초가 없다!"; drawUI(); yield "input"; }
+    else {
+      S.bag.herb--;
+      const heal = Math.floor(me.st.hp * 0.4);
+      me.hp = Math.min(me.st.hp, me.hp + heal);
+      floatText("+" + heal, 46 * PXS(), 176 * PXS(), "heal");
+      B.msg = `${spOf(me).name}의 체력이 회복되었다.`;
+      syncHud(); drawUI(); yield "input";
+      yield* foeTurn();
+    }
+  } else if (action.kind === "swap"){
+    B.me = action.idx;
+    B.msg = `가라, ${spOf(activeMon()).name}!`;
+    drawUI(); yield "input";
+    yield* foeTurn();
+  } else if (action.kind === "flee"){
+    yield* tryFlee();
+    return;
+  }
+  if (B && !B.over){ B.sel = "root"; B.cursor = 0; B.msg = ""; drawUI(); }
+}
+</script>
+
+<script>
+/* ══ 소품 스프라이트 ═══════════════════════════════════════════════ */
+function fromRows(rows, pal){
+  const s = surface(16, 16);
+  rows.forEach((row, y) => { for (let x = 0; x < 16; x++){ const c = pal[row[x]]; if (c) put(s, x, y, c); } });
+  return commit(s);
+}
+const CHEST = fromRows([
+  "................","................","...oooooooooo...","..oLLLLLLLLLLo..",
+  "..oLmmmmmmmmLo..","..oLmmGGGGmmLo..","..oooooooooooo..","..oDDDDDDDDDDo..",
+  "..oDkkkkkkkkDo..","..oDkkGGGGkkDo..","..oDkkGkkGkkDo..","..oDkkkkkkkkDo..",
+  "..oDDDDDDDDDDo..","...oooooooooo...","................","................",
+], { o:[0x24,0x1a,0x10], L:[0xa8,0x7a,0x3e], m:[0x86,0x5c,0x2a], D:[0x7d,0x56,0x28],
+     k:[0x5f,0x40,0x1d], G:[0xff,0xd0,0x29] });
+const HEALER = fromRows([
+  ".....oooooo.....","....ohhhhhho....","...ohhhhhhhho...","...ohsssssho....",
+  "...ohswssswho...","....osssssso....",".....oossoo.....","...orrrrrrro....",
+  "..orrWWrrWWrro..","..orrrrWWrrrro..","..orrrrWWrrrro..","..orrrrrrrrrro..",
+  "...orrrrrrrro...","...orrrrrrrro...","....oo....oo....","................",
+], { o:[0x1a,0x1c,0x22], h:[0x8c,0x6a,0x3c], s:[0xf0,0xc9,0xa2], w:[0x2a,0x2a,0x2a],
+     r:[0xe4,0xe8,0xef], W:[0x4f,0xc0,0x86] });
+
+/* ══ 캔버스 렌더 ═══════════════════════════════════════════════════ */
+let cam = { x:0, y:0 };
+function drawField(){
+  const off = walk ? (walk.t / 8) : 0;
+  const pxp = (S.ptx + (walk ? walk.dx * off : 0)) * TS;
+  const pyp = (S.pty + (walk ? walk.dy * off : 0)) * TS;
+  cam.x = clamp(pxp - W / 2 + TS / 2, 0, MW * TS - W);
+  cam.y = clamp(pyp - H / 2 + TS / 2, 0, MH * TS - H);
+  const x0 = Math.floor(cam.x / TS), y0 = Math.floor(cam.y / TS);
+  for (let y = y0; y <= y0 + H / TS + 1; y++){
+    for (let x = x0; x <= x0 + W / TS + 1; x++){
+      g.drawImage(variantOf(tileAt(x, y), x, y),
+                  Math.round(x * TS - cam.x), Math.round(y * TS - cam.y));
+    }
+  }
+  for (const c of S.chestList){
+    if (S.chests[c.x + "," + c.y]) continue;
+    g.drawImage(CHEST, Math.round(c.x * TS - cam.x), Math.round(c.y * TS - cam.y));
+  }
+  g.drawImage(HEALER, Math.round(CAMP.x * TS - cam.x), Math.round(CAMP.y * TS - cam.y - 2));
+
+  const hx = Math.round(pxp - cam.x), hy = Math.round(pyp - cam.y);
+  g.globalAlpha = 0.28; g.fillStyle = "#000";
+  g.beginPath(); g.ellipse(hx + 8, hy + 15, 5, 2.2, 0, 0, 7); g.fill();
+  g.globalAlpha = 1;
+  const fr = walk ? [1, 2, 3, 0][Math.floor(walk.t / 2) % 4] : 0;
+  g.drawImage(HERO_ART[S.dir][fr], hx, hy - 2);
+}
+
+const ZONE_TINT = {
+  "해안":     { far:[0x5d,0x8f,0xb4], ground:[0x9d,0x8d,0x5b], sky:[0x87,0xc4,0xe8] },
+  "초원":     { far:[0x2f,0x77,0x45], ground:[0x2c,0x84,0x40], sky:[0x8e,0xc9,0xea] },
+  "숲그늘":   { far:[0x1a,0x4d,0x2f], ground:[0x1f,0x5c,0x30], sky:[0x6f,0xa8,0xb4] },
+  "깊은 안개":{ far:[0x3c,0x48,0x62], ground:[0x35,0x4a,0x46], sky:[0x69,0x78,0x94] },
+};
+const bgCache = {};
+function battleBG(zone){
+  if (bgCache[zone]) return bgCache[zone];
+  const t = ZONE_TINT[zone] || ZONE_TINT["초원"];
+  const s = surface(W, H), HZ = 150;
+  const n = noiseField(W, H, 4242, 7);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++){
+    let col;
+    if (y < HZ){
+      const k = y / HZ;
+      const a = mix(t.sky, mix(t.sky, t.far, 0.55), k);
+      const b = mix(t.sky, mix(t.sky, t.far, 0.55), Math.min(1, k + 0.09));
+      col = dither(x, y, (k * 9) % 1) ? b : a;               /* 디더로 띠 지우기 */
+    } else {
+      const k = (y - HZ) / (H - HZ);
+      const a = mix(mix(t.ground, [0xff,0xff,0xff], 0.16), mix(t.ground, [0x08,0x16,0x0e], 0.55), k);
+      const b = mix(mix(t.ground, [0xff,0xff,0xff], 0.16), mix(t.ground, [0x08,0x16,0x0e], 0.55), Math.min(1, k + 0.1));
+      col = dither(x, y, (k * 8) % 1) ? b : a;
+      if (n(x, y * 3) > 0.72 && dither(x, y, 0.4)) col = mix(col, [0x00,0x00,0x00], 0.1);
+    }
+    put(s, x, y, col);
+  }
+  /* 구름 — 타원 몇 개를 겹치고 가장자리만 디더 */
+  const rc = rng(7);
+  for (let i = 0; i < 4; i++){
+    const cx = Math.round(18 + rc() * (W - 36)), cy = Math.round(14 + rc() * 46), sc = 0.7 + rc() * 0.7;
+    const puffs = [[0,0,15,6],[-11,2,10,4.5],[11,1.5,11,5],[4,-3.5,9,4.5],[-5,-3,8,4]]
+      .map(([dx,dy,rx,ry]) => [cx+dx*sc, cy+dy*sc, rx*sc, ry*sc]);
+    for (let y = Math.max(0, cy - 14); y < Math.min(HZ - 20, cy + 12); y++)
+      for (let x = Math.max(0, cx - 32); x < Math.min(W, cx + 32); x++){
+        let d = 9;
+        for (const [px, py, rx, ry] of puffs){
+          const a2 = (x - px) / rx, b2 = (y - py) / ry;
+          d = Math.min(d, a2 * a2 + b2 * b2);
+        }
+        if (d > 1) continue;
+        const lit = clamp(1 - d - (y - cy) * 0.05, 0, 1);
+        if (d > 0.62 && !dither(x, y, (1 - d) * 2.4)) continue;   /* 가장자리 디더 */
+        put(s, x, y, lit > 0.35 ? [0xff,0xff,0xff]
+                   : mix([0xc9,0xdc,0xea], [0xff,0xff,0xff], lit * 2));
+      }
+  }
+  /* 먼 언덕 두 겹 */
+  const ridge = (baseY, amp, freq, colr) => {
+    for (let x = 0; x < W; x++){
+      const top = Math.round(baseY + Math.sin(x * freq) * amp + Math.sin(x * freq * 2.7 + 1) * amp * 0.4);
+      for (let y = top; y < HZ; y++) put(s, x, y, y === top ? mix(colr, [0xff,0xff,0xff], 0.14) : colr);
+    }
+  };
+  ridge(HZ - 34, 11, 0.041, mix(t.far, t.sky, 0.34));
+  ridge(HZ - 16, 7,  0.067, t.far);
+  /* 지평선 풀포기 */
+  const r2 = rng(99);
+  for (let i = 0; i < 16; i++){
+    const gx = Math.floor(r2() * W), gy = HZ + 6 + Math.floor(r2() * (H - HZ - 34));
+    const c = mix(t.ground, [0xff,0xff,0xff], 0.2 + r2() * 0.14);
+    for (let b = 0; b < 3; b++){
+      const x = gx + b * 2 - 2, h = 2 + Math.floor(r2() * 2 + (b === 1 ? 1 : 0));
+      for (let k = 0; k < h; k++) put(s, x, gy - k, k === h - 1 ? c : mix(c, [0,0,0], 0.22));
+    }
+  }
+  bgCache[zone] = commit(s);
+  return bgCache[zone];
+}
+
+function drawBattle(){
+  g.drawImage(battleBG(B.zone), 0, 0);
+  const plat = (cx, cy, rx) => {
+    g.globalAlpha = 0.32; g.fillStyle = "#06120b";
+    g.beginPath(); g.ellipse(cx, cy, rx, rx * 0.28, 0, 0, 7); g.fill();
+    g.globalAlpha = 1;
+  };
+  plat(174, 110, 33); plat(62, 206, 40);
+  const fa = ART[B.foe.spId], ma = ART[activeMon().spId];
+  const bob = Math.sin(animT / 14) * 1.6;
+  if (B.foe.hp > 0){
+    g.save();
+    g.translate(146 + B.foeOff + (B.ballShake ? 2 : 0), 58 + bob);
+    g.drawImage(fa, 0, 0);
+    g.restore();
+  }
+  g.save();
+  g.translate(34 + B.myOff, 154 - bob);
+  g.scale(-1, 1); g.drawImage(ma, -MS, 0);   /* 내 몬스터는 좌우 반전해 마주보게 */
+  g.restore();
+  if (B.ballShake){
+    g.fillStyle = "#ffd029"; g.strokeStyle = "#2a1d05"; g.lineWidth = 1;
+    g.beginPath(); g.arc(174, 86, 6, 0, 7); g.fill(); g.stroke();
+    g.fillStyle = "#fff"; g.fillRect(170, 85, 8, 2);
+  }
+}
+
+/* 타이틀 배경 — 밤바다 너머의 섬. 한 번 그려 캐시한다. */
+let titleBGc = null;
+function titleBG(){
+  if (titleBGc) return titleBGc;
+  const s = surface(W, H), HZ = 196;
+  const sky = [[0x0a,0x16,0x22],[0x14,0x33,0x3f],[0x2a,0x5b,0x5c]];
+  for (let y = 0; y < HZ; y++){
+    const k = y / HZ, a = k < 0.6 ? mix(sky[0], sky[1], k / 0.6) : mix(sky[1], sky[2], (k - 0.6) / 0.4);
+    const b = k < 0.6 ? mix(sky[0], sky[1], Math.min(1, k / 0.6 + 0.08))
+                      : mix(sky[1], sky[2], Math.min(1, (k - 0.6) / 0.4 + 0.08));
+    for (let x = 0; x < W; x++) put(s, x, y, dither(x, y, (k * 11) % 1) ? b : a);
+  }
+  const r = rng(31);
+  for (let i = 0; i < 90; i++){                         /* 별 */
+    const x = Math.floor(r() * W), y = Math.floor(r() * (HZ - 70));
+    const v = 0.25 + r() * 0.75;
+    put(s, x, y, mix([0x14,0x33,0x3f], [0xff,0xff,0xff], v));
+  }
+  for (let y = 0; y < 26; y++) for (let x = 0; x < 26; x++){   /* 달 */
+    const d = Math.hypot(x - 13, y - 13);
+    if (d < 11) put(s, 186 + x, 30 + y, d > 9.4 ? [0xd8,0xe4,0xdc] : [0xf4,0xf7,0xef]);
+    if (d < 8 && Math.hypot(x - 9, y - 10) < 3) put(s, 186 + x, 30 + y, [0xdd,0xe6,0xdd]);
+  }
+  /* 섬 실루엣 두 겹 */
+  const island = (baseY, amp, colr, seed) => {
+    const n = noiseField(W, 40, seed, 26);
+    for (let x = 0; x < W; x++){
+      const top = Math.round(baseY - n(x, 0) * amp - Math.sin(x * 0.02 + seed) * amp * 0.5);
+      for (let y = top; y < HZ; y++) put(s, x, y, colr);
+      for (let k = 0; k < 5; k++) if ((x * 7 + k * 13) % 23 === 0)   /* 나무 실루엣 */
+        for (let t = 0; t < 4; t++) put(s, x, top - t, colr);
+    }
+  };
+  island(HZ - 26, 15, [0x0c,0x22,0x24], 5);
+  island(HZ - 8,  10, [0x06,0x14,0x16], 12);
+  for (let y = HZ; y < H; y++){                          /* 바다 */
+    const k = (y - HZ) / (H - HZ);
+    const a = mix([0x10,0x2c,0x36], [0x05,0x11,0x18], k);
+    for (let x = 0; x < W; x++) put(s, x, y, dither(x, y, (k * 7) % 1) ? mix(a, [0,0,0], 0.12) : a);
+  }
+  for (let i = 0; i < 90; i++){                          /* 달빛 반사 — 흩어진 잔물결 */
+    const t = i / 90;
+    const y = HZ + 1 + Math.floor(t * (H - HZ - 4));
+    const spread = 4 + t * 22;
+    const x = Math.round(199 + (r() - 0.5) * spread * 2);
+    const w = 1 + Math.floor(r() * (2 + t * 4));
+    const bright = (0.42 - t * 0.3) * (0.5 + r() * 0.5);
+    for (let k = 0; k < w; k++)
+      put(s, x + k, y, mix([0x10,0x2c,0x36], [0xdc,0xe8,0xe0], Math.max(0, bright)));
+  }
+  titleBGc = commit(s);
+  return titleBGc;
+}
+function drawTitle(){
+  g.drawImage(titleBG(), 0, 0);
+  /* 파도 — 수평선 아래에서 천천히 흐른다 */
+  for (let i = 0; i < 16; i++){
+    const y = 202 + i * 7, ph = animT * (0.22 + i * 0.012) + i * 2.1;
+    const x = ((Math.sin(ph * 0.06) * 40 + i * 53 + ph * 0.7) % (W + 40)) - 20;
+    g.fillStyle = `rgba(200,228,224,${0.05 + (i % 3) * 0.035})`;
+    g.fillRect(Math.round(x), y, 10 + (i % 4) * 5, 1);
+  }
+  /* 반딧불 */
+  for (let i = 0; i < 14; i++){
+    const t = animT * 0.012 + i;
+    const x = 20 + ((i * 37) % 200) + Math.sin(t) * 9;
+    const y = 150 + ((i * 61) % 46) + Math.cos(t * 1.3) * 7;
+    g.fillStyle = `rgba(163,232,168,${0.2 + Math.abs(Math.sin(t * 2.1)) * 0.55})`;
+    g.fillRect(Math.round(x), Math.round(y), 1, 1);
+  }
+}
+
+function render(){
+  g.save();
+  if (shake > 0){ g.translate(rand(3) - 1, rand(3) - 1); shake--; }
+  g.fillStyle = "#0e1a12"; g.fillRect(-4, -4, W + 8, H + 8);
+  if (mode === "field" || mode === "menu" || mode === "over") drawField();
+  else if (mode === "battle" && B) drawBattle();
+  else { drawTitle(); }
+  g.restore();
+  if (flash > 0){ g.fillStyle = `rgba(255,255,255,${flash / 22})`; g.fillRect(0, 0, W, H); flash--; }
+  if (fadeDir){
+    fade = clamp(fade + fadeDir * 0.08, 0, 1);
+    if (fade >= 1 && fadeThen){ fadeThen(); fadeThen = null; fadeDir = -1; }
+    else if (fade <= 0) fadeDir = 0;
+    g.fillStyle = `rgba(6,14,10,${fade})`; g.fillRect(0, 0, W, H);
+  }
+}
+
+/* ══ UI 레이어 ═════════════════════════════════════════════════════ */
+const spriteURLs = [];
+function spriteURL(id){
+  if (!spriteURLs[id]) spriteURLs[id] = ART[id].toDataURL();
+  return spriteURLs[id];
+}
+const esc = (t) => String(t).replace(/[&<>]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;" }[c]));
+let curList = [];
+function listHTML(items, sel){
+  curList = items;
+  return `<ul class="menu">` + items.map((it, i) =>
+    `<li aria-selected="${i === sel}" data-i="${i}" data-off="${it.off ? 1 : 0}">` +
+    (it.icon !== undefined ? `<img class="ico" alt="" src="${spriteURL(it.icon)}">` : "") +
+    esc(it.label) +
+    (it.sub ? `<span class="sub">${esc(it.sub)}</span>` : "") + `</li>`).join("") + `</ul>`;
+}
+function hpClass(m){ const r = m.hp / m.st.hp; return r > 0.5 ? "" : r > 0.2 ? " warn" : " low"; }
+function hud(id, m, hp, extra){
+  const r = clamp(hp / m.st.hp, 0, 1);
+  return `<div class="combatant panel" id="${id}" style="padding:6px 8px">
+    <div class="nm"><span>${esc(spOf(m).name)}</span><span class="lv">Lv.${m.lv}</span></div>
+    <div class="bar${r > 0.5 ? "" : r > 0.2 ? " warn" : " low"}"><i style="width:${r * 100}%"></i></div>
+    ${extra ? `<div class="hpnum">${hp} / ${m.st.hp}</div>` : ""}</div>`;
+}
+function syncHud(){
+  if (!B) return;
+  const upd = (id, m, hp) => {
+    const el = document.getElementById(id); if (!el) return;
+    const r = clamp(hp / m.st.hp, 0, 1);
+    const bar = el.querySelector(".bar"), num = el.querySelector(".hpnum");
+    bar.className = "bar" + (r > 0.5 ? "" : r > 0.2 ? " warn" : " low");
+    bar.firstElementChild.style.width = (r * 100) + "%";
+    if (num) num.textContent = `${hp} / ${m.st.hp}`;
+  };
+  upd("foeHud", B.foe, B.foe.hp);
+  upd("meHud", activeMon(), activeMon().hp);
+}
+
+function dialogHTML(){
+  if (!dialogQueue.length) return "";
+  return `<div class="panel" id="dialogue">${esc(dialogQueue[0])}<span class="next">▼</span></div>`;
+}
+function drawUI(){
+  let h = "";
+  if (mode === "title"){
+    h = `<div id="title">
+      <div class="big">미지의 해안</div>
+      <div class="sm">UNKNOWN SHORE</div>
+      <div class="go">확인을 눌러 시작</div></div>`;
+  } else if (mode === "over"){
+    h = `<div class="panel" style="left:24px; right:24px; top:110px; text-align:center">
+      <h3>정신을 잃었다</h3>야영지에서 눈을 떴다.<br>몬스터들은 절반쯤 회복했다.
+      <div style="margin-top:8px; color:var(--lcd-gold)">확인 ▼</div></div>`;
+  } else if (mode === "field"){
+    const z = zoneOf(S.map, S.ptx, S.pty);
+    const lead = S.party.find(m => m.hp > 0) || S.party[0];
+    h = `<div class="topbar"><span>${esc(z.name)}</span>
+      <span><b>◆</b> ${S.gold} · ${esc(spOf(lead).name)} Lv.${lead.lv} · ${lead.hp}/${lead.st.hp}</span></div>`;
+    h += dialogHTML();
+    if (!dialogQueue.length && S.ptx === CAMP.x && Math.abs(S.pty - CAMP.y) <= 1)
+      h += `<div class="panel" style="left:10px; right:10px; bottom:10px">
+        <div class="who">야영지 치유사</div>쉬어 갈 텐가? <span style="color:var(--lcd-gold)">확인</span>을 누르게.</div>`;
+  } else if (mode === "menu"){
+    const view = menuStack[menuStack.length - 1];
+    if (view === "root"){
+      h = `<div class="panel" style="right:10px; top:24px; width:112px"><h3>메뉴</h3>` +
+        listHTML([{ label:"파티" }, { label:"가방" }, { label:"도감" }, { label:"저장" }, { label:"닫기" }], cursor) + `</div>`;
+    } else if (view === "party"){
+      h = `<div class="panel" style="left:10px; right:10px; top:20px"><h3>파티</h3>` +
+        listHTML(S.party.map(m => ({
+          icon: m.spId,
+          label: `${spOf(m).name}  ${spOf(m).type}`,
+          sub: `Lv.${m.lv}  ${m.hp}/${m.st.hp}`,
+        })), cursor) +
+        `<div style="margin-top:6px; font-size:11px; color:#8fb9a0">보관함 ${S.box.length}마리</div></div>`;
+    } else if (view === "bag"){
+      const items = Object.keys(ITEMS).filter(k => S.bag[k] > 0);
+      h = `<div class="panel" style="left:10px; right:10px; top:20px"><h3>가방</h3>` +
+        (items.length ? listHTML(items.map(k => ({ label:ITEMS[k].name, sub:"×" + S.bag[k] })), cursor)
+                      : `<div style="color:#8fb9a0">비어 있다.</div>`) +
+        `<div style="margin-top:6px; font-size:11px; color:var(--lcd-gold)">골드 ${S.gold}</div></div>`;
+    } else {
+      const seen = SPECIES.filter(sp => S.dex[sp.id]);
+      const cur2 = seen[clamp(cursor, 0, Math.max(0, seen.length - 1))];
+      let card = "";
+      if (cur2){
+        const owned = S.dex[cur2.id] === 2, b = cur2.base;
+        card = `<div class="dexcard">
+          <img alt="${esc(cur2.name)}" src="${spriteURL(cur2.id)}"
+               style="${owned ? "" : "filter:brightness(0) opacity(.45)"}">
+          <div><div class="nm2">${owned ? esc(cur2.name) : "???"}</div>
+            <span class="ty">${esc(cur2.type)}</span>
+            <div class="st">${owned
+              ? `체력 ${b.hp} · 공격 ${b.atk}<br>방어 ${b.def} · 속도 ${b.spd}`
+              : "만나기만 했다. 아직 잡지 못했다."}</div></div></div>`;
+      }
+      h = `<div class="panel" style="left:10px; right:10px; top:16px; max-height:284px; overflow:auto">` +
+        `<h3>도감 ${Object.values(S.dex).filter(v => v === 2).length}/${SPECIES.length}</h3>` + card +
+        (seen.length ? listHTML(seen.map(sp => ({
+            label: (S.dex[sp.id] === 2 ? "◆ " : "◇ ") + (S.dex[sp.id] === 2 ? sp.name : "???"),
+            sub: sp.type })), cursor)
+                     : `<div style="color:#8fb9a0">아직 없다.</div>`) + `</div>`;
+    }
+  } else if (mode === "battle" && B){
+    h = hud("foeHud", B.foe, B.foe.hp, false) + hud("meHud", activeMon(), activeMon().hp, true);
+    if (B.msg || co){
+      h += `<div class="panel" id="dialogue">${esc(B.msg)}${coInput ? `<span class="next">▼</span>` : ""}</div>`;
+    } else if (B.sel === "root"){
+      h += `<div class="panel" style="left:10px; right:10px; bottom:10px"><h3>${esc(spOf(activeMon()).name)}</h3>` +
+        listHTML([{ label:"싸운다" }, { label:"포획" }, { label:"교체" }, { label:"도망" }], B.cursor) + `</div>`;
+    } else if (B.sel === "move"){
+      h += `<div class="panel" style="left:10px; right:10px; bottom:10px"><h3>기술</h3>` +
+        listHTML(activeMon().moves.map(m => ({ label:m.name, sub:(m.type || "무속성") + " " + m.pow })), B.cursor) + `</div>`;
+    } else if (B.sel === "ball"){
+      h += `<div class="panel" style="left:10px; right:10px; bottom:10px"><h3>도구</h3>` +
+        listHTML([...BALLS.map(b => ({ label:b.name, sub:"×" + S.bag[b.key], off:S.bag[b.key] <= 0 })),
+                  { label:"회복초", sub:"×" + S.bag.herb, off:S.bag.herb <= 0 }], B.cursor) + `</div>`;
+    } else if (B.sel === "swap"){
+      h += `<div class="panel" style="left:10px; right:10px; bottom:10px"><h3>교체</h3>` +
+        listHTML(S.party.map((m, i) => ({
+          label:spOf(m).name, sub:`Lv.${m.lv} ${m.hp}/${m.st.hp}`,
+          off: m.hp <= 0 || i === B.me })), B.cursor) + `</div>`;
+    }
+  }
+  if (toastT > 0) h += `<div class="toast">${esc(toastText)}</div>`;
+  ui.innerHTML = h;
+  ui.querySelectorAll(".menu li").forEach(li => {
+    li.addEventListener("click", () => {
+      const i = +li.dataset.i;
+      if (mode === "battle") B.cursor = i; else cursor = i;
+      drawUI(); key("Enter");
+    });
+  });
+  const d = document.getElementById("dialogue");
+  if (d) d.addEventListener("click", () => key("Enter"));
+}
+</script>
+
+<script>
+/* ══ 입력 ══════════════════════════════════════════════════════════ */
+function moveCursor(d, len){
+  const cur = mode === "battle" ? "B" : "F";
+  let c = (cur === "B" ? B.cursor : cursor) + d;
+  c = (c + len) % len;
+  if (cur === "B") B.cursor = c; else cursor = c;
+  drawUI();
+}
+function key(k){
+  if (mode === "title"){
+    if (k === "Enter" || k === "Escape"){
+      if (!load()) newGame();
+      mode = "field"; flash = 10; drawUI();
+    }
+    return;
+  }
+  if (mode === "over"){
+    if (k === "Enter"){ mode = "field"; drawUI(); }
+    return;
+  }
+  if (mode === "battle"){
+    if (coInput){ coResume(); return; }
+    if (co) return;
+    const len = curList.length || 1;
+    if (k === "ArrowUp")   return moveCursor(-1, len);
+    if (k === "ArrowDown") return moveCursor(1, len);
+    if (k === "Escape"){
+      if (B.sel !== "root"){ B.sel = "root"; B.cursor = 0; drawUI(); }
+      return;
+    }
+    if (k !== "Enter") return;
+    const i = B.cursor;
+    if (B.sel === "root"){
+      if (i === 0){ B.sel = "move"; B.cursor = 0; }
+      else if (i === 1){ B.sel = "ball"; B.cursor = 0; }
+      else if (i === 2){ B.sel = "swap"; B.cursor = 0; }
+      else { run(playerTurn({ kind:"flee" })); return; }
+      drawUI(); return;
+    }
+    if (curList[i] && curList[i].off) return;
+    if (B.sel === "move")  run(playerTurn({ kind:"move", move: activeMon().moves[i] }));
+    else if (B.sel === "ball") run(i < BALLS.length ? playerTurn({ kind:"ball", ball: BALLS[i] })
+                                                    : playerTurn({ kind:"herb" }));
+    else if (B.sel === "swap") run(playerTurn({ kind:"swap", idx: i }));
+    return;
+  }
+  if (dialogQueue.length){
+    if (k === "Enter" || k === "Escape"){
+      dialogQueue.shift();
+      if (!dialogQueue.length && onDialogEnd){ const f = onDialogEnd; onDialogEnd = null; f(); }
+      drawUI();
+    }
+    return;
+  }
+  if (mode === "menu"){
+    const view = menuStack[menuStack.length - 1];
+    const len = curList.length || 1;
+    if (k === "ArrowUp")   return moveCursor(-1, len);
+    if (k === "ArrowDown") return moveCursor(1, len);
+    if (k === "Escape"){
+      menuStack.pop();
+      cursor = menuCur.length ? menuCur.pop() : 0;
+      if (!menuStack.length){ mode = "field"; cursor = 0; menuCur = []; }
+      drawUI(); return;
+    }
+    if (k !== "Enter") return;
+    if (view === "root"){
+      if (cursor < 3){
+        menuCur.push(cursor);
+        menuStack.push(["party","bag","dex"][cursor]);
+        cursor = 0;
+      }
+      else if (cursor === 3){ save(); toast("저장했다"); }
+      else { menuStack = []; menuCur = []; cursor = 0; mode = "field"; }
+    } else if (view === "bag"){
+      const items = Object.keys(ITEMS).filter(x => S.bag[x] > 0);
+      const it = items[cursor];
+      if (it === "herb"){
+        const hurt = S.party.find(m => m.hp < m.st.hp);
+        if (!hurt) toast("회복할 대상이 없다");
+        else { S.bag.herb--; hurt.hp = Math.min(hurt.st.hp, hurt.hp + Math.floor(hurt.st.hp * 0.4));
+               toast(spOf(hurt).name + " 회복"); save(); }
+      } else toast("전투에서 쓰는 도구다");
+    }
+    drawUI(); return;
+  }
+  /* field */
+  if (k === "ArrowUp")    tryWalk(0, -1);
+  else if (k === "ArrowDown")  tryWalk(0, 1);
+  else if (k === "ArrowLeft")  tryWalk(-1, 0);
+  else if (k === "ArrowRight") tryWalk(1, 0);
+  else if (k === "Escape"){ mode = "menu"; menuStack = ["root"]; menuCur = []; cursor = 0; drawUI(); }
+  else if (k === "Enter"){
+    if (S.ptx === CAMP.x && Math.abs(S.pty - CAMP.y) <= 1) healParty();
+  }
+}
+const held = {};
+addEventListener("keydown", (e) => {
+  const k = e.key;
+  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Enter","Escape"," "].includes(k)){
+    e.preventDefault();
+    const kk = k === " " ? "Enter" : k;
+    if (kk.startsWith("Arrow")) held[kk] = true;
+    key(kk);
+  }
+});
+addEventListener("keyup", (e) => { delete held[e.key]; });
+document.querySelectorAll("button.k").forEach(btn => {
+  const k = btn.dataset.key;
+  const down = (e) => { e.preventDefault(); btn.classList.add("on");
+                        if (k.startsWith("Arrow")) held[k] = true; key(k); };
+  const up   = () => { btn.classList.remove("on"); delete held[k]; };
+  btn.addEventListener("pointerdown", down);
+  btn.addEventListener("pointerup", up);
+  btn.addEventListener("pointerleave", up);
+  btn.addEventListener("pointercancel", up);
+});
+
+/* ══ 루프 ══════════════════════════════════════════════════════════ */
+let repeat = 0, saveT = 0;
+function frame(){
+  animT++;
+  if (toastT > 0 && --toastT === 0) drawUI();
+  if (walk){ walk.t++; if (walk.t >= 8) finishStep(); }
+  else if (mode === "field" && !dialogQueue.length && !co){
+    if (--repeat <= 0){
+      const dirs = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0] };
+      for (const k in dirs) if (held[k]){ tryWalk(...dirs[k]); repeat = 2; break; }
+    }
+  }
+  coStep();
+  if (S && ++saveT > 900){ saveT = 0; save(); }
+  render();
+  requestAnimationFrame(frame);
+}
+
+/* 화면 배율 — LCD가 화면에 꽉 차되 정수 배율을 유지 */
+function fit(){
+  const availH = innerHeight - 240, availW = innerWidth - 40;
+  const px = clamp(Math.min(Math.floor(availH / H), Math.floor(availW / W)), 1, 4);
+  document.documentElement.style.setProperty("--px", px);
+}
+addEventListener("resize", fit);
+fit();
+drawUI();
+frame();
+addEventListener("beforeunload", save);
+</script>
