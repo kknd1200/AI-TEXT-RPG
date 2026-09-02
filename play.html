@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>게임 실행 — ARCADE</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/play.css">
+</head>
+<body class="play-body">
+
+<div class="player-shell" id="shell">
+  <header class="player-bar">
+    <a class="player-back" href="index.html" title="목록으로">
+      <span aria-hidden="true">←</span> 목록
+    </a>
+    <div class="player-title">
+      <span class="player-emoji" id="playEmoji" aria-hidden="true">🎮</span>
+      <span>
+        <strong id="playTitle">불러오는 중…</strong>
+        <small id="playTagline"></small>
+      </span>
+    </div>
+    <div class="player-actions">
+      <button type="button" id="reloadBtn" class="icon-btn" title="게임 다시 시작">↻<span class="visually-hidden">다시 시작</span></button>
+      <a id="newTabBtn" class="icon-btn" target="_blank" rel="noopener" title="새 탭에서 열기">⧉<span class="visually-hidden">새 탭에서 열기</span></a>
+      <button type="button" id="fullscreenBtn" class="icon-btn" title="전체화면">⛶<span class="visually-hidden">전체화면</span></button>
+    </div>
+  </header>
+
+  <div class="player-stage" id="stage">
+    <iframe id="gameFrame" title="게임 화면" allow="fullscreen; autoplay; gamepad" allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="player-error" id="playError" hidden>
+  <div class="error-card">
+    <h1>게임을 찾을 수 없습니다</h1>
+    <p id="errorDetail">주소의 <code>game</code> 값이 목록에 등록되어 있지 않습니다.</p>
+    <a class="btn btn-primary" href="index.html">게임 목록으로 돌아가기</a>
+  </div>
+</div>
+
+<script src="games/games.js"></script>
+<script src="assets/js/play.js"></script>
+</body>
+</html>

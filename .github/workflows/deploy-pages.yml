@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+# 저장소 Settings → Pages 에서 Source 를 "GitHub Actions" 로 바꾸면 동작합니다.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포는 한 번에 하나만 진행하고, 진행 중인 배포는 취소하지 않습니다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      # 빌드 과정이 없는 정적 사이트라 저장소 전체를 그대로 올립니다.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

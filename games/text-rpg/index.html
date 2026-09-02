@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>잊혀진 탑 — 텍스트 RPG</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="game" id="game">
+
+  <!-- 상태 바 -->
+  <header class="hud" id="hud" hidden>
+    <div class="hud-id">
+      <span class="hud-emoji" id="hudEmoji">⚔️</span>
+      <span class="hud-name">
+        <strong id="hudName">–</strong>
+        <small id="hudClass">–</small>
+      </span>
+    </div>
+
+    <div class="hud-bars">
+      <div class="bar-row">
+        <span class="bar-label">HP</span>
+        <div class="bar"><div class="bar-fill hp" id="hpFill"></div></div>
+        <span class="bar-num" id="hpText">0/0</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">MP</span>
+        <div class="bar"><div class="bar-fill mp" id="mpFill"></div></div>
+        <span class="bar-num" id="mpText">0/0</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">EXP</span>
+        <div class="bar"><div class="bar-fill xp" id="xpFill"></div></div>
+        <span class="bar-num" id="xpText">0/0</span>
+      </div>
+    </div>
+
+    <dl class="hud-stats">
+      <div><dt>층</dt><dd id="hudFloor">1</dd></div>
+      <div><dt>Lv</dt><dd id="hudLevel">1</dd></div>
+      <div><dt>공격</dt><dd id="hudAtk">0</dd></div>
+      <div><dt>방어</dt><dd id="hudDef">0</dd></div>
+      <div><dt>골드</dt><dd id="hudGold">0</dd></div>
+    </dl>
+  </header>
+
+  <!-- 적 정보 (전투 중에만) -->
+  <div class="enemy" id="enemyBox" hidden>
+    <span class="enemy-emoji" id="enemyEmoji">👹</span>
+    <div class="enemy-info">
+      <div class="enemy-top">
+        <strong id="enemyName">–</strong>
+        <span id="enemyHpText">0/0</span>
+      </div>
+      <div class="bar"><div class="bar-fill enemy-hp" id="enemyHpFill"></div></div>
+    </div>
+  </div>
+
+  <!-- 로그 -->
+  <main class="log" id="log" role="log" aria-live="polite" aria-label="게임 진행"></main>
+
+  <!-- 선택지 -->
+  <nav class="choices" id="choices" aria-label="행동 선택"></nav>
+
+</div>
+
+<script src="data.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

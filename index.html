@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI TEXT RPG — 웹게임 아케이드</title>
+<meta name="description" content="브라우저에서 바로 즐기는 웹게임 모음. 설치 없이 클릭 한 번으로 실행됩니다.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#games">본문으로 건너뛰기</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">🎮</span>
+      <span class="brand-text">
+        <strong>ARCADE</strong>
+        <small>웹게임 놀이터</small>
+      </span>
+    </a>
+    <nav class="site-nav">
+      <a href="#games">게임</a>
+      <a href="#about">소개</a>
+      <a href="#add">게임 추가하기</a>
+      <button type="button" id="themeToggle" class="theme-toggle" aria-label="밝은 테마와 어두운 테마 전환">
+        <span aria-hidden="true">🌗</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">설치 없이, 브라우저에서 바로</p>
+      <h1>내가 만든 웹게임을<br>한곳에서 실행하세요</h1>
+      <p class="hero-desc">
+        게임 폴더를 넣고 목록에 한 줄만 등록하면 끝. 홈페이지가 알아서 카드로 보여주고,
+        전용 플레이어 화면에서 전체화면까지 지원합니다.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#games">게임 목록 보기</a>
+        <a class="btn btn-ghost" href="#add">내 게임 추가하는 법</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>등록된 게임</dt><dd id="statCount">–</dd></div>
+        <div><dt>필요한 설치</dt><dd>0개</dd></div>
+        <div><dt>빌드 과정</dt><dd>없음</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="games" class="games">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>게임 목록</h2>
+        <div class="controls">
+          <label class="search">
+            <span class="visually-hidden">게임 검색</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" id="searchInput" placeholder="게임 이름 · 태그 검색" autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <div class="tag-filters" id="tagFilters" role="group" aria-label="태그 필터"></div>
+
+      <div class="game-grid" id="gameGrid"></div>
+
+      <p class="empty" id="emptyState" hidden>조건에 맞는 게임이 없습니다.</p>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="wrap about-grid">
+      <div>
+        <h2>이 홈페이지는</h2>
+        <p>
+          순수 HTML · CSS · JavaScript로만 만들어졌습니다. 프레임워크도, 빌드 도구도, 서버도 필요 없습니다.
+          파일을 그대로 GitHub Pages나 아무 정적 호스팅에 올리면 그 순간 서비스가 됩니다.
+        </p>
+      </div>
+      <ul class="feature-list">
+        <li><strong>바로 실행</strong><span>게임은 플레이어 화면의 iframe 안에서 돌아갑니다. 전체화면 버튼도 있습니다.</span></li>
+        <li><strong>검색과 필터</strong><span>게임이 늘어나도 이름·태그로 즉시 찾을 수 있습니다.</span></li>
+        <li><strong>외부 게임도 OK</strong><span>다른 곳에 배포한 게임은 URL만 등록하면 목록에 함께 노출됩니다.</span></li>
+        <li><strong>테마 기억</strong><span>밝은/어두운 테마 선택이 브라우저에 저장됩니다.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="add" class="add">
+    <div class="wrap">
+      <h2>내 게임 추가하기</h2>
+      <ol class="steps">
+        <li>
+          <h3>1. 게임 파일을 넣습니다</h3>
+          <p><code>games/</code> 아래에 폴더를 만들고 <code>index.html</code>을 넣습니다.</p>
+<pre><code>games/
+  my-game/
+    index.html
+    style.css
+    game.js</code></pre>
+        </li>
+        <li>
+          <h3>2. 목록에 등록합니다</h3>
+          <p><code>games/games.js</code>의 배열에 항목을 하나 추가합니다.</p>
+<pre><code>{
+  id: 'my-game',
+  title: '내 게임',
+  tagline: '한 줄 소개',
+  path: 'games/my-game/index.html',
+  tags: ['퍼즐'],
+  emoji: '🧩',
+  accent: ['#f97316', '#ef4444'],
+  status: 'playable'
+}</code></pre>
+        </li>
+        <li>
+          <h3>3. 끝입니다</h3>
+          <p>새로고침하면 카드가 나타나고 <code>play.html?game=my-game</code>에서 실행됩니다.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>© <span id="year"></span> ARCADE — 순수 정적 웹게임 포털</p>
+    <p><a href="https://github.com/kknd1200/AI-TEXT-RPG">GitHub 저장소</a></p>
+  </div>
+</footer>
+
+<script src="games/games.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
