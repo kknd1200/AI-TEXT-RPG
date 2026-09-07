@@ -1,1 +1,8 @@
-{"framework":"vite","rewrites":[{"source":"/((?!api/).*)","destination":"/index.html"}]}
+{
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": { "api/*.js": { "maxDuration": 30 } },
+  "rewrites": [{ "source": "/login", "destination": "/index.html" }]
+}
