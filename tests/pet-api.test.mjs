@@ -32,14 +32,14 @@ test('authenticated load, care, hatch, rename, save and a fresh session retain o
   r = await f.request('test-a', { action: 'warm', revision: r.revision }); assert.equal(r.pet.careCount, 1);
   f.time(180000);
   r = await f.request('test-a', { action: 'hatch', revision: r.revision, roll: 0, morphId: 'patternless' });
-  assert.equal(r.pet.morphId, 'axanthic'); const creature = r.pet.id;
+  assert.equal(r.pet.morphId, 'cre_036'); const creature = r.pet.id;
   r = await f.request('test-a', { action: 'rename', name: '나의 크레', revision: r.revision });
   f.time(4000);
   r = await f.request('test-a', { action: 'feed', revision: r.revision }); assert(r.pet.xp >= 10);
   r = await f.request('test-a', { action: 'save', revision: r.revision });
   const reloaded = await f.request();
   assert.equal(reloaded.pet.id, creature); assert.equal(reloaded.pet.name, '나의 크레');
-  assert.equal(reloaded.pet.morphId, 'axanthic'); assert.equal(reloaded.revision, r.revision);
+  assert.equal(reloaded.pet.morphId, 'cre_036'); assert.equal(reloaded.revision, r.revision);
 });
 
 test('unverified callers are rejected and supplied owner/state cannot read or overwrite another player', async () => {

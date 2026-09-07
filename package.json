@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/restore-cre36.mjs && node scripts/verify-cre36.mjs && tsc --noEmit && vite build",
+    "check:sprites": "node scripts/verify-cre36.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --test tests/*.test.mjs"
   },

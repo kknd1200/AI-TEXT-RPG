@@ -1,0 +1,805 @@
+{
+  "status": "incomplete-image-generation-limit",
+  "productionPublished": false,
+  "productionBaseCommit": "d60ad4d2bfd3465994c49462ffc260ab40349c3f",
+  "branch": "work/cre36-care-sprites",
+  "quotaResetUtc": "2026-09-08T01:30:06Z",
+  "morphs": 36,
+  "forms": 72,
+  "portraits": 72,
+  "generatedRawSheets": 104,
+  "processedBodyAnimations": 208,
+  "targetBodyAnimations": 288,
+  "missingRawSheets": [
+    {
+      "morphId": "cre_023",
+      "name": "WHITE LILLY WHITE",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_023-clean.txt",
+      "reference": "art-source/cre36/raw/cre_023-feed.png"
+    },
+    {
+      "morphId": "cre_023",
+      "name": "WHITE LILLY WHITE",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_023-play.txt",
+      "reference": "art-source/cre36/raw/cre_023-feed.png"
+    },
+    {
+      "morphId": "cre_024",
+      "name": "WHITE PINSTRIPE",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_024-mist.txt",
+      "reference": "art-source/cre36/raw/cre_024-feed.png"
+    },
+    {
+      "morphId": "cre_024",
+      "name": "WHITE PINSTRIPE",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_024-play.txt",
+      "reference": "art-source/cre36/raw/cre_024-feed.png"
+    },
+    {
+      "morphId": "cre_025",
+      "name": "BLACK PATTERNLESS",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_025-mist.txt",
+      "reference": "art-source/cre36/raw/cre_025-feed.png"
+    },
+    {
+      "morphId": "cre_025",
+      "name": "BLACK PATTERNLESS",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_025-clean.txt",
+      "reference": "art-source/cre36/raw/cre_025-feed.png"
+    },
+    {
+      "morphId": "cre_025",
+      "name": "BLACK PATTERNLESS",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_025-play.txt",
+      "reference": "art-source/cre36/raw/cre_025-feed.png"
+    },
+    {
+      "morphId": "cre_026",
+      "name": "BLACK FLAME",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_026-mist.txt",
+      "reference": "art-source/cre36/raw/cre_026-feed.png"
+    },
+    {
+      "morphId": "cre_026",
+      "name": "BLACK FLAME",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_026-clean.txt",
+      "reference": "art-source/cre36/raw/cre_026-feed.png"
+    },
+    {
+      "morphId": "cre_026",
+      "name": "BLACK FLAME",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_026-play.txt",
+      "reference": "art-source/cre36/raw/cre_026-feed.png"
+    },
+    {
+      "morphId": "cre_027",
+      "name": "LAVENDER BICOLOR",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_027-mist.txt",
+      "reference": "art-source/cre36/raw/cre_027-feed.png"
+    },
+    {
+      "morphId": "cre_027",
+      "name": "LAVENDER BICOLOR",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_027-clean.txt",
+      "reference": "art-source/cre36/raw/cre_027-feed.png"
+    },
+    {
+      "morphId": "cre_027",
+      "name": "LAVENDER BICOLOR",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_027-play.txt",
+      "reference": "art-source/cre36/raw/cre_027-feed.png"
+    },
+    {
+      "morphId": "cre_028",
+      "name": "LAVENDER PINSTRIPE",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_028-mist.txt",
+      "reference": "art-source/cre36/raw/cre_028-feed.png"
+    },
+    {
+      "morphId": "cre_028",
+      "name": "LAVENDER PINSTRIPE",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_028-clean.txt",
+      "reference": "art-source/cre36/raw/cre_028-feed.png"
+    },
+    {
+      "morphId": "cre_028",
+      "name": "LAVENDER PINSTRIPE",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_028-play.txt",
+      "reference": "art-source/cre36/raw/cre_028-feed.png"
+    },
+    {
+      "morphId": "cre_029",
+      "name": "RED HALLOWEEN",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_029-mist.txt",
+      "reference": "art-source/cre36/raw/cre_029-feed.png"
+    },
+    {
+      "morphId": "cre_029",
+      "name": "RED HALLOWEEN",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_029-clean.txt",
+      "reference": "art-source/cre36/raw/cre_029-feed.png"
+    },
+    {
+      "morphId": "cre_029",
+      "name": "RED HALLOWEEN",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_029-play.txt",
+      "reference": "art-source/cre36/raw/cre_029-feed.png"
+    },
+    {
+      "morphId": "cre_030",
+      "name": "WHITE TRICOLOR",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_030-mist.txt",
+      "reference": "art-source/cre36/raw/cre_030-feed.png"
+    },
+    {
+      "morphId": "cre_030",
+      "name": "WHITE TRICOLOR",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_030-clean.txt",
+      "reference": "art-source/cre36/raw/cre_030-feed.png"
+    },
+    {
+      "morphId": "cre_030",
+      "name": "WHITE TRICOLOR",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_030-play.txt",
+      "reference": "art-source/cre36/raw/cre_030-feed.png"
+    },
+    {
+      "morphId": "cre_031",
+      "name": "BLACK SUPER DALMATIAN",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_031-mist.txt",
+      "reference": "art-source/cre36/raw/cre_031-feed.png"
+    },
+    {
+      "morphId": "cre_031",
+      "name": "BLACK SUPER DALMATIAN",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_031-clean.txt",
+      "reference": "art-source/cre36/raw/cre_031-feed.png"
+    },
+    {
+      "morphId": "cre_031",
+      "name": "BLACK SUPER DALMATIAN",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_031-play.txt",
+      "reference": "art-source/cre36/raw/cre_031-feed.png"
+    },
+    {
+      "morphId": "cre_032",
+      "name": "LAVENDER HARLEQUIN",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_032-mist.txt",
+      "reference": "art-source/cre36/raw/cre_032-feed.png"
+    },
+    {
+      "morphId": "cre_032",
+      "name": "LAVENDER HARLEQUIN",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_032-clean.txt",
+      "reference": "art-source/cre36/raw/cre_032-feed.png"
+    },
+    {
+      "morphId": "cre_032",
+      "name": "LAVENDER HARLEQUIN",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_032-play.txt",
+      "reference": "art-source/cre36/raw/cre_032-feed.png"
+    },
+    {
+      "morphId": "cre_033",
+      "name": "WHITE EXTREME HARLEQUIN",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_033-mist.txt",
+      "reference": "art-source/cre36/raw/cre_033-feed.png"
+    },
+    {
+      "morphId": "cre_033",
+      "name": "WHITE EXTREME HARLEQUIN",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_033-clean.txt",
+      "reference": "art-source/cre36/raw/cre_033-feed.png"
+    },
+    {
+      "morphId": "cre_033",
+      "name": "WHITE EXTREME HARLEQUIN",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_033-play.txt",
+      "reference": "art-source/cre36/raw/cre_033-feed.png"
+    },
+    {
+      "morphId": "cre_034",
+      "name": "GRAY AXANTHIC",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_034-mist.txt",
+      "reference": "art-source/cre36/raw/cre_034-feed.png"
+    },
+    {
+      "morphId": "cre_034",
+      "name": "GRAY AXANTHIC",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_034-clean.txt",
+      "reference": "art-source/cre36/raw/cre_034-feed.png"
+    },
+    {
+      "morphId": "cre_034",
+      "name": "GRAY AXANTHIC",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_034-play.txt",
+      "reference": "art-source/cre36/raw/cre_034-feed.png"
+    },
+    {
+      "morphId": "cre_035",
+      "name": "BLACK LILLY WHITE",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_035-mist.txt",
+      "reference": "art-source/cre36/raw/cre_035-feed.png"
+    },
+    {
+      "morphId": "cre_035",
+      "name": "BLACK LILLY WHITE",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_035-clean.txt",
+      "reference": "art-source/cre36/raw/cre_035-feed.png"
+    },
+    {
+      "morphId": "cre_035",
+      "name": "BLACK LILLY WHITE",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_035-play.txt",
+      "reference": "art-source/cre36/raw/cre_035-feed.png"
+    },
+    {
+      "morphId": "cre_036",
+      "name": "LAVENDER EXTREME HARLEQUIN",
+      "action": "mist",
+      "prompt": "art-source/cre36/prompts/cre_036-mist.txt",
+      "reference": "art-source/cre36/raw/cre_036-feed.png"
+    },
+    {
+      "morphId": "cre_036",
+      "name": "LAVENDER EXTREME HARLEQUIN",
+      "action": "clean",
+      "prompt": "art-source/cre36/prompts/cre_036-clean.txt",
+      "reference": "art-source/cre36/raw/cre_036-feed.png"
+    },
+    {
+      "morphId": "cre_036",
+      "name": "LAVENDER EXTREME HARLEQUIN",
+      "action": "play",
+      "prompt": "art-source/cre36/prompts/cre_036-play.txt",
+      "reference": "art-source/cre36/raw/cre_036-feed.png"
+    }
+  ],
+  "missingEffects": [
+    "feed",
+    "mist",
+    "clean",
+    "play"
+  ],
+  "missingProcessedFiles": [
+    "public/assets/cre36/cre_023/baby/clean.png",
+    "public/assets/cre36/cre_023/baby/play.png",
+    "public/assets/cre36/cre_023/adult/clean.png",
+    "public/assets/cre36/cre_023/adult/play.png",
+    "public/assets/cre36/cre_024/baby/mist.png",
+    "public/assets/cre36/cre_024/baby/play.png",
+    "public/assets/cre36/cre_024/adult/mist.png",
+    "public/assets/cre36/cre_024/adult/play.png",
+    "public/assets/cre36/cre_025/baby/mist.png",
+    "public/assets/cre36/cre_025/baby/clean.png",
+    "public/assets/cre36/cre_025/baby/play.png",
+    "public/assets/cre36/cre_025/adult/mist.png",
+    "public/assets/cre36/cre_025/adult/clean.png",
+    "public/assets/cre36/cre_025/adult/play.png",
+    "public/assets/cre36/cre_026/baby/mist.png",
+    "public/assets/cre36/cre_026/baby/clean.png",
+    "public/assets/cre36/cre_026/baby/play.png",
+    "public/assets/cre36/cre_026/adult/mist.png",
+    "public/assets/cre36/cre_026/adult/clean.png",
+    "public/assets/cre36/cre_026/adult/play.png",
+    "public/assets/cre36/cre_027/baby/mist.png",
+    "public/assets/cre36/cre_027/baby/clean.png",
+    "public/assets/cre36/cre_027/baby/play.png",
+    "public/assets/cre36/cre_027/adult/mist.png",
+    "public/assets/cre36/cre_027/adult/clean.png",
+    "public/assets/cre36/cre_027/adult/play.png",
+    "public/assets/cre36/cre_028/baby/mist.png",
+    "public/assets/cre36/cre_028/baby/clean.png",
+    "public/assets/cre36/cre_028/baby/play.png",
+    "public/assets/cre36/cre_028/adult/mist.png",
+    "public/assets/cre36/cre_028/adult/clean.png",
+    "public/assets/cre36/cre_028/adult/play.png",
+    "public/assets/cre36/cre_029/baby/mist.png",
+    "public/assets/cre36/cre_029/baby/clean.png",
+    "public/assets/cre36/cre_029/baby/play.png",
+    "public/assets/cre36/cre_029/adult/mist.png",
+    "public/assets/cre36/cre_029/adult/clean.png",
+    "public/assets/cre36/cre_029/adult/play.png",
+    "public/assets/cre36/cre_030/baby/mist.png",
+    "public/assets/cre36/cre_030/baby/clean.png",
+    "public/assets/cre36/cre_030/baby/play.png",
+    "public/assets/cre36/cre_030/adult/mist.png",
+    "public/assets/cre36/cre_030/adult/clean.png",
+    "public/assets/cre36/cre_030/adult/play.png",
+    "public/assets/cre36/cre_031/baby/mist.png",
+    "public/assets/cre36/cre_031/baby/clean.png",
+    "public/assets/cre36/cre_031/baby/play.png",
+    "public/assets/cre36/cre_031/adult/mist.png",
+    "public/assets/cre36/cre_031/adult/clean.png",
+    "public/assets/cre36/cre_031/adult/play.png",
+    "public/assets/cre36/cre_032/baby/mist.png",
+    "public/assets/cre36/cre_032/baby/clean.png",
+    "public/assets/cre36/cre_032/baby/play.png",
+    "public/assets/cre36/cre_032/adult/mist.png",
+    "public/assets/cre36/cre_032/adult/clean.png",
+    "public/assets/cre36/cre_032/adult/play.png",
+    "public/assets/cre36/cre_033/baby/mist.png",
+    "public/assets/cre36/cre_033/baby/clean.png",
+    "public/assets/cre36/cre_033/baby/play.png",
+    "public/assets/cre36/cre_033/adult/mist.png",
+    "public/assets/cre36/cre_033/adult/clean.png",
+    "public/assets/cre36/cre_033/adult/play.png",
+    "public/assets/cre36/cre_034/baby/mist.png",
+    "public/assets/cre36/cre_034/baby/clean.png",
+    "public/assets/cre36/cre_034/baby/play.png",
+    "public/assets/cre36/cre_034/adult/mist.png",
+    "public/assets/cre36/cre_034/adult/clean.png",
+    "public/assets/cre36/cre_034/adult/play.png",
+    "public/assets/cre36/cre_035/baby/mist.png",
+    "public/assets/cre36/cre_035/baby/clean.png",
+    "public/assets/cre36/cre_035/baby/play.png",
+    "public/assets/cre36/cre_035/adult/mist.png",
+    "public/assets/cre36/cre_035/adult/clean.png",
+    "public/assets/cre36/cre_035/adult/play.png",
+    "public/assets/cre36/cre_036/baby/mist.png",
+    "public/assets/cre36/cre_036/baby/clean.png",
+    "public/assets/cre36/cre_036/baby/play.png",
+    "public/assets/cre36/cre_036/adult/mist.png",
+    "public/assets/cre36/cre_036/adult/clean.png",
+    "public/assets/cre36/cre_036/adult/play.png"
+  ],
+  "visualReviewRemaining": [
+    "Compare every action against its feed reference before final release.",
+    "cre_035: verify ivory dorsal coverage against the intended Black Lilly White identity; current feed has a dark saddle."
+  ],
+  "rawSources": [
+    {
+      "name": "cre_001-clean.png",
+      "sha256": "54444edadd838d5b8a6233dc381882fcb5edb8ec62c5767d68c9cc8693d96f1f"
+    },
+    {
+      "name": "cre_001-feed.png",
+      "sha256": "911c30d4dcd08d5543fe91aa8c70f4898defe0a230feafa4d8c45bf4a208f3d0"
+    },
+    {
+      "name": "cre_001-mist.png",
+      "sha256": "c24e5c96652a6bf93f2fe003cbe25aa7cac3e74d9850a22881266218fc41b029"
+    },
+    {
+      "name": "cre_001-play.png",
+      "sha256": "00b97056c92a5ffd89a370ea93d46f104c9f7883cea3e6a3ed8be9356dde40a3"
+    },
+    {
+      "name": "cre_002-clean.png",
+      "sha256": "b66e2660225ddd25aaad51d68d7530b4a28f6309406f87ef5068c8b4156cafee"
+    },
+    {
+      "name": "cre_002-feed.png",
+      "sha256": "3dd5d1b6a2ee48ea9e4fcc976ce4bbd8094737f2e0f3312d0c88d83ce2615f32"
+    },
+    {
+      "name": "cre_002-mist.png",
+      "sha256": "badac10a0588a57eb07a1da03e53bb637e36029ce862d18415f0a65767b4b009"
+    },
+    {
+      "name": "cre_002-play.png",
+      "sha256": "6dcdcfb518409193735ddc44061d1db8d2022b18b9cdf21ea67a6de370df316c"
+    },
+    {
+      "name": "cre_003-clean.png",
+      "sha256": "0b0fb1731522074d8cc8bccec0dc640c86058dea035f384ac02f2df0aa06fcd3"
+    },
+    {
+      "name": "cre_003-feed.png",
+      "sha256": "b02779d77daac772b716b5a8835010203891ecc162bc6068fe5460c20048c053"
+    },
+    {
+      "name": "cre_003-mist.png",
+      "sha256": "8a7343817845cfc2c2e6d2a7ee86ecd9bd2ff517377fcf6382bef7eb1a587505"
+    },
+    {
+      "name": "cre_003-play.png",
+      "sha256": "b6038fbf0ec187fb0f2737c2e17b7f4d89acfec0361154751860a354be020d6b"
+    },
+    {
+      "name": "cre_004-clean.png",
+      "sha256": "553f0a1479cee93e8837b5768fe3decad87a8b1f1c742c27de70ea89ce84ba8c"
+    },
+    {
+      "name": "cre_004-feed.png",
+      "sha256": "ad46b9bb81cb4cfc77a87a7d12247ff3ae874f2fa330e90aa817464d30fd811e"
+    },
+    {
+      "name": "cre_004-mist.png",
+      "sha256": "20807bb93e0cb674b2a09769ae947e7cad15660ac6586b5fb2281ff7d246987e"
+    },
+    {
+      "name": "cre_004-play.png",
+      "sha256": "838f62f158750c231d1b48171f0395e3a6a58ea406d9521c2f51afa009ef481f"
+    },
+    {
+      "name": "cre_005-clean.png",
+      "sha256": "2fc4430381eb2c9f6a6e358edd3418b234b3e6fd48e5e5f2acf740896d0b4909"
+    },
+    {
+      "name": "cre_005-feed.png",
+      "sha256": "a4744f66a0c45f57afd7e38bc0f68e0dd44c363decb1729883b1410f61b1f9ce"
+    },
+    {
+      "name": "cre_005-mist.png",
+      "sha256": "a30ef0342ffc7a09222d81c5ed49a6d023410638b24fcc705973a1633a45ba0e"
+    },
+    {
+      "name": "cre_005-play.png",
+      "sha256": "e48095ccd199553ecad66fe979f96b004b43808d0b3282d42fb4f77c9ad3e2bf"
+    },
+    {
+      "name": "cre_006-clean.png",
+      "sha256": "522a139a512bafdd775450de06c90917e4ae78919b5ce2d258d35c62eb9847cc"
+    },
+    {
+      "name": "cre_006-feed.png",
+      "sha256": "b8a81f65aede5d88600a88f64681ca01c812a4914151ad7e8c21a9ee16b3e70e"
+    },
+    {
+      "name": "cre_006-mist.png",
+      "sha256": "bf2511b11d29bb8d0a8e72dfdd18ad8920797d50d051dc71861c2c3e4393476b"
+    },
+    {
+      "name": "cre_006-play.png",
+      "sha256": "84fe11d5c523144d2beb43a0bac8e4dba5afcd075aeb685784d2630a50b5141b"
+    },
+    {
+      "name": "cre_007-clean.png",
+      "sha256": "b5fecd985a52220c59dc99201f3fa8d7d8be61f3aba6432ef4f3b3ee768d6e72"
+    },
+    {
+      "name": "cre_007-feed.png",
+      "sha256": "521112a13523a64a141b932cfb24eb5c29d8068fe1ed20b6ac6e2f29a724b53f"
+    },
+    {
+      "name": "cre_007-mist.png",
+      "sha256": "fe366ee1582b8b707842baf081e171ec3cbc1eaf85c34f7aae10bd23bfdbd044"
+    },
+    {
+      "name": "cre_007-play.png",
+      "sha256": "78c6d44b361e76097e8669a132e7b746bf60ded77a35a1c98dce6362358d5758"
+    },
+    {
+      "name": "cre_008-clean.png",
+      "sha256": "3d9c56de582cab10ac50b466192b579d764758ca08ea18479d62e07bbcd4860c"
+    },
+    {
+      "name": "cre_008-feed.png",
+      "sha256": "17e4ad8678787da7dbf4b7140198b228217685f00f800b899ce4965d6e6b6463"
+    },
+    {
+      "name": "cre_008-mist.png",
+      "sha256": "1eb32ebc9d8bf1289292a36aa5626fb3015591a29f0f3d92942770d859bc6a42"
+    },
+    {
+      "name": "cre_008-play.png",
+      "sha256": "770ff626ee8be3184e4049824793edf2b3a5d61a6744ba2f8973e4a003bae50c"
+    },
+    {
+      "name": "cre_009-clean.png",
+      "sha256": "85248b66e6db3634c70ebee89ed061308878056b1b710053508181725695968a"
+    },
+    {
+      "name": "cre_009-feed.png",
+      "sha256": "db7e0eeafd7aaa8a0414cd591e78dac582bea2e64c4193f2108db5b97b8b4f14"
+    },
+    {
+      "name": "cre_009-mist.png",
+      "sha256": "5a42eb88f1103ba55795e45347d5ad78dd95182742f94f80bf51de6fea249c35"
+    },
+    {
+      "name": "cre_009-play.png",
+      "sha256": "b42f979e8219e41620c488992dfb00707b502c90f99f03f26d92740d7ffd5fc1"
+    },
+    {
+      "name": "cre_010-clean.png",
+      "sha256": "47211c92e8cc98840603e79fd1bba12be7042907dcc3eefe50671125602ca802"
+    },
+    {
+      "name": "cre_010-feed.png",
+      "sha256": "209000fe2f56568c11fa5987a0b179d6e700bc1d55bee699cf32340c14ba6ded"
+    },
+    {
+      "name": "cre_010-mist.png",
+      "sha256": "5fc26cfd84f915f2a16dc3097c876f7141255df0267fbc6315315b2302dae1ad"
+    },
+    {
+      "name": "cre_010-play.png",
+      "sha256": "d3caca098e7aa82ede4db100ad6acbaeb618c9fbe4689af24403e4c26a32f6d4"
+    },
+    {
+      "name": "cre_011-clean.png",
+      "sha256": "d05589569473bbd92558b6a303e630cccc2bb63353e9940db92c08edc921d0de"
+    },
+    {
+      "name": "cre_011-feed.png",
+      "sha256": "26d93d817b760bb978f45381344ce14f76552964550b774ffe3bed876279df40"
+    },
+    {
+      "name": "cre_011-mist.png",
+      "sha256": "5e357bba07020cf9d5d1c0575910454302623d43951c9436a09443637275cb73"
+    },
+    {
+      "name": "cre_011-play.png",
+      "sha256": "a72af458277e43bc3f7560e824b601cbccaccc14b073744aca7c53f93c38b2d3"
+    },
+    {
+      "name": "cre_012-clean.png",
+      "sha256": "fa6c0e5c72b4ef0bf37037d8f9dbf7e8f6be184f2224956cdf2cdec5951fce2a"
+    },
+    {
+      "name": "cre_012-feed.png",
+      "sha256": "0c45026d00a621b24498ed97a7c562975c2b1176893380c4255f84a732042b05"
+    },
+    {
+      "name": "cre_012-mist.png",
+      "sha256": "41db9e8ba24a3650b328016d37b636873e24adb0288f404f2475dc934a44fbf8"
+    },
+    {
+      "name": "cre_012-play.png",
+      "sha256": "a29043cdd0eaecca2b680632eface72008d2fe1ac97a183b620dc8622514cf58"
+    },
+    {
+      "name": "cre_013-clean.png",
+      "sha256": "e16abcc1f9e24ce76d73deb56692e91da9c45d63632b18a450a6315308d83e4f"
+    },
+    {
+      "name": "cre_013-feed.png",
+      "sha256": "c0adaebc49dc80e4ea80d0cbf5398f278655f87db1f9e1e016e1887df54738c6"
+    },
+    {
+      "name": "cre_013-mist.png",
+      "sha256": "5d3eeb7f25ed60e2741043f92398c9b79bb6ec9eba7ff69bce6f83c39f7e8afa"
+    },
+    {
+      "name": "cre_013-play.png",
+      "sha256": "0b529f177fbcd996b6b77d9cb2e1ec0609bef3c1b278cf4d2604ff99eda605cc"
+    },
+    {
+      "name": "cre_014-clean.png",
+      "sha256": "e34e3e790609e5291f2dd966dcc6e644ed9c438f3e4c8d6b5e50724d4fe332ce"
+    },
+    {
+      "name": "cre_014-feed.png",
+      "sha256": "47282766eb57d8b201f20ce35c789699f7fa4dc1a44edf14d7aa87d150045ad9"
+    },
+    {
+      "name": "cre_014-mist.png",
+      "sha256": "8eeb64b703afc6d19c377deef2537d2198c92562f221fb686200a767f18cb181"
+    },
+    {
+      "name": "cre_014-play.png",
+      "sha256": "a149f7c71f3ca61b83bbfeeb8b1db5b109ca38f63cb0d2b49ee00ac6713f4593"
+    },
+    {
+      "name": "cre_015-clean.png",
+      "sha256": "f52b73a86eceb7467c7328b4cd155ec0f24eef8f5bfe94ee80d3ff5de305ffd3"
+    },
+    {
+      "name": "cre_015-feed.png",
+      "sha256": "6c0ed0cef4a0239f9951777ff1371e1c598b840cfb291b1ec5957b7f60bac615"
+    },
+    {
+      "name": "cre_015-mist.png",
+      "sha256": "bcba924a81d0e19a96f1102e39baf7e3d391eef59431022704000364a066c4f7"
+    },
+    {
+      "name": "cre_015-play.png",
+      "sha256": "f20e3eb55a2e840291d029843fb1a1bb94b56d75774ec2d0f278e681f0730620"
+    },
+    {
+      "name": "cre_016-clean.png",
+      "sha256": "2daab0c7144ac15df751103bfef7f00854eff343530ea6273c777ecfdfd5f19d"
+    },
+    {
+      "name": "cre_016-feed.png",
+      "sha256": "6b717a78a872157a009a5fb781857a00d1cfe0f9c23f842f910843cbfaf357ef"
+    },
+    {
+      "name": "cre_016-mist.png",
+      "sha256": "812e935c6148c6d2a482997a94ff7b5d5f1978e2792aabadb552281ac0da4b6c"
+    },
+    {
+      "name": "cre_016-play.png",
+      "sha256": "763607c9505a133dfdfc3b4ee23f8ea15be6a9494cbc0a8757ca048b6213fed4"
+    },
+    {
+      "name": "cre_017-clean.png",
+      "sha256": "00a52da3b5b13758366c32412788d4fab020ebf465d025ee8710b3256be3648c"
+    },
+    {
+      "name": "cre_017-feed.png",
+      "sha256": "fd8766238833ed1aa78cd500511850d5646678bba81ae2853eb84cc89e2873b4"
+    },
+    {
+      "name": "cre_017-mist.png",
+      "sha256": "fce4af2e4b66066dedc905875c09aa4f5a83d5d00a85add5331b26a43c456b74"
+    },
+    {
+      "name": "cre_017-play.png",
+      "sha256": "dfd5afbb4240ec1ca43075cf99c4c9a50bcdab387181309b8140b6a88f184cb7"
+    },
+    {
+      "name": "cre_018-clean.png",
+      "sha256": "ab5293c1aa1ebd63c7c3d7cd45f4401b5cad4f9e5aaef40104a2c1f0a78cc3ee"
+    },
+    {
+      "name": "cre_018-feed.png",
+      "sha256": "9fdfada18f5406343ce22b140f37ab59582d707688a9858c8af689df55770dac"
+    },
+    {
+      "name": "cre_018-mist.png",
+      "sha256": "f6e534386bd798f25ff39f3a7947b8dd41cfd398d70775e6cdb14c83d30d625b"
+    },
+    {
+      "name": "cre_018-play.png",
+      "sha256": "d5d536a7240bcb2b84fa244fa22ceb1a961f91d5e36859e5eb5f3eaa4c98bb0a"
+    },
+    {
+      "name": "cre_019-clean.png",
+      "sha256": "1a2204c82d1c72cdc36df39d5a87d3ea0804f6830ae3517cc7be93235e3f4fb6"
+    },
+    {
+      "name": "cre_019-feed.png",
+      "sha256": "1ce9036425fd7ffedb34302e334783a2fbbabaf5ac84ea6d1712594928a60767"
+    },
+    {
+      "name": "cre_019-mist.png",
+      "sha256": "7b799cacc44b3ec0846b4d7669449bd707d1fd6c2aba86251d244555cc74ce17"
+    },
+    {
+      "name": "cre_019-play.png",
+      "sha256": "56a1891227d6df6f41678f4bfe25804054b5503e11e602c7e4691c69adb1d2e8"
+    },
+    {
+      "name": "cre_020-clean.png",
+      "sha256": "02cc313f4175806d828b85f317b54e62405aa1c5468a3af542848a8b0eaad0da"
+    },
+    {
+      "name": "cre_020-feed.png",
+      "sha256": "83886c36253b817daf75094d6d0669edee3de95d43b53a5c7e2ab790ae8564f2"
+    },
+    {
+      "name": "cre_020-mist.png",
+      "sha256": "194ad0e94827bf06ffaf14a74eb7c9de31b5c2b881fb6295b483f8faa6cc977f"
+    },
+    {
+      "name": "cre_020-play.png",
+      "sha256": "58a0e68af538f76e305c66b7e29b046e183d3b7f70eb5399af7df76cdfac6156"
+    },
+    {
+      "name": "cre_021-clean.png",
+      "sha256": "9c191e3282844cf4971b3b169a0ec5b3860d28fa87ed5e9fe36744678709bd24"
+    },
+    {
+      "name": "cre_021-feed.png",
+      "sha256": "778f657b11b89862416a72d6f3f538906b8706e1ba13024c9cb3a1b65db3e9e7"
+    },
+    {
+      "name": "cre_021-mist.png",
+      "sha256": "86f82d0bd2f80b0922fda88a9a2a03969c8b70df31e3b5f9e840b9c25ad4758c"
+    },
+    {
+      "name": "cre_021-play.png",
+      "sha256": "276cfdbf886d8fe9915b0bdcfd034262c73081732b87eeb4983e225b924d5c6a"
+    },
+    {
+      "name": "cre_022-clean.png",
+      "sha256": "86c5557eecaa32d9477123aa489f2b0e17665dbfcb206d78a57c80287d729758"
+    },
+    {
+      "name": "cre_022-feed.png",
+      "sha256": "c3871d78276ca64940f86eef0fa069ce9028154c41ef36c9fd302bcfea547932"
+    },
+    {
+      "name": "cre_022-mist.png",
+      "sha256": "72473a1a098b8ff1a40bcba85f24109beedabb08c2634cbd8edc05650c002833"
+    },
+    {
+      "name": "cre_022-play.png",
+      "sha256": "69bddc582a309bc1815db8cef475638dd68e55c4b635041ac000e9480fba2145"
+    },
+    {
+      "name": "cre_023-feed.png",
+      "sha256": "28bc7e80135b3eec96935171d8ab5353a70a3433be7f11647416753b3dfc110d"
+    },
+    {
+      "name": "cre_023-mist.png",
+      "sha256": "7901d1c335690611282f80cd3f408ffc0c0b31374d4d92e2878f58e4ef82f345"
+    },
+    {
+      "name": "cre_024-clean.png",
+      "sha256": "89cc350e878a6b98ba2741420aaa403b665bb5dc13a7f484aafde9d313c4e231"
+    },
+    {
+      "name": "cre_024-feed.png",
+      "sha256": "71923bd703be43793b03c4f047a2cf86e5dd77ae3bdfab0fdfd6aae77b3fbd78"
+    },
+    {
+      "name": "cre_025-feed.png",
+      "sha256": "f4deeab81e529116166d8aff6b32a7a277173bf7c9440639d76c59bc5d064a65"
+    },
+    {
+      "name": "cre_026-feed.png",
+      "sha256": "580c293500463326c53e0d14f88ae26b2a84257ffc8292e89f62fa034c65bbcf"
+    },
+    {
+      "name": "cre_027-feed.png",
+      "sha256": "f5b7285fd9c9a128731eb2ec1f3a753404a802e93243bd93aa25d57a00fbd81b"
+    },
+    {
+      "name": "cre_028-feed.png",
+      "sha256": "82efdf51067f8aaa1d171f71be85b1786066f729836b92b8c5dbecb04812a057"
+    },
+    {
+      "name": "cre_029-feed.png",
+      "sha256": "dbecc69b44412d380b8611b29952264d83a9b21e4d835d3a99b4c3a845d7c842"
+    },
+    {
+      "name": "cre_030-feed.png",
+      "sha256": "f581e7481a666cae5436c9a33b1cf59bbf84232ea095c6ffebee62dfd926a0d0"
+    },
+    {
+      "name": "cre_031-feed.png",
+      "sha256": "043b1457a421e7de2e18f0724926e023122d2814aab6b33f163315cffbc52e24"
+    },
+    {
+      "name": "cre_032-feed.png",
+      "sha256": "af1c042f6ae43ce92e423234e92b6e93983ec8eec36963525db7861a53d379a7"
+    },
+    {
+      "name": "cre_033-feed.png",
+      "sha256": "b65b83210ae66f703b6b944a245efda2af910b007cbb2c3600a1c792177accd3"
+    },
+    {
+      "name": "cre_034-feed.png",
+      "sha256": "a517bb8b890252536ec3e67c9c408be492dfed51b991c23cff837c1134f17c1c"
+    },
+    {
+      "name": "cre_035-feed.png",
+      "sha256": "306cd683999144121975284122b1bc86ed126d4ffc90f89534df636f2e7f9697"
+    },
+    {
+      "name": "cre_036-feed.png",
+      "sha256": "eb316a2513215c437228562d15b53acb013aeaa61da50b251b3d06c904a2e86f"
+    }
+  ]
+}

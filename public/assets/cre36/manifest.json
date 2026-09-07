@@ -1,0 +1,3767 @@
+{
+  "schemaVersion": 1,
+  "artSource": "built-in image_gen",
+  "cellSize": 96,
+  "logicalCellSize": 48,
+  "columns": 8,
+  "rows": 5,
+  "actions": [
+    "idle",
+    "feed",
+    "mist",
+    "clean",
+    "play"
+  ],
+  "stages": [
+    "baby",
+    "adult"
+  ],
+  "frameDurationMs": 240,
+  "forms": [
+    {
+      "id": "cre_001-baby",
+      "morphId": "cre_001",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_001.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "38537796bc5d43c146ee669c04f64496a7475e80f452d33f780cce318f87d50a"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "38537796bc5d43c146ee669c04f64496a7475e80f452d33f780cce318f87d50a",
+            "050fe8b252b6d6db0670998b194e02e14db0800d5f08fe7434998b61132276be",
+            "6d4aabf2b5980a22119e1f4ea3c9f1dfbaa8fb1c607cb8eb9452bb571c1e5cde",
+            "6afbc73419be1bd7a8ccf752af448c95b0581f7646da0c42dcfbf8a972aa5ae9"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "c35cb79fdc6035b72d32d23821cd79f0c08c0f072e8032ba1fe0f918218cf011",
+            "d6662fe8f4d9474bec287fd2c2c7791d6a97693961d35d39a6286a7a56caf66b",
+            "b278964a24d7a39e30af14f97e1035e8dbb4a6783091304e184ec9c4997b442b",
+            "23d0d130b4cfaad92463ddbc67fbcc93759c21ce557cabf10a5f02288f14a9a4"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "05d3b7d167d560581d38a04965c66e5fae8abae211db8d8fef5ff66a3fd81ac5",
+            "17e1ff1fc7feb9c438b5266d61f868f5d6ce908b3b200c26b6fda7fb31ccb756",
+            "99b4b31e195c66ade1e2afc63237daf8ff467c9ab6727028a527fb59d0e8cbcc",
+            "a6183a35cb1aa2e6d0569e635b85d265eedca4bdcaf0102a62ee494ebfe7a553"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "4253dcd7b269a99568e0caa05225fc56d59e7b48a02c7c4a24c5829ed9a36852",
+            "36bd4f614355cd34383dccc437ca5b833b2557a3e7af1aee077820afec36c3f4",
+            "611be42937ee5d54fad1262f7b67d160a67685d32478053be4ae0b7a58466798",
+            "af4b46dd52463e86bc84ed519eeea177e693ceb4b42bd204b07f4a193eb82c5c"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_001_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "a6bffcce62ec78424006412637ff066112f6e08d6c1b96fd8a6c6f93a6e4c108"
+    },
+    {
+      "id": "cre_001-adult",
+      "morphId": "cre_001",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_001.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "49bf1c938960565916132c9abd6f97ee38e5a514b093f2b60855b801a3b52f4b"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "49bf1c938960565916132c9abd6f97ee38e5a514b093f2b60855b801a3b52f4b",
+            "a14e0aacb938137bf00c886d687c728ebc76dd56fcb16bc7eadae7954ac4ebf7",
+            "d5510382ccf9f8704646c9c0dbbdfebcd1eb626b591218aa179f3a97fae4ca4a",
+            "388c455183da0377a80f512eb530cf10c72d665c49fdc48edd0b8f631fb14ccc"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2aec66cea61f976316b82233f24420c3fc4b9253b54252e895517786ccd690df",
+            "8e8c94d885b4a0401fd4f6a820c72c544625e2dde3728fc399882d5f102b5b38",
+            "d0c5124c9c1563de23630e6401a29790236e5b2a99f6e090199ab1a930898106",
+            "4b8214575bb669346a3eae268e609204100f0107878584d869feeef32426c2c8"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2a919c3fe1063ead49770a5e0ff4eda2006323978243f491f62a131e128feb14",
+            "5e9c4c935db8f092e3d3e988228ab716ecabc8dfdc6d4ac0d91df7f47af861d8",
+            "ae8e811c59a7e777053ece6e114b335c6f5debecab35f6b0b5d4a9f0010f02b6",
+            "b6e6bbc0391a303d71ebad2b5ffc2e020d10ae7726560744f687061a7f6b13a1"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "133f3823f7ffa5fb28306d068e1a60a77d25ce3a12ebd8d8988fcc092d848bb1",
+            "eab82e679b8975f5e7e3d33ba0023eec59317a6d44e39003c7532b8d28286227",
+            "13504fb0f1a5e2b56911b539910255687afa5e333116e474520c1a7ecf690985",
+            "b36bc7dbe031ab4ea569902d2a0664c2e99ea0a2e73350bd414264d2ff591e59"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_001_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "a6bffcce62ec78424006412637ff066112f6e08d6c1b96fd8a6c6f93a6e4c108"
+    },
+    {
+      "id": "cre_002-baby",
+      "morphId": "cre_002",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_002.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "e3dbaef622f86ee6cb713a8aafdca7251dd2c243ffd27bf08a66dea8080624ef"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e3dbaef622f86ee6cb713a8aafdca7251dd2c243ffd27bf08a66dea8080624ef",
+            "5d2669807a006c7962319d6b40b1f68d7a1a2f9587e20e730c5e3e6f61cb8729",
+            "9d729bc4df7cd7788b069b1dcce6b37882eb42d6b76295f39c8dcfb4dc7359c3",
+            "e0a08f63940da1f7829b2a8154f1376822184f8b520d624f3438d429ff8df4c6"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "4fff0f8f8e4bea8de29f33950ee08baf1b8ff6b52ba89517a070c654cc4c1a92",
+            "819e72cf180238fd562e5915de64549b60348f3131d8053b57b1d1cefc449bd7",
+            "6e27c49c1ec829322f1e16210df1f858f969591fb7e7b11cdd8dd0784ffae14b",
+            "f4febb271207b900acd21ff7b8433f038ad1ed62debddaeea7c7427692854d49"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "c5e574eee54926fe0d7f68707e0814d6730b0fda518e8a1ca1c1be96212bddc9",
+            "3c2322d819b1e631251537b8b324c3a6ac167899a306ce0f1593d587dbb9c7d7",
+            "22e58f1d86fa0488ef20d15532331c7676324afc8c91cd68d024ec086b4cdace",
+            "23546e445c78a1fda3bb3403bbd6816032d015f72f21548b8490260e67fe5336"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "ca86d704ee929ac517483715e1ce7e9b473cd3930e6e343be6c8d0b1e66c033f",
+            "f8d72f59afb1909a5d9e22d868343db08ea085a41869dd3dc9fc8236f5a14a3c",
+            "2a158ebed7146dd69ad76977a67039067fbf727b68d322bd34a50dbf0d4f769f",
+            "21cec825ef6f81c01d72c06d152f92469a4396c1b2ed740e5bc13b197e80a743"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_002_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "0b588e6c1fddb07cd32f4feec6895bfec89c8dfbad5da65349617b5b075dd5b6"
+    },
+    {
+      "id": "cre_002-adult",
+      "morphId": "cre_002",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_002.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "27834f2cb6c05a2bf0737b963a8806ce1371b66a496d7addb10c3a5c67095f55"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "27834f2cb6c05a2bf0737b963a8806ce1371b66a496d7addb10c3a5c67095f55",
+            "c9bfa3a4d86a1c80d2c2d25999621d8a37b514c4074f26416cdebf6618675572",
+            "1c2984f73359d235287fdf01576e8f79855cb7d99f7f5f63cf106f95b550cfb9",
+            "7a24c87a01e8b7448cef348291cf895427b17378157542701e5c2b74661538ae"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "30e1d4092a933cd5993e2b4ddbe67ac7fd9a4964858ba2b98e65904b5fbc82fd",
+            "a1360c4547ba4e68e3d278d90f9920d7eccd7d1ce453317ce1480058330d4f55",
+            "51258ec5648a92435724cdab16cb5500d8c01e5bf284cbe3a6e6db3fd8c79f48",
+            "fec8b66099de368ac6d73670aa2468b2abd23e7ab050efb5253db8da6ce4dd72"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "7e4ae0b2d60972cabe99b972a29c908e20c4d909bdcd63ad9f84b622f47fb7e8",
+            "a0663999a2d64f50372bf2c199ecf8784623dffa6e2a556fc89025257d57a5a7",
+            "a77c13d6767b79e84a41bde098969fd6ab18aba1d1d56b501f81a11d9178b7e2",
+            "9647c8511215c1a40c7f35a555415fea706fa1ac96832e196ab904d62be2ac8b"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "81f3ef82626f0b083a0d6733b66a15e1da4a62995dd032c1305e114ff7bc2179",
+            "d271323880be2e93e5bbfc189f6c6a43a587a704590c3c2ef121e7151515ceae",
+            "dc9ee39e6f3207a07521e5abd188587e39112bdbe1524b2859ac463dc8907b9e",
+            "b11188c53fda90cd0d2babd893b8b8ccb6a0ecb96aa5cc0d66c095d0a73ca45f"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_002_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "0b588e6c1fddb07cd32f4feec6895bfec89c8dfbad5da65349617b5b075dd5b6"
+    },
+    {
+      "id": "cre_003-baby",
+      "morphId": "cre_003",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_003.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "b3aba61a87a2a803c9dbfeb361d4f75b75b4e5e42c6dd7e8ad021fb15bef7b7c"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "b3aba61a87a2a803c9dbfeb361d4f75b75b4e5e42c6dd7e8ad021fb15bef7b7c",
+            "d05342c1e4c96669c39d5fc78d50458dd3ef47df1b62a23cf1efa469b54a39cb",
+            "daea25c4905024007e648fb6e7cd14da85eeb34c08810d60075d4e0fb2b44b6b",
+            "9bd81e1b528adf006f7217d487bcac4fe77883a9f5788f86465557c3d808a51a"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "d43504045df4d6d66d9c391e89f40699c88c3f7d08050806fe177b6f0ef2ed80",
+            "4ffe235243aa5472321c09dda1be0cba6f8754d0313dfe48234d30a6ee7f7125",
+            "0b7ccd9f8878a31367e32edd7228857350e257eda4151c7c51c3b1a3f04feb5a",
+            "3b10bf7237cd98af5dd01996757f3ca9971ccb0f1ac0d8573a2c938a6e78dba7"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "ffefbdcbd4379e73c121729b081fe32748462cedbb2b6cae2ae700415fb36834",
+            "3318f8f4ea79d07ea2f1d344a70e667b2aad90b06977688c56a06e7fb3459c73",
+            "3aec9fc825de8abb5567771139ccf2858b5903f42207044fdbf1a233c038fc45",
+            "0a6fd24c554b996a99e9556b13c3363ad8631097ae6353be971d5023c11a8fe2"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "07314a50f5ffa7a3b8d715188e8ea2d5f4fdc420fa0b3dc3b50a1ecad1e68d94",
+            "27662098a08149e98dd8b5cfb6705f9552167e44a299c90d7c7766f569f6aee4",
+            "3c2b50974e280f283e7a8b9b6455a3ca7633c98ede8698e760e2519d40c2d482",
+            "1d83d3f192a2a4bf6edd2ad4e1ebac715aad75d812efd9af050c55332f311560"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_003_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "f3fdfd40d217d140c17505ee415918dab76f57adb97e39582033b983cab2f585"
+    },
+    {
+      "id": "cre_003-adult",
+      "morphId": "cre_003",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_003.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "901a04e07e6f70b5160b838f2d827c027b4c7e1a6edfaadb1ff4bcef57a6f2ac"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "901a04e07e6f70b5160b838f2d827c027b4c7e1a6edfaadb1ff4bcef57a6f2ac",
+            "80ac81c94139fc564acc13c6d15748bc7fb0fb7b6c23dec028f32ca5b3196bd0",
+            "4ac6d6eb7fd293250db4d543df43453b9c8bfe9698c6381e4af019d95e8a9efd",
+            "e5f7c5675af5e5533dfb9d666d037db391e0ba864ec36f09aafcced3f3208584"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "485128953ab9bf667f8ed2f00a7545ce41fec1160348f6b86e20e144114a4089",
+            "4febffe5481ff9ac51483317b5e04c5dada2ee62338f93230bcc3d79374b4284",
+            "29eed9034f621ca125a9a39940e74e7e1667546b6ea16df09906fd37136ba875",
+            "ab487ea4089562d2f9529e2c5fa126f1c6ed2dc455ffededead61fa13278b572"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "f9316c6abf808f2147c560efb2f75b5a335c68c0f589d04f16693ae12dd99113",
+            "d2a0d2a31e5f2abf4bdd96c0a26917e0422181727ce2869327a5b0e756a52b08",
+            "75d9df959321008a162e17d778eea17c77d9ad12b29583773b2c13786159294f",
+            "31ec40b4a67ba1eb181b7a859e58a88cc142ff07474a49ca6f983d8a877b6bcf"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "7b018d92be57f1fe832fb1020f0737f2b6b2ce9c175ccb88ce9843cb5273e954",
+            "71f6df8e3c933b5f9fbba4f67a263681ec6e74adbd36bddbc8fa60ca45599475",
+            "a4d6b4d4346ef7e89356a0cae183dfe90188e0da183be9155d4bbd826594d4a5",
+            "45562d7085ab516fd17a3c3f89557aeae43e91477d51d5e4cdbdb154dacf0740"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_003_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "f3fdfd40d217d140c17505ee415918dab76f57adb97e39582033b983cab2f585"
+    },
+    {
+      "id": "cre_004-baby",
+      "morphId": "cre_004",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_004.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "456c276a856b3ba4bebcecf4bca7383b132123ed5a725b5b9a4ca569107b1b96"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "456c276a856b3ba4bebcecf4bca7383b132123ed5a725b5b9a4ca569107b1b96",
+            "c56509f48c4859143a1cdf813760180f0d89e687d016d2b4c95a6cdbd5d491ac",
+            "656bfb2b6106a72864cc3a2be33caff651400008f565906604a39f84201a2525",
+            "086d1f8b954d3373abf23b1a64cfab4d9a111c63c8950618e2b664d5ccdfc6de"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "de119343a793272abc7ffcf8bb93207abab552d26c16a984b5078b03016ef135",
+            "c8dbb1a6c97b921f88ae225d8799d384975f2d4f4d7f8ab9fbd7bc7527994681",
+            "f6407794ac31f330571348c643df2b7006d6b0dc142ff8caeefcc4c671d6570f",
+            "1b4f8521e8906e7322e8009c0901f5058dcb039063e058c0cff0b56e764a4444"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "0b6fe5e93ced1d5d8a4f9e99e680c47649cc9e36bf40247cd0bae9089c9faf2e",
+            "71971491168c2c86a490439c85f83cfb2e6e6f7259680730d24161a4d49b74df",
+            "22b3ec99f6d54cea8c60d72d29c312f48c163ea9b2437d5695fe39842a8a582c",
+            "ce3f56d262fd29092f1e4b93744b8b764eafc1ae9e445df38a1b4ad1e56c8290"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "3c49c7be01cfdfafb54e19ed761c071e6bae10e401b4809eaf78c9c870e894de",
+            "8ed274b6aeb995379ab950124fb289972934c64ed0089f14e94d5fc30db92d3c",
+            "f0e0cde1f008d8611bdfdb0ed0f007af696023c072724349f0908ffa23967491",
+            "e4db0aa556d87d14f4d6762fc2b462a546289c288ab35ffc59e06025d62adecf"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_004_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "f27c21e99a6134bf3fde163b04abe49bf9adb67ce093490b07988f1481dcc920"
+    },
+    {
+      "id": "cre_004-adult",
+      "morphId": "cre_004",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_004.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "eef14cc381bfb813181df48f405d3c30ecfc07a43e0cfbbb4af311f792c76d43"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "eef14cc381bfb813181df48f405d3c30ecfc07a43e0cfbbb4af311f792c76d43",
+            "6923b904e16c8f6507153a5b6619e5303c5f6c7b42d5cc887db5d859bf79762c",
+            "e710a8575e44dde45be7d5e724c7dc67d930a7840b308b8de160f1d19f1e6c2b",
+            "dc44b589623b3df927b638f03446aa9ee75ab2e03afbf98b93862df719861195"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "eb7cd326751c77e94492e18805495b9423dbf786eb365718ce6845919cebf4b5",
+            "66bb147e62447722e214bae9a22a934d4015d033148d28d930419e3d9d92b36b",
+            "ed4847a777902ffb4256463b8f603abaef33f376d2113bb0e1693ba7e1be6fde",
+            "c690beb9b27d79b45a846d7e86b890cdb04d3e95d618b9d08faaaf56ecd9dcea"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "060cb9319ec5150ab8e4131bc911ab85184161fb03cc7adb42ed0c86d136806a",
+            "c6a29c90337c03f55470de539221690368023e98c1413dc444c392c5f3943c7e",
+            "35d2ad87e097e1dccff65234b05e6d53163a0a38bacaf433537aa1356d5587e2",
+            "8123e0f878e4c07a32cc1cf66c77f049fc1d277d5a6764e2fd89c58bf3e739bc"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "d04634c77c085a754db2204419def5d0634598ebd2100bf01673bbbf545f696e",
+            "31e6b61080df5398d7338abfa6bab9cadd108b836e399e9674bba71443d571bb",
+            "bdb5b5a931a001a9ca880d4bad07274d3f3ccfdfcc3743371ad7686dae21d342",
+            "20ab10c29b16dc4d393d09bccafb0e729986ee93465f9f493b3a475924e9b508"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_004_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "f27c21e99a6134bf3fde163b04abe49bf9adb67ce093490b07988f1481dcc920"
+    },
+    {
+      "id": "cre_005-baby",
+      "morphId": "cre_005",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_005.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "1b051ea512d7555262638e6241d27f07266e19b4eda332fa246a51751342debe"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "1b051ea512d7555262638e6241d27f07266e19b4eda332fa246a51751342debe",
+            "e68bb3229e2a3632b4bda2c073fb173572a5eb45dab86bfa482da721c6ca29b4",
+            "e6e21196a956e9a2151460bb8c455281cbf50f05185eae07dfeedb79a4406a87",
+            "5dd639c63be7015b607d403bd12948df2a9af6267763c1c98ab1f24f592bf3cc"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "157b519e0d310372c12d8a20e19a5783114735f427ccd3676b100e5de022c423",
+            "0419efc74b992e5b96558a5fea04d6a2976b302e789354a134b35103335f693f",
+            "c7c2c6fa378f3a705ff59cc16292ea9a4bf3836e7b86828fc53cbe0591e221f4",
+            "4b6cae01aa77aad3a0e5725e04951bf034943983acbdf98a4f5959670ff95346"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "0fd6026ecbc6d7a13780d447fbce72311ee548879cdd88d1259d1f8c5abe8246",
+            "76243a3f9aadb77640ee357aa4300045698041e1ff1de4bb3728ae1266b1dbf0",
+            "47c3c6dc831d289c336978c46bebce95990480d47f80ba6a94282e8e1f10f823",
+            "414030533c4e349f273f3d6a641054ca43699f1709cdc7fc0860e3e7cee8ec6b"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "881a40132090556c3d23b3e69e05ea253b683af742124ac63400a38b918af355",
+            "c4ad9964a9d93ab4479cd5650e47726788185c9ab78bd9b4c07e37dadf07cb28",
+            "b683629e956ba86f47b3f1f66feba8a5865f17d097b27cd1f31d7fbe097d337e",
+            "e0b102856226b1d9f345019c098c4612a4815d49fb8e993cc86df1602a4e55ed"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_005_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "7cb1e71a2403e32f55ea8d21d00d7100767f45b626d728965e3476073c846062"
+    },
+    {
+      "id": "cre_005-adult",
+      "morphId": "cre_005",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_005.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "a92d02c64c29a47fc9b7f316e863089444f67397c89fbb1c46153a2f1456cc26"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "a92d02c64c29a47fc9b7f316e863089444f67397c89fbb1c46153a2f1456cc26",
+            "2ccd119fecbbcba165e7a16a876b5724dd3e570ec5cb8b89d07c173b7906fa9f",
+            "788f7e79e67333a1d737c5fdb6b2952d25dd49a58d97c193086c15b5f77315b4",
+            "a4bd66ac9736eb4daae8daeb351c9b2592355272468da6c4247ceb96a9d46dea"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "130f95c21a5d088ad9b1511fa5096c49a52aa6733b392182bd8102e3b3adc340",
+            "36ea3b2d7d14f29e07cb09c9aaa44327203dc020d89cc286e15cbed9000e30f3",
+            "6b43797576a7f10c8dd2d6aff856e354afda30de5edbaf06fa6d3cc1967c44c6",
+            "f7dfef24dea61d192776511177720bc548771d3ca20035961fc4bf3e54b9f9b0"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "8ef0fdfcc0032e5a16b4547428a6d536c3d85a09d9223099e0e80bd03e52cc7d",
+            "8aaec8d4298290799dfe295640bc71f98d13a77ed9d78237e7610215e858805a",
+            "630ebc49edfed08ecf8d70f6766ae5b48ec73582316bd0eb4c0add9adbea6f87",
+            "099cd337eb6921ccb404cebdb2b0c8d9868953b58c918ac94a47af3fcbde1d17"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "b8a8f9e49888bdff467fba2840a2c08702d1a540aa9850053dac1aa69e5deb9c",
+            "2688ca43ec67e23711f6ff2b865ecb00280485f1c61e6057742bc6af72bb5fd9",
+            "d0ece5082e7ba884970bd1c3ba79e0e11ee5aae3fe8dc9ddfb693e59e1aeaa6c",
+            "ccea1a8a6115072b670eed7815f562334bf13d2ad9632111f12a67318c7cb4ff"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_005_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "7cb1e71a2403e32f55ea8d21d00d7100767f45b626d728965e3476073c846062"
+    },
+    {
+      "id": "cre_006-baby",
+      "morphId": "cre_006",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_006.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "6bf21ac0035b5f1772327ca54ec36298d1ee5732b2e468eb3aadd9881adcab1c"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "6bf21ac0035b5f1772327ca54ec36298d1ee5732b2e468eb3aadd9881adcab1c",
+            "6b945efd07de7b73ecb8bdd2a9f6c73508785df8540ba5f5720cdbd6ea9f98cb",
+            "16fc9fbc3c0083178b0149115714e01f8a76466f239cc3db51e9ebae69ea9138",
+            "f6850ba7574c109198aa717cbaef47087d6d35161abac099ef67e126a4785bfd"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "89779b43711fd061b325d65795b9bda088ddfe2afffca27aa3efb9753c310b05",
+            "fcd644f7abb29a281f0794a523abbd544f2ac0d30c7886a366aa1493ffce64cb",
+            "dd99649885f9ea6f8693474ac9eb3457adca795cc6a3b643748abafa7b5aeaa9",
+            "5cf7d01a699cfb459347f0dacd1bac547467c508872b7a9a5bc55601ef6dacf9"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "96a9ddfe75df113a65e2c43f3e43f81b3bffa3393b0500c8eccd4f01f4905814",
+            "537136697ef3a42eceda8b4d891d2a1c2882b804bba827f151445fa6c3b7050a",
+            "905f9c36e50bcb7f680c5c53b11d1c8e0b80b163fb55512fccb1632a9631a2ce",
+            "4cd12567638096e0ba155bfb4b2b208475f5d507fa14551c3fadf7c7c16a7901"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "994b1c848c92c61bfa27010b135ad04a07b244fbb7d6851ad132819127f5bfb6",
+            "fdceb5ef80b4c5bf707c8c2ddb56fa036b11ee3abe79a849eda73b5049f7a2f5",
+            "306a8e935ea779b859caf9a8067da5dcdceb02d3c3823063d3cbc828a5e0d968",
+            "97340ccc9a71aca22635cf8b7b34b7785846ba6b660180e3f4e5393c2103a4d0"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_006_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "8f236adf9ae985a736d77959b0dfd9ecd2bad57bc3e8a49d691934bb15e8886c"
+    },
+    {
+      "id": "cre_006-adult",
+      "morphId": "cre_006",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_006.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "cf494500fdfa53cc39707e8f7b4594281f62ff97c02dfc40391611222358fa5a"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "cf494500fdfa53cc39707e8f7b4594281f62ff97c02dfc40391611222358fa5a",
+            "4f9d20e78ead2f6d5edead2015c717f28dc61db06437eabf2c9253f73fe7b3f9",
+            "2c0b8b8ec3b5c620943565911c37b5a8b3fc19d71b593564559cdae35528c0fa",
+            "79348c93dce9f903844255a108a7956bf812a367e9a1ce9cb90325af438523a0"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "f3d9fc72ef6987b31a2d30a23c7601acaa411e48c170d1f0f5b80f90815fa01d",
+            "44452fd069116965472a9c84823a05307e14b39b781d717914a1dd03625ad8d2",
+            "4458e741773e6330aff8f9217130b49810aa0a06b0c23ff03ce9365ea02fa224",
+            "15c2149810c76df4cd23fecbc465fb4f576f0eabd43518c803bb5cb82ff7b661"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "530f418aea33162ff43b36e3dfebe66636c50d7794d772ac7fc6f78d6598af28",
+            "9c9d5b357ef3d78dc58308fca1ce9c113a195093781b206187b5b58b5c0d5f55",
+            "0d0089f0427c260faf557b2cf281bf6a07cbf71c1ee2f4766c0fa72bb2e5c062",
+            "8b88540c2d93056515c6eb77327d8e5729bd4c9ba4c63a6dba21dca190d3f312"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "f5ff2fe0fe1047e9dab5843ef13c1140e2487499efe8eb37275ecf31e52416bf",
+            "87331dc92b2201fb2bc9b78ef59819e3df45c2fe1599bb7d77e5360ec2e70be0",
+            "304b6ceb738964d66e9676e47ab359b24b270dbf6e80f2df53a226a1b2a6de2b",
+            "e2e83deff9081576a52a9228988f44d912f4240c24ba4ad4fac7adec89fab8e9"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_006_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "8f236adf9ae985a736d77959b0dfd9ecd2bad57bc3e8a49d691934bb15e8886c"
+    },
+    {
+      "id": "cre_007-baby",
+      "morphId": "cre_007",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_007.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "899e02e27e279a4f50f36402cffd6f9dec9215362d16947e8831424d6118ae37"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "899e02e27e279a4f50f36402cffd6f9dec9215362d16947e8831424d6118ae37",
+            "00985111245bdfce4ead1bff5df1e9426aecabc7debcee6c0c654c5eb467b255",
+            "a3e021adfa176bf60d5ffb972a53df0c695257be2a621816c43fdec051ad3b3b",
+            "ad21faff1bcc411d2049863d65c71500ce6cbe893b2192139dd36dac481f765e"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e5271341b92599ab46b26371aa60e92c91ca5408f63090caa3601d8b73748be2",
+            "03b6eb1f4815c10735b296875b0990e7e91ac64ec632650eaf60e5f1c8128417",
+            "f003cc2c7e4764665a2f9f8aed9fe954bb60a07ea73b047d9c1e6721bfddcd77",
+            "2e3537933d8362ad4597d7ba2e3ea90d31116833c5a8ce6be1e7d185c7557b17"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "91fe464aae8f16795b7b0eeb32724cf9c6831f5a2eb4e681d395974b6ac05dbb",
+            "0f32d8bc5fb1e3134d26c4a43cf6db475582f3cb174b86a1e7693234b749517f",
+            "e85b1a84fcf6feb516eb1cddb21e04aa7edcbc6ce3c35818d99607c417b620ae",
+            "a74e6167818eeda15c951984c71cb18cca2ae5187f85fb6c9a23141e7f446e7c"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "c64ffe6b8f66c990ce61a1d9b2fbe5ea3a52c822b728b70416227097de8f3400",
+            "254224fcd6b1bb4dd5a37415995435e9ff64d146a21a4454eb7200f2b2f3de6e",
+            "44aa744bf4de9a2c258d30b50f92dd369b2f2f4072a0d2c0e72bd593a0e1bf30",
+            "75cd427955cb37c918bccf835fc383d6c3dbd1016eda4f7903417a75a6e59ee3"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_007_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "c6e885dbdf669da363b6cfb86ca84b44c50f7ddc294fd2f9e0edd7575e5255e1"
+    },
+    {
+      "id": "cre_007-adult",
+      "morphId": "cre_007",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_007.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "45aead75e4564bd494286e3ecadec6f2fc5a245fc232781b493ceb3289c23bd7"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "45aead75e4564bd494286e3ecadec6f2fc5a245fc232781b493ceb3289c23bd7",
+            "fff6d182cd27ae23277b0f4a7c019e42637992cd6d1be1014e77288dd92109c5",
+            "edbc8bb5c373cb3afa9fdb5704b71792d8f7b5029222432331bb72cf3d1ad1d4",
+            "6957bc4f51d14e240d66b998c79da1105f63a10f9a9e08c48f271ae19ff4e765"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2b810dfc8591057f780cb251bef81c0e590a4a77b9a16b918d1004e8806388d7",
+            "f68bf4667a04f0d3b25a972b7772242838dc5bed50dc6ee15129f3451748fc2c",
+            "d3daa41f9d3fe1874fdec0fccfbac196eb660845ca93fa47d6035e434d1e0ddd",
+            "15bf039cea0128d793256f7d982699da9a006f874a98fa096abb6de326ead78c"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "dc2e5763e2f4bc5c7fa91f0fa12cb06cdf0f1ce8e974e1299368310cd5a10880",
+            "964b4d12652eb00266c25770ba00a5645b0408aa6a93502b1e8052f2cc05ac69",
+            "4858bf6993a3fb9eed55762b7294d8fe55abb3a449071d50572a416c45b43cc5",
+            "20cba3f2992952ea7cf79dd90d5b0d4aad12ea072921f7fd5dbcfd49bee0f7c0"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "a8444f3f3dd419506853c3ddec09f011d32f971aaf8ea4cea0191fe1a27390b7",
+            "0e0dcf4468adf1cace0ab46e4a8b195e2c36ca6a3ad6b756f27b7842877cbbea",
+            "50f3bc5b4fe50f7b69c279d188bb0aaba764af15aa1e80b6f71dbd45475177e6",
+            "1bf4a0cd9a278cbdb6d32dc9ed903eb8de8f33cfd4e3db372edc05bf2ffb8041"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_007_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "c6e885dbdf669da363b6cfb86ca84b44c50f7ddc294fd2f9e0edd7575e5255e1"
+    },
+    {
+      "id": "cre_008-baby",
+      "morphId": "cre_008",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_008.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "6440a8369cc24e0938527f641e6d80b501bb06d04547c6b0a58a62cfc6964e8c"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "6440a8369cc24e0938527f641e6d80b501bb06d04547c6b0a58a62cfc6964e8c",
+            "5f33132813e18f0122e0b4983d937782fdf6ab5619049614029c650932583dab",
+            "24d1134d9287502324d56d5d40b831665c8de928acdd8f5b35b980c21ae28855",
+            "7849c42248009ec6a078336c14b2c43d48969ed01da518bb6932d9fc11393ee1"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "7e3c7f0932a7874a35f270667f84b9c858c8c92024357588b36c7e01c77cbfb8",
+            "d5ccc67df43dd6a480859507e21a60e344fe63c4f1ef3a45bb8f91be0f1cdad9",
+            "a13797eb5ffd8d1373f211ae8c00d929d20cad7a90fec8ce17342e1a2180131f",
+            "0da4d603d646d8089a11749ef9adbf1ed6bba3e8adacc7d95ed6253986068127"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "4923a8078fbf7693871bf368aa6a4a561f518f7dd1f1d27242031e8aa8d8475a",
+            "f6b44ca123fd7d7a85f7b533e587b8f4b835e70ffc562c400d7faa45f50644d7",
+            "caa7e1ccb106640eefdf6573bf8e79c58a08c68ed2befe8773658877f970bca2",
+            "85bf8f64044b15a5e2a894e991ea35161614e07e421b2efbc783515ead4a8483"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "5b351ef39ac279df59c7805b228d9cc45fa0f3045a294faa0b3ccfa6ab034531",
+            "5c8de95661c985c0d5ccb8eb91d4f542437543682ed93f983c16855400e72f6d",
+            "977b0f548310284e587b128154f57b1e6a3bccaf3972f42e204b0f9567526edb",
+            "6e6fef1eb727108a6280b7d2b57210cfcaf102afbc88122194cea5c2a92164ba"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_008_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "62b3eef2777599ace82fdacc0d47d330403d06163bd9f31f7892f52acab51ec3"
+    },
+    {
+      "id": "cre_008-adult",
+      "morphId": "cre_008",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_008.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "9ab18fec2e240fc466f10b9796b2db09037c9942ff45b0e4819c9d9b40ec059d"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "9ab18fec2e240fc466f10b9796b2db09037c9942ff45b0e4819c9d9b40ec059d",
+            "ca4ac8bca89c6bdc70c4874150447cfca67519a6749b7ea13e3eb50c27681478",
+            "5d6d77041e66765b0b0fe597e83cb3886699f607adc995c7225e25484cfe2987",
+            "83d68e4bf95921fa2b76884091e29864af8e05d915e81d713d96bb4402b742dd"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "15ff7e1d31dd05220cbca87b67f2d730fd5865dd34ca069a0decf504c302efb6",
+            "5d05895c5a04a3a9dca8fb334e54ae4244618b5b6e4c232bdd9b36a324fd7fd9",
+            "e81fbdaca5e4f00903c4d3ed29b6411bff70777376823d47077dba1de150d79b",
+            "cbf3190c918bf466ebe687b7f245d3f9fa130fa708dd242e07cc70ee86119512"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "a53a7022dc3d37289799c1d62584dc54bc18e1d5252a29c2b947cd119b9dc298",
+            "4935a0efd178e10468ac4d031bf678db4e891ed7fa8c0e3b6e1dc9bc3634c788",
+            "d9410b882d9dda9b1a31371e20e7df9e42c5e2d01b5325bb2d728fb68e032c67",
+            "fb49e433e6c08c48b14d60e7cf498d2c24ad0b98429583c601227c2210e5db66"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2ca04bbc6df8875a3631479c6cb4dc0d0ad8b6df9ac371b01c7cf9c9b1e6c033",
+            "61d4400b87bb9ae761971518548f5d20adc40f24fb11ea9c0ab2d644f1a1516a",
+            "3e85205ed6d7d26cc4255c298a966fee891d9c46e7a7481fa259b530f948bf37",
+            "8d208642f8fbef376532033995751906d8146137fedec9e29e67324a0f97ef5d"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_008_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "62b3eef2777599ace82fdacc0d47d330403d06163bd9f31f7892f52acab51ec3"
+    },
+    {
+      "id": "cre_009-baby",
+      "morphId": "cre_009",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_009.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "12709ca96a50521bcb946f03c5af87831b54a72150754988ac335cade688385f"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "12709ca96a50521bcb946f03c5af87831b54a72150754988ac335cade688385f",
+            "7ba03857018ecfd9ca9579516c76c1ab961496684c3469b0c6d5149447181d2d",
+            "584d21ffbb63c1287d2ddbfe93ec202c34751b073e3e7d407f070c6a4a847dd8",
+            "904740586ed5d66306cbeb315fd852724bcba6bc7571901bec964368b9f63668"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "80bb8c12c9167749a9e15e364359f545420bf2a616927b0c0eff2f71a23cfdd6",
+            "7cb8fde475e3440b48ccdfcd3dcaf0fdc1eadcd57ab6357a8ee61f275cc6622c",
+            "865c2dda98cf17aa1b4f65ebaf6c392ef758c11f6dd25d183969943e295a6c94",
+            "e4c2792d1f06957ad74614f291a2dfb69fce5454ac33f51b1b984d9ecf893768"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "cc735e207d3915935204934f69e6abc48d8b88d7c5f25451247dd88cb9157dcb",
+            "2e04de148181ae25d9c3212b95ed2de43b5b659178d23075a6da316c56dade60",
+            "81c0b6b605705cd77989020ccc1869141cffc362be0a9f16d6dd392ac4de18a5",
+            "edd1d76456d13fec5758abfa617ec540e4d95a88705ab37678980d9e79054532"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "5ff54c713d22e458c705310a93cd902c9b2736bd9e7e51bef0732c4839d4e9e5",
+            "f264c2508cabffb847ae00cb5dfb8621bd837c5155c80b3ddcb3c6a28774eea9",
+            "33ec4b3a7acee8d5198d396a0842d0a0a818c0144f3f82d56792a83fc7e14f5e",
+            "8c8019970bf33d303472e6a0944235e951aa12b02d87d4f74eff7dcd8f251915"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_009_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "6824714db685c6fe470d2321a35aee44d9f9659af0376f5988e3ce92c4cc602e"
+    },
+    {
+      "id": "cre_009-adult",
+      "morphId": "cre_009",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_009.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "10f9137fbb8ab80b8f7a4b369acedbceeb93a3da8d51bce6380fa556d05b2afb"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "10f9137fbb8ab80b8f7a4b369acedbceeb93a3da8d51bce6380fa556d05b2afb",
+            "eb6c1ffb0b5357a279d86f35ac8b1b2fa3e48adab17b5b8ab6d1c2923e3c5dc2",
+            "f52b7233416963fd4f7b9647f530419ff813f277f2a5e946c593dd696cb8a9a6",
+            "eb1532a03e0f8b2a6a4781f5ff1b34e1cef9ad2d066de6e34382ba23c29a9404"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "c77387b92ff047009d987a3ae97e5c43dad09bb775342e8d9f4095faff00ac10",
+            "1daa0ac45576b86096fee322139ce1f8d034d7d80bd9995d62a75955d45fdcf6",
+            "25ab484108ca1588a27de2eba7a56b2e4bb454274976199e43627f6227fb331c",
+            "7d61d16d954882915dcc7096fece586b2ba9d1d09e4e375a4e9ae19c6f733392"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "989780d4f8819422cd78178421fc45775512a8f7e933fb4efc2b4aa0caa633fb",
+            "16c43c46ec6037eebae93f80ef1c65875aca0bcd7b9849f3b52a66ed85f7bc11",
+            "b6290f2b3bd04a95e9d2e681be907a1e9065922f3e45300406a437e1b4d1335b",
+            "7de06de17622c9afeea1ffd139270ecf0beb51aeaa7acd740116904c9bd5b31d"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "416e3e7121a8d0089cd67c3d61ac387e14930a4d6d3fc136087794672f9bf190",
+            "2bcbd1d0c8f846e86664fa9c1072c072813bc04c0c81f38c21234b92a0f119e1",
+            "4bb85ef09bf39c81f3668ffd588a97391d6ccaabfc9c7093bd7721b4f8ade135",
+            "1db08cee5e89dce094a78b2335ac6401451b90357fc436d095d7b8a60abcfcdb"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_009_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "6824714db685c6fe470d2321a35aee44d9f9659af0376f5988e3ce92c4cc602e"
+    },
+    {
+      "id": "cre_010-baby",
+      "morphId": "cre_010",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_010.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "87847c33d66a9e200336b49de4e7477d94ede091d8cec63b51344204fa0ede82"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "87847c33d66a9e200336b49de4e7477d94ede091d8cec63b51344204fa0ede82",
+            "6e74097848234c8ef3cd7584a18c075d82268781ecf7cc0f1717d21c8eaf839c",
+            "fdd51c5b5db0783ef81e660e1cfa48b201ab45fee82fc0bdf419a122142ffefa",
+            "58068770ceace23cf59c244769ae1c2704bb2e7bf74966ab6e9585fe5ecd4714"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "7356374e7295481d625c2d8c6a958737dadc86e50acbc074a5e53ab37a48896a",
+            "0c5349f5c368b8dab15fe7ceac9fa23b92ad1a6f6487c5865132870921a0f344",
+            "fc9a078e607d4b078274ddf646022285bec5708921ff8302582a5c2106065bcf",
+            "0b84109419493040e29aee5b4a537d845c95530e70d49ea85b15a89d4566b485"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e78689b1c2cdc40f299a7ebbe84bdab04315ca651ff59aad9b08f310e1546f1c",
+            "10d88ecf37b92450a506e262285bda8ded1c089387e0b5244e398e8227ac875c",
+            "ab25f3906ce3e19496c8580aacc9223b4de43e8ea866a2db6eda471fc38a0a52",
+            "3c17f891b58df6f03a8695586131faae71d663a7d61886dd6dcb2aec1cea1a92"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "8a89c1c5c3d2aff5359553d162fcd4419307ee08a12cac12d58782108d2f3f4a",
+            "6a9a4a2249fe3e37eb6730e93a3e198c9940f6fcabb7e34641f6947afffcf903",
+            "7e20d2c90129bdd55955675bda143c118fe88fe6f16eaf204cc092df7a28ed0b",
+            "6a7a08e4d7463a0cbe98588a88638c3504195e1c1511c7b964d4d8b63f0b2100"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_010_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "8da4fc22edd4fed1ddb2fcb9eee9e27de59169bd246686ad95264d3dc17182c5"
+    },
+    {
+      "id": "cre_010-adult",
+      "morphId": "cre_010",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_010.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "40986dedd81859e66320960b6560f70f07a1a453084f5fcc7df921635baafe84"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "40986dedd81859e66320960b6560f70f07a1a453084f5fcc7df921635baafe84",
+            "cb81600387d30f5bdd1be8173d28ee267ad137e0ac840c679af09529581ebb4d",
+            "95800942f43e752526c50fefe97bdfaf12d7d2950546e7c55f25043c73cfc76d",
+            "c41c25618a1387a1b76acc803862224d5da2012ed5a178b4d6b21c6a32f4d984"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "b45af786d331af7057a925b4089b6c9ad60dcf2207be4904eb60197ed3e726c5",
+            "d94a1b44d0d197d4487e6e84d8b022a5aa6d09f5a3c3829e93ae2d8b11a5d0ff",
+            "10ba3db9b109e28752c78ce4a0dbf3252f046df609bea458053bd74f023d2c22",
+            "f015ba07efc9df87c10dd924f87056e540b0f4a7c9d5f4864ce223a32b5541aa"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "6d9d9800c5c0998895fbe758fb774d49df1e27bab0b4574a2f3642f1e42b7427",
+            "e80c4914a319ff406f412eda17b40aee896a77984ad56c9778d93a0461657656",
+            "be60ca5b0f04f00b854819d4af2849983e9045de308c1ca499321e522e338897",
+            "a56a818069bb4437ed4f8927ecdc0523c34eef97587848fc28a34aa84b3eb648"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2334f361ebd7d7d2de50a2bd742b6fc92753707d0969edde914d8ed8d3e1adbe",
+            "b9cd91e80fb4b4805768558f5ad7b7a992e0acf205a8e2eb54ed360d9f2f5336",
+            "d5954434c90efadef43aafa70d1f34129ca3788307097cf3b843401d8de597ae",
+            "9b399c5f6dfd5f3c0ff49fdf0f15e9e586d5f8f7a6de29fe56f0c16221f4c217"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_010_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "8da4fc22edd4fed1ddb2fcb9eee9e27de59169bd246686ad95264d3dc17182c5"
+    },
+    {
+      "id": "cre_011-baby",
+      "morphId": "cre_011",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_011.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "0c9592a97435270e5123c12bbb47a39b9c9f03ea8de63935455d0b11c6f7623b"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "0c9592a97435270e5123c12bbb47a39b9c9f03ea8de63935455d0b11c6f7623b",
+            "849cbaa3dba4677426b107ce6f690280bf05205cfcae5519f5fbb28abaddd004",
+            "1075321af0e445b86e6f182283fd9e4eb061ed7a23f0adcd1ddb051db2299570",
+            "a15e6bf4d918aaf4021e0390796496bb7e56ef5fd06b01727530f42727074ea5"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "06183f878cdee35a0c60aa7575779318b6005d4281526d364e3ecd8f52a5345b",
+            "ce5d27b13ebd6a73aae13e63f02a64b9dc0a72be526d6e6d3f6140f0ac8adc8b",
+            "013c050e8da082a4cc4b2c1d2adbe7c541fe9ce2ebc17c45f283013e79ba81d0",
+            "d668ec006f392373bf52c412d9bce60798b13fa77f4eaaaaa68217e40cfcfe1e"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "784e0888993be55bb0eb2a23be4a21217795e2ab872ad66d0b83319835230635",
+            "a91cbf2ed093f27225e8841ccf73f743f368b4302b2899255f4682c1ceec9c56",
+            "ed8369ed8d3ce6b4f3cb3209fe243330841118e90673311e45382c0779fab3ea",
+            "2b00a61f921a1ff6151fa92fae9adbb8f618089db38f24417a7e8d6262db09b4"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "38eba3efe390d44bcbc5876960219a7d72131c6902ff9f861a6b00decb5f4d32",
+            "77d99902b470ef5531b1c981a332bdd9de5de2a55b87d1b46c8e42729601260a",
+            "d9ffadb936cbe8994c125828a0944e24a2bd67f4f71a46e0f4a6c1b840f8a8b5",
+            "f5e07c3aa54c6e59d5f4e82312fcab3c35e3e692e5c2599af56ab44536361ef4"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_011_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "52f7049ae6e63fc567c223abdd7c5d03f9e832820d6405da80f2eb09ec771230"
+    },
+    {
+      "id": "cre_011-adult",
+      "morphId": "cre_011",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_011.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "a238675bd47bfc0d9e0d1147b4e414fb47aa34e62954cc26a65a6a7b9a396cdc"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "a238675bd47bfc0d9e0d1147b4e414fb47aa34e62954cc26a65a6a7b9a396cdc",
+            "7a863b0be45357760180570c3c6e9f31be24d427e930b4a7a4cb8a21fafa05ac",
+            "45b8cc3fd613b6dd412cb965e0776b8227f5486c72b7ec83a540b0df40725cf1",
+            "bce933f50f24be5d7f62b55f61826ae75b3cede2b9506e413fe897334c0dd6ee"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "ee7a314da38eea48f6acd69a3576c324031c9c14686bc6e28323d9f09cd32772",
+            "64d2ecf7a15e76ae381ded6214b4b7538e4738237e78f1037441a82fd7812e76",
+            "809845e3e829f77c32af39a72654621fb6e1524e4a72c9eba7c8f9778ae5487d",
+            "a800af9942ee8f1522916c0fc87e1c509cae326df293abfc953271456ef5ca2c"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "dd586729292fb86a787de3f887c57ee577a91c0824939c7ea54cd32ae7b80f83",
+            "009e6ba77112e13eb9be6b8d1c0a6076153f8df203ceefcbfa6d69da37da480b",
+            "c3773455ad4c74f32c5fc1d319de3700b0ca693263e325ffede2f62a070719dc",
+            "ea18fbe2273ac5bc40776bbeb4669e2507d141eccba98503587a544edeed5bf6"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "21c931773ccf880fefdaafb486b6bb3794e7576d1c2a1b39905cc988cf12cfa9",
+            "9d589ffe6dade033527fd60fd0f0151060682489dd99383181f85b6c976bf712",
+            "5e25e632756d674f2dfab5342b4c9d1a7c3a72b9dd7a6bfbc28c48a5f77defa3",
+            "47636f1b014c52873c6d4f2c898d09ac17565a79ba13adf782c2729ae48f0daa"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_011_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "52f7049ae6e63fc567c223abdd7c5d03f9e832820d6405da80f2eb09ec771230"
+    },
+    {
+      "id": "cre_012-baby",
+      "morphId": "cre_012",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_012.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "5b7d9585b0128d6d969dfca463eefc584b9de01548a4c1b0859b4391fe19c179"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "5b7d9585b0128d6d969dfca463eefc584b9de01548a4c1b0859b4391fe19c179",
+            "f4c9e16d88e2c44f0fbd4f446a7a659562ef91dc9902d152fb40b611f8d77908",
+            "35ea596092cf439cdebc3dd2c2e56734e48c92d8ce5a119dd4ab07ebd6547502",
+            "e69cdc2cbe9b92cb0558ddfd3c6fbfda27410f9be4b27d96e2e2323b9635556f"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "23a44e53e1781781431859da0268fa84423b4a6e17a3093c1430a0f1dd1f11e1",
+            "ba25b7910194787b2c35260e0c1a9dd58c27f8acdec3a5ad7f812ff55cae7c82",
+            "c9e6078ed72519eb8d6b9de679e72566e6e50779736c5fe2187d33eb6930a197",
+            "66e21beefaa816581bae28f56bce1833ef6028afa66172f5c2ced0463d718880"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "ebad516c6d784cb0cd49c0352d0b8b7a2ae1ff42783687e4476347622595945e",
+            "28ef109d892e986fb08e9318da036080554d093075699c7802d12d1dcf667cb7",
+            "f7e2828de4dec0e216a5ad7af769e53d8cfb9c5038994cc94c81a85ae7291b33",
+            "ba7466296c09ec02a4747080b1fbbe30dfcd362eb34c3078d696069606515185"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "b0834e79cbea4dbb9c7b7872b59bf91578c239b0d6d385ce17426bffd49dc05e",
+            "4f6aed5a7d69695be8f2cd8b6dd2c43565072b7176e8d94c97016dbf03c17efa",
+            "545c15f111fa930bc8c5d8b03cab384a8b892591b0a8f5744294231e82af4ae6",
+            "f216bbf8cfbe980ef11d30ca53464ee612cfbc0e4e65b98e6dc2c093940ca5e2"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_012_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "c546693508e32d4a80d3bdb3630379d0fcee96c388e4902c1245080efb48d3a5"
+    },
+    {
+      "id": "cre_012-adult",
+      "morphId": "cre_012",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_012.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "0baefc777cc546ad065fef0bfc876bb4940cda9786d7cb98455bffc442e5fc8c"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "0baefc777cc546ad065fef0bfc876bb4940cda9786d7cb98455bffc442e5fc8c",
+            "e98d8b22ca389838352cfab3d150fe4c4f2efd223dc98350f35598f13739c4c9",
+            "f11bdbca07813c8d46968f4577463dad4935b1c408ce314e5a036d059e78ac6c",
+            "cd4126f67b59490759392532e7d317b95fdeff373e20afb692770835bc7760c6"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "905ac07445db03899a8aa133eadd2cdb1fc73cadbc452002d00b3ae7ef122728",
+            "f005e023fbc74348f1871f5f9b1747c6c9e0ef9e0720763c04e983dd58ec7f19",
+            "690299b878acbd57d00f7ed5a41dbe870a6416ffa71504b6fc05681ba1032390",
+            "91b6756fbe091fec9b162dfdf71b2e655a5b7e8180f6f4d6ada2406904fb3c2f"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "5619f649f410ef17c8f4676b58b0fe582aeea333aeac5c30bacf0b01ad596a29",
+            "99926406a4efe7775897c7be03dc0c2a203af8ea7d34892f0d46760d3151ddb5",
+            "16dbd5b39472bc835d284dfb0e96716081254937e4b6c380ac08830a10ac631e",
+            "b2115655dc27c87a2377ed2a3814d2ac5df5da41eba8bb3f109851b85106a132"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "fd0f14b9a20fe967b7eedafc120f7b30a49c24a51dd0fb2b57ab060c9e504dbb",
+            "97d947eec474ab93b797490972e2083dabd708669e9fda7395fa1baa1faa1f6a",
+            "53ed0a099fae226fd75077118265a50c8b8342a538e68941a19ec9b1ef95d228",
+            "582605e74a24b4154b1063892daa5be9c65fd475b857f6c4dbab4e4e2d799acc"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_012_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "c546693508e32d4a80d3bdb3630379d0fcee96c388e4902c1245080efb48d3a5"
+    },
+    {
+      "id": "cre_013-baby",
+      "morphId": "cre_013",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_013.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "5504399a053a84c27003c67318250ddea257d302e412aa1fe291cdab0edf2072"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "5504399a053a84c27003c67318250ddea257d302e412aa1fe291cdab0edf2072",
+            "a52e13b75c8431295ba433045836eb21afeb3ff7f23c858c756e52f7015e4b17",
+            "f34423683c56c35efb2a13e71754f90486c966cefd0184be294e804d78871af3",
+            "541eddf8c993f8ed057d42bf4758a2a91097165e5e6ebee5d1d4e2dee9591c4a"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "9b09fe8a675bbdd95e71fbf98b4134682745e81f8df1f20921127d25edd4c662",
+            "f80a29159759b3a909138a4662f4daaa7cf57661064cce2396334130cc6e0cb3",
+            "d735648a649f7bf9f8dc2106586d2316b0ba0a62e25cd420898ea6c1d279e170",
+            "8b9de1805f4fd20d5ac0d3c1573d8aeab82679b450652472934481c70fe9a7a7"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "eea1ec802d7e11c056909839c09eb581d1ffffe0480575cd2f17b9b805909d5e",
+            "95bcb0ea4bfc9e276fcfdef53b542edc40b556f5cadc2173d898d3313c6db106",
+            "d61997b2a72e9b3d1ad03696649a7f0c3cbb0de7147ca31138497bc9b08b1f9c",
+            "2dab2d0b29ab31de85b78c8dac98a8ef8aee62b99a76df7baecb0ab61913dc17"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "83e45ee7991759fd45bedc49ead9ea546bc462b513cd3421b419cdf3a735511f",
+            "487d5b79be8d7021be633ccc532381a57f25b1834f2afdf04d01fc1ce52b82a0",
+            "6063f44ace37dc4fddeab4949a188dfd4da3370547f92f44b51c7e7b7e217999",
+            "080e64cde9fc2ff41d6a6b3451a6ed79db8f8defe9f42b19ab620cb8827c6156"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_013_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "6e4fe70e69dcd649359b6a33b969e10797c12b08b183c963ee0222e4e8c398c3"
+    },
+    {
+      "id": "cre_013-adult",
+      "morphId": "cre_013",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_013.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "dcbc8f3b344687c5a73eaef77c3139a0fd75e56ddc9b756e5c74f35e9709dce1"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "dcbc8f3b344687c5a73eaef77c3139a0fd75e56ddc9b756e5c74f35e9709dce1",
+            "3ef0d909da186956558d5d740779ddcf1777a84855765cb40b5f42c23c2eb3ef",
+            "281a8c4dc1004786edb4d8b16a22377bcc6cf00c302a72ada577c5340fee82db",
+            "d6ee9d4eba64ad4d76b9cdf752116d57697bb7ca81b5978c2bccb74b21b7bbe3"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "cdb7c5ecc95d493189424a87b4edc1239bc2cb6537c7d21453488fda78f78eae",
+            "acacdce2349b19b775090d25330f4b033d937f6e6fa32a3db55dbfeceb249d3a",
+            "91bd7c5fc6866b0fa38237bafb5030993834a6d866efc8e72c0d01ac1d2a2415",
+            "ddc7bf7c9fc716ace90463a7a3b992c553719f40ace1ad4aed110778c953010c"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "c5e14e1c4aaac254a69f8dfcd2ff4d9569ae51f586bcbad2abee4ddbdd1f9e93",
+            "98019b6ed20608f266652032ae56055517dca45e3455b379f36b15fe5b5c41cc",
+            "e8ea75c5720b2aeb872f5fbf4b4c2d45d0c1258deed9abf39679b549c061866d",
+            "cd8f9d6b3c1228f8d085ea6b9515fc8be3846874ef29cc4c62a06101eaac0702"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "677d2c91e93e56a2e57ec0bf3981f39c9384c753af3f2c2d97c7cd98d2348f70",
+            "43c1c9091264cd837dbac8682d093d0e8dbe4f668154f02bb99f651a917b616d",
+            "592fa27650cf384316d4872569480e6c694f55fcc4cc9ea343bba2da7cd1d755",
+            "2086847e037cf54beca0329c3c0177a919cd52a087ade2fc000a9fefc443b142"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_013_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "6e4fe70e69dcd649359b6a33b969e10797c12b08b183c963ee0222e4e8c398c3"
+    },
+    {
+      "id": "cre_014-baby",
+      "morphId": "cre_014",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_014.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "89da8561a1e623c6cbb0676292af6487856331c1ce946d696e60c48855b41fd3"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "89da8561a1e623c6cbb0676292af6487856331c1ce946d696e60c48855b41fd3",
+            "6f73db41f5a6f4abff3fa8c6b1d695b45fec3505411f2f22b61a6f8fe9501d9f",
+            "63da60b56971ad81777ce6e96dd88f892c35fe5b62d10a5be50f583150bb5814",
+            "037c5616f1faae56d372761a2d88b34606d84f5f8e6bd666e6fba5a55a9dcb9d"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "16e73111188a040f93c453d8a6f8be4ca9bd1cac507ca41f5b87736de287f37b",
+            "cb0fc73a7a5bb0ac51895c3dd6baae921311206c04cb76793aa41bc91027a8fe",
+            "4ddd318c8961270e0450f270a8bb7ac7728231e7e1be8cb514f481ae2362eedd",
+            "c660329d1fb3ce5b21fa61f83809934e42b5c3c9a8b28314b974d871dee04a21"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "40265d44f5254466aaf8829e959df983a4ff59d45ad418922e938045aadc6f34",
+            "07daeea9737935ffade0bc8c9ac098bcd747aed93d1f3ffa508f86588951dee4",
+            "dbbf082ae9dfcb4ac0c496d6e54d024c35f613311f88fadada7045a20ddd903f",
+            "2313fab99cc34160d32f4794538ce0c4a3384a86e27ad4780ab0a3a82e3bf98d"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "d78f5002626563a938095c961626e875110e7be558dbe309b4e3f0dd882dca8f",
+            "62380cd9ad8e0cf42c15338bfd905587ba75a023953a45e17c707549536801ec",
+            "ba1edfa55312242bc647da9ea5d06eb759b0201049398d32174df52b83d24a63",
+            "aa651ab7b6a8b01bcf3f6d8395d63e43e01db0f7e801bb7d04b5a7a32eb3efb7"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_014_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "351b00147509729c8cef3933250a7f5fd874d10d9cffbc1ae46aacfee2df572f"
+    },
+    {
+      "id": "cre_014-adult",
+      "morphId": "cre_014",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_014.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "cf345a855d5d5ed8ac14f44b2efd55b263546dd9c593e4d2452ce69f6ff160e1"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "cf345a855d5d5ed8ac14f44b2efd55b263546dd9c593e4d2452ce69f6ff160e1",
+            "55f2381be6f0e6135791b20d30b0a5dc287d922bf94246cc2f5ddec3df8421f6",
+            "466e0e343e855d00758d765793ca25f60e726e0b51b5438bd7aaad205d1b78a0",
+            "85e29ee0637982b749f2638122ec79a9e2994945e909eec07a7da74d21e5ff78"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2ffafce7f1172c14461878a2f22670cc83ec0f4ce236de6b7ecfd3ccb0fdc026",
+            "867e136a70e1153fafa35d1f8e5ef46104f7e0efeb8bed7f4b89efffcbe23881",
+            "ac709aa702459adc5c9ebec9d6c4a72ecef4c49bd619ac1eecba4cb83148f302",
+            "dce6368b079e476954ad8b00d1cbc6843594a0b1e2aef0a1f92544ece4923c64"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "8477405eb35f8eabaf4247d1a3b31d7b065666c726f0b8bf5b82ff91375fe820",
+            "db05aff0377eb5b1d148dd1b2f0796ec40ecd8012c4f2e3dd01baf015fb6e1ba",
+            "1e593d7dbc5d071319274483be3d20d8e87f9a3d83512eea0e9dfe7ff0da9740",
+            "4086832cdb049ec14234565a660ec77a5b7fca24d920946f75cd348d8213ee67"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "34ba40a2e3607e14a6cff6655df2e7fea4addcdfe4ff99dd03c0d5fe298807d3",
+            "358d0347515d59d4f2f94874cd504bf71dbacfa5e06fcaa3a28296e21a634913",
+            "ded11a8e3facfa289371108a38a4081a4156a93e7f3862affbab67dd631429f0",
+            "0c5a2640b68aeaf48741e16824d1fc589b3c2b66fa538955487e9cfd55038fb3"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_014_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "351b00147509729c8cef3933250a7f5fd874d10d9cffbc1ae46aacfee2df572f"
+    },
+    {
+      "id": "cre_015-baby",
+      "morphId": "cre_015",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_015.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "5e903a280a82240d432c9f5183644ba2abad9e3dbca2920afc2d9337d1a6fb01"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "5e903a280a82240d432c9f5183644ba2abad9e3dbca2920afc2d9337d1a6fb01",
+            "a95d15bee2379f8527a5e73ee42ebaf00dbec01354007f6e1bd2877374d01532",
+            "e81662b9bc9154f8f0fdb3d824a279e3ce70725274ebc67225ff69fa7e82097b",
+            "be8906052135bb561de7950f3e52434d7aa64c29c6af0964a691e7e67aab651a"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "058af93c35bca04cf4dd8b8ffbed7358f9f4b67c93ef91286cb05a3cdae918a2",
+            "34e21db2bd1b5c1ad3bfa2577e3b97c24b433e11422cdbb97f716d81dc2405d9",
+            "c4c58ce3893e4c5a8e96c8fcfb024e09ba20212b5f5daf5a88700683b1aebefc",
+            "f7305994f44d926d75021cd8c4224caf5562b47afdbb8295823566a845cf421b"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "2185f83b14dde73299884598240857c3b789e5ed7a424d6a07945055bb5ed98b",
+            "a37e73e4d2bcda3da1585756d8de10e4bc86b1e900a6ed8e307dd1446d182ab8",
+            "ca22d4d74572734ec478e6f18f8e4514beefb0c6418aed324895a54cbdb48dbf",
+            "80cb2b90e444c10dca4aa09ea3e17dd5a89280a0e1fe326fb2666bb1060f5151"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "6d1e0b259196983be370c4d9ae4fd73028130ff0e87d31ee42fcd891d0029208",
+            "4626da07cdc7a789829b0f6f671a0ac634c0c5de07fa910dd36a67f1420a22fb",
+            "dad7a0578522a04bc1c48db7af22a8dcb918559f9001aa353b0af4bb5f9ab5f2",
+            "1e0a3900b7f17cebe8c39a28a942d1e47d44ca608a2daa5f465818645fb36840"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_015_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "62a3b0a1cb6736b42818781a3f8a2da558e9556d708b7a835e5d618cfe48dcaa"
+    },
+    {
+      "id": "cre_015-adult",
+      "morphId": "cre_015",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_015.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "cab65b9630baa14d89c4cfcea95e5133a5eafdfd617a6c8c06d6a13a70ae1b25"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "cab65b9630baa14d89c4cfcea95e5133a5eafdfd617a6c8c06d6a13a70ae1b25",
+            "7675177edf0b9fe1b763d90a23cbb157d5fc9b6e3ae19498f674403f1a608a3b",
+            "085ae7dcbadba4b1ef8d328bb1041e0f287a4ff0812ad72a4f9405d5c269e2ed",
+            "247623599bd57a22fadd4ff7ddf01e84eedb313c3d3a67e73dbc5da15ce22146"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "43e00dbf1688786f49d6d805a589431aa016aad51cf914ff738b16bb53f1de88",
+            "e7c5df15663ea87c2d114905ae518c1d73e80d0c83974d348fea776996ab71cb",
+            "400bc71750edffbecb89be1c43d2206319c6b9fac4e451370c591f8a497ebfeb",
+            "63ef487f7701a6540e20b3b18eb179e90c35a1a23ebe720bad924a84f2e82b31"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "8e1932c14299eb18e0d6e114b83b921371aa4ff528da10c7f06c8bd91e56947c",
+            "033707d0a40a03115c8d095cf1ceafa04775b324ca52eed6971f09233c6434c1",
+            "958cd9c2846fbce2ffd47ad7b6c9d3bea4341509faafd4eee4128277eca215d3",
+            "12c6349bcfd6705ad8b5ff1cc1aa05efe36cf096a741985b168c332d90005293"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "e714ab269e0fa556b62fd1b765f0fea9a3e949dc3d7b1c9beef66a1dbb4616c5",
+            "c73b25358c0d72d493b41f0b2137b670cc279caf0cf7dfa66e47d71f2f1b4ec2",
+            "bca445aba4f1a7cbe07eb6b555a21ed820c2cb19f1adee3bffe69d2dc224b857",
+            "ad7c3fdeebe82b338e79ba9961945fdf838ec23275ca0d55e85b61c8eb8c9e38"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_015_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "62a3b0a1cb6736b42818781a3f8a2da558e9556d708b7a835e5d618cfe48dcaa"
+    },
+    {
+      "id": "cre_016-baby",
+      "morphId": "cre_016",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_016.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "b64322bbec1ec4cba6f2f43ec0b4837c112c3263a4e3a69e4d4442a5ad0a3cd9"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "b64322bbec1ec4cba6f2f43ec0b4837c112c3263a4e3a69e4d4442a5ad0a3cd9",
+            "87e6120fa2a97b8f77cfee4f6298a2f524ddcb467353a545c6c98f75762f37fb",
+            "3f45bba4e436d151ff146b7f89b2485b69f819d0aa42a0aa7a93c7343006c197",
+            "d85ab1d0dadcb8b3adb687f12ba19037867e8d8030d6a91e7ec79c749ec1a87d"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "eaec3d336378f3a00ac790d7b3e9872be53fcb9c713f29019164ad839e5deed2",
+            "cb73cb2116dd9a14e5f7714a4d669785017a1c8d479318ccf1ba0266698a38a7",
+            "5d7e868f590bd81d1becb0d4e6f460aa71581bf6262a9999978d1e98519def69",
+            "b0a7d99965e7e2fd815c51c58ac7eb4a9edea07059ccc611a0a767c4654edd73"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "81d0bb792e24478fe3d62266b2df4fdd8e253c95563b73bf8bd568fa4027e8e8",
+            "3250eaf8335f78db41b26145e99fa987ed1789487d2b6865d48300d12447c0b7",
+            "b6697a06735ec11c1bcfbff541a26be301398cf10c5a0d7950391e2db5c32087",
+            "33b694600871c1773e5ca9fca8c8abd4619514ce05feee23d42e88f6ff4a8b4c"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "6fdfe48cabb9f8f846b60989b366f45cd7635ab9b9b4fb2c4ea2606a2a0d989a",
+            "b7478f87715dddb45055b52d0b29f12b549da49908e08f78a70f9c3c9bd3455f",
+            "fe0fe11c92373365486b6d750e79443322a140f8cbdb4d6abe2c78abe0f2b2b8",
+            "4e796e6dc8b057730785d253dea1ecffe1f7d60ae5201849cd0a1c8e3212471f"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_016_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "fc8def96de14dd544d3c6a999bd425549f38cdd21c4bfec2cf3ebe1e4cc99712"
+    },
+    {
+      "id": "cre_016-adult",
+      "morphId": "cre_016",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_016.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "f75db7b3c4392f6e9f5409cd01bce9fbebb6b1a4a24233ce7e9389e5269158a1"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "f75db7b3c4392f6e9f5409cd01bce9fbebb6b1a4a24233ce7e9389e5269158a1",
+            "e88c6dc82ef426ffefbac23e122a5f25cacb17cf5f068c2d3c3f3cbec81ea5c5",
+            "7221315561d2af87abc8a1e54f476964823e6ee78dcc74c4ee552df1a7f61e07",
+            "473e30ab06aead05151f005b24c600ca85fc051c0bb44fd45da7faad8c17872e"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "89b4d914c736e84de1bcd44c239d0c5da7523fcf45300d5ccd836b6c0b2f482c",
+            "f592885a72714204b7b8d671712acd7d6df9dfa2d544c5ef7971e91a9a156fe4",
+            "0290dca260215af9cd5016056c0dc5bb904eae693f35dfd07a3b5c0dba385051",
+            "81dc241d21b560bb09cc2929df7b06f998f44f931485a68f38729ec4fa0afb85"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "51bf3cc6940681c975a87ebc9a53962d302a819fe5ba6a9c0694dde871a66bbb",
+            "8944fa8ed9dced284e59121905a500bdf86704530054f8ec766ea157cd71ca0e",
+            "8459449fdb998e1b01df10e7a694a640c7bfd12b6468d24f9b559a6e51126e54",
+            "003a3fa165c44264370022e11b50fd1755e3e7e8c4fdd86d673e9a985c62e25b"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "7ab1da0e99573f54a8c6a62540741855e334444a5449b39fdfd554687df0ec16",
+            "785b85ffd33facd08dfeb35b9fcd1bd4008d0e328ab0b077a5ebfab3de30194c",
+            "5e9a25a8a904bbc3a9c230f0296218668de73e2daddded6da0bd5b2fd45fcd7d",
+            "624546130b8d84800d9ab33e107c64348b5e7af9e17c4d7f2ea292513a169b11"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_016_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "fc8def96de14dd544d3c6a999bd425549f38cdd21c4bfec2cf3ebe1e4cc99712"
+    },
+    {
+      "id": "cre_017-baby",
+      "morphId": "cre_017",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_017.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "6df703a8bd5ed3871f3766098cb358bbe6d9e8571cf52f0a0aea864b4e0c7c67"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "6df703a8bd5ed3871f3766098cb358bbe6d9e8571cf52f0a0aea864b4e0c7c67",
+            "2843ffc2d0f558549516114d66d73b7d4d3681542bcbf9741da0fa9161ca7b9e",
+            "ca42ddd9b0f230f4d3dcc235b6d16c148cc7348fe7e3feeabb5b5efe08b2bd4c",
+            "c715b1d18a1811db41e96fa2543dcd4c82f3b42dcb55d4dff0b3c72e6a839f90"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "cfa89bf2daa2d3ceb2fd9c8654e82669474f19b770cb3508d4e7c2a2c63a8d95",
+            "c209d8406b1b3cb53a29398e5d3b8e3cff3388f239118c2fb991649b16327b1a",
+            "88da66919cdcdfea81b2e6cfa49197d93238e53c9729eb3d286603e24c4e21d6",
+            "77965c73067d4fe3ede2a3d32a7a485cff1718e5d42dff44ec44972db39e4f5f"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "56a426ac39df9dd831e492f8735836b8cf141dfeb59a7cd5e4ee111afe407d25",
+            "15b7b2c8c0049024c41a5effd46ea930e6ffa07d2bc25b29d211048517fb281f",
+            "01622b08307954d607f7ddcd30d38d14d46a63e288d36d15744311d27333e6a0",
+            "ed940e12beaa8f024756b46135cea7d17081b0e904f5db143c8d5e6e50a13a3a"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "c34b14e1b28f82622e4ba5240466c8eafdca3d08576191c57899eccceec55e13",
+            "69464705d9d87e248310b8cde3dc7d9f09ce76b4ba012276357b7edb53ce48f2",
+            "d5be91826f4ce7761174cbc407c6b727153818abbbbfa1ff082fa9b52543ff57",
+            "7fb58317535b4171b3b6d638dc80197b070c94b597da6b90203a1840163c55fd"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_017_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "184e95c0ed2c3645ff584043c1dac1587b9bcee7cf9e6799a5329984f65b9cde"
+    },
+    {
+      "id": "cre_017-adult",
+      "morphId": "cre_017",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_017.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "16bb1951e90bac3fe87d4ee09cc9bbc1ee3cdd40cd1524fcc4de5d9698e3f25b"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "16bb1951e90bac3fe87d4ee09cc9bbc1ee3cdd40cd1524fcc4de5d9698e3f25b",
+            "50f0b27cc23eef09d19522dc51c53df9c50b31d563fa775233fc3d68438db707",
+            "69cbda96b7602e74c0b508a16d4b02b5a0073f4554c5747e1ad29669fba65856",
+            "bda7914cfa501dcb1a359222e17dc500f12602debed57cd945ae57f7511ee983"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "19e30639d20ff79fa3f7c9aa8ec270a6f7514c3e11a495fe375ba87911e92bf9",
+            "d154b23b612b6ad90789c515ff430c564c4156a4566f8adfd5dde96cac495aec",
+            "b498ebffdaf2210d8bd9a1fe2f5945c146c855df044cd7e1124fcb278407f700",
+            "357287fd40f5fbac29a583034fffbf9ebeb8ee2545aded39b23ee392d0538024"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "6ffd3d575ae40aa8cca881fdba227212df55f682e864b3e2fb859a9f807391da",
+            "6501a05e91a88f5785a131ce9dfe86c74f5fa9f8913ad149641925345fa81846",
+            "41cfb519a69ab938ba8e72edff3a4b72a7f744723ba7a5caf1a2e838fc83953f",
+            "bf0cf890f1de985c0f8c4dbf2c12ac11412d937493528063e823b89f3a883d6b"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "4bef4fa14d1e29d48d83f9d98c2efd61716cf98e7a52c7a494f8bec8bbe252ba",
+            "304f88f540ca8a0fff11638972ad48aa5413215090b8faf50072087ccd567715",
+            "ca4c033696c3a0735384d8f9658442fee174ac71104d0b7991d215d07b22f6be",
+            "389913ed26f2f9463f1aa2bb86536e4a3c06ecc8438d3e0e34f572127bee6b1b"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_017_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "184e95c0ed2c3645ff584043c1dac1587b9bcee7cf9e6799a5329984f65b9cde"
+    },
+    {
+      "id": "cre_018-baby",
+      "morphId": "cre_018",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_018.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "8e53aa9fbfd5355c4133d73d1c5ff64000a0afcc0b6180be7b69081102709c83"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "8e53aa9fbfd5355c4133d73d1c5ff64000a0afcc0b6180be7b69081102709c83",
+            "85df98b2e9831407e42aa201be2e4bb1058bc52ad810cc12d2c876b8ac9aba51",
+            "6319d17314d196c9ed7c160d083b4c66df93c4c71f2080e978b6d01278ffaa72",
+            "6443e52ef457c79894fe480227cde2dff46531e3770df5dee6da662202f2f950"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "396be60273a348f937f44958ffd41a368774f830d900e5b503ecf9c151698383",
+            "2a9b9e2bbc510f3a42a80b77581c5732e00071ca55cb78ee0fae9cf82aaeda5e",
+            "7bd02d0a82244f2d34349707da6876d6b6997c227f8dc33b4ad775ea0728e259",
+            "80d865be811ea5d07271d9ab55eea8ada3de507b040b5e250e515fac9fd1dca5"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "6afae19a567fde7e5f25d7e1eacc72c76968b3e4319147546371e267041f3510",
+            "4ac449dd020763352a77580eb6565da30df2671404d7c66ce3c3470c26bf33c9",
+            "45e9546d28c6bd2ab259f1d897fd583eab7d30be8fba3418818707b9f4e256e9",
+            "3ed5112188689d91bbde67a768d7a4ef59ffacb5aafcf02963b9c68497e52517"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "16fe1fe9ecd51bead52061d795a7225a580b50cd6e2e6c87f4c9ba3f24ee401e",
+            "62b694f9a60557f6ec1376450d3f65186dcfeac4c0fdd837b508f0d64dea0892",
+            "512480569e1253f2230ba66f3a936494d6426632e7aff6ba73f1f3f9d075d6f3",
+            "81fae9a1c5b23fc6ae959dbc62bd2a75869c2ef38d269f8c28a843bd3be0a1bf"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_018_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "22a687f4c550eb5ce27f6b3b50a392dc4437c2eb5b7e858aafaa3606519868bf"
+    },
+    {
+      "id": "cre_018-adult",
+      "morphId": "cre_018",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_018.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "83af3a28881b1d6525e5111331e0ca92e701db4c9a43bf95f2d8d6f334aaa8d7"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "83af3a28881b1d6525e5111331e0ca92e701db4c9a43bf95f2d8d6f334aaa8d7",
+            "0ea4e79a9c5ccdcdadd620b5edf923dfa2b5e19a2132d29b562bd2c03b505b32",
+            "2da83f4a48b41c6d09d7d245d150d55516b06e69fe6980fa5f33c6365d8b28f5",
+            "a6ae4808b30fb1663b6fe46519299452961eb8c64af42a1858d2e633f154ce07"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "a76bab3186dddbccf180151f0339963fbb8bee4f78ad210689ce093c8a47b2e2",
+            "cd4317a315fa5f1319b576025e85f79529a83471f313072c75f2361ab92ede84",
+            "0a175842605fee66a04cdfcccd58e2c4932fa1e8618e1fbfea1ca228b7f32e4f",
+            "c07c64ebfb4a0e03b3c77a53251e6fc6ec06c109364c992ae85f3863aae8f671"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "bbeb121aa5297079ce2335788983acb299d7a88ab8bfceba2dd02b95898e9eb4",
+            "d743016eea7a59874d839027a24a4a5d1d90db9d5aae97c65dee46f937857a33",
+            "0c9dfc83b0d5948e17858ab8ad5f4f9ca48c417ac3e84fc03bbd97625ab0868d",
+            "e642320272366f871e4c2c0aa98b31d15e912b29c4cf41a343f84b98c8476015"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "9e0ddeff52e31f85773d74a4f69a8e1c7cb3a2df05c993a90b3b831f5f67320e",
+            "674898deddc291432fafc63fcf3e3b27fc1d366d7ccdfd18906a2dfb82493b12",
+            "33d85798735a6f5fe14b3084f8c2593563429235b496a02100f929c642305488",
+            "4737793beb30764ca674d1c8a303a709e829216c676b85c3c1950e005be53618"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_018_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "22a687f4c550eb5ce27f6b3b50a392dc4437c2eb5b7e858aafaa3606519868bf"
+    },
+    {
+      "id": "cre_019-baby",
+      "morphId": "cre_019",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_019.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "b1bc4579229c4a6fbe49237f9c2941a102d2b338fa083a9386a01d2b0bfd0979"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "b1bc4579229c4a6fbe49237f9c2941a102d2b338fa083a9386a01d2b0bfd0979",
+            "46feb89581a2ed9e500731820126723c603b6dcdf964d218039a3ca539fe8a31",
+            "11796377e76311a7d6b921bd1e4a7fe6f4e9026bc580ce01d00638e3526ae842",
+            "43387d9c0d8f214115b700e70d82e35bcbbc68c0b3255d806d03ee0d2899f7ca"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "d3a9fddc28eb48760d4edc50e1f199f2d9d5bb745d959402a3348a4d34d2f257",
+            "d7c95224a6bdfe2d654ed15d1fcf65df2678d09390e40c7d4a8827b4faec4e94",
+            "8f9204cb605c3d0a9b7ecb1279be72076d1639ee6d30b3b50714ef2b039a9183",
+            "11f734dbc2d66efc8c86441c7757375b1ac7bde7b92f1ec8471e744ac5dbe540"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "642384b2eb34a30345a374ab8ea21c6b3244d78f905630bc82d29d8be1aef1ad",
+            "37c651868442c059a2ffffba5dda1131c1ede311c04a1f3052594573802b9293",
+            "3f3c0ff31336278ab6717cc4cb8f5cffc902f2f83a10f87dea543d4412b09b88",
+            "842ce14749c5aac2dcb627405ceef230a1d2cd07ba4ffe3572575c763f7ad2c1"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "b22dafe138d517428736506e8808f6400d999bda46772ac3f60f500a271dd04c",
+            "3eaf68fc60ba064eb524f94b52f9106070233b903a28a9c4dbb050eb4b101fae",
+            "b2e66bc927486665fbeeaf607ae3585f65034aaa9a06008485b8a314dbb0bc2f",
+            "b392c148e772fc4902be9f6e4c82eef83215d645fc5e83a66519b2cf3b3dc0d9"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_019_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "1c61366371d8d03ee97a9808c8c489c1a983c5d64c5daf5fc00ba7dc4fa254ed"
+    },
+    {
+      "id": "cre_019-adult",
+      "morphId": "cre_019",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_019.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "c021bd607ea44ce8774247d397a893964b831b2c17a3b060b3385ef65ff94cb8"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "c021bd607ea44ce8774247d397a893964b831b2c17a3b060b3385ef65ff94cb8",
+            "1c5c010fd959832dd97e23ca92b2303c6f45505ded1559f223e79aebde1443e2",
+            "908f2bdf378638dca565780370ddc90049254fb9fb26ca777df3bfb9ab084b0b",
+            "519bf03437b0bb5aa5c0354cd453e772d0e69e4707bc6466800b70a69122a9ef"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "890f4c24758b6cc53572e4ae773bf95b40dd961d2f3c50b493137fd4a862bf2e",
+            "557abe366071bf580582f9a4f3a6a37fcba5aa6e88d84d36d3dde361fc8cfea1",
+            "2c6c92c81c4fcafc9cd64e109546a7d274a0468793b07c6d945973f11be1227c",
+            "36dc37ed2dad3af40b88228fa08e17b259db0d8dffc9a2d906b51b2610d8b38d"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "ce9a7961e0d13aaf2e94abf2847390380d65745be4964377055b0a2219a5b2dc",
+            "305571f4aa8c564d1dc697fb33a2d5ec7880586159e04cccfc0b1b6cd58a020c",
+            "f845804319ba65334c868b85ab4d90d6820a8c01c8e1d8e066fea037a6db2aa3",
+            "f23cc43d55a1107e32f7dc13b0fa8a8cfd5e3a5e621309121b6b53dffeaa4b70"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "6ad7dc949cc69ae13b75a494ca6cf4b2aed248f94dcd06aafc33d3669ebf8660",
+            "49b9acf0f6a278b08cc9dc0cd90551532e4e2ee95cfa1abb7c75950fedf7e12c",
+            "da28e6f2f5d05bece4de100a537bb0e8e4f8e1458d660915d25503c1d0dabe69",
+            "cf4480a25c19333bfc4b63604c21c851ca118937caaf780333d135894c75d9ae"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_019_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "1c61366371d8d03ee97a9808c8c489c1a983c5d64c5daf5fc00ba7dc4fa254ed"
+    },
+    {
+      "id": "cre_020-baby",
+      "morphId": "cre_020",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_020.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "e26dd21bb9535463c0eba1eeb2b43e4b9cd0ffd4cc2a77b9590f123666a6e13e"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e26dd21bb9535463c0eba1eeb2b43e4b9cd0ffd4cc2a77b9590f123666a6e13e",
+            "eece67c7d4eea2a9f9fbb8d56d5cddf7db3aea94ac198a64c4265db15dfa7377",
+            "65a66b3fecf25b99cbf8806bfa05aa50a1684a9f3218fdf7ff622fc6035f3e90",
+            "e8a41dd8b0fc5e4a60a88356aedbdabca7c8e55be8d5c50ec7e7433ff28e771c"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "9f9ba01886593532bece08c04d89df3b91281e0d454de732a8e27211b8e247a4",
+            "de2a05d4194d77de1b882d2330ce79e7aae66d9ca5bdf2284f7a5a64d1758552",
+            "de90bb0a049998de1c45c4ac353d5ae866b510fc5561e66571885fa2b2270471",
+            "75b0aa4d48fbc788d9061176420795f1846442dd963bfcd0e5a8e1e5b0eba5c5"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "7beb16e5ebd7b0202a962d1d23be64d278214b47d7ff986c13cd4d5d8589c140",
+            "db32724cf0e3c91ce3ae288630381efa8a702b7a745f89a9a912025e09d5e2ae",
+            "12592f169eea05fee8bb0e9658800d078420ab1b99057c7fcb2274606ca04e62",
+            "21ee7e0eda548a49e3e1b3f22ef1e8343f3ec13a0e8db988c5ba5a0e520c8ec1"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "150164bc91b62db14500818e011b63e5717db3c74befd2c1c570dcfb9b82b524",
+            "87f90e1074da19ea0525a9dda61aeb2521df14770991a616301575d17dcee114",
+            "cb184604fde13fa46842f5eea093d9a605bbd0f7ee3667aed9baa6b0de4d5a28",
+            "206fc43900f73649c7526a0e8852bfc71c844743b7fdd4c2c628503c7304d4f5"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_020_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "e295891f485363f4a74c76cbebfca2efef55f3c67725577aa549e0852c6b82bf"
+    },
+    {
+      "id": "cre_020-adult",
+      "morphId": "cre_020",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_020.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "0bd5f5735d187601a47f5ac9d5dab6599e130fdef8089b8b5823f043372ab120"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "0bd5f5735d187601a47f5ac9d5dab6599e130fdef8089b8b5823f043372ab120",
+            "c9743d13a2f639406c640d68ff706d0f4285cc71c49e6863dfd32a1318128253",
+            "4eea30d07101a054ba5faf2a6b4e0e2be8f4d7b29f5d0238a37cd98be5692683",
+            "c7b2f1c4b91592c93a252dc0f5cf6c271f81a7f489b30d47a10f902f9255fc38"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "971ae6218c9c5b7f63564c634fe9d3d3305ef180ed4722a326c82c3257ef0282",
+            "f890847fcb2ecf6104b390949e43f2e73abe22ffdd57a3c6bacd2cd4157a2a35",
+            "92e4bd4a199d8ebf069c7d78db8232ec18bb7c1341c32607f3c9342e16e18dd2",
+            "e8ca326a2e87eea3ff91d9518b11e6b19be30a6a2ac5b66a731456a1a6519049"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "26d71521a1ea4b3964e3b7700cce1ddb9cacd08777cbc9dbccbcc158fcd1a079",
+            "4301bb6d9998be1b7a0c6aaff1cd319201c08cdcb74d0010cc1eede3e4556de9",
+            "57db8c527bd4ba12291aa4642c3f403423f2e825a50d9f0f83c371cb75c32ca1",
+            "37bc5680e3144bd9b40ee18cd23559efec421b6bc3cb99b42735033a5b92b8c9"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "d0e7c2a5af44c89003ac989ec9364ffd2edf5ca0dbe097ab8a192dc39b055463",
+            "797e83b90911eca0a3170af1675aaf1e970ae5640c2ff4132e3c25f8bdd65e63",
+            "23ee611277718c8922fb9bd646e4e76a064008c377629c67b2f8b34bcbda5743",
+            "c2fa8a8f0ce03ee18f4494d31755e6b097d51f8b1b821657bf7caeefcdac29c6"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_020_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "e295891f485363f4a74c76cbebfca2efef55f3c67725577aa549e0852c6b82bf"
+    },
+    {
+      "id": "cre_021-baby",
+      "morphId": "cre_021",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_021.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "14dbbbf62a4fff840ef83ffe05316fc73e1a2dc63aeab969d47b54aa803448a5"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "14dbbbf62a4fff840ef83ffe05316fc73e1a2dc63aeab969d47b54aa803448a5",
+            "c8aa4f182db6a44e6e8968ab6350dd482a68cae1e3eba765bfd0ed09765d7d12",
+            "ce6ba3f5b8d598e5cebd205170cf8de6fbe551ed55f3b8b692b5da863c7aaae3",
+            "32c0162d9ed493fac29e27626519c7947dc41ee6f42f49f634bd73a0bc2d78c0"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "03e2f7635dd3ea6c0722ff11200370b44a7bb2f4dfb6d1bbea5e7012526be8f4",
+            "6e2282c768991b194860edf78f8db189b0c2126435b991d7302cf9012a4dd419",
+            "420f3fd6329a715bb7d4be017e3916b3674d46ed193afb403751c0d70423b4d6",
+            "6100d4368fc401a0df47bceeda06b41dfc7a9e2a30a390d07951a8e0e880a608"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e7c774f44799a943a8e5e160449ccceaec58268d939b059c69ba4cc07f01de4b",
+            "0ea619c6812561d968056c206f31be6a976ccb459ae50d7b5c2651d12f075309",
+            "cb19e041b45c73906c365810f8d31e48600554acd0818380154b4046ae868e1e",
+            "f33706b7555b14bac6c578465040c40af3a183377c3d520e2104924f14836242"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "f4f469e02570a8347be43058dc17533d6cec0ddf68e3f62d7201ee67a533ff75",
+            "a925f54fb98189f2e91e963018cebb3d2ac650a6b5d228931be0d5a5f837844e",
+            "e041fad38610dfe9be8ef6c7a472700925d19b634fedfdde2442574bb3d74c40",
+            "25445039db5beb43cef30ffd1a9e98fbebc28e1454627ab5070d2ec1e2e5d2b6"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_021_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "9cfa57c1dcde25c1869ec84b308f34a4e44a665d42631d4c75be1d4f2952d78b"
+    },
+    {
+      "id": "cre_021-adult",
+      "morphId": "cre_021",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_021.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "afb580293d9c09b4d79716b7e2f3fc22a36278c46137e8332de5fedc2dbc342b"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "afb580293d9c09b4d79716b7e2f3fc22a36278c46137e8332de5fedc2dbc342b",
+            "f0aea9c10ebd8bc26bd6fd8448017581ac58be6e2742e0346d947fabdbf74e3f",
+            "21d0c25e2cf305d32726677af804c6dc6f0fe6844e1e16ae0ce761facb5c0c1e",
+            "716cc6253bdf3f118da00f133ad4784401abece1335b90d6a57294336953389b"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "e9c628e59dff57d6cd3f2af7188f110b15cdc7e5dfa86ba751acbe964ca3763c",
+            "6bf8c9b7965f7da308ba5be2efce00cb70df4b9e29d4d1a27b13856ccedbb173",
+            "19747daecfac1bc9b6bedb5c229ae1486a109b9d5e051a0bddbfffc108a2b8ee",
+            "13e8ca93ffa7ff869a6b3b2d0bc7454da72dffc0703d043e9ffe598afaf443ef"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "db20c554f2a07d8c965b17faf1485a7d48bf6a0547a705952b42b6f6818de7c8",
+            "1f20c78b2c93ca49ee0996e9f4886e11f2c5ceb50a1d0a03dd705ce3bffe8e9a",
+            "eedc419dd083a6fb3431f56a0f509fec8874be1fa5dec23293916771419b3204",
+            "500ad195a18ff26c9fffb1e6b20822b32f830337faa3404ff4c3e9831a07b79c"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "1be33c4da6985a78734a7daf70a50a9be6923ed0dda5423ae41c1413a705325e",
+            "8e28e663e687d8a4e87f5bf5f8cc01619890fa825908709be87557972024d831",
+            "4d8c46dfa27480ce58bb7125072006e8e53421f67990fbff5321e9c0e46bfa2f",
+            "04036b6dbb7869c80934753f7ba3d120ab2cf36f35d21a5b121c28ecd53c7dfc"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_021_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "9cfa57c1dcde25c1869ec84b308f34a4e44a665d42631d4c75be1d4f2952d78b"
+    },
+    {
+      "id": "cre_022-baby",
+      "morphId": "cre_022",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_022.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "5531dd09ac50e5e6d23f61de3f4a743b1688d98712be37a79253c83af21733c8"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "5531dd09ac50e5e6d23f61de3f4a743b1688d98712be37a79253c83af21733c8",
+            "eae29617522f715afffedda796883b07a8dc93b06c446e7c59b2f31346116f70",
+            "4a1dd4e4d14df2f0079c1ff052c42c703338393525a1c476fe656788c20d7a5c",
+            "d01e4ed7e989f2dce1d3b1f4f7548734e8f15cc9fff305497bd3e59d293dee7b"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "f124ad9aa0ce007165fafa7f34b96ab7722dc028453579e6fd342fe5a9f1624f",
+            "d1445027946195c5433bd7b028152b2747858e2967cc969f80a1073059599dc5",
+            "999ad6df17d7585da40cb2abb0509acd354ac4caac4a578f0f69bf1cb29a32de",
+            "bc3c3ba1f42fde1a2e9835e4da6d4b36e31ec21ccf7b4be479090a393aa5fef9"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "673b1fe9f463b3d601e8318e2443bc6d51797b9e3bcab31a696f662e59eb65b6",
+            "79f9269772a18afbc845d28b5f05257992334278092667a857cbedbbe77e9729",
+            "abf3425ea7f101e6ab08e0f861f0ba3829fc7696d2cd6a48ea186e70fe6170d3",
+            "311ffce86fbd708e7cc6e2c9671ff1b280d31b0cff80598931a5b2ae27df6a87"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "d0ac5972d6b1aa693fba37d6b21a47a9064761b078d7e21bb12121df2013b2b5",
+            "c265168f61c3f0fae2f91447d6c7b9b3c2736480969ad9b4ffbad5ba15f75e99",
+            "d38ace146f99acc74d35b69df9ce24acce590b94bc9e167d3d09eb3df255fed0",
+            "204a3e5bed9353ca52273487072d1db1a226a51040e62ef1e3d6012267c2543d"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_022_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "95b612d9ab2d013da7f665eb00325e0ca93eef18eab3df4d3c6be94976b3c74f"
+    },
+    {
+      "id": "cre_022-adult",
+      "morphId": "cre_022",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_022.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "5f383c4fbf4593175e9f7e082629af244fe59dab0c1c853722866a5a4d3945b3"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "5f383c4fbf4593175e9f7e082629af244fe59dab0c1c853722866a5a4d3945b3",
+            "10f2fe9311536ec953f555bfc1503261c21f1c097a41ee402bc4d3133b08aacd",
+            "598d1401e0d94c837072c7ad9cca86743ee0870d5a8c206001545d4f0772bbb5",
+            "2c02f0514c996aba05862b0c5c0db36b68c2bf1c1654e743e2821352c6bd9a2c"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "fb985fbfa89b7dd0238385a948d9f34a00e76649fa7b96a355623a181e7b8d41",
+            "722058769bdaee77b9cdd9b385ead415a323fa6e47831e8d357a1b0cba1eb227",
+            "8e6f8a883738cc9911aa9b3b1d778cdf66e43457a462c66a1312886dc4d68698",
+            "7c0eda9459df667ff5410b10303972fd5381e807d46ec88b8e1e2ed5481b9ba4"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "c776092ebc340d10bf1c1ca1a42fb2ea4605be43df73d3c088a078d44bab7b31",
+            "7ce5d7ce863deb128e1ca76fa31da223fa10ce203b136d33a567f20499cfdd6b",
+            "b6bbb1ab335cb2bad450b6fa5a4f7b6083ad1154c36ddecc167ca48a1914ea35",
+            "1338d64d9b6a33f12cbced8e0a9cc9dbb7d3f618356ffe7a4485c0f5172b1283"
+          ]
+        },
+        "play": {
+          "row": 4,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "e20f5bf93d26373a9131647cb22f065c0fef50730ad8e8d7a7702c7a741f8f17",
+            "deb0ddc348fdbf4b4e228b3e324c6defaade084993e50a73bb27a62695fcead9",
+            "58da282bc8ce684f218b9fbb377f0a229809451e99e5f776de764e2947a1e9f3",
+            "443f83559c7cdfd13aff957dff8c79fcc5a2ae71a66e05a8f98292b039160f4a"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_022_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "95b612d9ab2d013da7f665eb00325e0ca93eef18eab3df4d3c6be94976b3c74f"
+    },
+    {
+      "id": "cre_023-baby",
+      "morphId": "cre_023",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_023.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "2670919d47c18f1b62046ee47eb3500eb03a49c602d491ea008b8e60ff6621bc"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "2670919d47c18f1b62046ee47eb3500eb03a49c602d491ea008b8e60ff6621bc",
+            "25e359956a2c349c50df95342fc6dd6d86be919648de80b078bd5557a3b4560d",
+            "a59bafcf8ed4854c0a9c20da2f8024f0909433bf36df99589499abd625639dc5",
+            "85803370047f1a016186ec16f88893461b05ce70a346c1986aa00abe2ae6ff86"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "cbf58db7b102be72855cea3c6a87b0bf09aac543475475b9741a7eb0387e027f",
+            "7578859d92f754f257bbecca8eb65e1ec4a192a263fda8e1f5e7d0baaa0f3b32",
+            "ab3b7bdbabad3b460953f94095716fb690b8d4580984ba63c5529084398fd9ba",
+            "16207101fe14d295c88dec03b49f976dbfe8ce07dd68d8177aba377cc37300e7"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_023_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "3a95c9136b44e9a062fc4f0cd7f1198fc5802aef3058e2fac25a8fa00c1ed55b"
+    },
+    {
+      "id": "cre_023-adult",
+      "morphId": "cre_023",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_023.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "ec3971382bed95b36d962bb65e43ec67f567ad4a10fe68e5b1c406930bb02f8a"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "ec3971382bed95b36d962bb65e43ec67f567ad4a10fe68e5b1c406930bb02f8a",
+            "707791c6970cba39e2a3f92d11eda29cf48c8db4ee61b6dd3dc0c92f93191834",
+            "14450ae7c6ca4069509b9bbf6b05f95c7aa8c6daa6cba202193403b0e4666af0",
+            "3f49e3900ee65d909168f216c770463f26efe21e917066668a7bb29ce74f4578"
+          ]
+        },
+        "mist": {
+          "row": 2,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "d25edb1e1c6dd4d5d419b7df9bd04b4c8d3b2379c538e9654930d6d251fbaa4a",
+            "9c7dc307f376584364e5e5734c15ffbdf33fb5158585bfae6dadc5b2e0d18f4c",
+            "1b6018f95ff695d6949ad4d13c47d846f066da880abd3deb0e305d10dd4b479d",
+            "342dff467bb9e47b56021f1985779e5cd46f727afea80575eac42fea7aa8f883"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_023_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "3a95c9136b44e9a062fc4f0cd7f1198fc5802aef3058e2fac25a8fa00c1ed55b"
+    },
+    {
+      "id": "cre_024-baby",
+      "morphId": "cre_024",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_024.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "9ad199260adac6b0c5943ab434d7c212b488e137ed8a4bb8f8535f55f14eaf48"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "9ad199260adac6b0c5943ab434d7c212b488e137ed8a4bb8f8535f55f14eaf48",
+            "c6a1c36df84e105868ba80754221ccf8900f208a40eb497b29099e2b232358ed",
+            "c1f010870f023658b04fbddaf88b0c025ce2f7d06934bf345fd3218d0109060f",
+            "5fbe97aebd76674de2a0861d2eed6c9b57f4c2dc7bfff2c40dfd96a49c8608e3"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "ecb153c256e64d9d0eda8ebbfbb53053285effa1884eeeed378dec0a6c424a0f",
+            "3c08bb5d553c170c2cab03144337e105a2dd9730f9d6cfd9fbb226e0e6d46f10",
+            "596e45156128a42abe3328bb36f6fcf6beb6bd6719dcd1ccf206be9e7766887c",
+            "8414f364f0aa9bf64ee7481d6a0afeb75703a9e2d2956b779b05e39b4b484d9c"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_024_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "91a9a23c7394d0b60968daea27e4f8da6619378048e5de050ea9e99bdaa7d588"
+    },
+    {
+      "id": "cre_024-adult",
+      "morphId": "cre_024",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_024.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "969b86c40ed063c1cfea48aa4215935b570934310489ce4a52427a999f534a66"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "969b86c40ed063c1cfea48aa4215935b570934310489ce4a52427a999f534a66",
+            "b47519884fc800d096e73166937558a836c7b2cac005e00310bb5211d2853aae",
+            "be201547429d5e9b2d995813ef5197848c2330cc7071e9690e86db2709cc8984",
+            "41e254c0e33586f2fde76dfc978f1b26f7f1ec3ce1d7a9f7ef07a62b24ab2a0d"
+          ]
+        },
+        "clean": {
+          "row": 3,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "c0d4c0dea9ba6eefdb4302b36826b01567ea05f642def37f4d602dc330711b21",
+            "da5cb675e8b491f9d5af413d11306096f3a52dfabca994aa7e4240b67ad1d911",
+            "23db171e00e53acbcd4e3eec2a57fd6fcc22ebc74608b9c232d9ec4e833130d2",
+            "9a3822634825fb449a5cbf6bc2f708bf5f7223e1d21aef8d9622782f2bf23e18"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_024_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "91a9a23c7394d0b60968daea27e4f8da6619378048e5de050ea9e99bdaa7d588"
+    },
+    {
+      "id": "cre_025-baby",
+      "morphId": "cre_025",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_025.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "f6f5e179c26f892c24cf928696b538cd98b70affba44d87350ab2af63e110dcb"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "f6f5e179c26f892c24cf928696b538cd98b70affba44d87350ab2af63e110dcb",
+            "eb547ccec23f056806f6751aa59f366e1eaa924f791298785cdaf49b5f0b7ad1",
+            "afc23b483cfcc3be5aa41d9c9efcea25e7dac85924b606ebfcf8d980c6fc8c90",
+            "fb3f3faa2fcf931e2516513aa729947f91a30f59d3e3f449e72e2cfe5b71a56e"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_025_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "3a1151ed9799054a63f423d6f28a71bbe75ff956d4f32aa46bdd9fe430033832"
+    },
+    {
+      "id": "cre_025-adult",
+      "morphId": "cre_025",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_025.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "72f9af71473749170f034c5f376406a02e7c5b259f9e49b57705dc0d32ada2d8"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "72f9af71473749170f034c5f376406a02e7c5b259f9e49b57705dc0d32ada2d8",
+            "2201c703e8e8484a49ac3c626f89a6fd60b1afcc9531bd1b006ff8e49480b2ce",
+            "4efce01d11c088424f5b43cd1865e4f2fe38922254f6cac4e79be86d011bf820",
+            "43c4a8422a7fefad8031fcc1644a6e443ade64eb38d100cdd5be8bc7818d87de"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_025_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "3a1151ed9799054a63f423d6f28a71bbe75ff956d4f32aa46bdd9fe430033832"
+    },
+    {
+      "id": "cre_026-baby",
+      "morphId": "cre_026",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_026.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "a9e9011771f11285b8a70b2e4a5706f1c078f702c84520b134d328a70ab6e5c5"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "a9e9011771f11285b8a70b2e4a5706f1c078f702c84520b134d328a70ab6e5c5",
+            "3e9a9a927fa9fd59d58db045aa1cd31415c353ffaefbe03b6dac56e31ceea5f9",
+            "4f4066f34afbb34477127b830b1da795c72bd28074c3973dd5458727acfb5b07",
+            "69e73fe4d3d538bec6969f7e9a33ad52531eceb7eaf1271cc22ca73ef2d3a04b"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_026_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "c19a3680aa090ab0850d8c38eeae2c83ceb59dab91a0c3ffa361b6cc78340fef"
+    },
+    {
+      "id": "cre_026-adult",
+      "morphId": "cre_026",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_026.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "2224d16f5a406ef5f8acbf84ae73d8e98e55b8fbee424538450ffd251cdd8033"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "2224d16f5a406ef5f8acbf84ae73d8e98e55b8fbee424538450ffd251cdd8033",
+            "7653e413ffc8d80c72b3f9d8a6edcb736a989b5a24ce34fb8964ef01203e9532",
+            "d08761b91b0c8b890dd437d52b399c8dbba2dac8af2138533fa737488af41993",
+            "25fe7a694861be9c715639a7ea750fb36a10209cbea68e5a2ecc146b9538845c"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_026_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "c19a3680aa090ab0850d8c38eeae2c83ceb59dab91a0c3ffa361b6cc78340fef"
+    },
+    {
+      "id": "cre_027-baby",
+      "morphId": "cre_027",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_027.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "f3d3d1dd07611d75a20db4ac590271aa9a0bdaf6254575cae3da957a341eb2fb"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "f3d3d1dd07611d75a20db4ac590271aa9a0bdaf6254575cae3da957a341eb2fb",
+            "5c0704ca9bbcfdccb24f7ecbf52c7e3a290ab5337cf6f101d8d34ee4675d60ab",
+            "af3b052cc22d77bb85b9ded3d0037bef064d237febd81b58314a5d66fc36bdf9",
+            "f69bba27cc421b64816395425bba6eca8d9a2c338f2655cef535a00dbf60aad3"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_027_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "2a003a661dc6ffe0839cccfd5a6cafd7dc56f161b2ce1def39182ea88f9f7ffd"
+    },
+    {
+      "id": "cre_027-adult",
+      "morphId": "cre_027",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_027.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "ea499ab90b3831d6adce0a3f6dbf5b14e4369db2f9e73d1434d22eb22f5d719c"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "ea499ab90b3831d6adce0a3f6dbf5b14e4369db2f9e73d1434d22eb22f5d719c",
+            "2a7da137bee5b8fa0043b3757b780cff6d916905a3aadffeb5a82cc3e714d72c",
+            "2e434960a758b56f4e6cbf8a753078f115845e321de03e49300bc8b63054a874",
+            "68b09128f8b1de394c0fca0f73c40c0223e86b42913f4557c1325b8c1331a93a"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_027_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "2a003a661dc6ffe0839cccfd5a6cafd7dc56f161b2ce1def39182ea88f9f7ffd"
+    },
+    {
+      "id": "cre_028-baby",
+      "morphId": "cre_028",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_028.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "f209c50a9f595e35579737a7d6b0fe8348c9353853785a530f2a544c2d64a510"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "f209c50a9f595e35579737a7d6b0fe8348c9353853785a530f2a544c2d64a510",
+            "aac386b0a4ecf95a782f5b12ef321b373b2608d21829b995e36b66b7e477fff7",
+            "fc083721a69d58a47d1fe62c4a392b10e8ed09143e31ecf3a6e0f51c1278b895",
+            "5a2bbacde6688c096b25f325816ef163a497dc92ea0ed186ff01fc58f343d75c"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_028_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "c2c16ee1a190e5841442ee82a0ff2a96be5b02bc6abc5cf7f6dd5ef57395521a"
+    },
+    {
+      "id": "cre_028-adult",
+      "morphId": "cre_028",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_028.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "ac3dc9934e9af95cee38158ad981059695441055596ae00ea1703ac9cb07bde5"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "ac3dc9934e9af95cee38158ad981059695441055596ae00ea1703ac9cb07bde5",
+            "7ef0cb80192bdf0b5a67b9a05ab26f72cfc3dea05d4d688a625f7428fe9ea900",
+            "e68ef13adb66ad1f7f5ca43afca78dd2428bf417ef556711f6eb412b956e135e",
+            "51f8ebf3ce6dca3f177e7719ea632bc232618e44300b5e9133e587428d3dea25"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_028_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "c2c16ee1a190e5841442ee82a0ff2a96be5b02bc6abc5cf7f6dd5ef57395521a"
+    },
+    {
+      "id": "cre_029-baby",
+      "morphId": "cre_029",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_029.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "b8be02b5c67b3ca174a0f920a182ca5f6b73bbe2316f2a2c0bab66edc37f1110"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "b8be02b5c67b3ca174a0f920a182ca5f6b73bbe2316f2a2c0bab66edc37f1110",
+            "5afe00b39177b45aa9df701d73a328d987537b0721999bee0bdebda6013cd8da",
+            "2ce8505fab54bda1479a3c56eef92c213783a707afe8c39c6ad1526f6a576719",
+            "e9c76ccc22078407d310ebfe745e8641a898fedc50d02b284ed276c747789063"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_029_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "483a26630fea1d1834f5b420615410ddcc4064c807568d959c47eebc6e6b4039"
+    },
+    {
+      "id": "cre_029-adult",
+      "morphId": "cre_029",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_029.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "21ba725d2939d9e364fd3ae03d8bc0c8c6a12388e2ae328a1a6e34d96fa79bf9"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "21ba725d2939d9e364fd3ae03d8bc0c8c6a12388e2ae328a1a6e34d96fa79bf9",
+            "72667e37595785c680f328dd72c3572e8a5b16a0f6fec0b0cae540aeb4b3d25f",
+            "3a56017c7d1e91396d799e4675c2362e88b22b991be28d490b340860bb1004e3",
+            "9aa5ccafa8f8ec8d39b736e0435f64b7f44d2dff8fb888cf0d248fe6170ca998"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_029_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "483a26630fea1d1834f5b420615410ddcc4064c807568d959c47eebc6e6b4039"
+    },
+    {
+      "id": "cre_030-baby",
+      "morphId": "cre_030",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_030.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "45975977c50572dbb0a41a46131d4c09081d63d293fabd9a4914d1781c5ef18e"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "45975977c50572dbb0a41a46131d4c09081d63d293fabd9a4914d1781c5ef18e",
+            "8c729f9027624c33b0075ff8bc56b403ae59e131c8cbe89f2b8af987788b8b7f",
+            "b756f40ed931f17921027a7a179b6735a709ede618d21c86ad93d8fd9ed6cc9a",
+            "cad2a16b1ca62f3673c3f4f8a8b914cb826eefd00dd76de1bd7edaaf692896bc"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_030_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "9d13b407fdbf32e3f804213599382c90a85da72437bdd7cdfc1f8f4852101fa5"
+    },
+    {
+      "id": "cre_030-adult",
+      "morphId": "cre_030",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_030.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "671e531142b95b3e20ab998d91c9c394682908bd1f0513958dac22886a22a3af"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "671e531142b95b3e20ab998d91c9c394682908bd1f0513958dac22886a22a3af",
+            "e885173e709ff9aab6410600532e478f96916226024b1f29692887e4cf66f38d",
+            "052eda9ba3059e195b05c5604d67456f1d3878dc19a5410988f10c59e02b4a35",
+            "7a210aab2456034b0790b9b4505acbe63b37390a5f6d4de140d865197ed0187a"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_030_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "9d13b407fdbf32e3f804213599382c90a85da72437bdd7cdfc1f8f4852101fa5"
+    },
+    {
+      "id": "cre_031-baby",
+      "morphId": "cre_031",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_031.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "e9535f60001783f1a9ef1b17d94a6b9e0519c1c0fc5bab0517ee6a11d7dc1d13"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e9535f60001783f1a9ef1b17d94a6b9e0519c1c0fc5bab0517ee6a11d7dc1d13",
+            "7a4b85fb8e18679a2bf5c001774e0747b93b47b3be4b07c9d717980eac9d076c",
+            "49a7b0bd7cbab1abfae8202c9d469eb0a93b43fd071ebca1d8e37fa936af4f2a",
+            "b4e952e33c1fecd7472eae68d6a58c4fb46f8947ac8d6f768c831d6528301000"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_031_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "f47dfb120d04965ebbd489fcd92d318622dca89f4e38bf38addb112ef2d2e65b"
+    },
+    {
+      "id": "cre_031-adult",
+      "morphId": "cre_031",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_031.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "77e962fd05f9b4d1145c3a64530219fe29ac98a9dd79894915673623d36977a3"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "77e962fd05f9b4d1145c3a64530219fe29ac98a9dd79894915673623d36977a3",
+            "5b5158cce483e7d8a2bede1397aa2185b9babd688c90e8a3b196ecc77fc638ed",
+            "be64bebfb34d38ddac0b2b1636bbb9cd85470e884dbeb60be0c3ea043ea77d1c",
+            "5a91b9248a11abed518ad8577520b42bbccbf4daf044fc1d7fdce805e8270c90"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_031_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "f47dfb120d04965ebbd489fcd92d318622dca89f4e38bf38addb112ef2d2e65b"
+    },
+    {
+      "id": "cre_032-baby",
+      "morphId": "cre_032",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_032.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "be68f7ce668e4fa61d1047c1ff31e9da6a9348fadf2855651e2a0d2c8b6ac75c"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "be68f7ce668e4fa61d1047c1ff31e9da6a9348fadf2855651e2a0d2c8b6ac75c",
+            "38c2d703d61b134c852e24eeccba390862a3882b2d043ac4d0144a5087dbb2e9",
+            "128121ca0c8d2dba5079a52ac5369d6050db3c9c2cad0daac4f9e9d1fab0ed1a",
+            "aed95df0918da40818330fc504e2331b65d6ed1bef3660632dcd7722daac4660"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_032_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "f26adcfab34731e4c4c6122774bf1bd18aa19cb583dacd85521c21abd3f31044"
+    },
+    {
+      "id": "cre_032-adult",
+      "morphId": "cre_032",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_032.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "bd317adf74fa11252a7a60f74a7a9c3680ae564b7acbad1e6577c7c04c84e54a"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "bd317adf74fa11252a7a60f74a7a9c3680ae564b7acbad1e6577c7c04c84e54a",
+            "c97367565a77528473c2b22aed9b374a09e0e66c23e90885ee900439cb3a3c9d",
+            "78949c33138e6e4f3ec268eff598f75780da31e75ea2c8850af949bacd3c23c0",
+            "0439a1b212ef3c504244382f1469e3c9f7f6924d59830bf81320ec106f84b4f1"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_032_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "f26adcfab34731e4c4c6122774bf1bd18aa19cb583dacd85521c21abd3f31044"
+    },
+    {
+      "id": "cre_033-baby",
+      "morphId": "cre_033",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_033.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "e0329d2d5628db597af885a5651afa961630022013f96f3479c13d3e4c3f2266"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e0329d2d5628db597af885a5651afa961630022013f96f3479c13d3e4c3f2266",
+            "cd8ea27b81c46c4c31ad7772f3d3e602c5e620be691e87506e81ff2c91a74a67",
+            "fcf10e1e0c788bfb5341885ccfb2ec104d5698f9990613727a5bce553eddc149",
+            "6278ced6c00fc890de48fdb2e45e59ca628437c6cf6a62f0a77a588290595edd"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_033_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "e4f3cee5bb3c8665c376de42690c58101f16f436ce319a187a342e75f447c0c4"
+    },
+    {
+      "id": "cre_033-adult",
+      "morphId": "cre_033",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_033.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "3dc5847edafc3f60113539071c49f4d33da4af84e3937fbdbbeda4962139c28e"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "3dc5847edafc3f60113539071c49f4d33da4af84e3937fbdbbeda4962139c28e",
+            "864565a3b8768c2846fbc9ae0b6843ecaf7360cba78d68f86c00475dcc5cb7c5",
+            "0cfec826ba092d46fb05073264ee0e81e809c013ed635667f8aaaab1d46b2e7f",
+            "9b60b7a49d3e3223992ba3f1676880d1bb51dc00fd35c7131d1bd6ba527daf48"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_033_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "e4f3cee5bb3c8665c376de42690c58101f16f436ce319a187a342e75f447c0c4"
+    },
+    {
+      "id": "cre_034-baby",
+      "morphId": "cre_034",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_034.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "89dd97a5095dd0877f6efc2bc0b7ce50414b8e67a7b710b1caff23c2815d0b5b"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "89dd97a5095dd0877f6efc2bc0b7ce50414b8e67a7b710b1caff23c2815d0b5b",
+            "70f355fb33b12069051e3c0fb97f9dbfa3297578119573ce1f7c14b9b09893de",
+            "b4336cc840ca674ab9dd51146f3c8f1b38e0c06b786767fe88eae3649e5ab290",
+            "04e5cb4b41c3dc54f4018600d2e0526ad07e6196b8f6ed8062b739d6ff2c9cf7"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_034_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "7735c378c190867b0031f30ae2179e6302387745342651e170a562d9235170b7"
+    },
+    {
+      "id": "cre_034-adult",
+      "morphId": "cre_034",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_034.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "9b365e48318086bf2e10367d64cb9a37500c509527a6ef89aab88d15a4bae874"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "9b365e48318086bf2e10367d64cb9a37500c509527a6ef89aab88d15a4bae874",
+            "6bcd9206e3f9856381909b2f3fe94c6fb9fd51b56ff7f44d3ca79ae052cdfd6a",
+            "5808eb318b38dc26085d7c12235fb2a3d591976d6656941912cefb92f1d4fc90",
+            "2f631bce8b41eada17403c747d9814523d26b541ffeafbe8894279a8b99c59c0"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_034_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "7735c378c190867b0031f30ae2179e6302387745342651e170a562d9235170b7"
+    },
+    {
+      "id": "cre_035-baby",
+      "morphId": "cre_035",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_035.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "f8f7f99fb86c903acbe84a68c1c574208f9ed085abeb7272d11633362e8a06fd"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "f8f7f99fb86c903acbe84a68c1c574208f9ed085abeb7272d11633362e8a06fd",
+            "46f39a769cb0c354d995b2cff63c96805a4a26fed0fe6d57a385c7f667efba06",
+            "25cb6d1d3121baa50a1970d3309b45b88f609d79653ca69cd959d9a02af10ec1",
+            "2dd85f15d9e5e44f25f2419c531a9a5e3d1a61201ba76893224d172f227a993c"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_035_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "b12e084b38cb57fe745ebd7e96cffdf082d89e9e3d73b69651aea73574d5e6b6"
+    },
+    {
+      "id": "cre_035-adult",
+      "morphId": "cre_035",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_035.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "698d17380abeec5d9b1900f4ff33e39b23a2517785eccaa6a63952966d3b35df"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "698d17380abeec5d9b1900f4ff33e39b23a2517785eccaa6a63952966d3b35df",
+            "b270d5d877b3a2759ad80d4ecd3243033d3584c4b0879ffde14b5344af4b909e",
+            "5612ddb9a25fd2c8f220b63e4b746626c8df2a4440bfccd29d06740675baee50",
+            "d5783b2bd7db5566725eb3597b8e94a93bb55995091c5b1a32ce8fe5b157c29c"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_035_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "b12e084b38cb57fe745ebd7e96cffdf082d89e9e3d73b69651aea73574d5e6b6"
+    },
+    {
+      "id": "cre_036-baby",
+      "morphId": "cre_036",
+      "stage": "baby",
+      "sheet": "/assets/cre36/atlases/cre_036.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 0,
+          "frames": 1,
+          "frameSha256": [
+            "e9a13e2a1ed32572f6d1d59346c5cce7a0dfc361ea20f7062a96ae66cbd9bab3"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 0,
+          "frames": 4,
+          "frameSha256": [
+            "e9a13e2a1ed32572f6d1d59346c5cce7a0dfc361ea20f7062a96ae66cbd9bab3",
+            "6959cf8594583466768270e06cfa31d43ca1fccbfb1c5d13dcc4de973ae83ad9",
+            "edbc2184613e8a96612c212cbcafd5afc6d3a3021353e58f79de64dccd7cbfae",
+            "9f3df13e7d8f70fd11f6d76a733cd66805f45c8e023455f3355095d33c510650"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/baby/cre_036_baby.png",
+      "portraitSize": 128,
+      "sheetSha256": "217a7c4700f755e992f6b8230a81c3aed8c1e5a1406397166611d7871f80b49e"
+    },
+    {
+      "id": "cre_036-adult",
+      "morphId": "cre_036",
+      "stage": "adult",
+      "sheet": "/assets/cre36/atlases/cre_036.png",
+      "animations": {
+        "idle": {
+          "row": 0,
+          "startColumn": 4,
+          "frames": 1,
+          "frameSha256": [
+            "ea998072e4e305b7a9424df4e526c4342a71c1a2ebe650c04790ea81c43a6843"
+          ]
+        },
+        "feed": {
+          "row": 1,
+          "startColumn": 4,
+          "frames": 4,
+          "frameSha256": [
+            "ea998072e4e305b7a9424df4e526c4342a71c1a2ebe650c04790ea81c43a6843",
+            "1157d4b480baf8308a4df8dd4341a809229acd348f1ef42b4138fc4daaf0b2e2",
+            "9a1c209e0536a22c417b51e06e0f57bd26f114309a3d25d6edade851f67e1133",
+            "6b0739d86b0d838b6ab24fcde2db2db063276b6baaca34ed44cf7fd501c8e4a2"
+          ]
+        }
+      },
+      "portrait": "/assets/geckos/adult/cre_036_adult.png",
+      "portraitSize": 160,
+      "sheetSha256": "217a7c4700f755e992f6b8230a81c3aed8c1e5a1406397166611d7871f80b49e"
+    }
+  ],
+  "complete": false,
+  "missingFiles": [
+    "public/assets/cre36/cre_023/baby/clean.png",
+    "public/assets/cre36/cre_023/baby/play.png",
+    "public/assets/cre36/cre_023/adult/clean.png",
+    "public/assets/cre36/cre_023/adult/play.png",
+    "public/assets/cre36/cre_024/baby/mist.png",
+    "public/assets/cre36/cre_024/baby/play.png",
+    "public/assets/cre36/cre_024/adult/mist.png",
+    "public/assets/cre36/cre_024/adult/play.png",
+    "public/assets/cre36/cre_025/baby/mist.png",
+    "public/assets/cre36/cre_025/baby/clean.png",
+    "public/assets/cre36/cre_025/baby/play.png",
+    "public/assets/cre36/cre_025/adult/mist.png",
+    "public/assets/cre36/cre_025/adult/clean.png",
+    "public/assets/cre36/cre_025/adult/play.png",
+    "public/assets/cre36/cre_026/baby/mist.png",
+    "public/assets/cre36/cre_026/baby/clean.png",
+    "public/assets/cre36/cre_026/baby/play.png",
+    "public/assets/cre36/cre_026/adult/mist.png",
+    "public/assets/cre36/cre_026/adult/clean.png",
+    "public/assets/cre36/cre_026/adult/play.png",
+    "public/assets/cre36/cre_027/baby/mist.png",
+    "public/assets/cre36/cre_027/baby/clean.png",
+    "public/assets/cre36/cre_027/baby/play.png",
+    "public/assets/cre36/cre_027/adult/mist.png",
+    "public/assets/cre36/cre_027/adult/clean.png",
+    "public/assets/cre36/cre_027/adult/play.png",
+    "public/assets/cre36/cre_028/baby/mist.png",
+    "public/assets/cre36/cre_028/baby/clean.png",
+    "public/assets/cre36/cre_028/baby/play.png",
+    "public/assets/cre36/cre_028/adult/mist.png",
+    "public/assets/cre36/cre_028/adult/clean.png",
+    "public/assets/cre36/cre_028/adult/play.png",
+    "public/assets/cre36/cre_029/baby/mist.png",
+    "public/assets/cre36/cre_029/baby/clean.png",
+    "public/assets/cre36/cre_029/baby/play.png",
+    "public/assets/cre36/cre_029/adult/mist.png",
+    "public/assets/cre36/cre_029/adult/clean.png",
+    "public/assets/cre36/cre_029/adult/play.png",
+    "public/assets/cre36/cre_030/baby/mist.png",
+    "public/assets/cre36/cre_030/baby/clean.png",
+    "public/assets/cre36/cre_030/baby/play.png",
+    "public/assets/cre36/cre_030/adult/mist.png",
+    "public/assets/cre36/cre_030/adult/clean.png",
+    "public/assets/cre36/cre_030/adult/play.png",
+    "public/assets/cre36/cre_031/baby/mist.png",
+    "public/assets/cre36/cre_031/baby/clean.png",
+    "public/assets/cre36/cre_031/baby/play.png",
+    "public/assets/cre36/cre_031/adult/mist.png",
+    "public/assets/cre36/cre_031/adult/clean.png",
+    "public/assets/cre36/cre_031/adult/play.png",
+    "public/assets/cre36/cre_032/baby/mist.png",
+    "public/assets/cre36/cre_032/baby/clean.png",
+    "public/assets/cre36/cre_032/baby/play.png",
+    "public/assets/cre36/cre_032/adult/mist.png",
+    "public/assets/cre36/cre_032/adult/clean.png",
+    "public/assets/cre36/cre_032/adult/play.png",
+    "public/assets/cre36/cre_033/baby/mist.png",
+    "public/assets/cre36/cre_033/baby/clean.png",
+    "public/assets/cre36/cre_033/baby/play.png",
+    "public/assets/cre36/cre_033/adult/mist.png",
+    "public/assets/cre36/cre_033/adult/clean.png",
+    "public/assets/cre36/cre_033/adult/play.png",
+    "public/assets/cre36/cre_034/baby/mist.png",
+    "public/assets/cre36/cre_034/baby/clean.png",
+    "public/assets/cre36/cre_034/baby/play.png",
+    "public/assets/cre36/cre_034/adult/mist.png",
+    "public/assets/cre36/cre_034/adult/clean.png",
+    "public/assets/cre36/cre_034/adult/play.png",
+    "public/assets/cre36/cre_035/baby/mist.png",
+    "public/assets/cre36/cre_035/baby/clean.png",
+    "public/assets/cre36/cre_035/baby/play.png",
+    "public/assets/cre36/cre_035/adult/mist.png",
+    "public/assets/cre36/cre_035/adult/clean.png",
+    "public/assets/cre36/cre_035/adult/play.png",
+    "public/assets/cre36/cre_036/baby/mist.png",
+    "public/assets/cre36/cre_036/baby/clean.png",
+    "public/assets/cre36/cre_036/baby/play.png",
+    "public/assets/cre36/cre_036/adult/mist.png",
+    "public/assets/cre36/cre_036/adult/clean.png",
+    "public/assets/cre36/cre_036/adult/play.png"
+  ],
+  "missingEffects": [
+    "feed",
+    "mist",
+    "clean",
+    "play"
+  ]
+}

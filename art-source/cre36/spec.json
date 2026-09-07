@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "source": "built-in image_gen",
+  "common": "Use the image just shown as the visual reference. Production sprite sheet for a crested-gecko pixel pet game, one morph with BABY and ADULT growth forms. Preserve chunky square pixels, near-black warm outline, dark eye with tiny pale glint, triangular crested head, four splayed gecko feet, right-facing 3/4 side view, tucked curled tail. Flat coarse pixel art at visual native 48x48 per cell, 6-9 flat palette colors, no antialiasing, gradients or noisy tiny detail.\nEXACT layout: 2 columns x 4 rows = eight equal invisible square cells on portrait 1024x2048 canvas. Top two rows: BABY four-frame loop row-major. Bottom two rows: ADULT four-frame loop row-major. Baby has a short plump torso, proportionally larger head/eyes, short curled tail. Adult has distinctly longer robust torso, smaller head-to-body ratio, developed crest, longer tail tucked inward, not just an enlarged baby.\nSolid flat #FF00FF background. No text, labels, borders, guides, ground, shadows or scene. Body-only, no detached props/particles. Keep torso center fixed and grounded feet at 78% cell height. Fixed camera and anatomical size within each stage across all four poses. Full body and tail in central 70% width/65% height of each cell; never touch/cross cell edges. Preserve each stage's palette, exact markings and anatomy across all frames.",
+  "identities": [
+    [
+      "cre_001",
+      "ORANGE PATTERNLESS",
+      "Uniform rich tangerine-orange body, smooth solid orange back and flanks, NO spots, stripes, dorsal cream patch or flank patches. A small pale throat is fine. Do not copy the reference flame marking."
+    ],
+    [
+      "cre_002",
+      "ORANGE FLAME",
+      "Tangerine-orange body, ONE irregular pale cream flame patch along dorsal back, otherwise solid orange unpatterned flanks and legs. No spots or tiger stripes."
+    ],
+    [
+      "cre_003",
+      "ORANGE TIGER",
+      "Tangerine-orange base, four bold dark brown transverse tiger bars crossing the back and running down the flanks. Discrete stripes with clean orange spaces, no dots."
+    ],
+    [
+      "cre_004",
+      "YELLOW PATTERNLESS",
+      "Warm butter-yellow body with golden shadow, solid uniform back and flanks. NO spots, stripes, dorsal patch or large cream patches."
+    ],
+    [
+      "cre_005",
+      "YELLOW FLAME",
+      "Golden-yellow body, a bright pale ivory irregular dorsal flame patch, plain yellow flanks and legs. No lateral patches, dots or tiger stripes."
+    ],
+    [
+      "cre_006",
+      "YELLOW HARLEQUIN",
+      "Golden-yellow base with broad irregular pale ivory harlequin patches along the back, sides and upper legs. The patches are separate angular cream regions, not stripes or dots."
+    ],
+    [
+      "cre_007",
+      "CREAM BICOLOR",
+      "Two simple large color regions: warm tan lower sides and legs, solid pale vanilla cream dorsal cap and head. Smooth continuous two-tone boundary, no mottling, dots, stripes or broken patches."
+    ],
+    [
+      "cre_008",
+      "CREAM PINSTRIPE",
+      "Warm cream-tan body with TWO thin unbroken ivory lines running from the back of the head along both raised dorsal crest edges towards tail base. Plain cream flanks, no spots, transverse stripes or large dorsal blaze."
+    ],
+    [
+      "cre_009",
+      "BROWN PATTERNLESS",
+      "Uniform cocoa-brown body with caramel highlights and chocolate shadow, plain back, flanks and legs. NO stripes, dots or cream dorsal patch."
+    ],
+    [
+      "cre_010",
+      "BROWN TIGER",
+      "Medium caramel-brown body with four bold dark chocolate transverse tiger bars crossing the back and continuing down sides. Distinct ordered stripes, no scattered dots or cream patches."
+    ],
+    [
+      "cre_011",
+      "BROWN BRINDLE",
+      "Medium brown body with many short broken irregular dark chocolate streaks on back and sides. Broken staggered diagonal dashes distinguish brindle from continuous regular tiger bars. No polka dots."
+    ],
+    [
+      "cre_012",
+      "BROWN HARLEQUIN",
+      "Dark cocoa-brown base and angular pale cream harlequin patches spread across the back, flanks and legs. Brown remains visible between cream patches. No spots or regular tiger bars."
+    ],
+    [
+      "cre_013",
+      "RED FLAME",
+      "Brick-red body and a single irregular pale peach-cream dorsal flame patch. Plain red flanks and legs, no lateral cream patches, dots or tiger bars."
+    ],
+    [
+      "cre_014",
+      "RED HARLEQUIN",
+      "Warm brick-red base with broad angular pale cream harlequin patches across back, sides and legs. Red remains visible between patches. No regular bars or dots."
+    ],
+    [
+      "cre_015",
+      "RED PINSTRIPE",
+      "Brick-red body with two fine continuous warm ivory dorsal pinstripes running along the crest edges from neck to tail base. Plain red sides, no large flame patch, dots or transverse bars."
+    ],
+    [
+      "cre_016",
+      "OLIVE TIGER",
+      "Muted olive-green body with four bold dark forest-brown transverse bars across back and down sides. Olive green dominant, not bright neon. No dots or cream patches."
+    ],
+    [
+      "cre_017",
+      "OLIVE BRINDLE",
+      "Muted olive-green body with short broken irregular dark olive-brown streaks across back and flanks. Staggered dash-like marks distinguish it from continuous regular tiger bars. No dots."
+    ],
+    [
+      "cre_018",
+      "GRAY PINSTRIPE",
+      "Neutral slate-gray body, two thin uninterrupted pale silver lines following both dorsal crest edges from neck towards tail. Plain gray sides. No warm orange/yellow pigmentation or dots."
+    ],
+    [
+      "cre_019",
+      "GRAY DALMATIAN",
+      "Light dove-gray body sprinkled with 7-10 discrete dark charcoal pixel spots on back and flanks. Small isolated square spots, no stripes, no broad cream patches."
+    ],
+    [
+      "cre_020",
+      "CREAM DALMATIAN",
+      "Pale vanilla-cream body sprinkled with 7-10 isolated dark chocolate pixel spots on back and sides. Clearly separated square dots, not stripes or broad patches."
+    ],
+    [
+      "cre_021",
+      "ORANGE TRICOLOR",
+      "Exactly three distinct large body colors: burnt orange base, cocoa-brown flank regions, and bright ivory harlequin patches on back/sides/legs. Each of the three colors must be visible in both forms. No tiny dots."
+    ],
+    [
+      "cre_022",
+      "YELLOW WHITE SPOT",
+      "Solid golden-yellow body with 4-6 clearly separated small bright white square spots on sides and shoulder. WHITE spots, not dark dalmatian dots. Keep most yellow back plain, no flame or stripes."
+    ],
+    [
+      "cre_023",
+      "WHITE LILLY WHITE",
+      "Predominantly creamy white body with very large connected ivory fields along dorsal back, lower flanks and legs; restrained warm tan head/upper side islands. White occupies at least two thirds of the body. No scattered dark spots or thin pinstripes."
+    ],
+    [
+      "cre_024",
+      "WHITE PINSTRIPE",
+      "Cool pale pearl-white body with light silver-gray shading and two narrow pure-white raised dorsal lines running continuously from neck to tail base. Keep sides plain, no tan blotches, no dark spots."
+    ],
+    [
+      "cre_025",
+      "BLACK PATTERNLESS",
+      "Nearly black charcoal body with restrained slate highlights just sufficient to read shape. Solid unpatterned back, sides and legs; NO white blaze, pale patches, stripes or spots."
+    ],
+    [
+      "cre_026",
+      "BLACK FLAME",
+      "Charcoal-black body with ONE bright cream irregular dorsal flame patch. Dark plain sides and legs. Strong dark/light contrast, no lateral harlequin patches or dots."
+    ],
+    [
+      "cre_027",
+      "LAVENDER BICOLOR",
+      "Two clean body tone regions: muted lavender-purple lower sides/legs and a broad solid pale lilac dorsal cap/head. No pink magenta pigments; distinguish lavender safely from magenta background. Smooth two-tone boundary, no spots or stripes."
+    ],
+    [
+      "cre_028",
+      "LAVENDER PINSTRIPE",
+      "Muted lavender-purple body with two thin continuous pale ivory dorsal pinstripes from neck along crest edges to tail base. Plain lavender sides. No large cream patches, no dots, no magenta pigments."
+    ],
+    [
+      "cre_029",
+      "RED HALLOWEEN",
+      "Deep red-brown and almost-black harlequin body with vivid burnt-orange patches on back, sides and legs. Halloween warm orange/dark red/black contrast. NO white or cream patches except tiny eye glint."
+    ],
+    [
+      "cre_030",
+      "WHITE TRICOLOR",
+      "Three large distinct colors, mainly ivory-white with warm orange and dark cocoa islands on back and flanks. White dominant, all three colors clearly visible in both forms. Broad harlequin patches, no small spots."
+    ],
+    [
+      "cre_031",
+      "BLACK SUPER DALMATIAN",
+      "Smoky charcoal-gray body densely covered in 18-24 near-black chunky discrete spots, including some larger ink blot dots on back, sides and tail. Use medium charcoal base so BLACK SPOTS remain visible. Much denser spotting than normal dalmatian; no stripes or white patches."
+    ],
+    [
+      "cre_032",
+      "LAVENDER HARLEQUIN",
+      "Muted lavender-purple body with separate angular pale ivory harlequin patches on back, flanks and upper legs. Lavender remains the main color. No magenta, no dots or regular transverse bars."
+    ],
+    [
+      "cre_033",
+      "WHITE EXTREME HARLEQUIN",
+      "Warm cocoa/taupe base almost covered by a dense interlocking ivory-white harlequin mosaic that climbs from legs and sides up to dorsal back. White dominant with small angular dark windows between patches. More interlocking dense patches than smooth Lilly White fields."
+    ],
+    [
+      "cre_034",
+      "GRAY AXANTHIC",
+      "Strictly grayscale body: silver-gray base, charcoal shadow, subtle pale gray back highlight. NO orange, yellow, tan, purple or other colored body pigment. Plain smooth unspotted body, no thin white pinstripes."
+    ],
+    [
+      "cre_035",
+      "BLACK LILLY WHITE",
+      "Deep charcoal-black head and upper flank islands contrasting with broad connected brilliant ivory-white dorsal and lower-side/leg fields. A striking half-black half-white large-field pattern, not spots, thin stripes or fragmented mosaic."
+    ],
+    [
+      "cre_036",
+      "LAVENDER EXTREME HARLEQUIN",
+      "Muted lavender-purple base with very extensive angular interlocking pale ivory harlequin patches covering back, sides and legs. Small lavender windows remain visible through dominant cream mosaic. More dense cream coverage than Lavender Harlequin; no magenta or dots."
+    ]
+  ],
+  "actions": {
+    "feed": "FEEDING loop, four genuinely different body poses: 1 attentive neutral closed mouth; 2 bend neck/head downward and open jaw slightly; 3 extend small pink tongue and bite gently; 4 head returns halfway and closed jaw chews. Feet remain planted. No food bowl or detached food; game layers them separately.",
+    "mist": "MIST REACTION loop, four genuinely different body poses: 1 neutral with eye open; 2 lower head and narrow eye as mist arrives; 3 close eye contentedly, compress shoulders slightly and curl tail tighter; 4 raise head, reopen eye and settle. Keep gecko anatomy and scale stable. No droplets or spray bottle; game layers them separately.",
+    "clean": "CLEANING REACTION loop, four genuinely different body poses: 1 attentive gecko watches downward; 2 lift near front foot clear of the floor and lean weight to other feet; 3 lift near hind foot while first foot settles, head follows nearby brush; 4 all feet settle and head returns to neutral. Gecko does not hold cleaning tools. No broom or particles; game layers them separately.",
+    "play": "PLAY loop, four genuinely different body poses: 1 alert neutral; 2 lower chest in playful anticipation and tighten tail curl; 3 extend near front leg forward/up with head reaching after a toy while rear feet stay grounded; 4 retract foreleg, lift chin and relax tail back to the start. In-place motion, no body translation. No ball or detached effects; game layers them separately."
+  },
+  "layout": {
+    "cols": 2,
+    "rows": 4,
+    "stages": [
+      "baby",
+      "adult"
+    ],
+    "framesPerStage": 4
+  },
+  "outputCell": 96
+}

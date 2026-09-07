@@ -1,4 +1,12 @@
-export const MORPHS = [
+import { MORPH_CATALOG } from './morph-catalog.ts';
+
+const rarityNames={common:'일반',uncommon:'고급',rare:'희귀',epic:'영웅',legendary:'전설'} as const;
+const colors={orange:['오렌지','#e59036'],yellow:['옐로우','#eddb63'],cream:['크림','#e9d2a5'],brown:['브라운','#93633d'],red:['레드','#b84436'],olive:['올리브','#89904d'],gray:['그레이','#969ba3'],white:['화이트','#eceae1'],black:['블랙','#35343c'],lavender:['라벤더','#a49abb']} as const;
+const patterns={patternless:'무늬 없음',flame:'밝은 등 무늬',tiger:'등과 옆구리를 가로지르는 줄무늬',harlequin:'옆구리·다리의 큰 무늬',bicolor:'두 가지 톤',pinstripe:'등을 따라 이어지는 가는 선',brindle:'불규칙하게 끊긴 줄무늬',dalmatian:'점박이 무늬'} as const;
+const traits={none:'',tricolor:'세 가지 색',white_spot:'흰 점무늬',lilly_white:'넓게 이어진 흰색 무늬',halloween:'주황·붉은색·검정 대비',super_dalmatian:'촘촘한 점무늬',extreme_harlequin:'몸과 다리를 덮는 넓은 무늬',axanthic:'무채색 몸'} as const;
+export const MORPHS=MORPH_CATALOG.map(m=>({id:m.id,name:m.nameKo,color:colors[m.color][0],pattern:traits[m.trait]||patterns[m.pattern],rarity:rarityNames[m.rarity],weight:Math.round(m.hatchRate*100),swatch:colors[m.color][1],description:m.descriptionKo,patternId:m.pattern,traitId:m.trait}));
+
+const LEGACY_MORPHS = [
  {id:'patternless',name:'브라운 패턴리스',color:'브라운',pattern:'무늬 없음',rarity:'일반',weight:3000,swatch:'#94633c'},
  {id:'flame',name:'오렌지 플레임',color:'오렌지',pattern:'밝은 등 무늬',rarity:'일반',weight:2400,swatch:'#e58d3c'},
  {id:'tiger',name:'옐로 타이거',color:'옐로',pattern:'짙은 세로 줄무늬',rarity:'고급',weight:1800,swatch:'#ddc257'},
@@ -8,9 +16,16 @@ export const MORPHS = [
  {id:'lilywhite',name:'릴리 화이트',color:'아이보리',pattern:'넓은 흰색 무늬',rarity:'영웅',weight:250,swatch:'#f4efe3'},
  {id:'axanthic',name:'실버 아잔틱',color:'실버·차콜',pattern:'무채색 몸과 밝은 등',rarity:'전설',weight:50,swatch:'#8a949b'},
 ] as const;
-export type MorphId=typeof MORPHS[number]['id'];
-export const morphOf=(id?:string)=>MORPHS.find(m=>m.id===id)??MORPHS[1];
-export function drawMorph(roll:number):MorphId {if(!Number.isFinite(roll)||roll<0||roll>=1)throw Error('Invalid random draw');let mark=roll*10000;for(const morph of MORPHS){if(mark<morph.weight)return morph.id;mark-=morph.weight;}return 'axanthic';}
+export type CatalogMorphId=typeof MORPH_CATALOG[number]['id'];
+export type MorphId=CatalogMorphId|typeof LEGACY_MORPHS[number]['id'];
+// Resolve the original names without rewriting or rerolling saved creatures.
+export const LEGACY_MORPH_IDS:Partial<Record<MorphId,CatalogMorphId>>={patternless:'cre_009',flame:'cre_002',dalmatian:'cre_020',harlequin:'cre_014',tricolor:'cre_021',lilywhite:'cre_023',axanthic:'cre_034'};
+export function canonicalMorphId(id?:string):CatalogMorphId|undefined {
+ if(MORPHS.some(m=>m.id===id))return id as CatalogMorphId;
+ return LEGACY_MORPH_IDS[id as MorphId];
+}
+export const morphOf=(id?:string)=>MORPHS.find(m=>m.id===canonicalMorphId(id))??LEGACY_MORPHS.find(m=>m.id===id)??MORPHS[1];
+export function drawMorph(roll:number):CatalogMorphId {if(!Number.isFinite(roll)||roll<0||roll>=1)throw Error('Invalid random draw');let mark=roll*10000;for(const morph of MORPHS){if(mark<morph.weight)return morph.id;mark-=morph.weight;}return MORPHS[MORPHS.length-1].id;}
 export type Creature={id:string;name:string;phase:'egg'|'hatched';morphId?:MorphId;incubation:number;hatchedAt?:number;food:number;moisture:number;clean:number;happy:number;xp:number;born:number;updated:number;lastCare:number;lastAction:string;careCount:number};
 export type Pet=Creature & {version:2;nursery:Creature[]};
 export type Action='feed'|'mist'|'clean'|'play'|'save'|'rename'|'warm'|'hatch'|'newEgg'|'select';

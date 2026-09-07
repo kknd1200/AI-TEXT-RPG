@@ -5,3 +5,11 @@ dist
 .env.*.local
 .vercel
 .DS_Store
+__pycache__/
+art-source/cre36/raw/
+art-source/cre36/qc/
+art-source/cre36/prompts/
+art-source/cre36/scale-profile.json
+public/assets/cre36/cre_*/
+public/assets/cre36/atlases/
+public/assets/geckos/

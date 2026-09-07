@@ -19,10 +19,10 @@ test('new saves start as eggs; no phenotype before ready; timed incubation and c
 });
 test('hatch persists one result through JSON reload and subsequent hatch requests',()=>{
  const born=care(newPet(start),'hatch',start+180000,undefined,.999).pet;
- assert.equal(born.phase,'hatched');assert.equal(born.morphId,'axanthic');
+ assert.equal(born.phase,'hatched');assert.equal(born.morphId,'cre_036');
  const loaded=JSON.parse(JSON.stringify(born));
  const repeated=care(loaded,'hatch',start+200000,undefined,0).pet;
- assert.equal(repeated.morphId,'axanthic');assert.equal(repeated.id,born.id);
+ assert.equal(repeated.morphId,'cre_036');assert.equal(repeated.id,born.id);
  assert.equal(repeated.hatchedAt,born.hatchedAt);
 });
 test('new egg preserves old pet, switching preserves egg progress, archived pets pause',()=>{

@@ -5,6 +5,7 @@ import Login from './login';
 import './styles.css';
 
 const Game = lazy(() => import('./game'));
+const GalleryPage = lazy(() => import('./components/morph-gallery').then(module=>({default:module.MorphGalleryPage})));
 
 function App() {
   const [name, setName] = useState<string | null>(null);
@@ -35,4 +36,4 @@ function App() {
   return <>{error && <p className="session-error" role="alert">{error}</p>}<Suspense fallback={<main className="session-loading" role="status">사육장을 준비하고 있어요…</main>}><Game key={name} accountName={name} onLogout={logout}/></Suspense></>;
 }
 
-createRoot(document.getElementById('root')!).render(<App/>);
+createRoot(document.getElementById('root')!).render(window.location.pathname==='/morphs'?<Suspense fallback={<main className="session-loading">도감을 펼치는 중…</main>}><GalleryPage/></Suspense>:<App/>);
