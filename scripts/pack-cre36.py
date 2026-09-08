@@ -11,7 +11,7 @@ STAGES=('baby','adult')
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--partial',action='store_true',help='Local review only; never ship this result.')
+    parser.add_argument('--partial',action='store_true',help='Keep incomplete coverage explicit; runtime must fall back to idle for missing actions.')
     args=parser.parse_args()
     identities=json.loads((ART/'spec-v2.json').read_text())['identities']
     manifest={'schemaVersion':1,'artSource':'built-in image_gen','cellSize':96,'logicalCellSize':48,'columns':8,'rows':5,'actions':list(ACTIONS),'stages':list(STAGES),'frameDurationMs':240,'forms':[],'complete':False}

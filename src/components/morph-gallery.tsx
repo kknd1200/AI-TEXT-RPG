@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, BookOpen, Pause, Play } from 'lucide-react';
 import { MORPHS, canonicalMorphId, type Creature } from '@/lib/pet';
-import { type SpriteAction } from '@/lib/sprites';
+import { hasSpriteAction, SPRITE_COVERAGE, type SpriteAction } from '@/lib/sprites';
 import { CreSprite, CareEffect, useSpriteFrame } from './cre-sprite';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from './ui/dialog';
 
@@ -17,9 +17,10 @@ function Gallery({owned=[]}:{owned?:Creature[]}) {
    <div className="gallery-animation" aria-label="돌봄 동작 선택">{actions.map(a=><button type="button" aria-pressed={action===a.id} key={a.id} onClick={()=>setAction(a.id)}>{a.label}</button>)}<button type="button" className="animation-toggle" disabled={action==='idle'} aria-label={playing?'애니메이션 일시 정지':'애니메이션 재생'} onClick={()=>setPlaying(v=>!v)}>{playing?<Pause size={15}/>:<Play size={15}/>}</button></div>
   </div>
   <p className="gallery-count">{visible.length}종 · 아기와 성체를 나란히 만나보세요{owned.length>0?` · 만난 모프 ${found.size}/36`:''}</p>
+  {!SPRITE_COVERAGE.complete&&<p className="gallery-note">72가지 모습과 돌봄 동작 {SPRITE_COVERAGE.animations}/288개가 공개됐어요. 준비 중인 동작은 기본 자세로 표시되며, 배고픔·습도·청결·기분 변화는 그대로 적용돼요.</p>}
   <div className="morph-grid">{visible.map(m=><article className="morph-card" key={m.id} data-morph-id={m.id}>
    <div className="morph-card-top"><span className={'rarity-label rarity-'+m.rarity}>{m.rarity}</span><span>{m.weight/100}%</span></div>
-   <div className="morph-pair">{(['baby','adult'] as const).map(stage=><figure key={stage}><div className="gallery-sprite-stage"><CreSprite creature={{phase:'hatched',morphId:m.id,xp:stage==='adult'?240:0}} action={action} frame={frame} label={`${m.name} ${stage==='adult'?'성체':'아기'}`}/><CareEffect action={action} frame={frame}/></div><figcaption>{stage==='baby'?'아기':'성체'}</figcaption></figure>)}</div>
+   <div className="morph-pair">{(['baby','adult'] as const).map(stage=><figure key={stage}><div className="gallery-sprite-stage"><CreSprite creature={{phase:'hatched',morphId:m.id,xp:stage==='adult'?240:0}} action={action} frame={frame} label={`${m.name} ${stage==='adult'?'성체':'아기'}`}/><CareEffect action={action} frame={frame}/></div><figcaption>{stage==='baby'?'아기':'성체'}{!hasSpriteAction(m.id,stage,action)&&' · 동작 준비 중'}</figcaption></figure>)}</div>
    <h3>{m.name}</h3><p>{m.pattern}</p>{found.has(m.id)&&<span className="owned-mark">우리 집에서 만났어요</span>}
   </article>)}</div>
   {visible.length===0&&<p className="gallery-empty">해당하는 크레가 없어요. 다른 색이나 무늬를 찾아보세요.</p>}
